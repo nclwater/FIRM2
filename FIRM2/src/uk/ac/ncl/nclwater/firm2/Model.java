@@ -7,20 +7,18 @@ import java.util.Random;
  *
  */
 public class Model implements Runnable {
-    private static int width = 100;
-    private static int height = 100;
+    private int width = 32;
+    private int height = 32;
     private int cell_size = 5;
-    private static boolean toroidal = false;
+    private boolean toroidal = false;
     private Random random = new Random();
-    private static Grid grid = new Grid(width, height, toroidal);
+    private Grid grid = new Grid(width, height, toroidal);
     private int chance = 70;
     private int ticks = 10000;
-    private static int ids = 0;
+    private int ids = 0;
     private boolean run = false;
-    Visualisation visualisation;
 
-    public Model(Visualisation visualisation) {
-        this.visualisation = visualisation;
+    public Model() {
         // Create grid
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
@@ -30,13 +28,8 @@ public class Model implements Runnable {
                     newId = getNewId();
                     grid.setCell(col, row, new Alive(newId));
                 }
-                System.out.println(nextInt + ", " + newId + "\t");
             }
         }
-    }
-
-    public void setVisualisation(Visualisation visualisation) {
-        this.visualisation = visualisation;
     }
 
     public void run() {
@@ -44,7 +37,11 @@ public class Model implements Runnable {
         while (true) {
             if (run) {
                 tick();
-            } else {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }            } else {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -56,7 +53,7 @@ public class Model implements Runnable {
 
 
     public void step() {
-        System.out.println("Step");
+//        System.out.println("Step");
         tick();
     }
 
@@ -64,7 +61,7 @@ public class Model implements Runnable {
      * Actions to perform on every tick.
      */
     public void tick() {
-        System.out.println("tick");
+//        System.out.println("tick");
         Grid newGrid = new Grid(width, height, toroidal);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
@@ -93,14 +90,10 @@ public class Model implements Runnable {
             }
         }
         grid = newGrid;
-        if (this.visualisation != null) {
-            this.visualisation.repaint();
-        }
-//        printGridIds();
-
+        printGrid();
     }
 
-    private static void printGridIds() {
+    private void printGridIds() {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 if (grid.getCell(col, row) != null) {
@@ -113,7 +106,21 @@ public class Model implements Runnable {
         }
     }
 
-    private static void printNeighbourhoodCounts() {
+    private void printGrid() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (grid.getCell(col, row) != null) {
+                    System.out.print("x" + "\t");
+                } else {
+                    System.out.print("-" + "\t");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("\033[H\033[2J");
+    }
+
+    private void printNeighbourhoodCounts() {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 System.out.print(grid.occupiedNeighbourCount('m',col, row, Alive.class) + "\t");
@@ -122,7 +129,7 @@ public class Model implements Runnable {
         }
     }
 
-    private static int getNewId() {
+    private int getNewId() {
         ids++;
         return ids;
     }
