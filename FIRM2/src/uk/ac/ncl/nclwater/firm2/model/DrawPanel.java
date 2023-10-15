@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2;
+package uk.ac.ncl.nclwater.firm2.model;
 
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
@@ -24,12 +24,12 @@ public class DrawPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("paint");
+//        System.out.println("paint");
         int font_height = g.getFontMetrics().getHeight();
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 if (grid.getCell(col, row) != null) {
-                    g.setColor(Color.BLACK);
+                    g.setColor(grid.getCell(col, row).getColour());
                     g.fillRect(col * cell_size, row * cell_size,
                             cell_size, cell_size);
                     g.setColor(Color.WHITE);

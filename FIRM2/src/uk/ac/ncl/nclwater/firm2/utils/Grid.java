@@ -35,7 +35,7 @@ public class Grid {
         this.is_toroidal = toroidal;
         grid = new Agent[width][height];
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < height; j++) {
                 grid[i][j] = null;
             }
         }
@@ -56,6 +56,26 @@ public class Grid {
     }
 
     /**
+     *
+     * @param direction 'f' for forward 'b' for backward
+     * @param x x-coordinate of cell
+     * @param y y-coordinate of cell
+     * @param t Distance is calculated between the current cell and the first cell of type t
+     * @return the distance between the two cells
+     */
+    public int distanceBetween(char direction, int x, int y, Class<?> t) {
+        int distance = 0;
+        int currentPos = (x + 1) % getWidth();
+        if (getCell(x, y) != null) {
+            while ((getCell(currentPos, y)) == null || (getCell(currentPos, y).getClass() != t)) {
+                currentPos = (currentPos + 1) % getWidth();
+                distance++;
+            }
+        }
+        return distance;
+    }
+
+    /**
      * Returns the number of neighbourhood cells occupied by the class type specified. The algorithm for calculating
      * the number of neighbours depend on the neighbourhood_type specified
      * @param neighbourhood_type Moore (m) neighbourhood includes 8 surrounding squares, Von Neumann neighbourhood (n)
@@ -66,20 +86,6 @@ public class Grid {
      */
     public int occupiedNeighbourCount(char neighbourhood_type, int x, int y, Class<?> t) {
         int neighbours = 0;
-//        for (int row = y - 1; row <= y + 1; row++) {
-//            for (int col = x - 1; col <= x + 1; col++) {
-//                if (!is_toroidal) {
-//                    if ((col >= 0 && col < width) && (row >= 0 && row < height) && !(row == y && col == x)) {
-//                        if (grid[col][row] != null) {
-//                            if (grid[col][row].getClass() == t) {
-//                                neighbours++;
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
 
         for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {

@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2;
+package uk.ac.ncl.nclwater.firm2.model;
 
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
@@ -14,7 +14,6 @@ public class Visualisation extends JFrame implements ActionListener {
    JButton start = new JButton("Start");
    JButton step = new JButton("Step");
    Model model;
-   Thread modelThread;
 
     public Visualisation(Model model) {
         this.model = model;
@@ -23,7 +22,7 @@ public class Visualisation extends JFrame implements ActionListener {
         start.addActionListener(this);
         step.addActionListener(this);
         this.setLayout(null);
-        this.setTitle("Conway");
+        this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
         Grid grid = model.getGrid();
         this.setSize(1024,768);
@@ -70,11 +69,4 @@ public class Visualisation extends JFrame implements ActionListener {
 
     }
 
-    public Thread getModelThread() {
-        return modelThread;
-    }
-
-    public void setModelThread(Thread modelThread) {
-        this.modelThread = modelThread;
-    }
 }

@@ -3,7 +3,7 @@ package uk.ac.ncl.nclwater.firm2.utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import uk.ac.ncl.nclwater.firm2.Alive;
+import uk.ac.ncl.nclwater.firm2.examples.conway.Alive;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2;
+package uk.ac.ncl.nclwater.firm2.model;
 
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
@@ -13,6 +13,7 @@ public class ModelParameters {
     private Grid grid;
     private int chance = 70;
     private boolean visualise = false;
+    private String title = "Agent Based Model";
 
     public ModelParameters() {
         grid = new Grid(width, height, toroidal);
@@ -79,5 +80,13 @@ public class ModelParameters {
 
     public void setVisualise(boolean visualise) {
         this.visualise = visualise;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
