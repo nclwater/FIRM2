@@ -33,9 +33,6 @@ public class DrawPanel extends JPanel {
                     g.fillRect(col * cell_size, row * cell_size,
                             cell_size, cell_size);
                     g.setColor(Color.WHITE);
-                    if (grid.getCell(col, row) != null)
-                        g.drawString(String.valueOf(grid.getCell(col, row).getAgent_id()), col * cell_size + font_height,
-                                row * cell_size + font_height);
                 }
             }
         }

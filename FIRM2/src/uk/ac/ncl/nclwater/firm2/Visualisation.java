@@ -11,14 +11,14 @@ public class Visualisation extends JFrame implements ActionListener {
 
    DrawPanel drawPanel;
    JPanel buttonPanel = new JPanel();
-   JButton start = new JButton("Stop");
+   JButton start = new JButton("Start");
    JButton step = new JButton("Step");
    Model model;
    Thread modelThread;
 
-    public Visualisation(Thread modelThread, Model model, int cell_size) {
+    public Visualisation(Model model) {
         this.model = model;
-        this.modelThread = modelThread;
+        int cell_size = model.getCell_size();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         start.addActionListener(this);
         step.addActionListener(this);
@@ -57,7 +57,6 @@ public class Visualisation extends JFrame implements ActionListener {
             start.setText("Stop");
             model.setRun(true);
             drawPanel.setGrid(model.getGrid());
-            drawPanel.repaint();
         }
         if ("Stop".equals(e.getActionCommand())) {
             start.setText("Start");
@@ -67,8 +66,15 @@ public class Visualisation extends JFrame implements ActionListener {
         if ("Step".equals(e.getActionCommand())) {
             model.step();
             drawPanel.setGrid(model.getGrid());
-            drawPanel.repaint();
         }
 
+    }
+
+    public Thread getModelThread() {
+        return modelThread;
+    }
+
+    public void setModelThread(Thread modelThread) {
+        this.modelThread = modelThread;
     }
 }

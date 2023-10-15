@@ -32,12 +32,27 @@ public class Grid {
     public Grid(int width, int height, boolean toroidal) {
         this.width = width;
         this.height = height;
+        this.is_toroidal = toroidal;
         grid = new Agent[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
                 grid[i][j] = null;
             }
         }
+    }
+
+    private Agent getAgentOffsetClamp(int x, int y) {
+        return getAgentOffsetClamp(x, y, null);
+    }
+    private Agent getAgentOffsetClamp(int x, int y, Agent clampTo) {
+        return (x < 0 || x >= width || y < 0 || y >= height) ? clampTo : grid[x][y];
+    }
+
+    private Agent getAgentOffsetMirror(int x, int y) {
+        return grid[Math.min(Math.max(x, 0), width)][Math.min(Math.max(y, 0), height)];
+    }
+    private Agent getAgentOffsetWrap(int x, int y) {
+        return grid[Math.floorMod(x, width)][Math.floorMod(y, height)];
     }
 
     /**
@@ -51,18 +66,31 @@ public class Grid {
      */
     public int occupiedNeighbourCount(char neighbourhood_type, int x, int y, Class<?> t) {
         int neighbours = 0;
-        for (int row = y - 1; row <= y + 1; row++) {
-            for (int col = x - 1; col <= x + 1; col++) {
-                if ((col >= 0 && col < width) && (row >= 0 && row < height) && !(row == y && col == x)) {
-                        if (grid[col][row] != null) {
-                            if (grid[col][row].getClass() == t) {
-                                neighbours++;
-                            }
-                        }
+//        for (int row = y - 1; row <= y + 1; row++) {
+//            for (int col = x - 1; col <= x + 1; col++) {
+//                if (!is_toroidal) {
+//                    if ((col >= 0 && col < width) && (row >= 0 && row < height) && !(row == y && col == x)) {
+//                        if (grid[col][row] != null) {
+//                            if (grid[col][row].getClass() == t) {
+//                                neighbours++;
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }
 
+        for (int dy = -1; dy <= 1; dy++) {
+            for (int dx = -1; dx <= 1; dx++) {
+                if (!(dx == 0 && dy == 0) &&
+                    (is_toroidal ? getAgentOffsetWrap(x + dx, y + dy) != null : getAgentOffsetClamp(x + dx, y + dy) != null)) {
+                    neighbours++;
                 }
             }
         }
+
+
         return neighbours;
     }
 
