@@ -14,6 +14,7 @@ public class ModelParameters {
     private int chance = 70;
     private boolean visualise = false;
     private String title = "Agent Based Model";
+    private int slowdown = 200;
 
     public ModelParameters() {
         grid = new Grid(width, height, toroidal);
@@ -89,4 +90,12 @@ public class ModelParameters {
     public void setTitle(String title) {
         this.title = title;
     }
+    public int getSlowdown() {
+        return slowdown;
+    }
+
+    public void setSlowdown(int slowdown) {
+        this.slowdown = slowdown;
+    }
+
 }

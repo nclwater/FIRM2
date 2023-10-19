@@ -44,6 +44,7 @@ public class Grid {
     private Agent getAgentOffsetClamp(int x, int y) {
         return getAgentOffsetClamp(x, y, null);
     }
+
     private Agent getAgentOffsetClamp(int x, int y, Agent clampTo) {
         return (x < 0 || x >= width || y < 0 || y >= height) ? clampTo : grid[x][y];
     }
@@ -87,15 +88,16 @@ public class Grid {
     public int occupiedNeighbourCount(char neighbourhood_type, int x, int y, Class<?> t) {
         int neighbours = 0;
 
-        for (int dy = -1; dy <= 1; dy++) {
-            for (int dx = -1; dx <= 1; dx++) {
-                if (!(dx == 0 && dy == 0) &&
-                    (is_toroidal ? getAgentOffsetWrap(x + dx, y + dy) != null : getAgentOffsetClamp(x + dx, y + dy) != null)) {
-                    neighbours++;
+        if (neighbourhood_type == 'm') {
+            for (int dy = -1; dy <= 1; dy++) {
+                for (int dx = -1; dx <= 1; dx++) {
+                    if (!(dx == 0 && dy == 0) &&
+                            (is_toroidal ? getAgentOffsetWrap(x + dx, y + dy) != null : getAgentOffsetClamp(x + dx, y + dy) != null)) {
+                        neighbours++;
+                    }
                 }
             }
         }
-
 
         return neighbours;
     }

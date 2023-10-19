@@ -11,14 +11,16 @@ import java.util.Random;
 
 public class NagelSchreckenberg extends Model {
     NagelSchreckenberg() {
-        modelParameters.setWidth(20);
+        modelParameters.setWidth(200);
         modelParameters.setHeight(1);
         modelParameters.setToroidal(true);
         modelParameters.setTicks(30);
         modelParameters.setVisualise(true);
-        modelParameters.setCell_size(50);
+        modelParameters.setCell_size(5);
         modelParameters.setChance(50);
         modelParameters.setTitle("Nagel-Schreckenberg Traffic Simulation");
+        modelParameters.setSlowdown(500);
+
         modelInit();
         printGrid('i', Car.class);
     }
@@ -70,11 +72,15 @@ public class NagelSchreckenberg extends Model {
                 int newId = 0;
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
-                    this.grid.setCell(col, row, new Car(newId, Color.RED));
+                    if (newId == 1)
+                        this.grid.setCell(col, row, new Car(newId, Color.RED));
+                    else
+                        this.grid.setCell(col, row, new Car(newId, Color.BLUE));
                 }
             }
         }
         if (modelParameters.isVisualise()) {
+
             visualisation = new Visualisation(this);
         };
     }

@@ -1,6 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.model;
 
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
+
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 
@@ -35,19 +36,16 @@ public abstract class Model implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(200);
+                Thread.sleep(1);
+
+                if (run) {
+
+                    Thread.sleep(modelParameters.getSlowdown());
+                    tick();
+                    SwingUtilities.invokeLater(visualisation.getRunModel());
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }
-            if (run) {
-                for (int i = 0; i < modelParameters.getTicks(); i++) {
-                    tick();
-                    try {
-                        SwingUtilities.invokeAndWait(visualisation.getRunModel());
-                    } catch (InterruptedException | InvocationTargetException x) {
-                        x.printStackTrace();
-                    }
-                }
             }
         }
     }
@@ -130,5 +128,4 @@ public abstract class Model implements Runnable {
     public ModelParameters getModelParameters() {
         return modelParameters;
     }
-
 }

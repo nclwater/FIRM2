@@ -24,7 +24,6 @@ public class DrawPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-//        System.out.println("paint");
         int font_height = g.getFontMetrics().getHeight();
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {

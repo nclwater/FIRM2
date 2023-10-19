@@ -30,7 +30,7 @@ public class Visualisation extends JFrame implements ActionListener {
         Grid grid = model.getGrid();
         this.setSize(1024,768);
         drawPanel = new DrawPanel(grid, cell_size);
-        drawPanel.setSize(grid.getWidth() * cell_size, grid.getHeight() * cell_size + cell_size);
+        drawPanel.setSize(grid.getWidth() * cell_size, grid.getHeight() * cell_size);
 
         buttonPanel.add(start);
         buttonPanel.add(step);
