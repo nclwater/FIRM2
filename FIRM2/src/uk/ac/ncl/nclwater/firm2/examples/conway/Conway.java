@@ -12,12 +12,12 @@ import java.util.Random;
 public class Conway extends Model {
 
     public Conway() {
-        modelParameters.setWidth(10);
-        modelParameters.setHeight(10);
+        modelParameters.setWidth(1000);
+        modelParameters.setHeight(1000);
         modelParameters.setToroidal(false);
         modelParameters.setTicks(30);
         modelParameters.setVisualise(true);
-        modelParameters.setCell_size(50);
+        modelParameters.setCell_size(5);
         modelParameters.setChance(50);
         modelParameters.setTitle("Conway's Game of Life");
         modelInit();
@@ -46,7 +46,6 @@ public class Conway extends Model {
 
     @Override
     public void tick() {
-        System.out.println("tick");
         Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {

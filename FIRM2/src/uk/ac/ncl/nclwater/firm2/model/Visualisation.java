@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 public class Visualisation extends JFrame implements ActionListener {
 
@@ -14,6 +15,8 @@ public class Visualisation extends JFrame implements ActionListener {
    JButton start = new JButton("Start");
    JButton step = new JButton("Step");
    Model model;
+
+    Runnable runModel;
 
     public Visualisation(Model model) {
         this.model = model;
@@ -49,13 +52,18 @@ public class Visualisation extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Action: " + e.getActionCommand());
 
         if ("Start".equals(e.getActionCommand())) {
             step.setEnabled(false);
             start.setText("Stop");
+           runModel = new Runnable() {
+                public void run() {
+                    drawPanel.setGrid(model.getGrid());
+                    drawPanel.repaint();
+                }
+            };
+
             model.setRun(true);
-            drawPanel.setGrid(model.getGrid());
         }
         if ("Stop".equals(e.getActionCommand())) {
             start.setText("Start");
@@ -67,6 +75,14 @@ public class Visualisation extends JFrame implements ActionListener {
             drawPanel.setGrid(model.getGrid());
         }
 
+    }
+
+    public Runnable getRunModel() {
+        return runModel;
+    }
+
+    public void setRunModel(Runnable runModel) {
+        this.runModel = runModel;
     }
 
 }

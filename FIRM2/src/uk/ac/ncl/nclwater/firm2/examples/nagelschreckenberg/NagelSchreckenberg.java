@@ -4,10 +4,12 @@ import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
+import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class NagelSchreckenberg extends Model {
-    int maxVelocity = 3;
     NagelSchreckenberg() {
         modelParameters.setWidth(20);
         modelParameters.setHeight(1);
@@ -18,18 +20,17 @@ public class NagelSchreckenberg extends Model {
         modelParameters.setChance(50);
         modelParameters.setTitle("Nagel-Schreckenberg Traffic Simulation");
         modelInit();
-        printGrid('d', Car.class);
+        printGrid('i', Car.class);
     }
 
     @Override
     public void tick() {
-        System.out.println("tick");
         Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
         // Acceleration: All cars not at the maximum velocity have their velocity increased by one unit.
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
                 Car c = (Car)grid.getCell(col, row);
-                if ((c != null) && (c.getVelocity() < maxVelocity)) {
+                if ((c != null) && (c.getVelocity() < c.getMaxVelocity())) {
                     c.setVelocity(c.getVelocity() + 1);
                 }
             }
@@ -54,10 +55,7 @@ public class NagelSchreckenberg extends Model {
             }
         }
         grid = newGrid;
-        if (modelParameters.isVisualise()) {
-            visualisation.getDrawPanel().repaint();
-        }
-        printGrid('d', Car.class);
+        printGrid('i', Car.class);
     }
 
     @Override
@@ -72,11 +70,13 @@ public class NagelSchreckenberg extends Model {
                 int newId = 0;
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
-                    this.grid.setCell(col, row, new Car(newId));
+                    this.grid.setCell(col, row, new Car(newId, Color.RED));
                 }
             }
         }
-        visualisation = new Visualisation(this);;
+        if (modelParameters.isVisualise()) {
+            visualisation = new Visualisation(this);
+        };
     }
 
     public static void main(String[] args) {

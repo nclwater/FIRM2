@@ -1,8 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.model;
 
-import uk.ac.ncl.nclwater.firm2.examples.conway.Alive;
-import uk.ac.ncl.nclwater.firm2.utils.Agent;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class Model implements Runnable {
     protected ModelParameters modelParameters = new ModelParameters();
@@ -35,16 +35,19 @@ public abstract class Model implements Runnable {
     public void run() {
         while (true) {
             try {
-                if (run) {
-                    for (int i = 0; i < modelParameters.getTicks(); i++) {
-                        tick();
-                        Thread.sleep(5);
-                    }
-                } else {
-                    Thread.sleep(100);
-                }
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            }
+            if (run) {
+                for (int i = 0; i < modelParameters.getTicks(); i++) {
+                    tick();
+                    try {
+                        SwingUtilities.invokeAndWait(visualisation.getRunModel());
+                    } catch (InterruptedException | InvocationTargetException x) {
+                        x.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -113,7 +116,6 @@ public abstract class Model implements Runnable {
      * @param run true if running, false is pausing
      */
     public void setRun(boolean run) {
-        System.out.println("Run = " + run);
         this.run = run;
     }
 
