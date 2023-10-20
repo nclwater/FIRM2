@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.utils;
 
+import uk.ac.ncl.nclwater.firm2.model.Agent;
+
 public class Grid {
 
     Agent[][] grid;

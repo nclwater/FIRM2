@@ -40,7 +40,10 @@ public class Conway extends Model {
                 }
             }
         }
-        visualisation = new Visualisation(this);;
+        if (modelParameters.isVisualise()) {
+            visualisation = new Visualisation(this);
+        }
+        tick();
     }
 
 
@@ -70,7 +73,7 @@ public class Conway extends Model {
         if (modelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
-//        printGrid('x');
+        printGrid('x', Alive.class);
     }
 
     public static void main(String[] args) {

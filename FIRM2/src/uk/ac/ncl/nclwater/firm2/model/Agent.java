@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.utils;
+package uk.ac.ncl.nclwater.firm2.model;
 
 import java.awt.*;
 
