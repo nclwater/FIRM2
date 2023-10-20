@@ -1,0 +1,28 @@
+kind: M
+api_version: v1beta2
+metadata:
+  display_name: Flood Incident Model 2
+  name: firm2
+  summary: Agent based model for flood incidents
+  publisher: Newcastle University
+  description: >
+    Agent based model for flood incident
+spec:
+  inputs:
+    parameters:
+      - name: OUTPUT_DATA_FOLDER
+        title: Outgoing Data Folder Name
+        type: string
+        description: The name of the data folder where output data should be saved
+        default: output_data_folder
+        required: true
+    dataslots:
+      - name: INPUT_DATA_SLOT
+        description: DAFNI dataset source id
+        path: inputs
+        required: true
+  outputs:
+    datasets:
+      - name: FIM results
+        type: txt
+        description: Model output
