@@ -11,8 +11,11 @@ public abstract class Model implements Runnable {
     private boolean run = false;
     protected Visualisation visualisation;
     protected Grid grid;
+    private boolean running = true;
+    private int total_ticks = 0;
 
     public Model() {
+        if (!modelParameters.isVisualise()) setRun(true);
     }
 
     public abstract void modelInit();
@@ -34,15 +37,23 @@ public abstract class Model implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+
+        while (running) {
+            if (modelParameters.getTicks() == total_ticks) {
+                running = false;
+                run = false;
+            }
             try {
                 Thread.sleep(1);
-
                 if (run) {
-
-                    Thread.sleep(modelParameters.getSlowdown());
+                    System.out.println("Run");
+                    total_ticks++;
+                    System.out.println(modelParameters.getTicks() + ", " + total_ticks);
                     tick();
-                    SwingUtilities.invokeLater(visualisation.getRunModel());
+                    if (modelParameters.isVisualise()) {
+                        Thread.sleep(modelParameters.getSlowdown());
+                        SwingUtilities.invokeLater(visualisation.getRunModel());
+                    }
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

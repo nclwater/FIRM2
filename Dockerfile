@@ -5,11 +5,12 @@ LABEL maintainer="jannetta.steyn@newcastle.ac.uk"
 ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update -y openjdk-20-jre-headless wget
+RUN apt-get update -y
+RUN apt-get install -y openjdk-17-jre wget
 
 WORKDIR /workdir
-COPY model.jar .
+COPY ./artifacts/FIRM2_jar/FIRM2.jar .
 
-copy run.sh
+copy run.sh .
 
 CMD ["/bin/bash", "run.sh"]

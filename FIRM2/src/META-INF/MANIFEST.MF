@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: uk.ac.ncl.nclwater.firm2.examples.nagelschreckenberg.NagelSc
+ hreckenberg
+

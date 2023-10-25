@@ -6,23 +6,26 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
+import java.util.Scanner;
 
 public class NagelSchreckenberg extends Model {
     NagelSchreckenberg() {
         modelParameters.setWidth(200);
         modelParameters.setHeight(1);
         modelParameters.setToroidal(true);
-        modelParameters.setTicks(30);
-        modelParameters.setVisualise(true);
+        modelParameters.setTicks(0);
+        modelParameters.setVisualise(false);
         modelParameters.setCell_size(5);
         modelParameters.setChance(50);
         modelParameters.setTitle("Nagel-Schreckenberg Traffic Simulation");
         modelParameters.setSlowdown(500);
 
         modelInit();
-        printGrid('i', Car.class);
+//        printGrid('i', Car.class);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class NagelSchreckenberg extends Model {
             }
         }
         grid = newGrid;
-        printGrid('i', Car.class);
+//        printGrid('i', Car.class);
     }
 
     @Override
@@ -80,15 +83,25 @@ public class NagelSchreckenberg extends Model {
             }
         }
         if (modelParameters.isVisualise()) {
-
             visualisation = new Visualisation(this);
         };
     }
 
     public static void main(String[] args) {
+        System.out.println("Start");
+        try {
+            File myObj = new File("/data/outputs/output.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
         NagelSchreckenberg model = new NagelSchreckenberg();
         Thread modelthread = new Thread(model);
-        model.setRun(false); // don't start running on program startup
         modelthread.start();
     }
 }
