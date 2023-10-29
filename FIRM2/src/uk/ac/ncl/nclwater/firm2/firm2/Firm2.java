@@ -1,20 +1,22 @@
 package uk.ac.ncl.nclwater.firm2.firm2;
 
+import uk.ac.ncl.nclwater.firm2.examples.FloodPlain.Terrain;
 import uk.ac.ncl.nclwater.firm2.examples.conway.Alive;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Firm2 extends Model {
     public Firm2() {
         System.out.println("Firm2");
-        modelParameters.setWidth(248);
-        modelParameters.setHeight(178);
+
         modelParameters.setToroidal(false);
         modelParameters.setTicks(30);
         modelParameters.setVisualise(true);
@@ -27,28 +29,48 @@ public class Firm2 extends Model {
     @Override
     public void modelInit() {
         System.out.println("modelInit");
-        this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+        try {
+            Scanner sc = new Scanner(new File(System.getProperty("user.dir") + "/FIRM2/data/inputs/terrain.txt"));
+            String line = sc.nextLine();
+            modelParameters.setWidth(Integer.parseInt(line.substring(1, line.length()).split("\t")[1]));
+            line = sc.nextLine();
+            modelParameters.setHeight(Integer.parseInt(line.substring(1, line.length()).split("\t")[1]));
+            this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            for (int i = 0; i < 5; i++) {
+                sc.nextLine();
+            }
+            // Create grid
+            for (int row = 0; row < modelParameters.getHeight(); row++) {
+                line = sc.nextLine();
 
-        // Create grid
-//        for (int row = 0; row < modelParameters.getHeight(); row++) {
-//            for (int col = 0; col < modelParameters.getWidth(); col++) {
-//
-//            }
-//        }
-        int id = getNewId();
-        this.grid.setCell(294191255, 378471609, new Road(id));
-        if (modelParameters.isVisualise()) {
-            visualisation = new Visualisation(this);
+                String tokens[] = line.substring(1,line.length() - 1).split("\t");
+                for (int col = 0; col < modelParameters.getWidth(); col++) {
+                    int id = getNewId();
+                    System.out.println(tokens[col]);
+                    this.grid.setCell(col, row, new Terrain(id, Float.parseFloat(tokens[col])));
+                    if (Float.parseFloat(tokens[col]) == -9999) {
+                        this.grid.getCell(col, row).setColour(Color.blue);
+                    } else {
+                        this.grid.getCell(col, row).setColour(Color.green);
+                    }
+
+                }
+            }
+            int id = getNewId();
+            if (modelParameters.isVisualise()) {
+                visualisation = new Visualisation(this);
+            }
+            tick();
+            sc.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        tick();
+
     }
 
     public void readRoad() {
         try {
             Scanner sc = new Scanner(new File("../data/roads.txt"));
-//            while (sc.hasNext()) {
-//                String line = sc.nextLine();
-//            }
             String[] tokens = sc.nextLine().split(" ");
             System.out.println(tokens);
         } catch (FileNotFoundException e) {
