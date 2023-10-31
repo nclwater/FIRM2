@@ -7,10 +7,13 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 import java.util.Random;
 
 /**
- *
+ * An implementation of Conway's Game of live to illustrate the use of the FIRM2 agent modelling framework
  */
 public class Conway extends Model {
 
+    /**
+     * Constructor
+     */
     public Conway() {
         modelParameters.setWidth(1000);
         modelParameters.setHeight(1000);
@@ -73,7 +76,7 @@ public class Conway extends Model {
         if (modelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
-        printGrid('x', Alive.class);
+//        printGrid('x', Alive.class);
     }
 
     public static void main(String[] args) {

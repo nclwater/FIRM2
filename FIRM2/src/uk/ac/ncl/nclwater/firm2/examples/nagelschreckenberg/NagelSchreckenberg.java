@@ -4,21 +4,18 @@ import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
-import java.util.Scanner;
 
 public class NagelSchreckenberg extends Model {
     NagelSchreckenberg() {
         modelParameters.setWidth(200);
         modelParameters.setHeight(1);
         modelParameters.setToroidal(true);
-        modelParameters.setTicks(0);
-        modelParameters.setVisualise(false);
+        modelParameters.setTicks(30);
+        modelParameters.setVisualise(true);
         modelParameters.setCell_size(5);
         modelParameters.setChance(50);
         modelParameters.setTitle("Nagel-Schreckenberg Traffic Simulation");

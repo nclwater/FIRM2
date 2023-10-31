@@ -30,6 +30,7 @@ public class Firm2 extends Model {
     public void modelInit() {
         System.out.println("modelInit");
         try {
+            // Read the file to populate the basic grid of cells
             Scanner sc = new Scanner(new File(System.getProperty("user.dir") + "/FIRM2/data/inputs/terrain.txt"));
             String line = sc.nextLine();
             modelParameters.setWidth(Integer.parseInt(line.substring(1, line.length()).split("\t")[1]));
@@ -46,20 +47,21 @@ public class Firm2 extends Model {
                 String tokens[] = line.substring(1,line.length() - 1).split("\t");
                 for (int col = 0; col < modelParameters.getWidth(); col++) {
                     int id = getNewId();
-                    System.out.println(tokens[col]);
+//                    System.out.println(tokens[col]);
                     this.grid.setCell(col, row, new Terrain(id, Float.parseFloat(tokens[col])));
                     if (Float.parseFloat(tokens[col]) == -9999) {
                         this.grid.getCell(col, row).setColour(Color.blue);
                     } else {
-                        this.grid.getCell(col, row).setColour(Color.green);
+                        this.grid.getCell(col, row).setColour(new Color(170, 170, 170));
                     }
 
                 }
             }
-            int id = getNewId();
+            // Visualise if visualisation is set to true
             if (modelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
+            // Do an initial tick
             tick();
             sc.close();
         } catch (FileNotFoundException e) {
@@ -72,7 +74,7 @@ public class Firm2 extends Model {
         try {
             Scanner sc = new Scanner(new File("../data/roads.txt"));
             String[] tokens = sc.nextLine().split(" ");
-            System.out.println(tokens);
+//            System.out.println(tokens);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -6,8 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Povision for a simple visualisation, in a JFrame, of the model. The visualisation has a start and a step button.
+ * If visualisation is set to true, the visualisation is set to true.
+ */
 public class Visualisation extends JFrame implements ActionListener {
 
    DrawPanel drawPanel;
@@ -18,6 +21,10 @@ public class Visualisation extends JFrame implements ActionListener {
 
     Runnable runModel;
 
+    /**
+     * Constructor
+     * @param model
+     */
     public Visualisation(Model model) {
         this.model = model;
         int cell_size = model.getCell_size();
@@ -50,6 +57,10 @@ public class Visualisation extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * Actions to be performed when the Start and Step buttons are pressed
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -77,10 +88,18 @@ public class Visualisation extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Get the model that is being running by the visualisation
+     * @return
+     */
     public Runnable getRunModel() {
         return runModel;
     }
 
+    /**
+     * The model that should be run in the visualisation
+     * @param runModel
+     */
     public void setRunModel(Runnable runModel) {
         this.runModel = runModel;
     }

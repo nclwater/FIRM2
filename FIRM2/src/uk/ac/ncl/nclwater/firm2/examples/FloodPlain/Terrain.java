@@ -13,6 +13,8 @@ public class Terrain extends Agent {
         this.agent_id = id;
         if (elevation == nodata) {
             colour = new Color(0, 0, 255);
+        } else {
+            colour = new Color(170, 170, 170);
         }
     }
 

@@ -5,6 +5,10 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * This abstract class has to be implemented to define the model behaviour. The model should run in its own thread and
+ * would require the **run** methode to be implemented
+ */
 public abstract class Model implements Runnable {
     protected ModelParameters modelParameters = new ModelParameters();
     private static int ids = 0;
@@ -35,6 +39,12 @@ public abstract class Model implements Runnable {
         }
     }
 
+    /**
+     * Because the model runs as a thread, the **run** method has to be defined. Run provides two loops. The outer loop
+     * should keeps the model 'alive' by keeping the thread going. The inner loop allows the model to be paused without
+     * exiting the thread.
+     */
+
     @Override
     public void run() {
 
@@ -63,7 +73,7 @@ public abstract class Model implements Runnable {
 
 
     /**
-     * Print the grid to the terminal
+     * Print the grid to the terminal. A text based visualisation of the grid
      *
      * @param type 'n' for neighbourhoodcounts, 'x' for x's, 'd' for distance and 'i' for ids, where the cell contents is not null
      */
@@ -106,6 +116,10 @@ public abstract class Model implements Runnable {
         return ids;
     }
 
+    /**
+     * Returns the grid in its current state
+     * @return
+     */
     public Grid getGrid() {
         return grid;
     }
@@ -132,10 +146,18 @@ public abstract class Model implements Runnable {
         return visualisation;
     }
 
+    /**
+     * Set the JFrame (class Visualisation) where the model is to be visualised
+     * @param visualisation
+     */
     public void setVisualisation(Visualisation visualisation) {
         this.visualisation = visualisation;
     }
 
+    /**
+     * Returns a ModelParameters object containing all the parameter values
+     * @return ModelParameters
+     */
     public ModelParameters getModelParameters() {
         return modelParameters;
     }

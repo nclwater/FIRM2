@@ -2,6 +2,9 @@ package uk.ac.ncl.nclwater.firm2.examples.conway;
 
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 
+/**
+ * A (Conway Game of Life) cell that is alive
+ */
 public class Alive extends Agent {
 
     public Alive(int agent_id) {
