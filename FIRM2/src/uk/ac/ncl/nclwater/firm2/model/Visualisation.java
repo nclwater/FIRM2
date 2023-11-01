@@ -23,7 +23,7 @@ public class Visualisation extends JFrame implements ActionListener {
 
     /**
      * Constructor
-     * @param model
+     * @param model the model that should be visualised
      */
     public Visualisation(Model model) {
         this.model = model;
@@ -50,6 +50,25 @@ public class Visualisation extends JFrame implements ActionListener {
                 grid.getHeight() * cell_size + cell_size);
         this.add(buttonPanel);
         this.setVisible(true);
+
+
+        if (model.getRun()) {
+            System.out.println("In here");
+            doRun();
+        }
+    }
+
+    /**
+     * Call this method to run the model
+     */
+    private void doRun() {
+        step.setEnabled(false);
+        start.setText("Stop");
+        runModel = () -> {
+            drawPanel.setGrid(model.getGrid());
+            drawPanel.repaint();
+        };
+        model.setRun(true);
     }
 
     public DrawPanel getDrawPanel() {
@@ -65,16 +84,7 @@ public class Visualisation extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if ("Start".equals(e.getActionCommand())) {
-            step.setEnabled(false);
-            start.setText("Stop");
-           runModel = new Runnable() {
-                public void run() {
-                    drawPanel.setGrid(model.getGrid());
-                    drawPanel.repaint();
-                }
-            };
-
-            model.setRun(true);
+            doRun();
         }
         if ("Stop".equals(e.getActionCommand())) {
             start.setText("Start");

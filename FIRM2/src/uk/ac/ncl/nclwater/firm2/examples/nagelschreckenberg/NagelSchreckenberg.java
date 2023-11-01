@@ -79,6 +79,7 @@ public class NagelSchreckenberg extends Model {
                 }
             }
         }
+        // Should the model be visualised?
         if (modelParameters.isVisualise()) {
             visualisation = new Visualisation(this);
         };
@@ -98,6 +99,8 @@ public class NagelSchreckenberg extends Model {
             e.printStackTrace();
         }
         NagelSchreckenberg model = new NagelSchreckenberg();
+        // Don't run the model on startup
+        model.setRun(true);
         Thread modelthread = new Thread(model);
         modelthread.start();
     }

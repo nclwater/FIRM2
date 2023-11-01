@@ -3,7 +3,6 @@ package uk.ac.ncl.nclwater.firm2.model;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
 import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * This abstract class has to be implemented to define the model behaviour. The model should run in its own thread and
@@ -41,7 +40,7 @@ public abstract class Model implements Runnable {
 
     /**
      * Because the model runs as a thread, the **run** method has to be defined. Run provides two loops. The outer loop
-     * should keeps the model 'alive' by keeping the thread going. The inner loop allows the model to be paused without
+     * should keep the model 'alive' by keeping the thread going. The inner loop allows the model to be paused without
      * exiting the thread.
      */
 
@@ -49,7 +48,8 @@ public abstract class Model implements Runnable {
     public void run() {
 
         while (running) {
-            if (modelParameters.getTicks() == total_ticks) {
+            if (modelParameters.getTicks() > 0 && modelParameters.getTicks() == total_ticks) {
+                System.out.println("Model.class: ticks");
                 running = false;
                 run = false;
             }
@@ -118,7 +118,7 @@ public abstract class Model implements Runnable {
 
     /**
      * Returns the grid in its current state
-     * @return
+     * @return the grid in its current state
      */
     public Grid getGrid() {
         return grid;
@@ -134,7 +134,8 @@ public abstract class Model implements Runnable {
     }
 
     /**
-     * Condition to indicate whether the module thread should be running
+     * Condition to indicate whether the module thread should be running. If you want the model to run when the
+     * program is started, make sure to set this to true in main
      *
      * @param run true if running, false is pausing
      */
@@ -142,16 +143,8 @@ public abstract class Model implements Runnable {
         this.run = run;
     }
 
-    public Visualisation getVisualisation() {
-        return visualisation;
-    }
-
-    /**
-     * Set the JFrame (class Visualisation) where the model is to be visualised
-     * @param visualisation
-     */
-    public void setVisualisation(Visualisation visualisation) {
-        this.visualisation = visualisation;
+    public boolean getRun() {
+        return this.run;
     }
 
     /**

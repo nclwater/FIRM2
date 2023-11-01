@@ -18,7 +18,7 @@ public class Conway extends Model {
         modelParameters.setWidth(1000);
         modelParameters.setHeight(1000);
         modelParameters.setToroidal(false);
-        modelParameters.setTicks(30);
+        modelParameters.setTicks(0);
         modelParameters.setVisualise(true);
         modelParameters.setCell_size(5);
         modelParameters.setChance(50);
