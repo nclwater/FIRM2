@@ -27,16 +27,19 @@ Java JDK 17
 
 ### Prerequisites
 
-Java Runtime Engine
+Any platform with a Java Runtime Engine (JRE) suitable to run JDK 17 compiled Java code
 
 ### Installation
 
-How to build or install the applcation.
+The program does not need installation as such. It is packaged as a .jar file which can be copied to
+a directory and executed from there. The program needs configuration for where to find data files..
 
 ### Running Locally
 
-How to run the application on your local system.
-
+The program is packaged in a .jar file and can be run either from the command line or
+for Windowzy people by double-clicking on the jar file (as long as the JRE) is
+installed on the system. If a JRE is required, find the download and installation instructions
+online.
 ### Running Tests
 
 How to run tests on your local system.
@@ -45,7 +48,7 @@ How to run tests on your local system.
 
 ### Local
 
-Deploying to a production style setup but on the local system. Examples of this would include `venv`, `anaconda`, `Docker` or `minikube`. 
+The application is intended for dockerisation to run on DAFNI. However, it doesn't have to be. 
 
 ### Production
 
@@ -64,7 +67,7 @@ Any links to production environment, video demos and screenshots.
 
 ## Contributing
 
-### uk.ac.ncl.nclwater.firm2.Main Branch
+### Main Branch
 Protected and can only be pushed to via pull requests. Should be considered stable and a representation of production code.
 
 ### Dev Branch
@@ -73,7 +76,7 @@ Should be considered fragile, code should compile and run but features may be pr
 ### Feature Branches
 A branch per feature being worked on.
 
-https://nvie.com/posts/a-successful-git-branching-model/
+
 
 ## License
 
@@ -92,5 +95,4 @@ Please cite the associated papers for this work if you use this code:
 
 
 ## Acknowledgements
-This work was funded by a grant from the UK Research Councils, EPSRC grant ref. EP/L012345/1, “Example project title, please update”.
 
