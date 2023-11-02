@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Povision for a simple visualisation, in a JFrame, of the model. The visualisation has a start and a step button.
+ * Provision for a simple visualisation, in a JFrame, of the model. The visualisation has a start and a step button.
  * If visualisation is set to true, the visualisation is set to true.
  */
 public class Visualisation extends JFrame implements ActionListener {
@@ -53,7 +53,6 @@ public class Visualisation extends JFrame implements ActionListener {
 
 
         if (model.getRun()) {
-            System.out.println("In here");
             doRun();
         }
     }
