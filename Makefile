@@ -21,3 +21,9 @@ compile:
 
 runGUI:
 	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
+
+DAFNITest:
+	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
+
+Conway:
+	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.examples.conway.Conway

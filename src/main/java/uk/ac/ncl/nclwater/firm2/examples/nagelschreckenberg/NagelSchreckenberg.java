@@ -18,9 +18,7 @@ public class NagelSchreckenberg extends Model {
         modelParameters.setChance(50);
         modelParameters.setTitle("Nagel-Schreckenberg Traffic Simulation");
         modelParameters.setSlowdown(500);
-
         modelInit();
-//        printGrid('i', Car.class);
     }
 
     @Override
@@ -84,10 +82,7 @@ public class NagelSchreckenberg extends Model {
     }
 
     public static void main(String[] args) {
-        System.out.println("Start");
-
         NagelSchreckenberg model = new NagelSchreckenberg();
-        // Don't run the model on startup
         model.setRun(true);
         Thread modelthread = new Thread(model);
         modelthread.start();

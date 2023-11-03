@@ -20,35 +20,11 @@ public class Conway extends Model {
         modelParameters.setToroidal(false);
         modelParameters.setTicks(0);
         modelParameters.setVisualise(true);
-        modelParameters.setCell_size(5);
+        modelParameters.setCell_size(1);
         modelParameters.setChance(50);
         modelParameters.setTitle("Conway's Game of Life");
         modelInit();
-
     }
-
-    @Override
-    public void modelInit() {
-        this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-
-        // Create grid
-        for (int row = 0; row < modelParameters.getHeight(); row++) {
-            for (int col = 0; col < modelParameters.getWidth(); col++) {
-                Random random = new Random();
-                int nextInt = random.nextInt(100);
-                int newId = 0;
-                if (nextInt < modelParameters.getChance()) {
-                    newId = getNewId();
-                    this.grid.setCell(col, row, new Alive(newId));
-                }
-            }
-        }
-        if (modelParameters.isVisualise()) {
-            visualisation = new Visualisation(this);
-        }
-        tick();
-    }
-
 
     @Override
     public void tick() {
@@ -73,16 +49,38 @@ public class Conway extends Model {
             }
         }
         grid = newGrid;
-        if (modelParameters.isVisualise()) {
-            visualisation.getDrawPanel().repaint();
-        }
 //        printGrid('x', Alive.class);
     }
 
+
+    @Override
+    public void modelInit() {
+        this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+
+        // Create grid
+        for (int row = 0; row < modelParameters.getHeight(); row++) {
+            for (int col = 0; col < modelParameters.getWidth(); col++) {
+                Random random = new Random();
+                int nextInt = random.nextInt(100);
+                int newId = 0;
+                if (nextInt < modelParameters.getChance()) {
+                    newId = getNewId();
+                    this.grid.setCell(col, row, new Alive(newId));
+                }
+            }
+        }
+        // Should the model be visualised?
+        if (modelParameters.isVisualise()) {
+            visualisation = new Visualisation(this);
+        }
+        //tick();
+    }
+
+
     public static void main(String[] args) {
         Conway model = new Conway();
+        model.setRun(true);
         Thread modelthread = new Thread(model);
-        model.setRun(false); // don't start running on program startup
         modelthread.start();
     }
 
