@@ -6,3 +6,4 @@ artifact/
 *.jar
 docs/
 *.class
+data/
