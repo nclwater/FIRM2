@@ -1,11 +1,12 @@
 #PWD=/media/jannetta/WORKDRIVE/DATA/GitHub_Repositories/nclwater/FIRM2
+
 PWD=$(shell pwd)
 
 run:
 	docker run -d --rm -v "${PWD}/data:/data/" --name FIRM2 nclwater/firm2:0.001
 
 build:
-	cp ./artifacts/FIRM2_jar/FIRM2.jar .
+	mvn package
 	docker build -t nclwater/firm2:0.001 .
 
 save:
