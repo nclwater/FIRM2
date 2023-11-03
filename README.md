@@ -34,13 +34,13 @@ Any platform with a Java Runtime Engine (JRE) suitable to run JDK 17 compiled Ja
 **Building the docker image**
 There is a Makefile with commands for building, running, saving and stopping the container:
 
-- `make build`: The build command builds a docker image called `nclwater/firm2:x.xxx`. Where x.xxx is the version. There is a `run.sh` file which will be copied into the image and will be executed when the container runs.
+- `make build`: The build command compiles the code using maven and creates a jar file. It then builds a docker image called `nclwater/firm2:x.xxx`. Where x.xxx is the version. There is a `run.sh` file which will be copied into the image and will be executed when the container runs.
 - `make run`: The run command will create and run a container called `FIRM2`.
-- `make save`: The save command will save the container to a tar file and then gzip it. A file called firm2.tar.gz should be created that can be uploaded to DAFNI.
+- `make save`: The save command will save the container to a tar file and then gzip it. A file called firm2.tar.gz should be created that can be uploaded to **DAFNI**.
 - `make stop`: The stop command will stop a docker container with the name `FIRM2`.
 
 The program does not need installation as such. It is packaged as a .jar file which can be copied to
-a directory and executed from there. The program needs configuration for where to find data files..
+a directory and executed from there. The program needs configuration for where to find data files.
 
 ### Running Locally
 
@@ -60,11 +60,15 @@ How to run tests on your local system.
 
 ### Local
 
-The application is intended for dockerisation to run on DAFNI. However, it doesn't have to be. 
+The application is intended for dockerisation to run on **DAFNI**. However, it doesn't have to be. 
 
 ### Production
 
-Deploying to the production system. Examples of this would include cloud, HPC or virtual machine. 
+`FIRM2.jar` is a java executable that is packaged in a docker container for upload into **DAFNI**. Any updates to the main branch of the repository should  (eventually) lead to a **GitHub** action being executed that will:
+
+1. use **Maven** to compile and create the `FIRM2.jar` file
+2. create, save and zip a docker image
+3. upload the image to **DAFNI**
 
 ## Usage
 
@@ -74,7 +78,7 @@ Any links to production environment, video demos and screenshots.
 
 - [x] Select development environment
 - [x] Develop basic agent modelling framework
-- [x] Create docker environment for model to run on DAFNI
+- [x] Create docker environment for model to run on **DAFNI**
 - [ ] Implement FIRM model
 
 ## Contributing

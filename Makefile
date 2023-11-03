@@ -15,3 +15,9 @@ save:
 
 stop: 
 	docker stop FIRM2
+
+compile:
+	mvn package
+
+runGUI:
+	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
