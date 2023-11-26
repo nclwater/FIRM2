@@ -1,6 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2;
 
-import uk.ac.ncl.nclwater.firm2.examples.FloodPlain.Terrain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
@@ -8,14 +9,18 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Firm2 extends Model {
+import static uk.ac.ncl.nclwater.firm2.model.Utilities.*;
 
-    float x_origin;
-    float y_origin;
-    int cellmeters;
-    int _NODATA;
+public class Firm2 extends Model {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+
+    private float x_origin;
+    private float y_origin;
+    private int cellMeters;
+    private int _NODATA;
 
     /**
      * Default constructor
@@ -44,12 +49,13 @@ public class Firm2 extends Model {
             line = sc.nextLine();
             y_origin = (Float.parseFloat(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();
-            cellmeters = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
+            cellMeters = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();
             _NODATA = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
             this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
             line = sc.nextLine();
-
+            float maxheight = 0;
+            float minheight = 0;
             // Create grid
             for (int row = 0; row < modelParameters.getHeight(); row++) {
                 line = sc.nextLine();
@@ -57,16 +63,28 @@ public class Firm2 extends Model {
                 String tokens[] = line.substring(1,line.length() - 1).split("\t");
                 for (int col = 0; col < modelParameters.getWidth(); col++) {
                     int id = getNewId();
+                    float elevation = Float.parseFloat(tokens[col]);
+                    maxheight = (elevation > maxheight)?elevation:maxheight;
+                    minheight = (elevation < minheight && elevation != -9999.0)?elevation:minheight;
                     this.grid.setCell(col, row, new Terrain(id, Float.parseFloat(tokens[col])));
+
                     if (Float.parseFloat(tokens[col]) == _NODATA) {
                         this.grid.getCell(col, row).setColour(Color.blue);
                     } else {
-                        this.grid.getCell(col, row).setColour(new Color(170, 170, 170));
+                        this.grid.getCell(col, row);
+                        //int colour = normaliseToColour(elevation, 0,200);
+
+                        //this.grid.getCell(col, row).setColour(new Color(colour, colour, colour));
+                        this.grid.getCell(col, row).setColour(getHeightmapGradient(elevation));
                     }
 
                 }
             }
+            logger.info("Max height: " + maxheight);
+            logger.info("Min height: " + minheight);
             plotRoads();
+            plotBuildings(); // Do plotRoads first so that x and y origins are set
+            plotDefences();
             // Visualise if visualisation is set to true
             if (modelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
@@ -82,26 +100,76 @@ public class Firm2 extends Model {
 
     private void plotRoads() {
         try {
+            // read file containing the road co-ordinates
             Scanner sc = new Scanner(new File("/data/inputs/roads.txt"));
             while (sc.hasNext()) {
                 String line = trimBrackets(sc.nextLine());
+
+                // trim off the brackets and parse the line
                 int firstBracket = line.indexOf('[');
                 String topHalf = line.trim().substring(0,firstBracket);
-
                 String bottomHalf = trimBrackets(line.trim().substring(firstBracket));
                 String match = "] \\[";
                 String[] coordinates = trimBrackets(bottomHalf).split(match); // extract item 5 which contain co-ordinates
+                ArrayList<Point> roadPoints = new ArrayList<>();
+                // read all roadsegment points into an ArrayList of points
                 for (String coordinate : coordinates) {
                     String[] xy = (coordinate).split(" ");
-                    int x_coord = Math.round(((Float.parseFloat(xy[0]) / 1000) - x_origin) / cellmeters);
-                    int y_coord = Math.round(((Float.parseFloat(xy[1]) / 1000) - y_origin) / cellmeters);
-                    y_coord = modelParameters.getHeight() - 1 - y_coord;
-                    if (x_coord > 0 && x_coord < modelParameters.getWidth() && y_coord > 0 && y_coord < modelParameters.getHeight()) {
-                        this.grid.getCell(x_coord, y_coord).setColour(Color.BLACK);
+                    Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(xy[0]) / 1000,
+                            Float.parseFloat(xy[1]) / 1000, cellMeters);
+                    coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                    roadPoints.add(coords);
+                }
+                // infer line between points and add to one big array.
+                ArrayList<Point> wholeRoad = new ArrayList<>();
+                for (int i = 1; i < roadPoints.size(); i++) {
+                    wholeRoad.addAll(interpolate(roadPoints.get(i-1).x, roadPoints.get(i-1).y, roadPoints.get(i).x, roadPoints.get(i).y));
+                }
+                wholeRoad.forEach(point -> {
+                    if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
+                        Terrain tmp = (Terrain) this.grid.getCell(point.x, point.y);
+                        tmp.setSurfaceAgent(new Road(getNewId()));
+                        this.grid.getCell(point.x, point.y).setColour(Color.BLACK);
                     } else {
-                        System.out.println((x_coord + ", " + y_coord + " is out of bounds"));
+                        System.out.printf("Road: " + point.x + ", " + point.y + " is out of bounds");
                     }
+                });
 
+//                    if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
+//                        Terrain tmp = (Terrain) this.grid.getCell(coords.x, coords.y);
+//                        tmp.setSurfaceAgent(new Road(getNewId()));
+//                        this.grid.getCell(coords.x, coords.y).setColour(Color.BLACK);
+//                    } else {
+//                        logger.debug("Road: " + coords.x + ", " + coords.y + " is out of bounds");
+//                    }
+//
+//                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void plotBuildings() {
+        try {
+            Scanner sc = new Scanner(new File("/data/inputs/buildings.txt"));
+            while (sc.hasNext()) {
+                String line = sc.nextLine().trim();
+                if (!line.startsWith(";;") && !line.trim().equals("") && !(line == null)) {
+                    line = trimBrackets(line.trim().strip());
+                    String[] xy = (line).split(" ");
+                    Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(xy[0]),
+                            Float.parseFloat(xy[1]), cellMeters);
+                    coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                    int type = Integer.parseInt(xy[2]);
+                    if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
+                        Terrain tmp = (Terrain)this.grid.getCell(coords.x, coords.y);
+                        Building building = new Building(getNewId(), type);
+                        tmp.setSurfaceAgent(building);
+                        this.grid.getCell(coords.x, coords.y).setColour(building.getColour());
+                    } else {
+                        logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
@@ -109,6 +177,31 @@ public class Firm2 extends Model {
         }
     }
 
+    public void plotDefences() {
+        try {
+            Scanner sc = null;
+            sc = new Scanner(new File("/data/inputs/defences.txt"));
+            while (sc.hasNext()) {
+                String[] line = trimBrackets(sc.nextLine().trim()).split("\t");
+                if (line.length > 2) {
+                    line[2] =  trimQuotes(line[2]);
+                }
+                Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(line[0]),
+                        Float.parseFloat(line[1]), cellMeters);
+                coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
+                    Terrain tmp = (Terrain)this.grid.getCell(coords.x, coords.y);
+                    Defence defence = new Defence(getNewId());
+                    tmp.setSurfaceAgent(defence);
+                    this.grid.getCell(coords.x, coords.y).setColour(defence.getColour());
+                } else {
+                    logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void tick() {
@@ -125,13 +218,41 @@ public class Firm2 extends Model {
 //        printGrid('x', null);
     }
 
-    /**
-     * Helper method to rim brackets of a string
-     * @param str The string to be trimmed
-     * @return The trimmed string
-     */
-    private String trimBrackets(String str) {
-        return str.substring(1,str.length()-1).trim();
+
+    class GradientData {
+        public Color value;
+        public float threshold;
+
+        public GradientData(Color v, float t) {
+            value = v;
+            threshold = t;
+        }
+    }
+
+    private Color getHeightmapGradient(float height) {
+        final float heightMin = 0.0f;
+        final float heightMax = 200.0f;
+        final GradientData[] gradient = new GradientData[]{
+            new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
+            new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
+            new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f),
+        };
+
+        float threshold = (height - heightMin) / heightMax;
+
+        for (int i = 1; i < gradient.length; i++) {
+            if (threshold <= gradient[i].threshold) {
+                float t = (threshold - gradient[i - 1].threshold) / gradient[i].threshold;
+                Color result = new Color(
+                    (gradient[i - 1].value.getRed() * (1.0f - t) + gradient[i].value.getRed() * t) / 255.0f,
+                    (gradient[i - 1].value.getGreen() * (1.0f - t) + gradient[i].value.getGreen() * t) / 255.0f,
+                    (gradient[i - 1].value.getBlue() * (1.0f - t) + gradient[i].value.getBlue() * t) / 255.0f,
+                    (gradient[i - 1].value.getAlpha() * (1.0f - t) + gradient[i].value.getAlpha() * t) / 255.0f
+                );
+                return result;
+            }
+        }
+        return gradient[gradient.length - 1].value;
     }
 
     /**
