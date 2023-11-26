@@ -5,6 +5,7 @@ import uk.ac.ncl.nclwater.firm2.model.Agent;
 import java.awt.*;
 
 public class Road extends Agent {
+    int speedlimit = 30;
 
     public Road(int agentId) {
         this.agent_id = agentId;
