@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Provision for a simple visualisation, in a JFrame, of the model. The visualisation has a start and a step button.
@@ -34,10 +35,10 @@ public class Visualisation extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
-        Grid grid = model.getGrid();
+        ArrayList<Grid> grids = model.getGrids();
         this.setSize(1024,768);
-        drawPanel = new DrawPanel(grid, cell_size);
-        drawPanel.setSize(grid.getWidth() * cell_size, grid.getHeight() * cell_size);
+        drawPanel = new DrawPanel(grids, cell_size);
+        drawPanel.setSize(grids.get(0).getWidth() * cell_size, grids.get(0).getHeight() * cell_size);
 
         buttonPanel.add(start);
         buttonPanel.add(step);
@@ -46,8 +47,8 @@ public class Visualisation extends JFrame implements ActionListener {
         buttonPanel.setBounds(insets.left + 10, insets.top + 10, dimension.width, dimension.height);
         this.add(drawPanel);
         dimension = drawPanel.getPreferredSize();
-        drawPanel.setBounds(insets.left + 10, insets.top + 50, grid.getWidth() * cell_size,
-                grid.getHeight() * cell_size + cell_size);
+        drawPanel.setBounds(insets.left + 10, insets.top + 50, grids.get(0).getWidth() * cell_size,
+                grids.get(0).getHeight() * cell_size + cell_size);
         this.add(buttonPanel);
         this.setVisible(true);
 
@@ -64,7 +65,7 @@ public class Visualisation extends JFrame implements ActionListener {
         step.setEnabled(false);
         start.setText("Stop");
         runModel = () -> {
-            drawPanel.setGrid(model.getGrid());
+            drawPanel.setGrid(model.getGrids());
             drawPanel.repaint();
         };
         model.setRun(true);
@@ -92,7 +93,7 @@ public class Visualisation extends JFrame implements ActionListener {
         }
         if ("Step".equals(e.getActionCommand())) {
             model.step();
-            drawPanel.setGrid(model.getGrid());
+            drawPanel.setGrid(model.getGrids());
         }
 
     }

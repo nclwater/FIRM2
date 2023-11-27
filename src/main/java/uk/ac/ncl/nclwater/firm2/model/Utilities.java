@@ -7,10 +7,10 @@ public class Utilities {
 
     /** Linear interpolation to draw a line between two given points in the grid
      *
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param x1 first x co-ordinate
+     * @param y1 first y co-ordinate
+     * @param x2 second x co-ordinate
+     * @param y2 second y co-ordinate
      * @return an array of points that needs to be plotted to draw a line
      */
     public static ArrayList<Point> interpolate(int x1, int y1, int x2, int y2) {
@@ -35,6 +35,15 @@ public class Utilities {
         return points;
     }
 
+    /**
+     * Turn an ordinance survey co-ordinate into a grid co-ordinate
+     * @param x_origin the ordinance survey x co-ordinate of the bottom left corner of the map
+     * @param y_origin the ordinance survey y co-ordinate of the bottom left corner of the map
+     * @param x the x-coordinate to be converted
+     * @param y the y-coordinate to be converted
+     * @param cellMeters the size, in square meters of one cell
+     * @return return the grid co-ordinates as a Point
+     */
     public static Point Ordinance2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
         int y_coord = Math.round((y - y_origin) / cellMeters);
@@ -58,7 +67,7 @@ public class Utilities {
     }
 
     /**
-     * Helper method to rim quotes of a string
+     * Helper method to trim quotes of a string
      * @param str The string to be trimmed
      * @return The trimmed string
      */

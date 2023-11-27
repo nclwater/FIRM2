@@ -52,11 +52,12 @@ public class Firm2 extends Model {
             cellMeters = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();
             _NODATA = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
-            this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
             line = sc.nextLine();
             float maxheight = 0;
             float minheight = 0;
             // Create grid
+
             for (int row = 0; row < modelParameters.getHeight(); row++) {
                 line = sc.nextLine();
 
@@ -66,20 +67,21 @@ public class Firm2 extends Model {
                     float elevation = Float.parseFloat(tokens[col]);
                     maxheight = (elevation > maxheight)?elevation:maxheight;
                     minheight = (elevation < minheight && elevation != -9999.0)?elevation:minheight;
-                    this.grid.setCell(col, row, new Terrain(id, Float.parseFloat(tokens[col])));
+                    terrainGrid.setCell(col, row, new Terrain(id, Float.parseFloat(tokens[col])));
 
                     if (Float.parseFloat(tokens[col]) == _NODATA) {
-                        this.grid.getCell(col, row).setColour(Color.blue);
+                        terrainGrid.getCell(col, row).setColour(Color.blue);
                     } else {
-                        this.grid.getCell(col, row);
+                        terrainGrid.getCell(col, row);
                         //int colour = normaliseToColour(elevation, 0,200);
 
                         //this.grid.getCell(col, row).setColour(new Color(colour, colour, colour));
-                        this.grid.getCell(col, row).setColour(getHeightmapGradient(elevation));
+                        terrainGrid.getCell(col, row).setColour(getHeightmapGradient(elevation));
                     }
 
                 }
             }
+            grids.add(terrainGrid);
             logger.info("Max height: " + maxheight);
             logger.info("Min height: " + minheight);
             plotRoads();
@@ -102,6 +104,8 @@ public class Firm2 extends Model {
         try {
             // read file containing the road co-ordinates
             Scanner sc = new Scanner(new File("/data/inputs/roads.txt"));
+            // Create a layer for the roads
+            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
             while (sc.hasNext()) {
                 String line = trimBrackets(sc.nextLine());
 
@@ -127,23 +131,15 @@ public class Firm2 extends Model {
                 }
                 wholeRoad.forEach(point -> {
                     if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
-                        Terrain tmp = (Terrain) this.grid.getCell(point.x, point.y);
-                        tmp.setSurfaceAgent(new Road(getNewId()));
-                        this.grid.getCell(point.x, point.y).setColour(Color.BLACK);
+                        Road newRoad = new Road(getNewId());
+                        newRoad.setColour(Color.BLACK);
+                        roadGrid.setCell(point.x, point.y, newRoad);
                     } else {
                         System.out.printf("Road: " + point.x + ", " + point.y + " is out of bounds");
                     }
                 });
+                grids.add(roadGrid);
 
-//                    if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
-//                        Terrain tmp = (Terrain) this.grid.getCell(coords.x, coords.y);
-//                        tmp.setSurfaceAgent(new Road(getNewId()));
-//                        this.grid.getCell(coords.x, coords.y).setColour(Color.BLACK);
-//                    } else {
-//                        logger.debug("Road: " + coords.x + ", " + coords.y + " is out of bounds");
-//                    }
-//
-//                }
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -153,6 +149,7 @@ public class Firm2 extends Model {
     private void plotBuildings() {
         try {
             Scanner sc = new Scanner(new File("/data/inputs/buildings.txt"));
+            Grid buildingGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 if (!line.startsWith(";;") && !line.trim().equals("") && !(line == null)) {
@@ -163,15 +160,14 @@ public class Firm2 extends Model {
                     coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
                     int type = Integer.parseInt(xy[2]);
                     if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
-                        Terrain tmp = (Terrain)this.grid.getCell(coords.x, coords.y);
                         Building building = new Building(getNewId(), type);
-                        tmp.setSurfaceAgent(building);
-                        this.grid.getCell(coords.x, coords.y).setColour(building.getColour());
+                        buildingGrid.setCell(coords.x, coords.y, building);
                     } else {
                         logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                     }
                 }
             }
+            grids.add(buildingGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -179,8 +175,9 @@ public class Firm2 extends Model {
 
     public void plotDefences() {
         try {
-            Scanner sc = null;
-            sc = new Scanner(new File("/data/inputs/defences.txt"));
+            Scanner sc = new Scanner(new File("/data/inputs/defences.txt"));
+            Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
+
             while (sc.hasNext()) {
                 String[] line = trimBrackets(sc.nextLine().trim()).split("\t");
                 if (line.length > 2) {
@@ -190,14 +187,17 @@ public class Firm2 extends Model {
                         Float.parseFloat(line[1]), cellMeters);
                 coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
                 if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
-                    Terrain tmp = (Terrain)this.grid.getCell(coords.x, coords.y);
                     Defence defence = new Defence(getNewId());
-                    tmp.setSurfaceAgent(defence);
-                    this.grid.getCell(coords.x, coords.y).setColour(defence.getColour());
+                    defenceGrid.setCell(coords.x, coords.y, defence);
+//                    Terrain tmp = (Terrain)this.grid.getCell(coords.x, coords.y);
+//                    Defence defence = new Defence(getNewId());
+//                    tmp.setSurfaceAgent(defence);
+//                    this.grid.getCell(coords.x, coords.y).setColour(defence.getColour());
                 } else {
                     logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                 }
             }
+            grids.add(defenceGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

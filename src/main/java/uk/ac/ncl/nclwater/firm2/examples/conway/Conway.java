@@ -31,12 +31,12 @@ public class Conway extends Model {
         Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                int neighbourCount = grid.occupiedNeighbourCount('m', col, row, Alive.class);
+                int neighbourCount = grids.get(0).occupiedNeighbourCount('m', col, row, Alive.class);
                 // If cell is alive
-                if (grid.getCell(col, row) != null) {
+                if (grids.get(0).getCell(col, row) != null) {
                     // has two or three neighbours keeps on living
                     if (neighbourCount == 2 || neighbourCount == 3) {
-                        newGrid.setCell(col, row, grid.getCell(col, row));
+                        newGrid.setCell(col, row, grids.get(0).getCell(col, row));
                     } else {
                         newGrid.setCell(col, row, null);
                     }
@@ -48,14 +48,14 @@ public class Conway extends Model {
                 }
             }
         }
-        grid = newGrid;
+        grids.set(0, newGrid);
 //        printGrid('x', Alive.class);
     }
 
 
     @Override
     public void modelInit() {
-        this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+        this.grids.add(new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal()));
 
         // Create grid
         for (int row = 0; row < modelParameters.getHeight(); row++) {
@@ -65,7 +65,7 @@ public class Conway extends Model {
                 int newId = 0;
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
-                    this.grid.setCell(col, row, new Alive(newId));
+                    this.grids.get(0).setCell(col, row, new Alive(newId));
                 }
             }
         }

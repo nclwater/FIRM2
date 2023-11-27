@@ -13,7 +13,7 @@ public class Terrain extends Agent {
     protected float elevation; // Elevation in metres
     protected int nodata = -9999;
     protected Color colour;
-    protected Agent surfaceAgent = null;
+//    protected Agent surfaceAgent = null;
 
     public Terrain(int id, float elevation) {
         this.agent_id = id;
@@ -60,11 +60,11 @@ public class Terrain extends Agent {
         this.colour = colour;
     }
 
-    public Agent getSurfaceAgent() {
-        return surfaceAgent;
-    }
+//    public Agent getSurfaceAgent() {
+//        return surfaceAgent;
+//    }
 
-    public void setSurfaceAgent(Agent surfaceAgent) {
-        this.surfaceAgent = surfaceAgent;
-    }
+//    public void setSurfaceAgent(Agent surfaceAgent) {
+//        this.surfaceAgent = surfaceAgent;
+//    }
 }
