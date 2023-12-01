@@ -1,29 +1,51 @@
 #PWD=/media/jannetta/WORKDRIVE/DATA/GitHub_Repositories/nclwater/FIRM2
 
-PWD=$(shell pwd)
+PWD = $(shell pwd)
+MVN = mvn
+JAVA = java
+DOCKER = docker
+ZIP = gzip
 
-run:
-	docker run -d --rm -v "${PWD}/data:/data/" --name FIRM2 nclwater/firm2:0.001
+save_target_root = firm2
+save_target_tar = $(save_target_root).tar
+save_target_zip = $(save_target_tar).gz
 
-build:
-	mvn package
-	docker build -t nclwater/firm2:0.001 .
+image_version = 0.001
+image_tag = nclwater/$(save_target_root):$(image_version)
+image_name = $(shell echo $(save_target_root) | tr '[a-z]' '[A-Z]')
 
-save:
-	docker save -o firm2.tar nclwater/firm2:0.001
-	gzip firm2.tar
-
-stop: 
-	docker stop FIRM2
+mvn_target_dir = target
 
 compile:
-	mvn package
+	$(MVN) package
+
+run:
+	$(DOCKER) run -d --rm -v "${PWD}/data:/data/" --name $(image_name) $(image_tag)
+
+build: compile
+	$(DOCKER) build -t $(image_tag) .
+
+cleanmvn:
+	$(MVN) clean
+
+clean: cleanmvn
+
+cleanall: cleanmvn
+	$(RM) $(save_target_tar) $(save_target_zip)
+
+save: save_target_zip
+save_target:
+	$(DOCKER) save -o $(save_target_tar) $(image_tag)
+	$(ZIP) $(save_target_tar)
+
+stop: 
+	$(DOCKER) stop $(image_name)
 
 runGUI:
-	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
+	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
 
 DAFNITest:
-	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
+	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
 
 Conway:
-	java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.examples.conway.Conway
+	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.examples.conway.Conway
