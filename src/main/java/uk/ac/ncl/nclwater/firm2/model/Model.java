@@ -3,6 +3,7 @@ package uk.ac.ncl.nclwater.firm2.model;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * This abstract class has to be implemented to define the model behaviour. The model should run in its own thread and
@@ -13,7 +14,7 @@ public abstract class Model implements Runnable {
     private static int ids = 0;
     private boolean run = false;
     protected Visualisation visualisation;
-    protected Grid grid;
+    protected ArrayList<Grid> grids = new ArrayList<>();
     private boolean running = true;
     private int total_ticks = 0;
 
@@ -74,25 +75,25 @@ public abstract class Model implements Runnable {
      *
      * @param type 'n' for neighbourhoodcounts, 'x' for x's, 'd' for distance and 'i' for ids, where the cell contents is not null
      */
-    protected void printGrid(char type, Class<?> t) {
+    protected void printGrid(char type, Class<?> t, int layer) {
         String text = "o";
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
                 switch (type) {
                     case 'n':
-                        text = "" + grid.occupiedNeighbourCount('m', col, row, t);
+                        text = "" + grids.get(layer).occupiedNeighbourCount('m', col, row, t);
                         break;
                     case 'd':
-                        text = "" + grid.distanceBetween('f', col, row, t);
+                        text = "" + grids.get(layer).distanceBetween('f', col, row, t);
                         break;
                     case 'x':
                         text = "x";
                         break;
                     case 'i':
-                        text = grid.getCell(col, row) == null ? " " : "" + grid.getCell(col, row).getAgent_id();
+                        text = grids.get(layer).getCell(col, row) == null ? " " : "" + grids.get(layer).getCell(col, row).getAgent_id();
                         break;
                 }
-                if (grid.getCell(col, row) != null) {
+                if (grids.get(layer).getCell(col, row) != null) {
                     System.out.print(text + "\t");
                 } else {
                     System.out.print(text + "\t");
@@ -117,8 +118,8 @@ public abstract class Model implements Runnable {
      * Returns the grid in its current state
      * @return the grid in its current state
      */
-    public Grid getGrid() {
-        return grid;
+    public ArrayList<Grid> getGrids() {
+        return grids;
     }
 
     /**

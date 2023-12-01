@@ -4,6 +4,7 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class DrawPanel extends JPanel {
 
@@ -11,13 +12,13 @@ public class DrawPanel extends JPanel {
     int height;
     int cell_size;
 
-    Grid grid;
+    ArrayList<Grid> grids;
 
-    public DrawPanel(Grid grid, int cell_size) {
-        this.grid = grid;
+    public DrawPanel(ArrayList<Grid> grids, int cell_size) {
+        this.grids = grids;
         this.setBackground(Color.WHITE);
-        this.width = grid.getWidth();
-        this.height = grid.getHeight();
+        this.width = grids.get(0).getWidth();
+        this.height = grids.get(0).getHeight();
         this.cell_size = cell_size;
     }
 
@@ -25,20 +26,22 @@ public class DrawPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int font_height = g.getFontMetrics().getHeight();
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                if (grid.getCell(col, row) != null) {
-                    g.setColor(grid.getCell(col, row).getColour());
-                    g.fillRect(col * cell_size, row * cell_size,
-                            cell_size, cell_size);
-                    g.setColor(Color.WHITE);
+        for (Grid grid : grids) {
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    if (grid.getCell(col, row) != null) {
+                        g.setColor(grid.getCell(col, row).getColour());
+                        g.fillRect(col * cell_size, row * cell_size,
+                                cell_size, cell_size);
+                        g.setColor(Color.WHITE);
+                    }
                 }
             }
         }
     }
 
 
-    public void setGrid(Grid grid) {
-        this.grid = grid;
+    public void setGrid(ArrayList<Grid> grids) {
+        this.grids = grids;
     }
 }

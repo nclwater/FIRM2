@@ -27,7 +27,7 @@ public class NagelSchreckenberg extends Model {
         // Acceleration: All cars not at the maximum velocity have their velocity increased by one unit.
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                Car c = (Car)grid.getCell(col, row);
+                Car c = (Car)grids.get(0).getCell(col, row);
                 if ((c != null) && (c.getVelocity() < c.getMaxVelocity())) {
                     c.setVelocity(c.getVelocity() + 1);
                 }
@@ -35,9 +35,9 @@ public class NagelSchreckenberg extends Model {
         }
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                Car c = (Car)grid.getCell(col, row);
+                Car c = (Car)grids.get(0).getCell(col, row);
                 if (c != null) {
-                    int distance = grid.distanceBetween('f', col, row, Car.class);
+                    int distance = grids.get(0).distanceBetween('f', col, row, Car.class);
                     if (distance < c.getVelocity()) {
                         c.setVelocity(distance);
                     }
@@ -47,18 +47,19 @@ public class NagelSchreckenberg extends Model {
         // Move cars forward the number of cells equal to their velocity
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                if (grid.getCell(col, row) != null) {
-                    newGrid.setCell((((Car)(grid.getCell(col, row))).getVelocity() + col) % grid.getWidth(), row, grid.getCell(col, row));
+                if (grids.get(0).getCell(col, row) != null) {
+                    newGrid.setCell((((Car)(grids.get(0).getCell(col, row))).getVelocity() + col) %
+                            grids.get(0).getWidth(), row, grids.get(0).getCell(col, row));
                 }
             }
         }
-        grid = newGrid;
+        grids.set(0, newGrid);
 //        printGrid('i', Car.class);
     }
 
     @Override
     public void modelInit() {
-        this.grid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+        this.grids.add(new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal()));
 
         // Create grid
         for (int row = 0; row < modelParameters.getHeight(); row++) {
@@ -69,9 +70,9 @@ public class NagelSchreckenberg extends Model {
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
                     if (newId == 1)
-                        this.grid.setCell(col, row, new Car(newId, Color.RED));
+                        this.grids.get(0).setCell(col, row, new Car(newId, Color.RED));
                     else
-                        this.grid.setCell(col, row, new Car(newId, Color.BLUE));
+                        this.grids.get(0).setCell(col, row, new Car(newId, Color.BLUE));
                 }
             }
         }
