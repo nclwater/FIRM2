@@ -7,3 +7,4 @@ artifact/
 docs/
 *.class
 data/
+target/

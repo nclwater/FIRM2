@@ -1,7 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static uk.ac.ncl.nclwater.firm2.model.Utilities.*;
 
 public class Firm2 extends Model {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+//    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private float x_origin;
     private float y_origin;
@@ -82,8 +82,8 @@ public class Firm2 extends Model {
                 }
             }
             grids.add(terrainGrid);
-            logger.info("Max height: " + maxheight);
-            logger.info("Min height: " + minheight);
+//            logger.info("Max height: " + maxheight);
+//            logger.info("Min height: " + minheight);
             plotRoads();
             plotBuildings(); // Do plotRoads first so that x and y origins are set
             plotDefences();
@@ -163,7 +163,7 @@ public class Firm2 extends Model {
                         Building building = new Building(getNewId(), type);
                         buildingGrid.setCell(coords.x, coords.y, building);
                     } else {
-                        logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
+//                        logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                     }
                 }
             }
@@ -194,7 +194,7 @@ public class Firm2 extends Model {
 //                    tmp.setSurfaceAgent(defence);
 //                    this.grid.getCell(coords.x, coords.y).setColour(defence.getColour());
                 } else {
-                    logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
+//                    logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                 }
             }
             grids.add(defenceGrid);
