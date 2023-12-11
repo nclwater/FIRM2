@@ -8,10 +8,27 @@ title: FIRM2 Layers
 ---
 
 classDiagram
-    class Agent
-    Agent : +int agent_id
-    Agent : +int tick_age
-    Agent : +Color colour
+    class Agent{
+        +int agentId
+        +int tickAge
+        +Color colour
+    }
+    class Terrain {
+        +float elevation
+    }
+    class Building {
+        +int type
+    }
+    class Defence
+    class Road {
+        +int speedLimit
+    }
+   
+    Agent <|--Terrain
+    Agent <|--Building
+    Agent <|--Defence
+    Agent <|--Road
+    
     
     class Terrain
     Terrain : +float elevation
