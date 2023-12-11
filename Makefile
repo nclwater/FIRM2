@@ -20,7 +20,7 @@ compile:
 	$(MVN) package
 
 run:
-	$(DOCKER) run -d --rm -v "${PWD}/data:/data/" --name $(image_name) $(image_tag)
+	$(DOCKER) run -d --rm -v "${PWD}/data:/data" --name $(image_name) $(image_tag)
 
 build: compile
 	$(DOCKER) build -t $(image_tag) .
@@ -34,7 +34,7 @@ cleanall: cleanmvn
 	$(RM) $(save_target_tar) $(save_target_zip)
 
 save: save_target_zip
-save_target:
+save_target: build
 	$(DOCKER) save -o $(save_target_tar) $(image_tag)
 	$(ZIP) $(save_target_tar)
 
