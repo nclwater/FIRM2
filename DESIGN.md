@@ -41,10 +41,7 @@ classDiagram
     class Road
     Road : +int speedLimit
     
-    Agent --> Terrain
-    Agent --> Building
-    Agent --> Defence
-    Agent --> Road 
+
 ```
 
 Agents have to implement the `Agent` abstract class which is in the `model` package.
