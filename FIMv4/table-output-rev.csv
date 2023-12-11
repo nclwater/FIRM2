@@ -1,7 +1,0 @@
-"BehaviorSpace Table data (NetLogo 4.0.4)"
-""
-"toytown"
-"02/11/2009 16:49:16:069 +0000"
-"min-pxcor","max-pxcor","min-pycor","max-pycor"
-"0","248","0","178"
-"[run number]","start-time","Scenario","heuristic-factor","log-interval","end-time-str","random-seed","[step]","(list end-time vehicles-drowned vehicles-diverted vehicles-isolated)"
