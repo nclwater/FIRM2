@@ -29,17 +29,7 @@ classDiagram
     Agent <|--Defence
     Agent <|--Road
     
-    
-    class Terrain
-    Terrain : +float elevation
-    
-    class Building
-    Building : +int type
-    
-    class Defence
-    
-    class Road
-    Road : +int speedLimit
+
     
 
 ```
