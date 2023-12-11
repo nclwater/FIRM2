@@ -1,0 +1,39 @@
+name: Release to DAFNI
+  
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Upload to DAFNI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Docker Build
+        run: make build
+
+      - name: Compress docker image
+        run: make save
+
+      - name: Set tag as env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Show release version tag
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+
+      - name: Upload to DAFNI
+        uses: dafnifacility/dafni-model-uploader@v1.11
+        with:
+          definition-path: './model-definition.yml'
+          image-path: './firm2.tar.gz'
+          username: ${{ secrets.DAFNI_SERVICE_ACCOUNT_USERNAME }}
+          password: ${{ secrets.DAFNI_SERVICE_ACCOUNT_PASSWORD }}
+          version-message: ${{ env.RELEASE_VERSION }}
+          parent-model: "38aa5bd3-a996-48f6-b26a-4164177da4dd"

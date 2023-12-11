@@ -1,28 +1,28 @@
 kind: M
-api_version: v1beta2
+api_version: v1beta3
 metadata:
-  display_name: Flood Incident Model 2
-  name: firm2
+  display_name: Flood Infrastructure Resilience Model
+  name: firm
   summary: Agent based model for flood incidents
   publisher: Newcastle University
   description: >
-    Agent based model for flood incident
+    FIRM is an agent-based model that simulates how people and organisations respond to the effects
+    of flood infrastructure failure before, during, and after extreme weather events. The model can
+    be used to assess different strategies to minimise threats to lives and infrastructure during a
+    flood incident. 
+  contact_point_name: Richard Dawson
+  contact_point_email: richard.dawson@newcastle.ac.uk
 spec:
   inputs:
     parameters:
       - name: OUTPUT_DATA_FOLDER
-        title: Outgoing Data Folder Name
+        title: Outgoing data folder name
         type: string
         description: The name of the data folder where output data should be saved
         default: output_data_folder
         required: true
-    dataslots:
-      - name: INPUT_DATA_SLOT
-        description: DAFNI dataset source id
-        path: inputs
-        required: true
   outputs:
     datasets:
-      - name: FIM results
+      - name: FIRM results
         type: txt
         description: Model output
