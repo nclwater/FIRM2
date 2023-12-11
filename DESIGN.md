@@ -7,11 +7,27 @@ The basic framework for this modelling environment consists of several layers of
 title: FIRM2 Layers
 ---
 
-graph TB
-    terrain[Terrain]
-    buildings[Buildings]
-    defences[Defences]
-    roads[Roads]
+classDiagram
+    class Agent{
+        +int agentId
+        +int tickAge
+        +Color colour
+    }
+    class Terrain {
+        +float elevation
+    }
+    class Building {
+        +int type
+    }
+    class Defence
+    class Road {
+        +int speedLimit
+    }
    
+    Agent <|--Terrain
+    Agent <|--Building
+    Agent <|--Defence
+    Agent <|--Road
+    
     
 ```

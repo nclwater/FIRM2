@@ -12,8 +12,6 @@ import java.awt.*;
 public class Terrain extends Agent {
     protected float elevation; // Elevation in metres
     protected int nodata = -9999;
-    protected Color colour;
-//    protected Agent surfaceAgent = null;
 
     public Terrain(int id, float elevation) {
         this.agent_id = id;
