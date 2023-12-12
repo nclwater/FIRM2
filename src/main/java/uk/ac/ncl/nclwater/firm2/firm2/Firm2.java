@@ -53,7 +53,8 @@ public class Firm2 extends Model {
             line = sc.nextLine();
             _NODATA = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
             Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            line = sc.nextLine();
+            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            line = sc.nextLine(); // read and ignore the first line
             float maxheight = 0;
             float minheight = 0;
             // Create grid
@@ -67,21 +68,19 @@ public class Firm2 extends Model {
                     float elevation = Float.parseFloat(tokens[col]);
                     maxheight = (elevation > maxheight)?elevation:maxheight;
                     minheight = (elevation < minheight && elevation != -9999.0)?elevation:minheight;
-                    terrainGrid.setCell(col, row, new Terrain(id, Float.parseFloat(tokens[col])));
+                    terrainGrid.setCell(col, row, new Terrain(id, elevation));
 
                     if (Float.parseFloat(tokens[col]) == _NODATA) {
-                        terrainGrid.getCell(col, row).setColour(Color.blue);
+                        waterGrid.setCell(col, row, new Water(getNewId()));
                     } else {
                         terrainGrid.getCell(col, row);
-                        //int colour = normaliseToColour(elevation, 0,200);
-
-                        //this.grid.getCell(col, row).setColour(new Color(colour, colour, colour));
                         terrainGrid.getCell(col, row).setColour(getHeightmapGradient(elevation));
                     }
 
                 }
             }
             grids.add(terrainGrid);
+            grids.add(waterGrid);
 //            logger.info("Max height: " + maxheight);
 //            logger.info("Min height: " + minheight);
             plotRoads();
