@@ -16,7 +16,7 @@ public class Building extends Agent {
         if (type == 0) {
             setColour(new Color(170, 170, 170)); // Buildings default to gray
         } else {
-            setColour(new Color(0xff, 0xff, 0x00)); // Residential defaults to yellow
+            setColour(new Color(0x00, 0xff, 0x00)); // Residential defaults to green
         }
     }
 }

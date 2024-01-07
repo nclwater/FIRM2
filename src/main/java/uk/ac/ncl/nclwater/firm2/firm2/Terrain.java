@@ -5,9 +5,7 @@ import uk.ac.ncl.nclwater.firm2.model.Agent;
 import java.awt.*;
 
 /**
- * An agent of type Terrain. Terrain contains a surfaceAgent which is an agent that occupies the terrain agent.
- * The surface agent needs to be extende to an array of surface agents, eg. terrain can have a building on it or a road
- * but, it could also have people, cars or water on it
+ * The first layer. Each cell in the grid will have at its base a Terrain agent.
  */
 public class Terrain extends Agent {
     protected float elevation; // Elevation in metres
@@ -20,7 +18,7 @@ public class Terrain extends Agent {
         if (elevation == nodata) {
             colour = new Color(255, 255, 255);
         } else {
-            colour = new Color(170, 170, 170);
+            colour = new Color(65, 62, 62);
         }
     }
 

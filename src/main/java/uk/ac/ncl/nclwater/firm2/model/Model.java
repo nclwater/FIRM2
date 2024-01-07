@@ -110,8 +110,7 @@ public abstract class Model implements Runnable {
      * @return a new id
      */
     protected int getNewId() {
-        ids++;
-        return ids;
+        return ++ids;
     }
 
     /**

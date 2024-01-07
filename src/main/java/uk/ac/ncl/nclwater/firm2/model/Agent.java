@@ -59,4 +59,8 @@ public abstract class Agent {
     public void setColour(Color colour) {
         this.colour = colour;
     }
+
+    public String toString() {
+        return "Agent Id: " + agent_id;
+    }
 }

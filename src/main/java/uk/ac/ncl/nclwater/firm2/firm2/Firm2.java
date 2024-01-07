@@ -5,11 +5,13 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
+import java.nio.file.Paths;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Scanner;
 
 import static uk.ac.ncl.nclwater.firm2.model.Utilities.*;
@@ -21,18 +23,55 @@ public class Firm2 extends Model {
     private float y_origin;
     private int cellMeters;
     private int _NODATA;
+    Properties properties = new Properties();
+    private static final String APPLICATION_DIRECTORY = System.getProperty("user.home");
+    private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
 
     /**
      * Default constructor
      */
     public Firm2() {
-        modelParameters.setToroidal(false);
-        modelParameters.setTicks(30);
-        modelParameters.setVisualise(true);
-        modelParameters.setCell_size(3);
-        modelParameters.setChance(50);
-        modelParameters.setTitle("FIRM2");
+        // load properties file or create one if it doesn't exist and add default values
+        if (!Files.exists(Paths.get(PROPERTIES_FILEPATH))) {
+            createPropertiesFile();
+        }
+        loadPropertiesFile();
+        modelParameters.setToroidal(Boolean.valueOf(properties.getProperty("toroidal")));
+        modelParameters.setTicks(Integer.valueOf(properties.getProperty("ticks")));
+        modelParameters.setVisualise(Boolean.valueOf(properties.getProperty("visualise")));
+        modelParameters.setCell_size(Integer.valueOf(properties.getProperty("cell-size")));
+        modelParameters.setChance(Integer.valueOf(properties.getProperty("chance")));
+        modelParameters.setTitle(String.valueOf(properties.get("title")));
         modelInit();
+    }
+
+    private void loadPropertiesFile() {
+        try (InputStream input = new FileInputStream(PROPERTIES_FILEPATH)) {
+            // load a properties file
+            properties.load(input);
+            System.out.println("Properties read from " + PROPERTIES_FILEPATH);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void createPropertiesFile() {
+        File propertiesFile = new File(PROPERTIES_FILEPATH);
+        try {
+            OutputStream output = new FileOutputStream(propertiesFile);
+            properties.setProperty("toroidal","false");
+            properties.setProperty("ticks","30");
+            properties.setProperty("visualise","TRUE");
+            properties.setProperty("cell-size","3");
+            properties.setProperty("chance","50");
+            properties.setProperty("application-title","FIRM2");
+            properties.store(output, null);
+            System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -83,9 +122,9 @@ public class Firm2 extends Model {
             grids.add(waterGrid);
 //            logger.info("Max height: " + maxheight);
 //            logger.info("Min height: " + minheight);
-            plotRoads();
             plotBuildings(); // Do plotRoads first so that x and y origins are set
             plotDefences();
+            plotRoads();
             // Visualise if visualisation is set to true
             if (modelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
@@ -100,46 +139,58 @@ public class Firm2 extends Model {
     }
 
     private void plotRoads() {
+//
+//         		;; manually fix up the bridge over the river.
+//         		;; XXX this should be done from a config file.
+//         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
+//
         try {
             // read file containing the road co-ordinates
-            Scanner sc = new Scanner(new File("/data/inputs/roads.txt"));
+            Scanner sc = new Scanner(new File("/media/jannetta/WORKDRIVE/DATA/GitHub_Repositories/nclwater/FIRM2/data/inputs/roads.txt"));
             // Create a layer for the roads
-            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
+            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            int segment = 0;
             while (sc.hasNext()) {
-                String line = trimBrackets(sc.nextLine());
-
-                // trim off the brackets and parse the line
-                int firstBracket = line.indexOf('[');
-                String topHalf = line.trim().substring(0,firstBracket);
-                String bottomHalf = trimBrackets(line.trim().substring(firstBracket));
-                String match = "] \\[";
-                String[] coordinates = trimBrackets(bottomHalf).split(match); // extract item 5 which contain co-ordinates
-                ArrayList<Point> roadPoints = new ArrayList<>();
-                // read all roadsegment points into an ArrayList of points
-                for (String coordinate : coordinates) {
-                    String[] xy = (coordinate).split(" ");
-                    Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(xy[0]) / 1000,
-                            Float.parseFloat(xy[1]) / 1000, cellMeters);
-                    coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                    roadPoints.add(coords);
-                }
-                // infer line between points and add to one big array.
-                ArrayList<Point> wholeRoad = new ArrayList<>();
-                for (int i = 1; i < roadPoints.size(); i++) {
-                    wholeRoad.addAll(interpolate(roadPoints.get(i-1).x, roadPoints.get(i-1).y, roadPoints.get(i).x, roadPoints.get(i).y));
-                }
-                wholeRoad.forEach(point -> {
-                    if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
-                        Road newRoad = new Road(getNewId());
-                        newRoad.setColour(Color.BLACK);
-                        roadGrid.setCell(point.x, point.y, newRoad);
-                    } else {
-                        System.out.printf("Road: " + point.x + ", " + point.y + " is out of bounds");
+                segment = (segment > 2)?0:++segment;
+                String line = sc.nextLine();
+                if (!line.trim().equals("") && !line.trim().startsWith("%")) {
+                    line = trimBrackets(line);
+                    // trim off the brackets and parse the line
+                    int firstBracket = line.indexOf('[');
+                    String topHalf = line.trim().substring(0, firstBracket);
+                    String road_ids[] = new String[3];
+                    road_ids[0] = topHalf.split(" ")[0].replace('"', ' ').trim();
+                    road_ids[1] = topHalf.split(" ")[1].replace('"', ' ').trim();
+                    road_ids[2] = topHalf.split(" ")[2].replace('"', ' ').trim();
+                    String bottomHalf = trimBrackets(line.trim().substring(firstBracket));
+                    String match = "] \\[";
+                    String[] coordinates = trimBrackets(bottomHalf).split(match); // extract item 5 which contain co-ordinates
+                    ArrayList<Point> roadPoints = new ArrayList<>();
+                    // read all roadsegment points into an ArrayList of points
+                    for (String coordinate : coordinates) {
+                        String[] xy = (coordinate).split(" ");
+                        Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(xy[0]) / 1000,
+                                Float.parseFloat(xy[1]) / 1000, cellMeters);
+                        coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                        roadPoints.add(coords);
                     }
-                });
-                grids.add(roadGrid);
-
+                    // infer line between points and add to one big array.
+                    ArrayList<Point> wholeRoad = new ArrayList<>();
+                    for (int i = 1; i < roadPoints.size(); i++) {
+                        wholeRoad.addAll(interpolate(roadPoints.get(i - 1).x, roadPoints.get(i - 1).y, roadPoints.get(i).x, roadPoints.get(i).y));
+                    }
+                    wholeRoad.forEach(point -> {
+                        if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
+                            Road newRoad = new Road(getNewId(), road_ids);
+//                            newRoad.setColour();
+                            roadGrid.setCell(point.x, point.y, newRoad);
+                        } else {
+                            System.out.printf("Road: " + point.x + ", " + point.y + " is out of bounds\n");
+                        }
+                    });
+                }
             }
+            grids.add(roadGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -188,10 +239,6 @@ public class Firm2 extends Model {
                 if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
                     Defence defence = new Defence(getNewId());
                     defenceGrid.setCell(coords.x, coords.y, defence);
-//                    Terrain tmp = (Terrain)this.grid.getCell(coords.x, coords.y);
-//                    Defence defence = new Defence(getNewId());
-//                    tmp.setSurfaceAgent(defence);
-//                    this.grid.getCell(coords.x, coords.y).setColour(defence.getColour());
                 } else {
 //                    logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                 }
