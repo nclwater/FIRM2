@@ -45,6 +45,9 @@ public class Firm2 extends Model {
         modelInit();
     }
 
+    /**
+     * Load properties from the properties file
+     */
     private void loadPropertiesFile() {
         try (InputStream input = new FileInputStream(PROPERTIES_FILEPATH)) {
             // load a properties file
@@ -55,6 +58,9 @@ public class Firm2 extends Model {
         }
     }
 
+    /**
+     * Create a new properties file and set default properties
+     */
     private void createPropertiesFile() {
         File propertiesFile = new File(PROPERTIES_FILEPATH);
         try {
@@ -65,6 +71,12 @@ public class Firm2 extends Model {
             properties.setProperty("cell-size","3");
             properties.setProperty("chance","50");
             properties.setProperty("application-title","FIRM2");
+            properties.setProperty("input-data", "/data/inputs/");
+            properties.setProperty("output-data", "/data/outputs/");
+            properties.setProperty("terrain-data", "terrain.txt");
+            properties.setProperty("roads-data", "roads.txt");
+            properties.setProperty("buildings-data", "buildings.txt");
+            properties.setProperty("defences-data", "defences.txt");
             properties.store(output, null);
             System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
         } catch (FileNotFoundException e) {
@@ -74,11 +86,14 @@ public class Firm2 extends Model {
         }
     }
 
+    /**
+     * Initialise the model
+     */
     @Override
     public void modelInit() {
         try {
             // Read the file to populate the basic grid of cells
-            Scanner sc = new Scanner(new File("/data/inputs/terrain.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
             String line = sc.nextLine();
             modelParameters.setWidth(Integer.parseInt(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();
@@ -146,7 +161,7 @@ public class Firm2 extends Model {
 //
         try {
             // read file containing the road co-ordinates
-            Scanner sc = new Scanner(new File("/media/jannetta/WORKDRIVE/DATA/GitHub_Repositories/nclwater/FIRM2/data/inputs/roads.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("roads-data")));
             // Create a layer for the roads
             Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
             int segment = 0;
@@ -198,7 +213,7 @@ public class Firm2 extends Model {
 
     private void plotBuildings() {
         try {
-            Scanner sc = new Scanner(new File("/data/inputs/buildings.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("buildings-data")));
             Grid buildingGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
@@ -225,7 +240,7 @@ public class Firm2 extends Model {
 
     public void plotDefences() {
         try {
-            Scanner sc = new Scanner(new File("/data/inputs/defences.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("defences-data")));
             Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
 
             while (sc.hasNext()) {
