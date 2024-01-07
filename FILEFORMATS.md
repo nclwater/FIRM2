@@ -102,7 +102,7 @@ This agent produces vehicles that flow along one of the main roads that bypasses
 ```
 
 This agent produces someone who has kids and a job.  They start at home (which is randomly assigned from the list of residential buildings) and then at 7:45 with a standard deviation (SD) of 5 minutes vehicles appear at their home and drive to a school.  They spend 5 minutes, with SD=1 minute at the school before 90% of them (0.9) head to a non-residential building that is not a shop, the remaining 10% (0.1) head to a randomly selected shop and then after 2 hours (SD=1 hour) head to work.  Work finishes at 5pm, SD=15m and people head home/shops/recreation non-residential building.  
-The second part shows that when they achieve the order to evacuate (see timeline.txt).  In this case 90% respond within 5m (SD=1m) to head to one of the evacuation points, the others do not.  The final point is a return home after 4hours which is not normally used.
+The second part shows that when they achieve the order to evacuate (see timeline.txt).  In this case 90% respond within 5m (SD=1m) to head to one of the evacuation points, the others do not.  The final point is a return home after 4 hours which is not normally used.
 Hopefully that gives a sense of how it works?
 
 ```
