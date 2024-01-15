@@ -15,6 +15,6 @@ COPY ./target/FIRM2.jar .
 WORKDIR /workdir
 RUN mkdir -p /data/inputs /data/outputs
 
-copy run.sh .
+COPY run.sh .
 
 CMD ["/bin/bash", "run.sh"]

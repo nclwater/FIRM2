@@ -33,7 +33,7 @@ clean: cleanmvn
 cleanall: cleanmvn
 	$(RM) $(save_target_tar) $(save_target_zip)
 
-save: save_target_zip
+save: save_target
 save_target: build
 	$(DOCKER) save -o $(save_target_tar) $(image_tag)
 	$(ZIP) $(save_target_tar)
@@ -41,11 +41,11 @@ save_target: build
 stop: 
 	$(DOCKER) stop $(image_name)
 
-runGUI:
+runGUI: compile
 	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
 
-DAFNITest:
+DAFNITest: compile
 	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
 
-Conway:
+Conway: compile
 	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.examples.conway.Conway
