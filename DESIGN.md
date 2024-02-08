@@ -35,6 +35,7 @@ classDiagram
     Agent <|--Building
     Agent <|--Defence
     Agent <|--Road
+    Agent <|--Car
     
 
     
