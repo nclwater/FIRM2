@@ -1,37 +1,31 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
 /**
- * FIRM 2 data schema - building
+ * FIRM 2 data schema - buildings
  *
  */
 public class Buildings {
 
     @SerializedName("buildings")
     @Expose
-    private List<Buildings> buildings;
-    @SerializedName("required")
-    @Expose
-    private Object required;
+    private List<Building> buildings = new ArrayList<>();
 
-    public List<Buildings> getBuildings() {
+    public List<Building> getBuildings() {
         return buildings;
     }
 
-    public void setBuildings(List<Buildings> buildings) {
+    public void setBuildings(List<Building> buildings) {
         this.buildings = buildings;
     }
 
-    public Object getRequired() {
-        return required;
-    }
-
-    public void setRequired(Buildings required) {
-        this.required = required;
+    public void add(Building building) {
+        buildings.add(building);
     }
 
 }

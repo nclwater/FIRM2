@@ -6,9 +6,9 @@ import java.awt.*;
  * An abstract class that needs to be inherited by all agents
  */
 public abstract class Agent {
-    protected int agent_id = 0;
-    protected int tickAge = 0;
-    protected Color colour = new Color(0);
+    public int agent_id = 0;
+    public int tickAge = 0;
+    public Color colour = new Color(0);
 
 
     /**

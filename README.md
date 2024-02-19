@@ -50,6 +50,9 @@ a directory and executed from there. The program needs configuration for where t
 
 ### Running Locally
 
+Important: the following VM option have to be added to the command line:
+`--add-opens java.desktop/java.awt=ALL-UNNAMED --add-opens java.desktop/java.awt.color=ALL-UNNAMED`
+
 The program is packaged in a `.jar` file and can be run either from the command line or by double-clicking on the `.jar` file in a file system GUI, as long as the JRE is installed on the system. If a JRE is required, find the download and installation instructions online.
 
 On Linux, assuming a suitable runtime environment is installed, one can run the program from the command line using the `run.sh` script. For testing the program `DAFNITest` is executed which creates a file in `/data/inputs` and another in `/data/outputs`. To run the actual Firm2 model line 2, in the `run.sh` file should be uncommented and line 3 should be commented.  

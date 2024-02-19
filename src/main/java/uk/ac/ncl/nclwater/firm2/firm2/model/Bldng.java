@@ -1,14 +1,14 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
-import uk.ac.ncl.nclwater.firm2.model.Agent;
-import java.awt.*;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import uk.ac.ncl.nclwater.firm2.model.Agent;
 
 /**
  * An agent of type building
  */
-public class Building extends Agent {
+public class Bldng extends Agent {
 
     @SerializedName("type")
     @Expose
@@ -22,14 +22,9 @@ public class Building extends Agent {
      * @param id a unique id for the agent
      * @param type the type of building
      */
-    public Building(int id, int type) {
-        setAgent_id(id);
+    public Bldng(int id, int type) {
         this.type = type;
-        if (type == 0) {
-            setColour(new Color(170, 170, 170)); // Buildings default to gray
-        } else {
-            setColour(new Color(0x00, 0xff, 0x00)); // Residential defaults to green
-        }
+
     }
 
 
@@ -39,16 +34,10 @@ public class Building extends Agent {
      * @param type the type of building
      * @param ordinate the ordinance map co-ordinates of the building
      */
-    public Building(int id, int type, PointDouble ordinate) {
-        setAgent_id(id);
+    public Bldng(int id, int type, PointDouble ordinate) {
         this.type = type;
         this.ordinate = ordinate;
 
-        if (type == 0) {
-            setColour(new Color(170, 170, 170)); // Buildings default to gray
-        } else {
-            setColour(new Color(0x00, 0xff, 0x00)); // Residential defaults to green
-        }
     }
 
     public int getType() {
