@@ -2,7 +2,7 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Building;
+import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;

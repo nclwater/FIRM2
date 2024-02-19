@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.firm2;
+package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 public enum BusinessType {
     SHOP_AND_PREMISES(211, "Shop and Premises"),

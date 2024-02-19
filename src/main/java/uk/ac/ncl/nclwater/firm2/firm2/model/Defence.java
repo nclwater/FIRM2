@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.firm2;
+package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 
