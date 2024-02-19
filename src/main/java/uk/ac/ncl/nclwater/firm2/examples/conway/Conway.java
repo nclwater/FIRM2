@@ -20,7 +20,7 @@ public class Conway extends Model {
         modelParameters.setToroidal(false);
         modelParameters.setTicks(0);
         modelParameters.setVisualise(true);
-        modelParameters.setCell_size(1);
+        modelParameters.setCell_size(3);
         modelParameters.setChance(50);
         modelParameters.setTitle("Conway's Game of Life");
         modelInit();

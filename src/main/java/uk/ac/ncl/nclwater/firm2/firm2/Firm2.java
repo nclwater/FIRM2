@@ -2,6 +2,7 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.model.Building;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
@@ -36,11 +37,11 @@ public class Firm2 extends Model {
             createPropertiesFile();
         }
         loadPropertiesFile();
-        modelParameters.setToroidal(Boolean.valueOf(properties.getProperty("toroidal")));
-        modelParameters.setTicks(Integer.valueOf(properties.getProperty("ticks")));
-        modelParameters.setVisualise(Boolean.valueOf(properties.getProperty("visualise")));
-        modelParameters.setCell_size(Integer.valueOf(properties.getProperty("cell-size")));
-        modelParameters.setChance(Integer.valueOf(properties.getProperty("chance")));
+        modelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
+        modelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
+        modelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
+        modelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
+        modelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
         modelParameters.setTitle(String.valueOf(properties.get("title")));
         modelInit();
     }
@@ -79,8 +80,6 @@ public class Firm2 extends Model {
             properties.setProperty("defences-data", "defences.txt");
             properties.store(output, null);
             System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -116,11 +115,11 @@ public class Firm2 extends Model {
             for (int row = 0; row < modelParameters.getHeight(); row++) {
                 line = sc.nextLine();
 
-                String tokens[] = line.substring(1,line.length() - 1).split("\t");
+                String[] tokens = line.substring(1,line.length() - 1).split("\t");
                 for (int col = 0; col < modelParameters.getWidth(); col++) {
                     int id = getNewId();
                     float elevation = Float.parseFloat(tokens[col]);
-                    maxheight = (elevation > maxheight)?elevation:maxheight;
+                    maxheight = Math.max(elevation, maxheight);
                     minheight = (elevation < minheight && elevation != -9999.0)?elevation:minheight;
                     terrainGrid.setCell(col, row, new Terrain(id, elevation));
 
@@ -173,7 +172,7 @@ public class Firm2 extends Model {
                     // trim off the brackets and parse the line
                     int firstBracket = line.indexOf('[');
                     String topHalf = line.trim().substring(0, firstBracket);
-                    String road_ids[] = new String[3];
+                    String[] road_ids = new String[3];
                     road_ids[0] = topHalf.split(" ")[0].replace('"', ' ').trim();
                     road_ids[1] = topHalf.split(" ")[1].replace('"', ' ').trim();
                     road_ids[2] = topHalf.split(" ")[2].replace('"', ' ').trim();
@@ -200,7 +199,7 @@ public class Firm2 extends Model {
 //                            newRoad.setColour();
                             roadGrid.setCell(point.x, point.y, newRoad);
                         } else {
-                            System.out.printf("Road: " + point.x + ", " + point.y + " is out of bounds\n");
+                            System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
                         }
                     });
                 }
@@ -304,13 +303,12 @@ public class Firm2 extends Model {
         for (int i = 1; i < gradient.length; i++) {
             if (threshold <= gradient[i].threshold) {
                 float t = (threshold - gradient[i - 1].threshold) / gradient[i].threshold;
-                Color result = new Color(
+                return new Color(
                     (gradient[i - 1].value.getRed() * (1.0f - t) + gradient[i].value.getRed() * t) / 255.0f,
                     (gradient[i - 1].value.getGreen() * (1.0f - t) + gradient[i].value.getGreen() * t) / 255.0f,
                     (gradient[i - 1].value.getBlue() * (1.0f - t) + gradient[i].value.getBlue() * t) / 255.0f,
                     (gradient[i - 1].value.getAlpha() * (1.0f - t) + gradient[i].value.getAlpha() * t) / 255.0f
                 );
-                return result;
             }
         }
         return gradient[gradient.length - 1].value;
