@@ -20,6 +20,13 @@ public class Defence extends Agent {
         setColour(new Color(0x99, 0x00, 0x00));
     }
 
+    public Defence(int agent_id, PointDouble ordinate, String defenceName) {
+        setAgent_id(agent_id);
+        setOrdinate(ordinate);
+        setName(defenceName);
+        setColour(new Color(0x99, 0x00, 0x00));
+    }
+
     public PointDouble getOrdinate() {
         return ordinate;
     }
