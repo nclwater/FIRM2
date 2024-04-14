@@ -125,9 +125,13 @@ Hopefully that gives a sense of how it works?
 ```
 
 ## roads.txt
-This is a series of polylines describing all the roads in the network taken from the Ordnance Survey Integrated Transport Network (ITN).  This data was processed in advance from the ITN.  It would be useful to develop a utility model that processes this data into an appropriate format for buildings, road network etc.
-The first three numbers are the unique ID of the road link (should correspond to the preprocessed-buildings.txt ID), the ID of the staring node and the ID of the end node of the road link.  
-I think the next number is the length, then the road type (which dictates agent speed – this is hard coded in the model at the moment I think).
+This is a series of polylines describing all the roads in the network taken from the Ordnance Survey Integrated 
+Transport Network (ITN).  This data was processed in advance from the ITN.  It would be useful to develop a utility 
+model that processes this data into an appropriate format for buildings, road network etc.
+The first three numbers are the unique ID of the road link (should correspond to the preprocessed-buildings.txt ID), 
+the ID of the staring node and the ID of the end node of the road link.  
+I think the next number is the length, then the road type (which dictates agent speed – this is hard coded in the 
+model at the moment I think).
 The final set of pairs of numbers give the [x y] coordinates of the polyline.
 
 ```[“4000000013081056” “4000000012843503” “4000000012843508” 17810 “Single Carriageway” [[301510000 374871000] [301512000 374868000] [301515000 374859000] [301517000 374856000] [301517803 374855219] ]]```

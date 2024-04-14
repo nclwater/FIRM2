@@ -4,18 +4,17 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 //import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.model.Model;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.model.Visualisation;
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
-import java.nio.file.Paths;
 
 import java.awt.*;
 import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
-import static uk.ac.ncl.nclwater.firm2.model.Utilities.*;
+import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model {
 //    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -24,19 +23,15 @@ public class Firm2 extends Model {
     private float y_origin;
     private int cellMeters;
     private int _NODATA;
-    Properties properties = new Properties();
-    private static final String APPLICATION_DIRECTORY = System.getProperty("user.home");
-    private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
+    Properties properties = Utilities.createPropertiesFile();
 
     /**
      * Default constructor
      */
     public Firm2() {
         // load properties file or create one if it doesn't exist and add default values
-        if (!Files.exists(Paths.get(PROPERTIES_FILEPATH))) {
-            createPropertiesFile();
-        }
-        loadPropertiesFile();
+        Utilities.createPropertiesFile();
+        properties = Utilities.loadPropertiesFile();
         modelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
         modelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
         modelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
@@ -44,45 +39,6 @@ public class Firm2 extends Model {
         modelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
         modelParameters.setTitle(String.valueOf(properties.get("title")));
         modelInit();
-    }
-
-    /**
-     * Load properties from the properties file
-     */
-    private void loadPropertiesFile() {
-        try (InputStream input = new FileInputStream(PROPERTIES_FILEPATH)) {
-            // load a properties file
-            properties.load(input);
-            System.out.println("Properties read from " + PROPERTIES_FILEPATH);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Create a new properties file and set default properties
-     */
-    private void createPropertiesFile() {
-        File propertiesFile = new File(PROPERTIES_FILEPATH);
-        try {
-            OutputStream output = new FileOutputStream(propertiesFile);
-            properties.setProperty("toroidal","false");
-            properties.setProperty("ticks","30");
-            properties.setProperty("visualise","TRUE");
-            properties.setProperty("cell-size","3");
-            properties.setProperty("chance","50");
-            properties.setProperty("application-title","FIRM2");
-            properties.setProperty("input-data", "/data/inputs/");
-            properties.setProperty("output-data", "/data/outputs/");
-            properties.setProperty("terrain-data", "terrain.txt");
-            properties.setProperty("roads-data", "roads.txt");
-            properties.setProperty("buildings-data", "buildings.txt");
-            properties.setProperty("defences-data", "defences.txt");
-            properties.store(output, null);
-            System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**

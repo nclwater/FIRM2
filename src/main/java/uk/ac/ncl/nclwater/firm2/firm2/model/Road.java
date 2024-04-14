@@ -1,37 +1,103 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Road extends Agent {
-    int speedlimit = 30;
+    int speedLimit = 30;
+    @Expose
+    @SerializedName("road_IDs")
+    String[] roadIDs = new String[3];
 
-    String[] road_ids = new String[3];
+    @Expose
+    @SerializedName("road_length")
+    long roadLength;
 
-    public Road(int agentId, String[] road_ids) {
+    @Expose
+    @SerializedName("road_type")
+    String roadType;
+
+    @Expose
+    @SerializedName("polyline_coordinates")
+    ArrayList<PointDouble> polylineCoordinates = new ArrayList<>();
+
+
+    /**
+     * Constructor to create a new instance of a road
+     * @param agentId
+     * @param roadIDs
+     */
+    public Road(int agentId, String[] roadIDs) {
         this.agent_id = agentId;
-        this.road_ids[0] = road_ids[0];
-        this.road_ids[1] = road_ids[1];
-        this.road_ids[2] = road_ids[2];
+        this.roadIDs[0] = roadIDs[0];
+        this.roadIDs[1] = roadIDs[1];
+        this.roadIDs[2] = roadIDs[2];
         this.colour = Color.black;
+    }
+
+    public Road(long roadLength, String roadType, ArrayList<PointDouble> polylineCoordinates, String[] roadIDs) {
+        this.roadLength = roadLength;
+        this.roadType = roadType;
+        this.polylineCoordinates = polylineCoordinates;
+        this.roadIDs = roadIDs;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Agent ID: " + agent_id + "\n");
-        sb.append("Road ID 1: " + road_ids[0] + "\n");
-        sb.append("Road ID 2: " + road_ids[1] + "\n");
-        sb.append("Road ID 3: " + road_ids[2] + "\n");
+        sb.append("Road ID 1: " + roadIDs[0] + "\n");
+        sb.append("Road ID 2: " + roadIDs[1] + "\n");
+        sb.append("Road ID 3: " + roadIDs[2] + "\n");
         sb.append("Colour: " + this.colour.toString());
         return sb.toString();
     }
 
-    public String[] getRoad_ids() {
-        return road_ids;
+    public String[] getRoadIDs() {
+        return roadIDs;
     }
 
-    public void setRoad_ids(String[] road_ids) {
-        this.road_ids = road_ids;
+    public void setRoadIDs(String[] roadIDs) {
+        this.roadIDs = roadIDs;
+    }
+
+    public int getSpeedLimit() {
+        return speedLimit;
+    }
+
+    public void setSpeedLimit(int speedLimit) {
+        this.speedLimit = speedLimit;
+    }
+
+
+    public long getRoadLength() {
+        return roadLength;
+    }
+
+    public void setRoadLength(long roadLength) {
+        this.roadLength = roadLength;
+    }
+
+    public String getRoadType() {
+        return roadType;
+    }
+
+    public void setRoadType(String roadType) {
+        this.roadType = roadType;
+    }
+
+    public ArrayList<PointDouble> getPolylineCoordinates() {
+        return polylineCoordinates;
+    }
+
+    public void setPolylineCoordinates(ArrayList<PointDouble> polylineCoordinates) {
+        this.polylineCoordinates = polylineCoordinates;
+    }
+
+    public void addCoordinates(PointDouble coordinates) {
+        polylineCoordinates.add(coordinates);
     }
 }
