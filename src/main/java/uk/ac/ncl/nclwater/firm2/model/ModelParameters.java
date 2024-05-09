@@ -2,6 +2,9 @@ package uk.ac.ncl.nclwater.firm2.model;
 
 import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
+/**
+ * Global parameters for a model
+ */
 public class ModelParameters {
     private int width = 30;
     private int height = 30;

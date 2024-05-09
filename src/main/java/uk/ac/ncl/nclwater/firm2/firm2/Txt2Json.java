@@ -6,10 +6,7 @@ import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,6 +20,39 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
  */
 public class Txt2Json {
     private static Properties properties;
+
+    /**
+     * The global variable which are currently stored in the first six lines
+     * of the terrain.txt file
+     */
+    public static void Globals2Json() {
+        GlobalVariables globalVariables;
+        try {
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
+            String[] lines = new String[6];
+            for (int i = 0; i < 5; i++) {
+                lines[i] = Utilities.trimBrackets(sc.nextLine().trim()).trim().split("\t")[1];
+            }
+            globalVariables = new GlobalVariables(Integer.parseInt(lines[0]),
+                    Integer.parseInt(lines[1]),
+                    Float.parseFloat(lines[2]),
+                    Float.parseFloat(lines[3]),
+                    Integer.parseInt(lines[4]));
+            System.out.println(globalVariables.asString());
+            sc.close();
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            String outfile = (properties.getProperty("input-data") + "globals.json");
+            FileWriter fileWriter = new FileWriter(outfile);
+            gson.toJson(globalVariables, fileWriter);
+            System.out.println( gson.toJson(globalVariables));
+            fileWriter.close();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Read original buildings.txt file and convert it to json as buildings.json
@@ -52,8 +82,9 @@ public class Txt2Json {
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + properties.get("buildings-data")).replace(".txt", ".json");
-            FileWriter fileWriter = new FileWriter(outfile);
-            gson.toJson(buildings, new FileWriter( outfile ));
+            Writer fileWriter = new FileWriter(outfile);
+            gson.toJson(buildings, fileWriter);
+            fileWriter.flush();
             fileWriter.close();
 
         } catch (FileNotFoundException e) {
@@ -97,7 +128,7 @@ public class Txt2Json {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + properties.get("defences-data")).replace(".txt", ".json");
             FileWriter fileWriter = new FileWriter(outfile);
-            gson.toJson(defences, new FileWriter( outfile ));
+            gson.toJson(defences, fileWriter);
             fileWriter.close();
 
         } catch (FileNotFoundException e) {
@@ -154,7 +185,7 @@ public class Txt2Json {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + properties.get("roads-data")).replace(".txt", ".json");
             FileWriter fileWriter = new FileWriter(outfile);
-            gson.toJson(roads, new FileWriter( outfile ));
+            gson.toJson(roads, fileWriter);
             fileWriter.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -201,7 +232,7 @@ public class Txt2Json {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + properties.get("codes-data")).replace(".txt", ".json");
             FileWriter fileWriter = new FileWriter(outfile);
-            gson.toJson(buildingCodes, new FileWriter( outfile ));
+            gson.toJson(buildingCodes, fileWriter);
             fileWriter.close();
 
         } catch (FileNotFoundException e) {
@@ -215,9 +246,29 @@ public class Txt2Json {
         final String APPLICATION_DIRECTORY = System.getProperty("user.home");
         final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
         properties = Utilities.loadPropertiesFile(PROPERTIES_FILEPATH);
-        System.out.println(PROPERTIES_FILEPATH);
-        //RoadsTxt2Json();
-        CodesTxt2Json();
+        String input = "";
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(System.in));
+
+        while (!input.equals("x")) {
+            // Reading data using readLinef
+            System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\nx. Exit");
+            try {
+                input = reader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            switch (input) {
+                case "1":RoadsTxt2Json();break;
+                case "2":CodesTxt2Json();break;
+                case "3":DefencesTxt2Json();break;
+                case "4":BuildingsTxt2Json();break;
+                case "5":Globals2Json();break;
+            }
+        }
+        //
+        //CodesTxt2Json();
+        //Globals2Json();
     }
 }
 
