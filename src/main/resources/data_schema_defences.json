@@ -1,0 +1,31 @@
+{
+    "$comment" : "FIRM 2 data schema - defences",
+    "type" : "object",
+    "properties" : {
+        "defences" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string"
+                    },
+                    "geometry" : {
+                        "type" : "#/defs/numberPair"
+                    }
+                }
+            },
+            "minItems" : 2
+        },
+        "required" : []
+    },
+    "$defs" : {
+        "ordinate" : { "type" : "number" },
+        "numberPair" : {
+            "type" : "array",
+            "items" : { "type" : "number" },
+            "minItems" : 2,
+            "maxItems" : 2
+        }
+    }
+}

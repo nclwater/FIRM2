@@ -1,0 +1,106 @@
+{
+    "$comment" : "FIRM 2 data schema",
+    "type" : "object",
+    "properties" : {
+        "terrain" :  {
+            "$comment" : "Terrain data",
+            "type" : "object",
+            "properties" : {
+                "ncols" : {
+                    "$comment" : "If this property is null or undefined the size is inferred from the elevation data",
+                    "type" : ["integer", "null"],
+                    "minimum" : 1
+                },
+                "nrows" : {
+                    "$comment" : "If this property is null or undefined the size is inferred from the elevation data",
+                    "type" : ["integer", "null"],
+                    "minimum" : 1
+                },
+                "xllcorner" : {
+                    "type" : "number",
+                    "minimum" : 0.0
+                },
+                "yllcorner" : {
+                    "type" : "number",
+                    "minimum" : 0.0
+                },
+                "cellsize" : {
+                    "type" : "number",
+                    "exclusiveMinimum" : 0.0
+                },
+                "elevation" : {
+                    "$comment" : "Elevation height in metres, or null for no data",
+                    "type" : "array",
+                    "items" : {
+                        "$comment" : "Length nrows",
+                        "type" : "array",
+                        "items" : {
+                            "$comment" : "Length ncols",
+                            "type" : ["number", "null"]
+                        }
+                    }
+                }
+            },
+            "required" : ["xllcorner", "yllcorner", "cellsize", "elevation"]
+        },
+        "roads" : {
+            "$comment" : "Array length is number of roads",
+            "type" : "array",
+            "items" : {
+                "type" : "array",
+                "prefixItems" : [
+                    { "type" : "string" },
+                    { "type" : "string" },
+                    { "type" : "string" },
+                    { "type" : "number", "exclusiveMinimum" : 0.0 },
+                    { "type" : "#/defs/numberPair" }
+                ],
+                "minItems" : 5,
+                "items" : false
+            }
+        },
+        "buildings" : {
+            "type" : "array",
+            "prefixItems" : [
+                { "type" : "#/defs/ordinate" },
+                { "type" : "#/defs/ordinate" },
+                { "enum" :  [     0, 211, 212, 213, 214, 215, 216, 217,
+                                218, 221, 222, 223, 224, 231, 232, 233,
+                                234, 235, 236, 237, 310, 311, 320, 410,
+                                420, 430, 511, 512, 513, 514, 515, 516,
+                                517, 518, 521, 522, 523, 524, 525, 526,
+                                527, 610, 620, 625, 630, 640, 650, 660,
+                                670, 680, 690, 810, 820, 830, 840, 910,
+                                920, 930, 940, 950, 960 ]
+                }
+            ],
+            "minItems" : 3,
+            "items" : false
+        },
+        "defences" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string"
+                    },
+                    "geometry" : {
+                        "type" : "#/defs/numberPair"
+                    }
+                }
+            },
+            "minItems" : 2
+        },
+        "required" : ["terrain", "roads", "buildings"]
+    },
+    "$defs" : {
+        "ordinate" : { "type" : "number" },
+        "numberPair" : {
+            "type" : "array",
+            "items" : { "type" : "number" },
+            "minItems" : 2,
+            "maxItems" : 2
+        }
+    }
+}

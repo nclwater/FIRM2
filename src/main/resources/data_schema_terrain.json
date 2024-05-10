@@ -1,0 +1,57 @@
+{
+    "$comment" : "FIRM 2 data schema - terrain",
+    "type" : "object",
+    "properties" : {
+        "terrain" :  {
+            "$comment" : "Terrain data",
+            "type" : "object",
+            "properties" : {
+                "ncols" : {
+                    "$comment" : "If this property is null or undefined the size is inferred from the elevation data",
+                    "type" : ["integer", "null"],
+                    "minimum" : 1
+                },
+                "nrows" : {
+                    "$comment" : "If this property is null or undefined the size is inferred from the elevation data",
+                    "type" : ["integer", "null"],
+                    "minimum" : 1
+                },
+                "xllcorner" : {
+                    "type" : "ordinate",
+                    "minimum" : 0.0
+                },
+                "yllcorner" : {
+                    "type" : "ordinate",
+                    "minimum" : 0.0
+                },
+                "cellsize" : {
+                    "type" : "number",
+                    "exclusiveMinimum" : 0.0
+                },
+                "elevation" : {
+                    "$comment" : "Elevation height in metres, or null for no data",
+                    "type" : "array",
+                    "items" : {
+                        "$comment" : "Length nrows",
+                        "type" : "array",
+                        "items" : {
+                            "$comment" : "Length ncols",
+                            "type" : ["number", "null"]
+                        }
+                    }
+                }
+            },
+            "required" : ["xllcorner", "yllcorner", "cellsize", "elevation"]
+        },
+        "required" : ["terrain"]
+    },
+    "$defs" : {
+        "ordinate" : { "type" : "number" },
+        "numberPair" : {
+            "type" : "array",
+            "items" : { "type" : "number" },
+            "minItems" : 2,
+            "maxItems" : 2
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "$comment" : "FIRM 2 data schema - roads",
+    "type" : "object",
+    "properties" : {
+        "roads" : {
+            "$comment" : "Array length is number of roads",
+            "type" : "array",
+            "items" : {
+                "type" : "array",
+                "prefixItems" : [
+                    { "type" : "string" },
+                    { "type" : "string" },
+                    { "type" : "string" },
+                    { "type" : "number", "exclusiveMinimum" : 0.0 },
+                    { "type" : "#/defs/numberPair" }
+                ],
+                "minItems" : 5,
+                "items" : false
+            }
+        },
+        "required" : ["roads"]
+    },
+    "$defs" : {
+        "ordinate" : { "type" : "number" },
+        "numberPair" : {
+            "type" : "array",
+            "items" : { "type" : "number" },
+            "minItems" : 2,
+            "maxItems" : 2
+        }
+    }
+}
