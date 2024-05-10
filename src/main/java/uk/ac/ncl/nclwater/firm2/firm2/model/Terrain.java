@@ -8,7 +8,7 @@ import java.awt.*;
  * The first layer. Each cell in the grid will have at its base a Terrain agent.
  */
 public class Terrain extends Agent {
-    protected float elevation; // Elevation in metres
+    protected Float elevation; // Elevation in metres
     protected int nodata = -9999;
 
     //    protected Agent surfaceAgent = null;
@@ -22,11 +22,11 @@ public class Terrain extends Agent {
         }
     }
 
-    public float getElevation() {
+    public Float getElevation() {
         return elevation;
     }
 
-    public void setElevation(float elevation) {
+    public void setElevation(Float elevation) {
         this.elevation = elevation;
     }
 
