@@ -7,15 +7,15 @@ public class BuildingType {
     @SerializedName("building-type-code")
     @Expose
     private int typeCode;
-    public BuildingType(int typeCode, String typeDescription) {
-        this.typeCode = typeCode;
-        this.typeDescription = typeDescription;
-    }
-
     @SerializedName("building-type-description")
     @Expose
     private
     String typeDescription;
+
+    public BuildingType(int typeCode, String typeDescription) {
+        this.typeCode = typeCode;
+        this.typeDescription = typeDescription;
+    }
 
     public int getTypeCode() {
         return typeCode;

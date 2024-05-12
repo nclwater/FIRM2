@@ -200,6 +200,7 @@ public class Txt2Json {
     public static void CodesTxt2Json() {
         try {
             Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("codes-data")));
+            System.out.println("Read file: " + properties.getProperty("codes-data"));
             BuildingTypes buildingTypes = new BuildingTypes();
             // Read first 6 lines for building-type-codes
             int lineIndex = 1;
@@ -209,11 +210,10 @@ public class Txt2Json {
                 buildingTypes.add(buildingType);
                 lineIndex++;
             }
-            System.out.println("Building types: " + buildingTypes.getBuildingTypeList().size());
             Gson gson1 = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile1 = (properties.getProperty("input-data") + "buildingtypes.json");
             FileWriter fileWriter1 = new FileWriter(outfile1);
-            gson1.toJson(buildingTypes, new FileWriter( outfile1 ));
+            gson1.toJson(buildingTypes, fileWriter1);
             fileWriter1.close();
 
             BuildingCodes buildingCodes = new BuildingCodes();
@@ -227,7 +227,6 @@ public class Txt2Json {
                     buildingCodes.add(buildingCode);
                 }
             }
-            System.out.println("Building Codes: " + buildingCodes.getBuildingCodes().size());
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + properties.get("codes-data")).replace(".txt", ".json");
