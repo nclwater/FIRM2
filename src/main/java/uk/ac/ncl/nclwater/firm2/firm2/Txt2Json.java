@@ -241,6 +241,32 @@ public class Txt2Json {
         }
     }
 
+    public static void TerrainTxt2Json() {
+        try {
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
+            System.out.println("Read file: " + properties.getProperty("terrain-data"));
+            // Read and ignore the first 7 lines
+            for (int i = 0; i < 7; i++) {
+                sc.nextLine();
+            }
+            TerrainLayer terrainLayer = new TerrainLayer();
+            while (sc.hasNext()) {
+                TerrainLine terrainLine = new TerrainLine(trimBrackets(sc.nextLine()).split("\t"));
+                terrainLayer.add(terrainLine);
+            }
+            sc.close();
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            String outfile = (properties.getProperty("input-data") + properties.get("terrain-data")).replace(".txt", ".json");
+            FileWriter fileWriter = new FileWriter(outfile);
+            gson.toJson(terrainLayer, fileWriter);
+            fileWriter.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) {
         final String APPLICATION_DIRECTORY = System.getProperty("user.home");
         final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
@@ -251,7 +277,7 @@ public class Txt2Json {
 
         while (!input.equals("x")) {
             // Reading data using readLinef
-            System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\nx. Exit");
+            System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\n6. Terrain\nx. Exit");
             try {
                 input = reader.readLine();
             } catch (IOException e) {
@@ -263,6 +289,7 @@ public class Txt2Json {
                 case "3":DefencesTxt2Json();break;
                 case "4":BuildingsTxt2Json();break;
                 case "5":Globals2Json();break;
+                case "6":TerrainTxt2Json();break;
             }
         }
         //
