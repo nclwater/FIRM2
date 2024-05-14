@@ -2,6 +2,7 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class Firm2 extends Model {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             // Read global variable (eventually to be read from environment vars for DAPHNE)
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
-                    properties.getProperty("input-data") + properties.getProperty("model-parameters")),
+                            properties.getProperty("input-data") + properties.getProperty("model-parameters")),
                     GlobalVariables.class);
             modelParameters.setWidth(globalVariables.getColumns());
             modelParameters.setHeight(globalVariables.getRows());
@@ -50,7 +51,7 @@ public class Firm2 extends Model {
             Grid waterGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
 
             String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
-            System.out.println ("Read file: " + filename);
+            System.out.println("Read file: " + filename);
             TerrainLayer terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
             for (int grid_y = 0; grid_y < modelParameters.getHeight(); grid_y++) {
                 TerrainLine terrainLine = terrainLayer.get(grid_y);
@@ -60,10 +61,9 @@ public class Firm2 extends Model {
                         terrainGrid1.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
                         terrainGrid1.getCell(grid_x, grid_y).setColour(
                                 getHeightmapGradient(terrainLine.getElevation()[grid_x],
-                                globalVariables.getMinHeight(),
-                                globalVariables.getMaxHeight()));
-                    }
-                    else {
+                                        globalVariables.getMinHeight(),
+                                        globalVariables.getMaxHeight()));
+                    } else {
                         terrainGrid1.setCell(grid_x, grid_y, new Water(id));
                     }
                 }
@@ -97,13 +97,14 @@ public class Firm2 extends Model {
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
 //
         try {
+//            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             // read file containing the road co-ordinates
             Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("roads-data")));
             // Create a layer for the roads
             Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
             int segment = 0;
             while (sc.hasNext()) {
-                segment = (segment > 2)?0:++segment;
+                segment = (segment > 2) ? 0 : ++segment;
                 String line = sc.nextLine();
                 if (!line.trim().equals("") && !line.trim().startsWith("%")) {
                     line = trimBrackets(line);
@@ -150,26 +151,23 @@ public class Firm2 extends Model {
 
     private void plotBuildings() {
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("buildings-data")));
-            Grid buildingGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
-            while (sc.hasNext()) {
-                String line = sc.nextLine().trim();
-                if (!line.startsWith(";;") && !line.trim().equals("") && !(line == null)) {
-                    line = trimBrackets(line.trim().strip());
-                    String[] xy = (line).split(" ");
-                    Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(xy[0]),
-                            Float.parseFloat(xy[1]), cellMeters);
-                    coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                    int type = Integer.parseInt(xy[2]);
-                    if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
-                        Building building = new Building(getNewId(), type);
-                        buildingGrid.setCell(coords.x, coords.y, building);
-                    } else {
-//                        logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
-                    }
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            Buildings buildings = gson.fromJson(new FileReader(properties.getProperty("input-data") +
+                            properties.getProperty("buildings-data").replaceFirst(".txt", ".json")),
+                    Buildings.class);
+            Grid buildingGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            buildings.getBuildings().forEach(b -> {
+                Point coords = Ordinance2GridXY(x_origin, y_origin, (float) b.getOrdinate().getX(),
+                        (float) b.getOrdinate().getY(), cellMeters);
+                coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                int type = b.getType();
+                if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
+                    Building building = new Building(getNewId(), type);
+                    buildingGrid1.setCell(coords.x, coords.y, building);
                 }
-            }
-            grids.add(buildingGrid);
+            });
+            grids.add(buildingGrid1);
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -178,12 +176,13 @@ public class Firm2 extends Model {
     public void plotDefences() {
         try {
             Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("defences-data")));
-            Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());;
+            Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            ;
 
             while (sc.hasNext()) {
                 String[] line = trimBrackets(sc.nextLine().trim()).split("\t");
                 if (line.length > 2) {
-                    line[2] =  trimQuotes(line[2]);
+                    line[2] = trimQuotes(line[2]);
                 }
                 Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(line[0]),
                         Float.parseFloat(line[1]), cellMeters);
@@ -231,9 +230,9 @@ public class Firm2 extends Model {
         final float heightMin = height_min;//0.0f;
         final float heightMax = height_max;//200.0f;
         final GradientData[] gradient = new GradientData[]{
-            new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
-            new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
-            new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f),
+                new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
+                new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
+                new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f),
         };
 
         float threshold = (height - heightMin) / heightMax;
@@ -242,10 +241,10 @@ public class Firm2 extends Model {
             if (threshold <= gradient[i].threshold) {
                 float t = (threshold - gradient[i - 1].threshold) / gradient[i].threshold;
                 return new Color(
-                    (gradient[i - 1].value.getRed() * (1.0f - t) + gradient[i].value.getRed() * t) / 255.0f,
-                    (gradient[i - 1].value.getGreen() * (1.0f - t) + gradient[i].value.getGreen() * t) / 255.0f,
-                    (gradient[i - 1].value.getBlue() * (1.0f - t) + gradient[i].value.getBlue() * t) / 255.0f,
-                    (gradient[i - 1].value.getAlpha() * (1.0f - t) + gradient[i].value.getAlpha() * t) / 255.0f
+                        (gradient[i - 1].value.getRed() * (1.0f - t) + gradient[i].value.getRed() * t) / 255.0f,
+                        (gradient[i - 1].value.getGreen() * (1.0f - t) + gradient[i].value.getGreen() * t) / 255.0f,
+                        (gradient[i - 1].value.getBlue() * (1.0f - t) + gradient[i].value.getBlue() * t) / 255.0f,
+                        (gradient[i - 1].value.getAlpha() * (1.0f - t) + gradient[i].value.getAlpha() * t) / 255.0f
                 );
             }
         }
