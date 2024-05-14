@@ -2,6 +2,8 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
@@ -48,6 +50,23 @@ public class Firm2 extends Model {
     public void modelInit() {
         try {
             // Read the file to populate the basic grid of cells
+            Grid terrainGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid waterGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            TerrainLayer terrainLayer = gson.fromJson(new FileReader(properties.getProperty("input-data") + properties.getProperty("terrain-data")), TerrainLayer.class);
+            for (int grid_y = 0; grid_y < modelParameters.getHeight(); grid_y++) {
+                TerrainLine terrainLine = terrainLayer.getTerrainLines().get(grid_y);
+                for (int grid_x = 0; grid_x < modelParameters.getWidth(); grid_x++) {
+                    int id = getNewId();
+                    if (terrainLine.getElevation()[grid_x] != null)
+                        terrainGrid1.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
+                    else
+                        terrainGrid1.setCell(grid_x, grid_y, new Water(id));
+                }
+            }
+
+
             Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
             String line = sc.nextLine();
             modelParameters.setWidth(Integer.parseInt(trimBrackets(line).split("\t")[1]));
@@ -88,8 +107,8 @@ public class Firm2 extends Model {
 
                 }
             }
-            grids.add(terrainGrid);
-            grids.add(waterGrid);
+            grids.add(terrainGrid1);
+            grids.add(waterGrid1);
 //            logger.info("Max height: " + maxheight);
 //            logger.info("Min height: " + minheight);
             plotBuildings(); // Do plotRoads first so that x and y origins are set
