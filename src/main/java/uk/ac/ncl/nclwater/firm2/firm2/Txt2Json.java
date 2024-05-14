@@ -37,7 +37,8 @@ public class Txt2Json {
                     Integer.parseInt(lines[1]),
                     Float.parseFloat(lines[2]),
                     Float.parseFloat(lines[3]),
-                    Integer.parseInt(lines[4]));
+                    Integer.parseInt(lines[4]),
+                    0,0);
             System.out.println(globalVariables.asString());
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -260,8 +261,6 @@ public class Txt2Json {
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(terrainLayer, fileWriter);
             fileWriter.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

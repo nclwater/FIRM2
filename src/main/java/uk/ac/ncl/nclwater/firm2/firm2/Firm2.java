@@ -4,6 +4,8 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 //import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.model.Model;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
@@ -13,13 +15,14 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model {
-//    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private float x_origin;
     private float y_origin;
@@ -28,89 +31,50 @@ public class Firm2 extends Model {
     Properties properties = Utilities.createPropertiesFile();
 
     /**
-     * Default constructor
-     */
-    public Firm2() {
-        // load properties file or create one if it doesn't exist and add default values
-        Utilities.createPropertiesFile();
-        properties = Utilities.loadPropertiesFile();
-        modelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
-        modelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
-        modelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
-        modelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
-        modelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
-        modelParameters.setTitle(String.valueOf(properties.get("title")));
-        modelInit();
-    }
-
-    /**
      * Initialise the model
      */
     @Override
     public void modelInit() {
         try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            // Read global variable (eventually to be read from environment vars for DAPHNE)
+            GlobalVariables globalVariables = gson.fromJson(new FileReader(
+                    properties.getProperty("input-data") + properties.getProperty("model-parameters")),
+                    GlobalVariables.class);
+            modelParameters.setWidth(globalVariables.getColumns());
+            modelParameters.setHeight(globalVariables.getRows());
+
+
             // Read the file to populate the basic grid of cells
             Grid terrainGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
             Grid waterGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            TerrainLayer terrainLayer = gson.fromJson(new FileReader(properties.getProperty("input-data") + properties.getProperty("terrain-data")), TerrainLayer.class);
+            String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
+            System.out.println ("Read file: " + filename);
+            TerrainLayer terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
             for (int grid_y = 0; grid_y < modelParameters.getHeight(); grid_y++) {
-                TerrainLine terrainLine = terrainLayer.getTerrainLines().get(grid_y);
+                TerrainLine terrainLine = terrainLayer.get(grid_y);
                 for (int grid_x = 0; grid_x < modelParameters.getWidth(); grid_x++) {
                     int id = getNewId();
-                    if (terrainLine.getElevation()[grid_x] != null)
+                    if (terrainLine.getElevation()[grid_x] != null) {
                         terrainGrid1.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
-                    else
-                        terrainGrid1.setCell(grid_x, grid_y, new Water(id));
-                }
-            }
-
-
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
-            String line = sc.nextLine();
-            modelParameters.setWidth(Integer.parseInt(trimBrackets(line).split("\t")[1]));
-            line = sc.nextLine();
-            modelParameters.setHeight(Integer.parseInt(trimBrackets(line).split("\t")[1]));
-            line = sc.nextLine();
-            x_origin = (Float.parseFloat(trimBrackets(line).split("\t")[1]));
-            line = sc.nextLine();
-            y_origin = (Float.parseFloat(trimBrackets(line).split("\t")[1]));
-            line = sc.nextLine();
-            cellMeters = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
-            line = sc.nextLine();
-            _NODATA = (Integer.parseInt(trimBrackets(line).split("\t")[1]));
-            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            line = sc.nextLine(); // read and ignore the first line
-            float maxheight = 0;
-            float minheight = 0;
-            // Create grid
-
-            for (int row = 0; row < modelParameters.getHeight(); row++) {
-                line = sc.nextLine();
-
-                String[] tokens = line.substring(1,line.length() - 1).split("\t");
-                for (int col = 0; col < modelParameters.getWidth(); col++) {
-                    int id = getNewId();
-                    float elevation = Float.parseFloat(tokens[col]);
-                    maxheight = Math.max(elevation, maxheight);
-                    minheight = (elevation < minheight && elevation != -9999.0)?elevation:minheight;
-                    terrainGrid.setCell(col, row, new Terrain(id, elevation));
-
-                    if (Float.parseFloat(tokens[col]) == _NODATA) {
-                        waterGrid.setCell(col, row, new Water(getNewId()));
-                    } else {
-                        terrainGrid.getCell(col, row);
-                        terrainGrid.getCell(col, row).setColour(getHeightmapGradient(elevation));
+                        terrainGrid1.getCell(grid_x, grid_y).setColour(
+                                getHeightmapGradient(terrainLine.getElevation()[grid_x],
+                                globalVariables.getMinHeight(),
+                                globalVariables.getMaxHeight()));
                     }
-
+                    else {
+                        terrainGrid1.setCell(grid_x, grid_y, new Water(id));
+                    }
                 }
             }
+
+            x_origin = globalVariables.getLowerLeftX();
+            y_origin = globalVariables.getLowerLeftY();
+            cellMeters = globalVariables.getCellSize();
+
             grids.add(terrainGrid1);
             grids.add(waterGrid1);
-//            logger.info("Max height: " + maxheight);
-//            logger.info("Min height: " + minheight);
             plotBuildings(); // Do plotRoads first so that x and y origins are set
             plotDefences();
             plotRoads();
@@ -120,7 +84,6 @@ public class Firm2 extends Model {
             }
             // Do an initial tick
             tick();
-            sc.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -264,9 +227,9 @@ public class Firm2 extends Model {
         }
     }
 
-    private Color getHeightmapGradient(float height) {
-        final float heightMin = 0.0f;
-        final float heightMax = 200.0f;
+    private Color getHeightmapGradient(float height, float height_min, float height_max) {
+        final float heightMin = height_min;//0.0f;
+        final float heightMax = height_max;//200.0f;
         final GradientData[] gradient = new GradientData[]{
             new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
             new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
@@ -287,6 +250,22 @@ public class Firm2 extends Model {
             }
         }
         return gradient[gradient.length - 1].value;
+    }
+
+    /**
+     * Default constructor
+     */
+    public Firm2() {
+        // load properties file or create one if it doesn't exist and add default values
+        Utilities.createPropertiesFile();
+        properties = Utilities.loadPropertiesFile();
+        modelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
+        modelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
+        modelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
+        modelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
+        modelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
+        modelParameters.setTitle(String.valueOf(properties.get("title")));
+        modelInit();
     }
 
     /**

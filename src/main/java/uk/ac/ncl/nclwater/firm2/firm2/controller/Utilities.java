@@ -35,6 +35,7 @@ public class Utilities {
                 properties.setProperty("roads-data", "roads.txt");
                 properties.setProperty("buildings-data", "buildings.txt");
                 properties.setProperty("defences-data", "defences.txt");
+                properties.setProperty("model-parameters", "globals.json");
                 properties.store(output, null);
                 System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
             }

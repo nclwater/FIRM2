@@ -4,35 +4,19 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class consists of an ArrayList. Each item in the ArrayList is an array of floats representing the elevations
  * of one line on a map
  */
-public class TerrainLayer {
+public class TerrainLayer extends ArrayList<TerrainLine> {
 
     @Expose
-    @SerializedName("terrain-lines")
-    private List<TerrainLine> terrainLines = new ArrayList<>();
+    @SerializedName("terrain-layer")
+    private TerrainLayer terrainLayer = this;
 
-    /**
-     * Return all lines of terrain elevations
-     * @return
-     */
-    public List<TerrainLine> getTerrainLines() {
-        return terrainLines;
-    }
 
-    public void setTerrainLines(ArrayList<TerrainLine> terrainLines) {
-        this.terrainLines = terrainLines;
-    }
-
-    /**
-     * Add a line of terrain elevations
-     * @param terrainLine
-     */
-    public void add (TerrainLine terrainLine) {
-        terrainLines.add(terrainLine);
-    }
 }

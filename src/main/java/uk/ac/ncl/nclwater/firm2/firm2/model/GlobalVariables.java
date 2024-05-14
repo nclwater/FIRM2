@@ -32,22 +32,34 @@ public class GlobalVariables {
     @SerializedName("CellSize")
     @Expose
     private int cellSize;
+    @SerializedName("min-height")
+    @Expose
+    float minHeight = 0;
+
+    @SerializedName("max-height")
+    @Expose
+    float maxHeight = 0;
 
     /**
-     * Constructor
+     *
      * @param columns
      * @param rows
      * @param lowerLeftX
      * @param lowerLeftY
      * @param cellSize
+     * @param minHeight
+     * @param maxHeight
      */
-    public GlobalVariables(int columns, int rows, float lowerLeftX, float lowerLeftY, int cellSize) {
+    public GlobalVariables(int columns, int rows, float lowerLeftX, float lowerLeftY, int cellSize, float minHeight, float maxHeight) {
         this.columns = columns;
         this.rows = rows;
         this.lowerLeftX = lowerLeftX;
         this.lowerLeftY = lowerLeftY;
         this.cellSize = cellSize;
+        this.minHeight = minHeight;
+        this.maxHeight = maxHeight;
     }
+
 
     /**
      * Return the number of columns (cells on x-axis) in the model
@@ -103,6 +115,23 @@ public class GlobalVariables {
 
     public void setCellSize(int cellSize) {
         this.cellSize = cellSize;
+    }
+
+
+    public float getMinHeight() {
+        return minHeight;
+    }
+
+    public void setMinHeight(float minHeight) {
+        this.minHeight = minHeight;
+    }
+
+    public float getMaxHeight() {
+        return maxHeight;
+    }
+
+    public void setMaxHeight(float maxHeight) {
+        this.maxHeight = maxHeight;
     }
 
     public String asString() {
