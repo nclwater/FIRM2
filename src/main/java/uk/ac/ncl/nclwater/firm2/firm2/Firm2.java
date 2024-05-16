@@ -174,26 +174,24 @@ public class Firm2 extends Model {
     }
 
     public void plotDefences() {
+        Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("defences-data")));
-            Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            ;
-
-            while (sc.hasNext()) {
-                String[] line = trimBrackets(sc.nextLine().trim()).split("\t");
-                if (line.length > 2) {
-                    line[2] = trimQuotes(line[2]);
-                }
-                Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(line[0]),
-                        Float.parseFloat(line[1]), cellMeters);
-                coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            Defences defences = gson.fromJson(
+                    new FileReader(properties.getProperty("input-data") +
+                            properties.getProperty("defences-data").replaceFirst(".txt", ".json")), Defences.class);
+            defences.getDefences().forEach(d -> {
+                    Point coords = Ordinance2GridXY(x_origin, y_origin, (float) d.getOrdinate().getX(),
+                            (float) d.getOrdinate().getY(), cellMeters);
+                    coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
                 if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
                     Defence defence = new Defence(getNewId());
                     defenceGrid.setCell(coords.x, coords.y, defence);
                 } else {
 //                    logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                 }
-            }
+            });
+
             grids.add(defenceGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
