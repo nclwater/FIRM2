@@ -96,53 +96,37 @@ public class Firm2 extends Model {
 //         		;; XXX this should be done from a config file.
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
 //
-        try {
-//            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            // read file containing the road co-ordinates
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("roads-data")));
-            // Create a layer for the roads
-            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            int segment = 0;
-            while (sc.hasNext()) {
-                segment = (segment > 2) ? 0 : ++segment;
-                String line = sc.nextLine();
-                if (!line.trim().equals("") && !line.trim().startsWith("%")) {
-                    line = trimBrackets(line);
-                    // trim off the brackets and parse the line
-                    int firstBracket = line.indexOf('[');
-                    String topHalf = line.trim().substring(0, firstBracket);
-                    String[] road_ids = new String[3];
-                    road_ids[0] = topHalf.split(" ")[0].replace('"', ' ').trim();
-                    road_ids[1] = topHalf.split(" ")[1].replace('"', ' ').trim();
-                    road_ids[2] = topHalf.split(" ")[2].replace('"', ' ').trim();
-                    String bottomHalf = trimBrackets(line.trim().substring(firstBracket));
-                    String match = "] \\[";
-                    String[] coordinates = trimBrackets(bottomHalf).split(match); // extract item 5 which contain co-ordinates
-                    ArrayList<Point> roadPoints = new ArrayList<>();
-                    // read all roadsegment points into an ArrayList of points
-                    for (String coordinate : coordinates) {
-                        String[] xy = (coordinate).split(" ");
-                        Point coords = Ordinance2GridXY(x_origin, y_origin, Float.parseFloat(xy[0]) / 1000,
-                                Float.parseFloat(xy[1]) / 1000, cellMeters);
-                        coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                        roadPoints.add(coords);
-                    }
-                    // infer line between points and add to one big array.
-                    ArrayList<Point> wholeRoad = new ArrayList<>();
-                    for (int i = 1; i < roadPoints.size(); i++) {
-                        wholeRoad.addAll(interpolate(roadPoints.get(i - 1).x, roadPoints.get(i - 1).y, roadPoints.get(i).x, roadPoints.get(i).y));
-                    }
-                    wholeRoad.forEach(point -> {
-                        if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
-                            Road newRoad = new Road(getNewId(), road_ids);
-//                            newRoad.setColour();
-                            roadGrid.setCell(point.x, point.y, newRoad);
-                        } else {
-                            System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
-                        }
-                    });
-                }
-            }
+         try {
+             Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+             System.out.println("Filename: " + properties.getProperty("roads-data").replaceFirst(".txt", ".json"));
+             Roads roads = gson.fromJson(
+                     new FileReader(properties.getProperty("input-data")
+                             + properties.getProperty("roads-data").replaceFirst(".txt", ".json")),
+                     Roads.class);
+             roads.getRoads().forEach(r -> {
+                 ArrayList<PointDouble> roadPoints = r.getPolylineCoordinates();
+                 ArrayList<Point> pixelPoints  = new ArrayList<>();
+                 ArrayList<Point> wholeRoad = new ArrayList<>();
+                 for (PointDouble roadPoint : roadPoints) {
+                     Point coords = Ordinance2GridXY(x_origin, y_origin, (float) roadPoint.getX() / 1000,
+                             (float) roadPoint.getY() / 1000, cellMeters);
+                     coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                     pixelPoints.add(coords);
+                 }
+                 for (int i = 1; i < pixelPoints.size(); i++) {
+                     wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).x, pixelPoints.get(i - 1).y,
+                             pixelPoints.get(i).x, pixelPoints.get(i).y));
+                 }
+                 wholeRoad.forEach(point -> {
+                     if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
+                         Road newRoad = new Road(getNewId(), r.getRoadIDs());
+                         roadGrid.setCell(point.x, point.y, newRoad);
+                     } else {
+                         System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
+                     }
+                 });
+             });
             grids.add(roadGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

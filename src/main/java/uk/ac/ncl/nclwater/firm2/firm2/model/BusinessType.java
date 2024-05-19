@@ -3,7 +3,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BusinessTypes {
+public class BusinessType {
     @SerializedName("business-type-code")
     @Expose
     int businessTypeCode;
@@ -11,7 +11,7 @@ public class BusinessTypes {
     @Expose
     String businessType;
 
-    public BusinessTypes(int businessTypeCode, String businessType) {
+    public BusinessType(int businessTypeCode, String businessType) {
         this.businessTypeCode = businessTypeCode;
         this.businessType = businessType;
     }

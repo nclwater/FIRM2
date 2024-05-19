@@ -9,10 +9,9 @@ import uk.ac.ncl.nclwater.firm2.model.Model;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 
+import static java.util.Arrays.asList;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 /**
@@ -38,14 +37,14 @@ public class Txt2Json {
                     Float.parseFloat(lines[2]),
                     Float.parseFloat(lines[3]),
                     Integer.parseInt(lines[4]),
-                    0,0);
+                    0, 0);
             System.out.println(globalVariables.asString());
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + "globals.json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(globalVariables, fileWriter);
-            System.out.println( gson.toJson(globalVariables));
+            System.out.println(gson.toJson(globalVariables));
             fileWriter.close();
 
         } catch (FileNotFoundException e) {
@@ -61,7 +60,7 @@ public class Txt2Json {
     public static void BuildingsTxt2Json() {
         Buildings buildings = new Buildings();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("buildings-data")));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + "preprocessed-buildings.txt"));
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 // skip lines that start with ;;
@@ -71,14 +70,17 @@ public class Txt2Json {
                     // tokenise read line
                     String[] xy = (line).split(" ");
                     // extract co-ordinates which are the first two tokens
-                    PointDouble coords = new  PointDouble(Float.parseFloat(xy[0]), Float.parseFloat(xy[1]));
+                    PointDouble coords = new PointDouble(Float.parseFloat(xy[0]), Float.parseFloat(xy[1]));
                     // extract third token
                     int type = Integer.parseInt(xy[2]);
-                    Building building = new Building(Model.getNewId(), type, coords);
-                    System.out.println(building.getOrdinate().getX() + ", " + building.getOrdinate().getY());
+                    // extract the fourth token
+                    String nearestRoad_ID = trimQuotes(xy[3]);
+                    Building building = new Building(Model.getNewId(), type, coords, nearestRoad_ID);
+                    System.out.println(building.getOrdinate().getX() + ", " + building.getOrdinate().getY() + ", " + nearestRoad_ID);
                     buildings.add(building);
                 }
             }
+            System.out.println(properties.getProperty("input-data") + properties.getProperty("buildings-data"));
 
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -113,7 +115,7 @@ public class Txt2Json {
                     // tokenise line
                     String[] tokens = (line).split("\t");
                     // extract first two tokens as co-ordinates
-                    PointDouble coords = new  PointDouble(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]));
+                    PointDouble coords = new PointDouble(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]));
                     if (tokens.length == 3) {
                         // extract third token as name of defence
                         String defenceName = trimQuotes(tokens[2].trim());
@@ -163,10 +165,10 @@ public class Txt2Json {
                     roadIDs[0] = topHalf.split(" ")[0].replace('"', ' ').trim();
                     roadIDs[1] = topHalf.split(" ")[1].replace('"', ' ').trim();
                     roadIDs[2] = topHalf.split(" ")[2].replace('"', ' ').trim();
-                    String[] tokens = trimQuotes(topHalf.replace("\" \""," ")).split(" ");
-                    long roadLength = Integer.parseInt(tokens[3]);
+                    String[] tokens = trimQuotes(topHalf.replace("\" \"", " ")).split(" ");
+                    long roadLength = Long.parseLong(tokens[3]);
                     String type = trimQuotes(tokens[4]);
-                    type = trimQuotes(topHalf.trim().substring(topHalf.substring(0,topHalf.trim().length()-1).lastIndexOf('"'),
+                    type = trimQuotes(topHalf.trim().substring(topHalf.substring(0, topHalf.trim().length() - 1).lastIndexOf('"'),
                             topHalf.trim().lastIndexOf('"')));
                     String match = "] \\[";
                     String[] coordinates = trimBrackets(bottomHalf).split(match);
@@ -174,7 +176,7 @@ public class Txt2Json {
                     for (String coordinate : coordinates) {
                         String[] xy = (coordinate).split(" ");
                         PointDouble coords = new PointDouble(Double.parseDouble(xy[0]), Double.parseDouble(xy[1]));
-                        coords.setY(origins.getModelHeight() - 1 - coords.getY()); // flip horizontally
+                        //coords.setY(origins.getModelHeight() - 1 - coords.getY()); // flip horizontally
                         roadPoints.add(coords);
                     }
                     Road road = new Road(roadLength, type, roadPoints, roadIDs);
@@ -266,6 +268,25 @@ public class Txt2Json {
         }
     }
 
+    public static void BusinessTypes2Json() {
+        try {
+            EnumBusinessType enumBusinessTypes[] = EnumBusinessType.values();
+            ArrayList<BusinessType> bt = new ArrayList<>();
+            for (EnumBusinessType enumBusinessType : enumBusinessTypes) {
+                bt.add(new BusinessType(enumBusinessType.getCode(), enumBusinessType.getDescription()));
+            }
+            BusinessTypes businessTypes = new BusinessTypes(bt);
+            Gson gson1 = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            String outfile1 = (properties.getProperty("input-data") + "businesstypes.json");
+            FileWriter fileWriter1 = null;
+            fileWriter1 = new FileWriter(outfile1);
+            gson1.toJson(businessTypes, fileWriter1);
+            fileWriter1.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) {
         final String APPLICATION_DIRECTORY = System.getProperty("user.home");
         final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
@@ -276,19 +297,35 @@ public class Txt2Json {
 
         while (!input.equals("x")) {
             // Reading data using readLinef
-            System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\n6. Terrain\nx. Exit");
+            System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\n6. Terrain\n" +
+                    "7. Business Types\nx. Exit");
             try {
                 input = reader.readLine();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             switch (input) {
-                case "1":RoadsTxt2Json();break;
-                case "2":CodesTxt2Json();break;
-                case "3":DefencesTxt2Json();break;
-                case "4":BuildingsTxt2Json();break;
-                case "5":Globals2Json();break;
-                case "6":TerrainTxt2Json();break;
+                case "1":
+                    RoadsTxt2Json();
+                    break;
+                case "2":
+                    CodesTxt2Json();
+                    break;
+                case "3":
+                    DefencesTxt2Json();
+                    break;
+                case "4":
+                    BuildingsTxt2Json();
+                    break;
+                case "5":
+                    Globals2Json();
+                    break;
+                case "6":
+                    TerrainTxt2Json();
+                    break;
+                case "7":
+                    BusinessTypes2Json();
+                    break;
             }
         }
         //

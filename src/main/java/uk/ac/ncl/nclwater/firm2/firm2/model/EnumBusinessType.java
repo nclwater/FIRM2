@@ -1,6 +1,6 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
-public enum BusinessType {
+public enum EnumBusinessType {
     SHOP_AND_PREMISES(211, "Shop and Premises"),
     STORE_AND_PREMISES(212, "Store and Premises"),
     SUPERSTORE_HYPERSTORE_AND_PREMISES(213, "Superstore/Hyperstore and Premises"),
@@ -65,7 +65,7 @@ public enum BusinessType {
     private final int code;
     private final String description;
 
-    BusinessType(int code, String description) {
+    EnumBusinessType(int code, String description) {
         this.code = code;
         this.description = description;
     }
