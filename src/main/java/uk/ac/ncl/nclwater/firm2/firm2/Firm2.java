@@ -48,6 +48,7 @@ public class Firm2 extends Model {
     public void modelInit() {
         try {
             // Read the file to populate the basic grid of cells
+<<<<<<< Updated upstream
             Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
             String line = sc.nextLine();
             modelParameters.setWidth(Integer.parseInt(trimBrackets(line).split("\t")[1]));
@@ -67,6 +68,10 @@ public class Firm2 extends Model {
             float maxheight = 0;
             float minheight = 0;
             // Create grid
+=======
+            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+>>>>>>> Stashed changes
 
             for (int row = 0; row < modelParameters.getHeight(); row++) {
                 line = sc.nextLine();
@@ -74,6 +79,7 @@ public class Firm2 extends Model {
                 String[] tokens = line.substring(1,line.length() - 1).split("\t");
                 for (int col = 0; col < modelParameters.getWidth(); col++) {
                     int id = getNewId();
+<<<<<<< Updated upstream
                     float elevation = Float.parseFloat(tokens[col]);
                     maxheight = Math.max(elevation, maxheight);
                     minheight = (elevation < minheight && elevation != -9999.0)?elevation:minheight;
@@ -84,14 +90,34 @@ public class Firm2 extends Model {
                     } else {
                         terrainGrid.getCell(col, row);
                         terrainGrid.getCell(col, row).setColour(getHeightmapGradient(elevation));
+=======
+                    if (terrainLine.getElevation()[grid_x] != null) {
+                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
+                        terrainGrid.getCell(grid_x, grid_y).setColour(
+                                getHeightmapGradient(terrainLine.getElevation()[grid_x],
+                                        globalVariables.getMinHeight(),
+                                        globalVariables.getMaxHeight()));
+                    } else {
+                        terrainGrid.setCell(grid_x, grid_y, new Water(id));
+>>>>>>> Stashed changes
                     }
 
                 }
             }
+<<<<<<< Updated upstream
             grids.add(terrainGrid);
             grids.add(waterGrid);
 //            logger.info("Max height: " + maxheight);
 //            logger.info("Min height: " + minheight);
+=======
+
+            x_origin = globalVariables.getLowerLeftX();
+            y_origin = globalVariables.getLowerLeftY();
+            cellMeters = globalVariables.getCellSize();
+
+            grids.add(terrainGrid);
+            grids.add(waterGrid);
+>>>>>>> Stashed changes
             plotBuildings(); // Do plotRoads first so that x and y origins are set
             plotDefences();
             plotRoads();
