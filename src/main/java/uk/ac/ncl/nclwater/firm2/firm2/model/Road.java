@@ -49,10 +49,10 @@ public class Road extends Agent {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Agent ID: " + agent_id + "\n");
-        sb.append("Road ID 1: " + roadIDs[0] + "\n");
-        sb.append("Road ID 2: " + roadIDs[1] + "\n");
-        sb.append("Road ID 3: " + roadIDs[2] + "\n");
-        sb.append("Colour: " + this.colour.toString());
+        sb.append("Road ID 1: ").append(roadIDs[0]).append("\n");
+        sb.append("Road ID 2: ").append(roadIDs[1]).append("\n");
+        sb.append("Road ID 3: ").append(roadIDs[2]).append("\n");
+        sb.append("Colour: ").append(this.colour.toString());
         return sb.toString();
     }
 

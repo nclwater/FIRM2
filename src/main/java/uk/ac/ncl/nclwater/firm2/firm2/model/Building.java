@@ -16,6 +16,9 @@ public class Building extends Agent {
     @SerializedName("ordinate")
     @Expose
     private PointDouble ordinate;
+    @SerializedName("nearest-road")
+    @Expose
+    String nearestRoad_ID;
 
     /**
      * An agent of type Building
@@ -39,7 +42,7 @@ public class Building extends Agent {
      * @param type the type of building
      * @param ordinate the ordinance map co-ordinates of the building
      */
-    public Building(int id, int type, PointDouble ordinate) {
+    public Building(int id, int type, PointDouble ordinate, String nearestRoad_ID) {
         setAgent_id(id);
         this.type = type;
         this.ordinate = ordinate;
@@ -49,6 +52,7 @@ public class Building extends Agent {
         } else {
             setColour(new Color(0x00, 0xff, 0x00)); // Residential defaults to green
         }
+        this.nearestRoad_ID = nearestRoad_ID;
     }
 
     public int getType() {
@@ -65,5 +69,13 @@ public class Building extends Agent {
 
     public void setOrdinate(PointDouble ordinate) {
         this.ordinate = ordinate;
+    }
+
+    public String getNearestRoad_ID() {
+        return nearestRoad_ID;
+    }
+
+    public void setNearestRoad_ID(String nearestRoad_ID) {
+        this.nearestRoad_ID = nearestRoad_ID;
     }
 }

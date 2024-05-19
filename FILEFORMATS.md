@@ -1,5 +1,30 @@
 ## buildings.txt
 
+### Diagram
+
+```mermaid
+---
+title: Data files
+---
+classDiagram
+    class Building {
+        +String type
+        +PointDouble ordinate
+    }
+    class BuildingCode{
+        +int code
+        +String description
+        +int buildingTypeCode
+    }
+    class BuildingType {
+        +int typeCode
+        +String typeDescription
+    }
+    Building <|-- BuildingCode
+    BuildingCode <|-- BuildingType
+```
+
+
 **Format:** `%Easting  %Northing  %Building Type`
 
 Basically provides the `[x,y]` coordinates and the building type.  
@@ -92,7 +117,9 @@ Etc.
 
 ## vehicles.txt
 This describes the agent rules as a finite state machine
-This agent produces vehicles that flow along one of the main roads that bypasses the town at the South.  Vehicles are produced at the point (taken from the preprocessed-buildings.txt file) and drive to another point on the file before leaving the domain (“exit”)
+This agent produces vehicles that flow along one of the main roads that bypasses the town at the South.  
+Vehicles are produced at the point (taken from the preprocessed-buildings.txt file) and drive to another 
+point on the file before leaving the domain (“exit”)
 
 ```
 ["transit eastbound" "A55 west" [

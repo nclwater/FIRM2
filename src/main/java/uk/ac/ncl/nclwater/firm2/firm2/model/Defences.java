@@ -11,11 +11,11 @@ public class Defences {
     @Expose
     private List<Defence> defences = new ArrayList<>();
 
-    public List<Defence> getBuildings() {
+    public List<Defence> getDefences() {
         return defences;
     }
 
-    public void setBuildings(List<Defence> defences) {
+    public void setDefences(List<Defence> defences) {
         this.defences = defences;
     }
 
