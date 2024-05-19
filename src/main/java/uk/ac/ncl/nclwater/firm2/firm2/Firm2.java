@@ -47,8 +47,8 @@ public class Firm2 extends Model {
 
 
             // Read the file to populate the basic grid of cells
-            Grid terrainGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            Grid waterGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
 
             String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
             System.out.println("Read file: " + filename);
@@ -58,13 +58,13 @@ public class Firm2 extends Model {
                 for (int grid_x = 0; grid_x < modelParameters.getWidth(); grid_x++) {
                     int id = getNewId();
                     if (terrainLine.getElevation()[grid_x] != null) {
-                        terrainGrid1.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
-                        terrainGrid1.getCell(grid_x, grid_y).setColour(
+                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
+                        terrainGrid.getCell(grid_x, grid_y).setColour(
                                 getHeightmapGradient(terrainLine.getElevation()[grid_x],
                                         globalVariables.getMinHeight(),
                                         globalVariables.getMaxHeight()));
                     } else {
-                        terrainGrid1.setCell(grid_x, grid_y, new Water(id));
+                        terrainGrid.setCell(grid_x, grid_y, new Water(id));
                     }
                 }
             }
@@ -73,8 +73,8 @@ public class Firm2 extends Model {
             y_origin = globalVariables.getLowerLeftY();
             cellMeters = globalVariables.getCellSize();
 
-            grids.add(terrainGrid1);
-            grids.add(waterGrid1);
+            grids.add(terrainGrid);
+            grids.add(waterGrid);
             plotBuildings(); // Do plotRoads first so that x and y origins are set
             plotDefences();
             plotRoads();
