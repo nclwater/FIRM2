@@ -64,7 +64,7 @@ public class Firm2 extends Model {
                                         globalVariables.getMinHeight(),
                                         globalVariables.getMaxHeight()));
                     } else {
-                        terrainGrid.setCell(grid_x, grid_y, new Water(id));
+                        waterGrid.setCell(grid_x, grid_y, new Water(id));
                     }
                 }
             }
