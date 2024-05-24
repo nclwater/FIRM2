@@ -4,6 +4,7 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This abstract class has to be implemented to define the model behaviour. The model should run in its own thread and
@@ -14,7 +15,7 @@ public abstract class Model implements Runnable {
     private static int ids = 0;
     private boolean run = false;
     protected Visualisation visualisation;
-    protected ArrayList<Grid> grids = new ArrayList<>();
+    protected HashMap<String, Grid> grids = new HashMap<>();
     private boolean running = true;
     private int total_ticks = 0;
 
@@ -117,7 +118,7 @@ public abstract class Model implements Runnable {
      * Returns the grid in its current state
      * @return the grid in its current state
      */
-    public ArrayList<Grid> getGrids() {
+    public HashMap<String, Grid> getGrids() {
         return grids;
     }
 

@@ -5,7 +5,26 @@ import uk.ac.ncl.nclwater.firm2.model.Agent;
 public class Grid {
 
     Agent[][] grid;
+
     boolean is_toroidal = false;
+
+    public String getGridName() {
+        return gridName;
+    }
+
+    public void setGridName(String gridName) {
+        this.gridName = gridName;
+    }
+
+    public boolean isIs_toroidal() {
+        return is_toroidal;
+    }
+
+    public void setIs_toroidal(boolean is_toroidal) {
+        this.is_toroidal = is_toroidal;
+    }
+
+    String gridName;
 
     public int getWidth() {
         return width;
@@ -22,16 +41,17 @@ public class Grid {
     public void setHeight(int height) {
         this.height = height;
     }
-
     int width, height;
+
 
     /**
      * Generates a grid of cells of specified with and height
      * @param width The width of the grid
      * @param height The height of the grid
      * @param toroidal If toroidal is true the edges of the grid wraps around to the beginning
+     * @param name A name for the grid as a string
      */
-    public Grid(int width, int height, boolean toroidal) {
+    public Grid(int width, int height, boolean toroidal, String name) {
         this.width = width;
         this.height = height;
         this.is_toroidal = toroidal;

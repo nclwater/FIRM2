@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Provision for a simple visualisation, in a JFrame, of the model. The visualisation has a start and a step button.
@@ -35,10 +36,10 @@ public class Visualisation extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
-        ArrayList<Grid> grids = model.getGrids();
+        HashMap<String, Grid> grids = model.getGrids();
         this.setSize(1024,768);
-        drawPanel = new DrawPanel(grids, cell_size);
-        drawPanel.setSize(grids.get(0).getWidth() * cell_size, grids.get(0).getHeight() * cell_size);
+        drawPanel = new DrawPanel(grids, cell_size, model.getModelParameters());
+        drawPanel.setSize(model.getModelParameters().getWidth() * cell_size, model.getModelParameters().getHeight() * cell_size);
 
         buttonPanel.add(start);
         buttonPanel.add(step);
@@ -47,8 +48,8 @@ public class Visualisation extends JFrame implements ActionListener {
         buttonPanel.setBounds(insets.left + 10, insets.top + 10, dimension.width, dimension.height);
         this.add(drawPanel);
         dimension = drawPanel.getPreferredSize();
-        drawPanel.setBounds(insets.left + 10, insets.top + 50, grids.get(0).getWidth() * cell_size,
-                grids.get(0).getHeight() * cell_size + cell_size);
+        drawPanel.setBounds(insets.left + 10, insets.top + 50, model.getModelParameters().getWidth() * cell_size,
+                model.getModelParameters().getHeight() * cell_size + cell_size);
         this.add(buttonPanel);
         this.setVisible(true);
 

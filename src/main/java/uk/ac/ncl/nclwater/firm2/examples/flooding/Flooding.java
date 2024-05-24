@@ -6,7 +6,7 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 public class Flooding extends Model {
     @Override
     public void modelInit() {
-        this.grids.add(new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal()));
+        this.grids.put("water", new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "water"));
 
     }
 

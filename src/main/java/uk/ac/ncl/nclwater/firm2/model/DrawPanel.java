@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DrawPanel extends JPanel implements MouseListener {
 
@@ -16,15 +17,15 @@ public class DrawPanel extends JPanel implements MouseListener {
     final JDialog dialog = new JDialog();
     JTextArea dialog_text = new JTextArea("one two three");
 
-    ArrayList<Grid> grids;
+    HashMap<String, Grid> grids;
 
-    public DrawPanel(ArrayList<Grid> grids, int cell_size) {
+    public DrawPanel(HashMap<String, Grid> grids, int cell_size, ModelParameters modelParameters) {
         super();
         addMouseListener(this);
         this.grids = grids;
         this.setBackground(Color.WHITE);
-        this.width = grids.get(0).getWidth();
-        this.height = grids.get(0).getHeight();
+        this.width = modelParameters.getWidth();
+        this.height = modelParameters.getHeight();
         this.cell_size = cell_size;
 
     }
@@ -33,7 +34,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int font_height = g.getFontMetrics().getHeight();
-        for (Grid grid : grids) {
+        grids.forEach((key, grid) -> {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
                     if (grid.getCell(col, row) != null) {
@@ -44,11 +45,11 @@ public class DrawPanel extends JPanel implements MouseListener {
                     }
                 }
             }
-        }
+        });
     }
 
 
-    public void setGrid(ArrayList<Grid> grids) {
+    public void setGrid(HashMap<String, Grid> grids) {
         this.grids = grids;
     }
 
@@ -64,15 +65,15 @@ public class DrawPanel extends JPanel implements MouseListener {
         int cell_x = x / cell_size;
         int cell_y = y / cell_size;
         int map_y = (height - 1) - (y / cell_size);
-        sb.append("Map co-ordinate:" + cell_x + ", Y: " +  map_y + "\n");
-        sb.append("Grid cell X:" + cell_x + ", Y: " + (cell_y) + "\n");
-        sb.append(grids.size() + " layers:\n");
-        for (Grid grid: grids) {
-            if (grid.getCell((cell_x), (cell_y)) != null) {
-                sb.append(grid.getCell(cell_x, cell_y).getClass().getName() + "\n");
-                sb.append(grid.getCell(cell_x, cell_y).toString() + "\n");
+        sb.append("Map co-ordinate:").append(cell_x).append(", Y: ").append(map_y).append("\n");
+        sb.append("Grid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
+        sb.append(grids.size()).append(" layers:\n");
+        grids.forEach((key, grid) -> {
+            if (grid.getCell(cell_x, cell_y) != null) {
+                sb.append(grid.getCell(cell_x, cell_y).getClass().getName()).append("\n");
+                sb.append(grid.getCell(cell_x, cell_y).toString()).append("\n");
             }
-        }
+        });
         JOptionPane.showMessageDialog(this, sb.toString());
     }
 

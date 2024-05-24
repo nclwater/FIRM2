@@ -18,7 +18,7 @@ public class ModelParameters {
     private int slowdown = 200;
 
     public ModelParameters() {
-        grid = new Grid(width, height, toroidal);
+        grid = new Grid(width, height, toroidal, "");
     }
     public int getWidth() {
         return width;

@@ -47,8 +47,8 @@ public class Firm2 extends Model {
 
 
             // Read the file to populate the basic grid of cells
-            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
-            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "terrain");
+            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "water");
 
             String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
             System.out.println("Read file: " + filename);
@@ -73,8 +73,8 @@ public class Firm2 extends Model {
             y_origin = globalVariables.getLowerLeftY();
             cellMeters = globalVariables.getCellSize();
 
-            grids.add(terrainGrid);
-            grids.add(waterGrid);
+            grids.put("terrain", terrainGrid);
+            grids.put("water", waterGrid);
             plotBuildings(); // Do plotRoads first so that x and y origins are set
             plotDefences();
             plotRoads();
@@ -97,7 +97,7 @@ public class Firm2 extends Model {
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
 //
         try {
-            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "roads");
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             System.out.println("Filename: " + properties.getProperty("roads-data").replaceFirst(".txt", ".json"));
             Roads roads = gson.fromJson(
@@ -127,7 +127,7 @@ public class Firm2 extends Model {
                     }
                 });
             });
-            grids.add(roadGrid);
+            grids.put("roads", roadGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +139,7 @@ public class Firm2 extends Model {
             Buildings buildings = gson.fromJson(new FileReader(properties.getProperty("input-data") +
                             properties.getProperty("buildings-data").replaceFirst(".txt", ".json")),
                     Buildings.class);
-            Grid buildingGrid1 = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+            Grid buildingGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "buildings");
             buildings.getBuildings().forEach(b -> {
                 Point coords = Ordinance2GridXY(x_origin, y_origin, (float) b.getOrdinate().getX(),
                         (float) b.getOrdinate().getY(), cellMeters);
@@ -147,10 +147,10 @@ public class Firm2 extends Model {
                 int type = b.getType();
                 if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
                     Building building = new Building(getNewId(), type);
-                    buildingGrid1.setCell(coords.x, coords.y, building);
+                    buildingGrid.setCell(coords.x, coords.y, building);
                 }
             });
-            grids.add(buildingGrid1);
+            grids.put("buildings", buildingGrid);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -158,7 +158,7 @@ public class Firm2 extends Model {
     }
 
     public void plotDefences() {
-        Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+        Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "defences");
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             Defences defences = gson.fromJson(
@@ -176,7 +176,7 @@ public class Firm2 extends Model {
                 }
             });
 
-            grids.add(defenceGrid);
+            grids.put("defences", defenceGrid);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -184,10 +184,9 @@ public class Firm2 extends Model {
 
     @Override
     public void tick() {
-        Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal());
+        Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(),"water");
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-
             }
         }
         if (modelParameters.isVisualise()) {
