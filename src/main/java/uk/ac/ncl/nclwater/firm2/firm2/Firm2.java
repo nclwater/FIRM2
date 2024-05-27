@@ -187,7 +187,7 @@ public class Firm2 extends Model {
     @Override
     public void tick() {
         // read timeline
-
+        ModelStateChanges modelStateChanges = readTimeLine();
         Grid newWaterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(),"water");
         Grid water = grids.get("water");
         Grid terrain = grids.get("terrain");
@@ -201,6 +201,19 @@ public class Firm2 extends Model {
         }
 
 //        printGrid('x', null);
+    }
+
+    public ModelStateChanges readTimeLine() {
+        ModelStateChanges modelStateChanges;
+       try {
+           Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            modelStateChanges = gson.fromJson(
+                    new FileReader(properties.getProperty("input-data") + "/timeline.json"),
+                    ModelStateChanges.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return modelStateChanges;
     }
 
 

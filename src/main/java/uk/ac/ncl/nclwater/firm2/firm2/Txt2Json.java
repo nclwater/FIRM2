@@ -287,6 +287,33 @@ public class Txt2Json {
         }
     }
 
+    /**
+     * Create an example timeline json file
+     */
+    public static void MakeATimeLine() {
+        ModelStateChanges modelStateChanges = new ModelStateChanges();
+        ModelState modelState = new ModelState();
+        modelState.setTime("07:45");
+        modelState.setSeaLevel(6);
+        modelStateChanges.add(modelState);
+        modelState = new ModelState();
+        modelState.setTime("08:45");
+        modelState.setSeaLevel(4);
+        modelStateChanges.add(modelState);
+
+        Gson gson1 = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        String outfile1 = (properties.getProperty("input-data") + "timeline.json");
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(outfile1);
+            gson1.toJson(modelStateChanges, fileWriter);
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void main(String[] args) {
         final String APPLICATION_DIRECTORY = System.getProperty("user.home");
         final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
@@ -298,7 +325,7 @@ public class Txt2Json {
         while (!input.equals("x")) {
             // Reading data using readLinef
             System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\n6. Terrain\n" +
-                    "7. Business Types\nx. Exit");
+                    "7. Business Types\n8. Example Timeline\nx. Exit");
             try {
                 input = reader.readLine();
             } catch (IOException e) {
@@ -326,11 +353,11 @@ public class Txt2Json {
                 case "7":
                     BusinessTypes2Json();
                     break;
+                case "8":
+                    MakeATimeLine();
+                    break;
             }
         }
-        //
-        //CodesTxt2Json();
-        //Globals2Json();
     }
 }
 
