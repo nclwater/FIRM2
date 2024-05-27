@@ -1,4 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
-public class StateChanges {
+import java.util.ArrayList;
+
+public class StateChanges extends ArrayList<State> {
+
 }
