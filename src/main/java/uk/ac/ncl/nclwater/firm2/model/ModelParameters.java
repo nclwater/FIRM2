@@ -19,6 +19,7 @@ public class ModelParameters {
     private String title = "Agent Based Model";
     private int slowdown = 200;
     private Long tickTimeValue = 60L; // the length of time each tick represents in seconds
+    private Long timestamp = 0L;
 
     public ModelParameters() {
     }
@@ -100,5 +101,13 @@ public class ModelParameters {
 
     public Long getTickTimeValue() {
         return tickTimeValue;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }

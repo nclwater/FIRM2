@@ -125,7 +125,7 @@ public class Firm2 extends Model {
                         Road newRoad = new Road(getNewId(), r.getRoadIDs());
                         roadGrid.setCell(point.x, point.y, newRoad);
                     } else {
-                        System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
+                        //System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
                     }
                 });
             });
@@ -268,6 +268,8 @@ public class Firm2 extends Model {
         floodModelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
         floodModelParameters.setTitle(String.valueOf(properties.get("title")));
         floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
+        floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("time-stamp")));
+        floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("tick-time-value")));
         modelInit();
     }
 
