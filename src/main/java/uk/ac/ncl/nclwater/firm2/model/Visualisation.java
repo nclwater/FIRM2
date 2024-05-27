@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Provision for a simple visualisation, in a JFrame, of the model. The visualisation has a start and a step button.
@@ -36,7 +37,7 @@ public class Visualisation extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
-        HashMap<String, Grid> grids = model.getGrids();
+        LinkedHashMap<String, Grid> grids = model.getGrids();
         this.setSize(1024,768);
         drawPanel = new DrawPanel(grids, cell_size, model.getModelParameters());
         drawPanel.setSize(model.getModelParameters().getWidth() * cell_size, model.getModelParameters().getHeight() * cell_size);

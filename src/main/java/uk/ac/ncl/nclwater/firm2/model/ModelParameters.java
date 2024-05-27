@@ -9,16 +9,17 @@ public class ModelParameters {
     private int width = 30;
     private int height = 30;
     private int cell_size = 1;
+    /**
+     * If toroidal is true the model "wraps around borders"
+     */
     private boolean toroidal = false;
     private int ticks = 0;
-    private Grid grid;
     private int chance = 70;
     private boolean visualise = false;
     private String title = "Agent Based Model";
     private int slowdown = 200;
 
     public ModelParameters() {
-        grid = new Grid(width, height, toroidal, "");
     }
     public int getWidth() {
         return width;
@@ -50,14 +51,6 @@ public class ModelParameters {
 
     public void setToroidal(boolean toroidal) {
         this.toroidal = toroidal;
-    }
-
-    public Grid getGrid() {
-        return grid;
-    }
-
-    public void setGrid(Grid grid) {
-        this.grid = grid;
     }
 
     public int getChance() {

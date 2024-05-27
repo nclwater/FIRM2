@@ -5,21 +5,27 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * This abstract class has to be implemented to define the model behaviour. The model should run in its own thread and
  * would require the **run** methode to be implemented
  */
 public abstract class Model implements Runnable {
-    protected ModelParameters modelParameters = new ModelParameters();
+    protected ModelParameters modelParameters;
     private static int ids = 0;
     private boolean run = false;
     protected Visualisation visualisation;
-    protected HashMap<String, Grid> grids = new HashMap<>();
+    protected LinkedHashMap<String, Grid> grids = new LinkedHashMap<>();
     private boolean running = true;
     private int total_ticks = 0;
 
     public Model() {
+        this(new ModelParameters());
+    }
+
+    public Model(ModelParameters parameters) {
+        this.modelParameters = parameters;
         if (!modelParameters.isVisualise()) setRun(true);
     }
 
@@ -118,7 +124,7 @@ public abstract class Model implements Runnable {
      * Returns the grid in its current state
      * @return the grid in its current state
      */
-    public HashMap<String, Grid> getGrids() {
+    public LinkedHashMap<String, Grid> getGrids() {
         return grids;
     }
 
@@ -146,8 +152,8 @@ public abstract class Model implements Runnable {
     }
 
     /**
-     * Returns a ModelParameters object containing all the parameter values
-     * @return ModelParameters
+     * Returns a FloodModelParameters object containing all the parameter values
+     * @return FloodModelParameters
      */
     public ModelParameters getModelParameters() {
         return modelParameters;

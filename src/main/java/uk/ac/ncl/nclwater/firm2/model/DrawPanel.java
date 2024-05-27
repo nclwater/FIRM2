@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class DrawPanel extends JPanel implements MouseListener {
 
@@ -17,9 +18,9 @@ public class DrawPanel extends JPanel implements MouseListener {
     final JDialog dialog = new JDialog();
     JTextArea dialog_text = new JTextArea("one two three");
 
-    HashMap<String, Grid> grids;
+    LinkedHashMap<String, Grid> grids;
 
-    public DrawPanel(HashMap<String, Grid> grids, int cell_size, ModelParameters modelParameters) {
+    public DrawPanel(LinkedHashMap<String, Grid> grids, int cell_size, ModelParameters modelParameters) {
         super();
         addMouseListener(this);
         this.grids = grids;
@@ -35,6 +36,7 @@ public class DrawPanel extends JPanel implements MouseListener {
         super.paintComponent(g);
         int font_height = g.getFontMetrics().getHeight();
         grids.forEach((key, grid) -> {
+            System.out.println("Key: " + key);
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
                     if (grid.getCell(col, row) != null) {
@@ -49,7 +51,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     }
 
 
-    public void setGrid(HashMap<String, Grid> grids) {
+    public void setGrid(LinkedHashMap<String, Grid> grids) {
         this.grids = grids;
     }
 

@@ -16,14 +16,13 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    private FloodModelParameters floodModelParameters;
 
     private float x_origin;
     private float y_origin;
@@ -64,6 +63,7 @@ public class Firm2 extends Model {
                                         globalVariables.getMinHeight(),
                                         globalVariables.getMaxHeight()));
                     } else {
+                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, floodModelParameters.getOceanDepth()));
                         waterGrid.setCell(grid_x, grid_y, new Water(id));
                     }
                 }
@@ -184,9 +184,12 @@ public class Firm2 extends Model {
 
     @Override
     public void tick() {
-        Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(),"water");
+        Grid newWaterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(),"water");
+        Grid water = grids.get("water");
+        Grid terrain = grids.get("terrain");
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
+                
             }
         }
         if (modelParameters.isVisualise()) {
@@ -236,6 +239,8 @@ public class Firm2 extends Model {
      * Default constructor
      */
     public Firm2() {
+        super(new FloodModelParameters());
+        floodModelParameters = (FloodModelParameters)modelParameters;
         // load properties file or create one if it doesn't exist and add default values
         Utilities.createPropertiesFile();
         properties = Utilities.loadPropertiesFile();
@@ -245,6 +250,7 @@ public class Firm2 extends Model {
         modelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
         modelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
         modelParameters.setTitle(String.valueOf(properties.get("title")));
+        floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
         modelInit();
     }
 
