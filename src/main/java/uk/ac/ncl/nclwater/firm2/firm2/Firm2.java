@@ -41,30 +41,32 @@ public class Firm2 extends Model {
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
                             properties.getProperty("input-data") + properties.getProperty("model-parameters")),
                     GlobalVariables.class);
-            modelParameters.setWidth(globalVariables.getColumns());
-            modelParameters.setHeight(globalVariables.getRows());
+            floodModelParameters.setWidth(globalVariables.getColumns());
+            floodModelParameters.setHeight(globalVariables.getRows());
 
 
             // Read the file to populate the basic grid of cells
-            Grid terrainGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "terrain");
-            Grid waterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "water");
+            Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
+            Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
 
             String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
             System.out.println("Read file: " + filename);
             TerrainLayer terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
-            for (int grid_y = 0; grid_y < modelParameters.getHeight(); grid_y++) {
+            for (int grid_y = 0; grid_y < floodModelParameters.getHeight(); grid_y++) {
                 TerrainLine terrainLine = terrainLayer.get(grid_y);
-                for (int grid_x = 0; grid_x < modelParameters.getWidth(); grid_x++) {
+                for (int grid_x = 0; grid_x < floodModelParameters.getWidth(); grid_x++) {
                     int id = getNewId();
+                    // if null assume tile is ocean
                     if (terrainLine.getElevation()[grid_x] != null) {
                         terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
                         terrainGrid.getCell(grid_x, grid_y).setColour(
                                 getHeightmapGradient(terrainLine.getElevation()[grid_x],
                                         globalVariables.getMinHeight(),
                                         globalVariables.getMaxHeight()));
+                        waterGrid.setCell(grid_x, grid_y, new Water(id, 0, false));
                     } else {
-                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, floodModelParameters.getOceanDepth()));
-                        waterGrid.setCell(grid_x, grid_y, new Water(id));
+                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, -floodModelParameters.getOceanDepth()));
+                        waterGrid.setCell(grid_x, grid_y, new Water(id, floodModelParameters.getOceanDepth(), true));
                     }
                 }
             }
@@ -79,7 +81,7 @@ public class Firm2 extends Model {
             plotDefences();
             plotRoads();
             // Visualise if visualisation is set to true
-            if (modelParameters.isVisualise()) {
+            if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
             // Do an initial tick
@@ -97,7 +99,7 @@ public class Firm2 extends Model {
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
 //
         try {
-            Grid roadGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "roads");
+            Grid roadGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "roads");
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             System.out.println("Filename: " + properties.getProperty("roads-data").replaceFirst(".txt", ".json"));
             Roads roads = gson.fromJson(
@@ -111,7 +113,7 @@ public class Firm2 extends Model {
                 for (PointDouble roadPoint : roadPoints) {
                     Point coords = Ordinance2GridXY(x_origin, y_origin, (float) roadPoint.getX() / 1000,
                             (float) roadPoint.getY() / 1000, cellMeters);
-                    coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                    coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
                     pixelPoints.add(coords);
                 }
                 for (int i = 1; i < pixelPoints.size(); i++) {
@@ -119,7 +121,7 @@ public class Firm2 extends Model {
                             pixelPoints.get(i).x, pixelPoints.get(i).y));
                 }
                 wholeRoad.forEach(point -> {
-                    if (point.x > 0 && point.x < modelParameters.getWidth() && point.y > 0 && point.y < modelParameters.getHeight()) {
+                    if (point.x > 0 && point.x < floodModelParameters.getWidth() && point.y > 0 && point.y < floodModelParameters.getHeight()) {
                         Road newRoad = new Road(getNewId(), r.getRoadIDs());
                         roadGrid.setCell(point.x, point.y, newRoad);
                     } else {
@@ -139,13 +141,13 @@ public class Firm2 extends Model {
             Buildings buildings = gson.fromJson(new FileReader(properties.getProperty("input-data") +
                             properties.getProperty("buildings-data").replaceFirst(".txt", ".json")),
                     Buildings.class);
-            Grid buildingGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "buildings");
+            Grid buildingGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "buildings");
             buildings.getBuildings().forEach(b -> {
                 Point coords = Ordinance2GridXY(x_origin, y_origin, (float) b.getOrdinate().getX(),
                         (float) b.getOrdinate().getY(), cellMeters);
-                coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
                 int type = b.getType();
-                if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
+                if (coords.x > 0 && coords.x < floodModelParameters.getWidth() && coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
                     Building building = new Building(getNewId(), type);
                     buildingGrid.setCell(coords.x, coords.y, building);
                 }
@@ -158,7 +160,7 @@ public class Firm2 extends Model {
     }
 
     public void plotDefences() {
-        Grid defenceGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "defences");
+        Grid defenceGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "defences");
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             Defences defences = gson.fromJson(
@@ -167,8 +169,8 @@ public class Firm2 extends Model {
             defences.getDefences().forEach(d -> {
                 Point coords = Ordinance2GridXY(x_origin, y_origin, (float) d.getOrdinate().getX(),
                         (float) d.getOrdinate().getY(), cellMeters);
-                coords.y = modelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                if (coords.x > 0 && coords.x < modelParameters.getWidth() && coords.y > 0 && coords.y < modelParameters.getHeight()) {
+                coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                if (coords.x > 0 && coords.x < floodModelParameters.getWidth() && coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
                     Defence defence = new Defence(getNewId());
                     defenceGrid.setCell(coords.x, coords.y, defence);
                 } else {
@@ -184,15 +186,17 @@ public class Firm2 extends Model {
 
     @Override
     public void tick() {
-        Grid newWaterGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(),"water");
+        // read timeline
+
+        Grid newWaterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(),"water");
         Grid water = grids.get("water");
         Grid terrain = grids.get("terrain");
-        for (int row = 0; row < modelParameters.getHeight(); row++) {
-            for (int col = 0; col < modelParameters.getWidth(); col++) {
+        for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+            for (int col = 0; col < floodModelParameters.getWidth(); col++) {
                 
             }
         }
-        if (modelParameters.isVisualise()) {
+        if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
 
@@ -244,12 +248,12 @@ public class Firm2 extends Model {
         // load properties file or create one if it doesn't exist and add default values
         Utilities.createPropertiesFile();
         properties = Utilities.loadPropertiesFile();
-        modelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
-        modelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
-        modelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
-        modelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
-        modelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
-        modelParameters.setTitle(String.valueOf(properties.get("title")));
+        floodModelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
+        floodModelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
+        floodModelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
+        floodModelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
+        floodModelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
+        floodModelParameters.setTitle(String.valueOf(properties.get("title")));
         floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
         modelInit();
     }
