@@ -87,6 +87,7 @@ public class ModelParameters {
     public void setTitle(String title) {
         this.title = title;
     }
+
     public int getSlowdown() {
         return slowdown;
     }

@@ -19,4 +19,8 @@ public class ModelStateChanges {
     public boolean add(ModelState modelState) {
         return modelStates.add(modelState);
     }
+
+    public ModelState get(int index) {
+        return modelStates.get(index);
+    }
 }

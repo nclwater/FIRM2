@@ -15,6 +15,7 @@ import uk.ac.ncl.nclwater.firm2.utils.Grid;
 
 import java.awt.*;
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -29,7 +30,10 @@ public class Firm2 extends Model {
     private int cellMeters;
     private int _NODATA;
     Properties properties = Utilities.createPropertiesFile();
-
+    Long modelTimeStamp = 0L;
+    ModelState modelState = new ModelState();
+    int modelStateIndex = 0;
+    ModelStateChanges modelStateChanges;
     /**
      * Initialise the model
      */
@@ -37,7 +41,7 @@ public class Firm2 extends Model {
     public void modelInit() {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            // Read global variable (eventually to be read from environment vars for DAPHNE)
+            // Read global variable (eventually to be read from environment vars for DAFNI)
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
                             properties.getProperty("input-data") + properties.getProperty("model-parameters")),
                     GlobalVariables.class);
@@ -77,9 +81,11 @@ public class Firm2 extends Model {
 
             grids.put("terrain", terrainGrid);
             grids.put("water", waterGrid);
-            plotBuildings(); // Do plotRoads first so that x and y origins are set
+            plotBuildings();
             plotDefences();
             plotRoads();
+            modelStateChanges = readTimeLine();
+            modelState = modelStateChanges.get(modelStateIndex);
             // Visualise if visualisation is set to true
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
@@ -126,6 +132,7 @@ public class Firm2 extends Model {
                         roadGrid.setCell(point.x, point.y, newRoad);
                     } else {
                         //System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
+                        logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
                     }
                 });
             });
@@ -186,15 +193,23 @@ public class Firm2 extends Model {
 
     @Override
     public void tick() {
-        // read timeline
-        ModelStateChanges modelStateChanges = readTimeLine();
-        Grid newWaterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(),"water");
-        Grid water = grids.get("water");
-        Grid terrain = grids.get("terrain");
-        for (int row = 0; row < floodModelParameters.getHeight(); row++) {
-            for (int col = 0; col < floodModelParameters.getWidth(); col++) {
-                
+        // FYI https://www.unixtimestamp.com/
+        // increment time - model start time + tick time value
+        modelTimeStamp += floodModelParameters.getTickTimeValue();
+        int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
+        int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
+        long timestamp = (floodModelParameters.getTimestamp() + (hours * 3600L) + (minutes * 60L));
+        if (timestamp == modelTimeStamp) {
+            logger.debug("STATE CHANGE");
+            Grid newWaterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
+            Grid water = grids.get("water");
+            Grid terrain = grids.get("terrain");
+            for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+                for (int col = 0; col < floodModelParameters.getWidth(); col++) {
+
+                }
             }
+            modelState = modelStateChanges.get(modelStateIndex);
         }
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
@@ -228,15 +243,13 @@ public class Firm2 extends Model {
     }
 
     private Color getHeightmapGradient(float height, float height_min, float height_max) {
-        final float heightMin = height_min;//0.0f;
-        final float heightMax = height_max;//200.0f;
         final GradientData[] gradient = new GradientData[]{
                 new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
                 new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
                 new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f),
         };
 
-        float threshold = (height - heightMin) / heightMax;
+        float threshold = (height - height_min) / height_max;
 
         for (int i = 1; i < gradient.length; i++) {
             if (threshold <= gradient[i].threshold) {
@@ -270,6 +283,8 @@ public class Firm2 extends Model {
         floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
         floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("time-stamp")));
         floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("tick-time-value")));
+        modelTimeStamp = floodModelParameters.getTimestamp(); // start time for model
+        floodModelParameters.setSlowdown(0);
         modelInit();
     }
 
@@ -279,7 +294,7 @@ public class Firm2 extends Model {
     public static void main(String[] args) {
         Firm2 model = new Firm2();
         Thread modelthread = new Thread(model);
-        model.setRun(false); // don't start running on program startup
+        model.setRun(true); // don't start running on program startup
         modelthread.start();
     }
 }
