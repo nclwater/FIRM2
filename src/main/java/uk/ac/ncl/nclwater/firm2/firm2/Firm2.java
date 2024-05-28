@@ -34,6 +34,7 @@ public class Firm2 extends Model {
     ModelState modelState = new ModelState();
     int modelStateIndex = 0;
     ModelStateChanges modelStateChanges;
+
     /**
      * Initialise the model
      */
@@ -49,38 +50,7 @@ public class Firm2 extends Model {
             floodModelParameters.setHeight(globalVariables.getRows());
 
 
-            // Read the file to populate the basic grid of cells
-            Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
-            Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
-
-            String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
-            System.out.println("Read file: " + filename);
-            TerrainLayer terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
-            for (int grid_y = 0; grid_y < floodModelParameters.getHeight(); grid_y++) {
-                TerrainLine terrainLine = terrainLayer.get(grid_y);
-                for (int grid_x = 0; grid_x < floodModelParameters.getWidth(); grid_x++) {
-                    int id = getNewId();
-                    // if null assume tile is ocean
-                    if (terrainLine.getElevation()[grid_x] != null) {
-                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
-                        terrainGrid.getCell(grid_x, grid_y).setColour(
-                                getHeightmapGradient(terrainLine.getElevation()[grid_x],
-                                        globalVariables.getMinHeight(),
-                                        globalVariables.getMaxHeight()));
-                        waterGrid.setCell(grid_x, grid_y, new Water(id, 0, false));
-                    } else {
-                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, -floodModelParameters.getOceanDepth()));
-                        waterGrid.setCell(grid_x, grid_y, new Water(id, floodModelParameters.getOceanDepth(), true));
-                    }
-                }
-            }
-
-            x_origin = globalVariables.getLowerLeftX();
-            y_origin = globalVariables.getLowerLeftY();
-            cellMeters = globalVariables.getCellSize();
-
-            grids.put("terrain", terrainGrid);
-            grids.put("water", waterGrid);
+            plotWaterAndTerrain(globalVariables);
             plotBuildings();
             plotDefences();
             plotRoads();
@@ -98,6 +68,59 @@ public class Firm2 extends Model {
 
     }
 
+    /**
+     * Read the file containing the terrain elevations. If a tile is marked as null it is ocean and the terrain agent
+     * should be set to the negative default water level. If the tile has an elevation the water level of the the water
+     * agent should be set to zero.
+     *
+     * @param globalVariables
+     */
+    private void plotWaterAndTerrain(GlobalVariables globalVariables) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        // Read the file to populate the basic grid of cells
+        Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
+        Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
+
+        String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data").replaceFirst(".txt", ".json"));
+        System.out.println("Read file: " + filename);
+        TerrainLayer terrainLayer = null;
+        try {
+            terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
+
+            for (int grid_y = 0; grid_y < floodModelParameters.getHeight(); grid_y++) {
+                TerrainLine terrainLine = terrainLayer.get(grid_y);
+                for (int grid_x = 0; grid_x < floodModelParameters.getWidth(); grid_x++) {
+                    int id = getNewId();
+                    // if null assume tile is ocean
+                    if (terrainLine.getElevation()[grid_x] != null) {
+                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
+                        terrainGrid.getCell(grid_x, grid_y).setColour(
+                                getHeightmapGradient(terrainLine.getElevation()[grid_x],
+                                        globalVariables.getMinHeight(),
+                                        globalVariables.getMaxHeight()));
+                        waterGrid.setCell(grid_x, grid_y, new Water(id, 0, false));
+                    } else {
+                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, -floodModelParameters.getOceanDepth()));
+
+                        waterGrid.setCell(grid_x, grid_y, new Water(id, floodModelParameters.getOceanDepth(), true));
+                    }
+                }
+            }
+
+            x_origin = globalVariables.getLowerLeftX();
+            y_origin = globalVariables.getLowerLeftY();
+            cellMeters = globalVariables.getCellSize();
+
+            grids.put("terrain", terrainGrid);
+            grids.put("water", waterGrid);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Read the roads.json configuration from file and populate the road grid
+     */
     private void plotRoads() {
 //
 //         		;; manually fix up the bridge over the river.
@@ -114,7 +137,7 @@ public class Firm2 extends Model {
                     Roads.class);
             roads.getRoads().forEach(r -> {
                 ArrayList<PointDouble> roadPoints = r.getPolylineCoordinates();
-                ArrayList<Point> pixelPoints  = new ArrayList<>();
+                ArrayList<Point> pixelPoints = new ArrayList<>();
                 ArrayList<Point> wholeRoad = new ArrayList<>();
                 for (PointDouble roadPoint : roadPoints) {
                     Point coords = Ordinance2GridXY(x_origin, y_origin, (float) roadPoint.getX() / 1000,
@@ -142,6 +165,9 @@ public class Firm2 extends Model {
         }
     }
 
+    /**
+     * Read the building.json file and populate the buildings grid
+     */
     private void plotBuildings() {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -166,6 +192,9 @@ public class Firm2 extends Model {
         }
     }
 
+    /**
+     * Read the defences.json file and populate the defences grid
+     */
     public void plotDefences() {
         Grid defenceGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "defences");
         try {
@@ -181,7 +210,7 @@ public class Firm2 extends Model {
                     Defence defence = new Defence(getNewId());
                     defenceGrid.setCell(coords.x, coords.y, defence);
                 } else {
-//                    logger.debug("Building: " + coords.x + ", " + coords.y + " is out of bounds");
+                    logger.trace("Building: " + coords.x + ", " + coords.y + " is out of bounds");
                 }
             });
 
@@ -206,7 +235,10 @@ public class Firm2 extends Model {
             Grid terrain = grids.get("terrain");
             for (int row = 0; row < floodModelParameters.getHeight(); row++) {
                 for (int col = 0; col < floodModelParameters.getWidth(); col++) {
-
+                    // check if the water level has risen above sea level
+                    if (((Terrain) terrain.getCell(col, row)).getElevation() + ((Water) water.getCell(col, row)).getWaterLevel() > 0) {
+                        logger.debug("FLOOD: " + row + ", " + col);
+                    }
                 }
             }
             modelState = modelStateChanges.get(modelStateIndex);
@@ -220,8 +252,8 @@ public class Firm2 extends Model {
 
     public ModelStateChanges readTimeLine() {
         ModelStateChanges modelStateChanges;
-       try {
-           Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             modelStateChanges = gson.fromJson(
                     new FileReader(properties.getProperty("input-data") + "/timeline.json"),
                     ModelStateChanges.class);
@@ -270,7 +302,7 @@ public class Firm2 extends Model {
      */
     public Firm2() {
         super(new FloodModelParameters());
-        floodModelParameters = (FloodModelParameters)modelParameters;
+        floodModelParameters = (FloodModelParameters) modelParameters;
         // load properties file or create one if it doesn't exist and add default values
         Utilities.createPropertiesFile();
         properties = Utilities.loadPropertiesFile();

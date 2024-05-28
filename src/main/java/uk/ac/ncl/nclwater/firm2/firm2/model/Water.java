@@ -7,6 +7,12 @@ public class Water extends Agent {
     float waterLevel = 0;
     boolean isOcean = false;
 
+    /**
+     * A water type agent. If the agent is part of the ocean set isOcean to true
+     * @param agent_id
+     * @param waterLevel
+     * @param isOcean
+     */
     public Water(int agent_id, float waterLevel, boolean isOcean) {
         this.waterLevel = waterLevel;
         this.isOcean = isOcean;

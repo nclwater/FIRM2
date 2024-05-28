@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 
 import java.awt.*;
@@ -8,6 +10,8 @@ import java.awt.*;
  * The first layer. Each cell in the grid will have at its base a Terrain agent.
  */
 public class Terrain extends Agent {
+    @SerializedName("elevation")
+    @Expose
     protected Float elevation; // Elevation in metres
     protected int nodata = -9999;
 
@@ -19,6 +23,7 @@ public class Terrain extends Agent {
             colour = new Color(255, 255, 255);
         } else {
             colour = new Color(65, 62, 62);
+            this.elevation = elevation;
         }
     }
 
