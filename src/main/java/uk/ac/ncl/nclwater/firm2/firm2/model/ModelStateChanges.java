@@ -21,6 +21,9 @@ public class ModelStateChanges {
     }
 
     public ModelState get(int index) {
-        return modelStates.get(index);
+        if (index < modelStates.size()) {
+            return modelStates.get(index);
+        }
+        return null;
     }
 }

@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DrawPanel extends JPanel implements MouseListener {
 
@@ -35,7 +36,11 @@ public class DrawPanel extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int font_height = g.getFontMetrics().getHeight();
-        grids.forEach((key, grid) -> {
+        Map<String, Grid> gridsCopy;
+        synchronized (grids) {
+            gridsCopy = new HashMap<>(grids);
+        }
+        gridsCopy.forEach((key, grid) -> {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
                     if (grid.getCell(col, row) != null) {

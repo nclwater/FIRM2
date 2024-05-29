@@ -32,4 +32,12 @@ public class Water extends Agent {
     public void setColour(Color color) {
         super.setColour(new Color(0, 117, 0x99, (waterLevel < 0.0001) ? 0 : 0xFF));
     }
+
+    public boolean isOcean() {
+        return isOcean;
+    }
+
+    public void setOcean(boolean ocean) {
+        isOcean = ocean;
+    }
 }

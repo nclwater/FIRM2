@@ -225,24 +225,59 @@ public class Firm2 extends Model {
         // FYI https://www.unixtimestamp.com/
         // increment time - model start time + tick time value
         modelTimeStamp += floodModelParameters.getTickTimeValue();
-        int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
-        int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
-        long timestamp = (floodModelParameters.getTimestamp() + (hours * 3600L) + (minutes * 60L));
-        if (timestamp == modelTimeStamp) {
-            logger.debug("STATE CHANGE");
-            Grid newWaterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
-            Grid water = grids.get("water");
-            Grid terrain = grids.get("terrain");
-            for (int row = 0; row < floodModelParameters.getHeight(); row++) {
-                for (int col = 0; col < floodModelParameters.getWidth(); col++) {
-                    // check if the water level has risen above sea level
-                    if (((Terrain) terrain.getCell(col, row)).getElevation() + ((Water) water.getCell(col, row)).getWaterLevel() > 0) {
-                        logger.debug("FLOOD: " + row + ", " + col);
+        if (modelState != null) {
+            int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
+            int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
+            long timestamp = (floodModelParameters.getTimestamp() + (hours * 3600L) + (minutes * 60L));
+            if (timestamp == modelTimeStamp) {
+                logger.debug("STATE CHANGE");
+                Grid water = grids.get("water");
+                Grid terrain = grids.get("terrain");
+                Grid newWaterGrid = new Grid(water.getWidth(), water.getHeight(), water.isIs_toroidal(), water.getGridName());
+                for (int row = 0; row < water.getHeight(); row++) {
+                    for (int col = 0; col < water.getWidth(); col++) {
+                        Water w = (Water)water.getCell(col, row);
+                        Water newWater = new Water(w.getAgent_id(), w.getWaterLevel(), w.isOcean());
+                        newWaterGrid.setCell(col, row, newWater);
                     }
                 }
+                for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+                    for (int col = 0; col < floodModelParameters.getWidth(); col++) {
+                        Water w = (Water) water.getCell(col, row);
+                        newWaterGrid.setCell(col, row, new Water(w.getAgent_id(), w.getWaterLevel(), w.isOcean()));
+                        // check if the water level has risen above sea level
+                        if (((Terrain) terrain.getCell(col, row)).getElevation()
+                                + ((Water) water.getCell(col, row)).getWaterLevel() > 0) {
+                            for (Point point : water.getVNNeighborhood(col, row, floodModelParameters.getWidth(), floodModelParameters.getHeight(), false)) {
+                                if (((Water) (water.getCell(col, row))).getWaterLevel() - ((Water) (water.getCell(point.x, point.y))).getWaterLevel() < 0.00000001) {
+                                    ((Water) newWaterGrid.getCell(point.x, point.y))
+                                            .setWaterLevel(
+                                                    ((Water) (water.getCell(col, row))).getWaterLevel() - ((Water) (water.getCell(point.x, point.y))).getWaterLevel()
+                                            );
+                                    newWaterGrid.getCell(point.x, point.y).setColour(Color.BLUE);
+                                } else {
+                                    ((Water) newWaterGrid.getCell(point.x, point.y))
+                                            .setWaterLevel((
+                                                    ((Water) (water.getCell(col, row))).getWaterLevel()
+                                                            - ((Water) (water.getCell(point.x, point.y))).getWaterLevel()) / 2);
+
+                                    newWaterGrid.getCell(point.x, point.y).setColour(Color.BLUE);
+                                }
+                            }
+                        } else {
+                            newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
+                                    w.getWaterLevel(), w.isOcean()));
+                        }
+                    }
+                }
+                grids.remove("water");
+                grids.put("water", newWaterGrid);
+                // read the next state change
+                modelStateIndex++;
+                modelState = modelStateChanges.get(modelStateIndex);
             }
-            modelState = modelStateChanges.get(modelStateIndex);
         }
+
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }

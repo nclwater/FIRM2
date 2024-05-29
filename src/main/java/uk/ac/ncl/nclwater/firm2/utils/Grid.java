@@ -2,6 +2,8 @@ package uk.ac.ncl.nclwater.firm2.utils;
 
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 
+import java.awt.*;
+
 public class Grid {
 
     Agent[][] grid;
@@ -122,6 +124,45 @@ public class Grid {
         }
 
         return neighbours;
+    }
+
+    /**
+     * Return the xy co-oridnates for the von Neuman Neigbourhood cells.
+     * @param x
+     * @param y
+     * @return von Neumann neighbourhood as north, south, east, west
+     */
+    public Point[] getVNNeighborhood(int x, int y, int gridWidth, int gridHeight, boolean is_toroidal) {
+        Point[] neighborhood = new Point[4];
+        // north
+        if (y + 1 < gridHeight) {
+            neighborhood[0] = new Point(x, y + 1);
+        } else if (is_toroidal) {
+            neighborhood[0] = new Point(x, 0);
+        } else
+            neighborhood[0] = new Point(x, y);
+        //south
+        if (y - 1 >= 0) {
+            neighborhood[1] = new Point(x, y - 1);
+        } else if (is_toroidal) {
+            neighborhood[1] = new Point(x, gridHeight);
+        } else
+            neighborhood[1] = new Point(x, y);
+        //east
+        if (x + 1 < gridWidth) {
+            neighborhood[2] = new Point(x + 1, y);
+        } else if (is_toroidal) {
+            neighborhood[2] = new Point(0, y);
+        } else
+            neighborhood[2] = new Point(x, y);
+        //west
+        if (x - 1 >= 0) {
+            neighborhood[3] = new Point(x - 1, y);
+        } else if (is_toroidal) {
+            neighborhood[3] = new Point(gridWidth, y);
+        } else
+            neighborhood[3] = new Point(x, y);
+        return neighborhood;
     }
 
     public void setCell(int x, int y, Agent agent) {
