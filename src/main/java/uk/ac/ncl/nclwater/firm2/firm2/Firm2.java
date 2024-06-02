@@ -403,7 +403,7 @@ public class Firm2 extends Model {
         floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("time-stamp")));
         floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("tick-time-value")));
         modelTimeStamp = floodModelParameters.getTimestamp() * 1000; // start time for model
-        floodModelParameters.setSlowdown(0);
+        floodModelParameters.setSlowdown(Integer.parseInt(properties.getProperty("slowdown")));
         modelInit();
     }
 

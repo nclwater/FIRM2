@@ -37,6 +37,7 @@ public class Utilities {
                 properties.setProperty("defences-data", "defences.txt");
                 properties.setProperty("model-parameters", "globals.json");
                 properties.setProperty("ocean-depth", "4");
+                properties.setProperty("slowdown", "0");
                 properties.store(output, null);
                 System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
             }
@@ -129,7 +130,7 @@ public class Utilities {
 
 
     /**
-     * Helper method to rim brackets of a string
+     * Helper method to trim brackets of a string
      * @param str The string to be trimmed
      * @return The trimmed string
      */
