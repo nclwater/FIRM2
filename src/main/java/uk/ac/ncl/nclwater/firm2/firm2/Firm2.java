@@ -15,6 +15,7 @@ import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
 
 import java.awt.*;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -28,7 +29,7 @@ public class Firm2 extends Model {
     private float y_origin;
     private int cellMeters;
     private int _NODATA;
-    Properties properties = Utilities.createPropertiesFile();
+    Properties properties = createPropertiesFile();
     Long modelTimeStamp = 0L;
     ModelState modelState = new ModelState();
     int modelStateIndex = 0;
@@ -60,6 +61,8 @@ public class Firm2 extends Model {
                 visualisation = new Visualisation(this);
             }
             // Do an initial tick
+            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp()*1000);
+            System.out.println(mts.toString());
             tick();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -224,69 +227,105 @@ public class Firm2 extends Model {
     public void tick() {
         // FYI https://www.unixtimestamp.com/
         // increment time - model start time + tick time value
-        modelTimeStamp += floodModelParameters.getTickTimeValue();
+        modelTimeStamp += floodModelParameters.getTickTimeValue() * 1000;
         long timestamp = 0;
         if (modelState != null) {
             int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
             int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
-            timestamp = (floodModelParameters.getTimestamp() + (hours * 3600L) + (minutes * 60L));
-            modelStateIndex++;
+            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L));
 
         }
-            if (timestamp == modelTimeStamp) {
-                logger.debug("STATE CHANGE");
-                Grid water = grids.get("water");
-                Grid terrain = grids.get("terrain");
-                Grid newWaterGrid = new Grid(water.getWidth(), water.getHeight(), water.isIs_toroidal(), water.getGridName());
-                for (int row = 0; row < water.getHeight(); row++) {
-                    for (int col = 0; col < water.getWidth(); col++) {
-                        Water w = (Water)water.getCell(col, row);
-                        Water newWater = new Water(w.getAgent_id(), w.getWaterLevel(), w.isOcean());
-                        newWaterGrid.setCell(col, row, newWater);
-                    }
+        Timestamp ts = new Timestamp(timestamp);
+        Timestamp mts = new Timestamp(modelTimeStamp);
+        System.out.println(mts);
+        if (timestamp == modelTimeStamp) {
+            modelStateIndex++;
+            logger.debug(mts + ": STATE CHANGE");
+            float seaLevel = modelState.getSeaLevel();
+            Grid water = grids.get("water");
+            Grid terrain = grids.get("terrain");
+            Grid newWaterGrid = new Grid(water.getWidth(), water.getHeight(), water.isIs_toroidal(), water.getGridName());
+            for (int row = 0; row < water.getHeight(); row++) {
+                for (int col = 0; col < water.getWidth(); col++) {
+                    Water w = (Water) water.getCell(col, row);
+                    if (w.isOcean()) w.setWaterLevel(seaLevel);
                 }
-                // MOVE WATER
-                for (int row = 0; row < floodModelParameters.getHeight(); row++) {
-                    for (int col = 0; col < floodModelParameters.getWidth(); col++) {
-                        // Get current cell
-                        Water w = (Water) water.getCell(col, row);
-                        // set equivalent cell in new grid to same state
-                        newWaterGrid.setCell(col, row, new Water(w.getAgent_id(), w.getWaterLevel(), w.isOcean()));
-                        // check if the water level has risen above sea level
-                        float floodLevel = ((Terrain) terrain.getCell(col, row)).getElevation()
-                                + ((Water) water.getCell(col, row)).getWaterLevel();
-                        float waterHeight = ((Water) water.getCell(col, row)).getWaterLevel();;
-                        float totalHeight = waterHeight + ((Terrain) terrain.getCell(col, row)).getElevation();
-                        if (waterHeight > 0) {
-                            Water targetNeighbour = null;
-                            float targetHeight = totalHeight;
-                            Point[] neighbours = water.getVNNeighborhood(col, row);
-                            for (Point pos : neighbours) {
-                                Water neighbour = (Water) water.getCell(pos.x, pos.y);
-                                float neighbourHeight = neighbour.getWaterLevel() + ((Terrain) terrain.getCell(pos.x, pos.y)).getElevation();
-                                if (neighbourHeight < targetHeight) {
-                                    targetNeighbour = neighbour;
-                                    targetHeight = neighbourHeight;
-                                }
+            }
+            // MOVE WATER
+            for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+                for (int col = 0; col < floodModelParameters.getWidth(); col++) {
+                    // Get current cell
+                    Water w = (Water) water.getCell(col, row);
+                    // check if the water level has risen above sea level
+                    // Get water height of current cell
+                    float waterHeight = ((Water) water.getCell(col, row)).getWaterLevel();
+                    // Terrain height + plus water of the current cell
+                    float totalHeight = waterHeight + ((Terrain) terrain.getCell(col, row)).getElevation();
+                    if (waterHeight > 0) {
+                        // this will become the neighbour with the lowest elevation+water
+                        Water targetNeighbour = null;
+                        // This will become the new water level of the current cell
+                        float targetHeight = totalHeight;
+                        // this will become the position of the neighbour with the lowest elevation+water
+                        Point targetPos = null;
+                        // find the von Neumann neighbours
+                        Point[] neighbours = water.getVNNeighborhood(col, row);
+                        // find the von Neumann neighbour with the lowest elevation+water
+                        for (Point pos : neighbours) {
+                            // retrieve the neighbour cell
+                            Water neighbour = (Water) water.getCell(pos.x, pos.y);
+                            // calculate the total height of the terrain plus the water
+                            float neighbourHeight = neighbour.getWaterLevel() + ((Terrain) terrain.getCell(pos.x, pos.y)).getElevation();
+                            // if the height of the neighbour is less than that off the current cell
+                            if (neighbourHeight < targetHeight) {
+                                targetNeighbour = neighbour;
+                                targetHeight = neighbourHeight;
+                                targetPos = pos;
                             }
-                            if (targetNeighbour != null) {
-                                float difference = totalHeight - targetHeight;
+                        }
+                        // if a neighbour was found with the lowest level lower than the current cell
+                        if (targetNeighbour != null) {
+                            float difference = totalHeight - targetHeight;
+                            if (newWaterGrid.getCell(col, row) == null) {
+                                // the current cell didn't yet exist in the new grid, create it
                                 newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
-                                        (waterHeight-difference < 0.0000001)?waterHeight - difference:waterHeight - (difference / 2),
-                                        w.isOcean()));
+                                        w.getWaterLevel(), w.isOcean()));
                             } else {
+                                // the current cell exists - update its water level
+                                newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
+                                        (waterHeight - difference < 0.0000001) ? waterHeight - difference : waterHeight - (difference / 2),
+                                        w.isOcean()));
+                            }
+                            if (newWaterGrid.getCell(targetPos.x, targetPos.y) == null) {
+                                // the lowest neighbour cell doesn't yet exist - create i
+                                newWaterGrid.setCell(targetPos.x, targetPos.y, new Water(w.getAgent_id(),
+                                        (waterHeight - difference < 0.0000001) ? waterHeight + difference : waterHeight + (difference / 2),
+                                        w.isOcean()));
+                            }
+                        } else {
+                            // if none of the neighbours were lower and the cell does not yet exist in the new grid
+                            // create it
+                            if (newWaterGrid.getCell(col, row) == null) {
                                 newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
                                         w.getWaterLevel(), w.isOcean()));
                             }
-                        } else {
+                        }
+                    } else {
+                        // if there is no water on the cell so just create it in the new grid
+                        if (newWaterGrid.getCell(col, row) == null) {
                             newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
                                     w.getWaterLevel(), w.isOcean()));
                         }
                     }
+                    // if the water level of the cell is greater than 0 change its colour
+                    if (((Water) newWaterGrid.getCell(col, row)).getWaterLevel() > 0) {
+                        newWaterGrid.getCell(col, row).setColour(Color.BLUE);
+                    }
                 }
-                grids.put("water", newWaterGrid);
-                // read the next state change
-                modelState = modelStateChanges.get(modelStateIndex);
+            }
+            grids.put("water", newWaterGrid);
+            // read the next state change
+            modelState = modelStateChanges.get(modelStateIndex);
 
         }
         grids.get("water").createPNG("water_" + Long.toString(modelTimeStamp));
@@ -352,8 +391,8 @@ public class Firm2 extends Model {
         super(new FloodModelParameters());
         floodModelParameters = (FloodModelParameters) modelParameters;
         // load properties file or create one if it doesn't exist and add default values
-        Utilities.createPropertiesFile();
-        properties = Utilities.loadPropertiesFile();
+        createPropertiesFile();
+        properties = loadPropertiesFile();
         floodModelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
         floodModelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
         floodModelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
@@ -363,7 +402,7 @@ public class Firm2 extends Model {
         floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
         floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("time-stamp")));
         floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("tick-time-value")));
-        modelTimeStamp = floodModelParameters.getTimestamp(); // start time for model
+        modelTimeStamp = floodModelParameters.getTimestamp() * 1000; // start time for model
         floodModelParameters.setSlowdown(0);
         modelInit();
     }

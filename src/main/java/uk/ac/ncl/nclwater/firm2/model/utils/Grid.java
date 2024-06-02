@@ -139,7 +139,7 @@ public class Grid {
     public Point[] getVNNeighborhood(int x, int y) {
         Point[] neighborhood = new Point[4];
         // north
-        if (y + 1 < width) {
+        if (y + 1 < height) {
             neighborhood[0] = new Point(x, y + 1);
         } else if (is_toroidal) {
             neighborhood[0] = new Point(x, 0);
