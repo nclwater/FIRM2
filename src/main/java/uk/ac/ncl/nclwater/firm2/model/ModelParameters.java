@@ -1,7 +1,5 @@
 package uk.ac.ncl.nclwater.firm2.model;
 
-import uk.ac.ncl.nclwater.firm2.utils.Grid;
-
 /**
  * Global parameters for a model
  */

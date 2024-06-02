@@ -1,13 +1,11 @@
 package uk.ac.ncl.nclwater.firm2.model;
 
-import uk.ac.ncl.nclwater.firm2.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**

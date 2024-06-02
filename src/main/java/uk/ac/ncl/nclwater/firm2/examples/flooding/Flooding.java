@@ -1,7 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.examples.flooding;
 
 import uk.ac.ncl.nclwater.firm2.model.Model;
-import uk.ac.ncl.nclwater.firm2.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
 
 public class Flooding extends Model {
     @Override

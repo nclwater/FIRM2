@@ -1,8 +1,12 @@
-package uk.ac.ncl.nclwater.firm2.utils;
+package uk.ac.ncl.nclwater.firm2.model.utils;
 
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Grid {
 
@@ -132,10 +136,10 @@ public class Grid {
      * @param y
      * @return von Neumann neighbourhood as north, south, east, west
      */
-    public Point[] getVNNeighborhood(int x, int y, int gridWidth, int gridHeight, boolean is_toroidal) {
+    public Point[] getVNNeighborhood(int x, int y) {
         Point[] neighborhood = new Point[4];
         // north
-        if (y + 1 < gridHeight) {
+        if (y + 1 < width) {
             neighborhood[0] = new Point(x, y + 1);
         } else if (is_toroidal) {
             neighborhood[0] = new Point(x, 0);
@@ -145,11 +149,11 @@ public class Grid {
         if (y - 1 >= 0) {
             neighborhood[1] = new Point(x, y - 1);
         } else if (is_toroidal) {
-            neighborhood[1] = new Point(x, gridHeight);
+            neighborhood[1] = new Point(x, height);
         } else
             neighborhood[1] = new Point(x, y);
         //east
-        if (x + 1 < gridWidth) {
+        if (x + 1 < width) {
             neighborhood[2] = new Point(x + 1, y);
         } else if (is_toroidal) {
             neighborhood[2] = new Point(0, y);
@@ -159,7 +163,7 @@ public class Grid {
         if (x - 1 >= 0) {
             neighborhood[3] = new Point(x - 1, y);
         } else if (is_toroidal) {
-            neighborhood[3] = new Point(gridWidth, y);
+            neighborhood[3] = new Point(width, y);
         } else
             neighborhood[3] = new Point(x, y);
         return neighborhood;
@@ -191,5 +195,57 @@ public class Grid {
 
     public void setGrid(Agent[][] grid) {
         this.grid = grid;
+    }
+
+    public void createPNG(String timestamp) {
+
+        int width = getWidth();
+        int height = getHeight();
+
+        // Create a BufferedImage
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        // Set the color of each pixel
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                image.setRGB(col, row, getCell(col, row).getColour().getRGB());
+            }
+        }
+
+        // Write the image to a file
+        try {
+            ImageIO.write(image, "png", new File("data/output/" + timestamp + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Thanks to https://www.baeldung.com/java-rgb-color-representation
+     * Convert Color to an int
+     * @param alpha
+     * @param red
+     * @param green
+     * @param blue
+     * @return
+     */
+    int rgbToInt(int alpha, int red, int green, int blue) {
+        alpha = clamp(alpha, 0, 255);
+        red = clamp(red, 0, 255);
+        green = clamp(green, 0, 255);
+        blue = clamp(blue, 0, 255);
+        return (alpha << 24) | (red << 16) | (green << 8) | blue;
+    }
+
+    /**
+     * Thanks to https://www.baeldung.com/java-rgb-color-representation
+     * Helper method for rgbToInt
+     * @param value
+     * @param min
+     * @param max
+     * @return
+     */
+    int clamp(int value, int min, int max) {
+        return Math.max(min, Math.min(max, value));
     }
 }

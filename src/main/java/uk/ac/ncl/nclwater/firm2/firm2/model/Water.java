@@ -17,7 +17,7 @@ public class Water extends Agent {
         this.waterLevel = waterLevel;
         this.isOcean = isOcean;
         setAgent_id(agent_id);
-        setColour(new Color(0, 117, 0x99, 0xFF));
+        setColour(new Color(0x00, 117, 0x99, (isOcean ? 0xFF : 0x00)));
     }
 
     public float getWaterLevel() {
@@ -30,7 +30,7 @@ public class Water extends Agent {
 
     @Override
     public void setColour(Color color) {
-        super.setColour(new Color(0, 117, 0x99, (waterLevel < 0.0001) ? 0 : 0xFF));
+        super.setColour(color);
     }
 
     public boolean isOcean() {
