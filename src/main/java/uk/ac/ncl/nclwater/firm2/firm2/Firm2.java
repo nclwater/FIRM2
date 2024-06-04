@@ -62,7 +62,6 @@ public class Firm2 extends Model {
             }
             // Do an initial tick
             Timestamp mts = new Timestamp(floodModelParameters.getTimestamp()*1000);
-            System.out.println(mts.toString());
             tick();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -210,7 +209,7 @@ public class Firm2 extends Model {
                         (float) d.getOrdinate().getY(), cellMeters);
                 coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
                 if (coords.x > 0 && coords.x < floodModelParameters.getWidth() && coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
-                    Defence defence = new Defence(getNewId());
+                    Defence defence = new Defence(getNewId(), d.getOrdinate(), d.getName(), d.getHeight());
                     defenceGrid.setCell(coords.x, coords.y, defence);
                 } else {
                     logger.trace("Building: " + coords.x + ", " + coords.y + " is out of bounds");
@@ -237,13 +236,13 @@ public class Firm2 extends Model {
         }
         Timestamp ts = new Timestamp(timestamp);
         Timestamp mts = new Timestamp(modelTimeStamp);
-        System.out.println(mts);
         if (timestamp == modelTimeStamp) {
             modelStateIndex++;
             logger.debug(mts + ": STATE CHANGE");
             float seaLevel = modelState.getSeaLevel();
             Grid water = grids.get("water");
             Grid terrain = grids.get("terrain");
+            Grid defence = grids.get("defences");
             Grid newWaterGrid = new Grid(water.getWidth(), water.getHeight(), water.isIs_toroidal(), water.getGridName());
             for (int row = 0; row < water.getHeight(); row++) {
                 for (int col = 0; col < water.getWidth(); col++) {
@@ -260,7 +259,7 @@ public class Firm2 extends Model {
                     // Get water height of current cell
                     float waterHeight = ((Water) water.getCell(col, row)).getWaterLevel();
                     // Terrain height + plus water of the current cell
-                    float totalHeight = waterHeight + ((Terrain) terrain.getCell(col, row)).getElevation();
+                    float totalHeight = waterHeight + ((Terrain) terrain.getCell(col, row)).getElevation() ;
                     if (waterHeight > 0) {
                         // this will become the neighbour with the lowest elevation+water
                         Water targetNeighbour = null;
@@ -274,8 +273,13 @@ public class Firm2 extends Model {
                         for (Point pos : neighbours) {
                             // retrieve the neighbour cell
                             Water neighbour = (Water) water.getCell(pos.x, pos.y);
-                            // calculate the total height of the terrain plus the water
-                            float neighbourHeight = neighbour.getWaterLevel() + ((Terrain) terrain.getCell(pos.x, pos.y)).getElevation();
+                            // calculate the total height of the terrain plus the water level plus the height of the defence
+                            float neighbourHeight = neighbour.getWaterLevel()
+                                    + ((Terrain) terrain.getCell(pos.x, pos.y)).getElevation()
+                                    + ((defence.getCell(col, row) == null)?0:((Defence) defence.getCell(col, row)).getHeight());
+                            if ((defence.getCell(col, row) != null) && ((Defence)defence.getCell(col, row)).getHeight() > 0) {
+                                logger.debug("Neighbour height: " + neighbourHeight + ", target height: " + targetHeight);
+                            }
                             // if the height of the neighbour is less than that off the current cell
                             if (neighbourHeight < targetHeight) {
                                 targetNeighbour = neighbour;

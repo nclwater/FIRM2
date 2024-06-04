@@ -37,7 +37,7 @@ public class DrawPanel extends JPanel implements MouseListener {
         int font_height = g.getFontMetrics().getHeight();
         Map<String, Grid> gridsCopy;
         synchronized (grids) {
-            gridsCopy = new HashMap<>(grids);
+            gridsCopy = new LinkedHashMap<>(grids);
         }
         gridsCopy.forEach((key, grid) -> {
             for (int row = 0; row < height; row++) {

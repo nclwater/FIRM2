@@ -15,15 +15,20 @@ public class Defence extends Agent {
     @Expose
     String name;
 
+    @SerializedName("height")
+    @Expose
+    float height;
+
     public Defence(int agent_id) {
         setAgent_id(agent_id);
         setColour(new Color(0x99, 0x00, 0x00));
     }
 
-    public Defence(int agent_id, PointDouble ordinate, String defenceName) {
+    public Defence(int agent_id, PointDouble ordinate, String defenceName, float height) {
         setAgent_id(agent_id);
         setOrdinate(ordinate);
         setName(defenceName);
+        setHeight(height);
         setColour(new Color(0x99, 0x00, 0x00));
     }
 
@@ -42,4 +47,14 @@ public class Defence extends Agent {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
 }

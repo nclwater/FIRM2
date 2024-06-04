@@ -121,7 +121,9 @@ public class Txt2Json {
                         String defenceName = trimQuotes(tokens[2].trim());
                         defenceNameHolder = defenceName;
                     }
-                    Defence defence = new Defence(Model.getNewId(), coords, defenceNameHolder);
+                    // use a default defence height of 10m
+
+                    Defence defence = new Defence(Model.getNewId(), coords, defenceNameHolder, 10);
                     //System.out.println(defence.getOrdinate().getX() + ", " + defence.getOrdinate().getY());
                     defences.add(defence);
                 }
