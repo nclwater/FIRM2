@@ -61,6 +61,6 @@ public abstract class Agent {
     }
 
     public String toString() {
-        return "Agent Id: " + agent_id;
+        return "Agent Id: " + agent_id + "\n";
     }
 }

@@ -52,7 +52,10 @@ public class Road extends Agent {
         sb.append("Road ID 1: ").append(roadIDs[0]).append("\n");
         sb.append("Road ID 2: ").append(roadIDs[1]).append("\n");
         sb.append("Road ID 3: ").append(roadIDs[2]).append("\n");
-        sb.append("Colour: ").append(this.colour.toString());
+        sb.append("Road Length: ").append(roadLength).append("\n");
+        sb.append("Road Type: ").append(roadType).append("\nPolyline Coordinates: \n");
+        polylineCoordinates.forEach(p -> sb.append(" ").append(p.x).append(",").append(p.y).append("\n") );
+                                sb.append("Colour: ").append(this.colour.toString());
         return sb.toString();
     }
 

@@ -294,15 +294,23 @@ public class Firm2 extends Model {
                                 newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
                                         w.getWaterLevel(), w.isOcean()));
                             } else {
+                                // TODO: Ask Richard about this
                                 // the current cell exists - update its water level
+//                                newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
+//                                        (waterHeight - difference < 0.0000001) ? waterHeight - difference : waterHeight - (difference / 2),
+//                                        w.isOcean()));
                                 newWaterGrid.setCell(col, row, new Water(w.getAgent_id(),
-                                        (waterHeight - difference < 0.0000001) ? waterHeight - difference : waterHeight - (difference / 2),
+                                        (waterHeight - difference < 0.0000001) ? 0 : waterHeight - (difference / 2),
                                         w.isOcean()));
                             }
+                            // TODO: Ask Richard about this
                             if (newWaterGrid.getCell(targetPos.x, targetPos.y) == null) {
                                 // the lowest neighbour cell doesn't yet exist - create i
+//                                newWaterGrid.setCell(targetPos.x, targetPos.y, new Water(w.getAgent_id(),
+//                                        (waterHeight - difference < 0.0000001) ? waterHeight + difference : waterHeight + (difference / 2),
+//                                        w.isOcean()));
                                 newWaterGrid.setCell(targetPos.x, targetPos.y, new Water(w.getAgent_id(),
-                                        (waterHeight - difference < 0.0000001) ? waterHeight + difference : waterHeight + (difference / 2),
+                                        (waterHeight - difference < 0.0000001) ? 0 : waterHeight + (difference / 2),
                                         w.isOcean()));
                             }
                         } else {
@@ -321,9 +329,8 @@ public class Firm2 extends Model {
                         }
                     }
                     // if the water level of the cell is greater than 0 change its colour
-                    if (((Water) newWaterGrid.getCell(col, row)).getWaterLevel() > 0) {
-                        newWaterGrid.getCell(col, row).setColour(Color.BLUE);
-                    }
+                    newWaterGrid.getCell(col, row).setColour(new Color(0x00, 117, 0x99,
+                            ((Water)(newWaterGrid.getCell(col, row))).getWaterLevel() <= 0.0000001? 0x00 : 0xFF));
                 }
             }
             grids.put("water", newWaterGrid);

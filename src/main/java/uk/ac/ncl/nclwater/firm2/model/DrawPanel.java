@@ -65,6 +65,12 @@ public class DrawPanel extends JPanel implements MouseListener {
         showInfoPopup(x, y);
     }
 
+    /**
+     * A double click on a cell would cause this popup to be displayed with info of all the
+     * layers of the cell
+     * @param x
+     * @param y
+     */
     private void showInfoPopup(int x, int y) {
         StringBuilder sb = new StringBuilder("Mouse Clicked at pixel X: " + x + ", Y: " + y + "\n");
         int cell_x = x / cell_size;
@@ -79,8 +85,11 @@ public class DrawPanel extends JPanel implements MouseListener {
                 sb.append(grid.getCell(cell_x, cell_y).toString()).append("\n");
             }
         });
-        JOptionPane.showMessageDialog(this, sb.toString());
-    }
+        JTextArea textArea = new JTextArea(sb.toString());
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(textArea, BorderLayout.CENTER);
+        JOptionPane.showConfirmDialog(null, panel, "Cell Info",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);    }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {

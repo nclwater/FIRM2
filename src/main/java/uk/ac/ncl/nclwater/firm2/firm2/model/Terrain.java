@@ -45,14 +45,6 @@ public class Terrain extends Agent {
         this.agent_id = agent_id;
     }
 
-    public int getNodata() {
-        return nodata;
-    }
-
-    public void setNodata(int nodata) {
-        this.nodata = nodata;
-    }
-
     @Override
     public Color getColour() {
         return colour;
@@ -61,6 +53,14 @@ public class Terrain extends Agent {
     @Override
     public void setColour(Color colour) {
         this.colour = colour;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Elevation: ").append(elevation).append("\n");
+        return sb.toString();
     }
 
 //    public Agent getSurfaceAgent() {

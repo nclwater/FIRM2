@@ -1,10 +1,16 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import uk.ac.ncl.nclwater.firm2.model.Agent;
 import java.awt.*;
 
 public class Water extends Agent {
+    @Expose
+    @SerializedName("water-level")
     float waterLevel = 0;
+    @Expose
+    @SerializedName("isOcean")
     boolean isOcean = false;
 
     /**
@@ -39,5 +45,14 @@ public class Water extends Agent {
 
     public void setOcean(boolean ocean) {
         isOcean = ocean;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("waterLevel: ").append(waterLevel).append("\n");
+        sb.append("isOcean: ").append(isOcean).append("\n");
+        return sb.toString();
     }
 }

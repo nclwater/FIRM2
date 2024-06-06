@@ -78,4 +78,14 @@ public class Building extends Agent {
     public void setNearestRoad_ID(String nearestRoad_ID) {
         this.nearestRoad_ID = nearestRoad_ID;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("type: ").append(type).append("\n");
+        sb.append("ordinate: ").append(ordinate).append("\n");
+        sb.append("nearestRoad_ID: ").append(nearestRoad_ID).append("\n");
+        return sb.toString();
+    }
 }
