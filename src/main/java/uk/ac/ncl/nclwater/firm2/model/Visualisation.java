@@ -48,7 +48,7 @@ public class Visualisation extends JFrame implements ActionListener {
         Dimension dimension = buttonPanel.getPreferredSize();
         buttonPanel.setBounds(insets.left + 10, insets.top + 10, dimension.width, dimension.height);
         this.add(drawPanel);
-        dimension = drawPanel.getPreferredSize();
+//        dimension = drawPanel.getPreferredSize();
         drawPanel.setBounds(insets.left + 10, insets.top + 50, model.getModelParameters().getWidth() * cell_size,
                 model.getModelParameters().getHeight() * cell_size + cell_size);
         this.add(buttonPanel);
