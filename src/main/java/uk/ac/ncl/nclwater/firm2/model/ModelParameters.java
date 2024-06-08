@@ -19,6 +19,8 @@ public class ModelParameters {
     private Long tickTimeValue = 60L; // the length of time each tick represents in seconds
     private Long timestamp = 0L;
 
+    private boolean runOnStartUp;
+
     public ModelParameters() {
     }
     
@@ -108,5 +110,13 @@ public class ModelParameters {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isRunOnStartUp() {
+        return runOnStartUp;
+    }
+
+    public void setRunOnStartUp(boolean runOnStartUp) {
+        this.runOnStartUp = runOnStartUp;
     }
 }

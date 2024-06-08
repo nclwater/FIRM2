@@ -41,7 +41,9 @@ public class Visualisation extends JFrame implements ActionListener {
         drawPanel.setSize(model.getModelParameters().getWidth() * cell_size, model.getModelParameters().getHeight() * cell_size);
 
         buttonPanel.add(start);
+        start.setText((model.getModelParameters().isRunOnStartUp()?"Stop":"Start"));
         buttonPanel.add(step);
+        step.setEnabled(!model.getModelParameters().isRunOnStartUp());
         Insets insets = this.getInsets();
         Dimension dimension = buttonPanel.getPreferredSize();
         buttonPanel.setBounds(insets.left + 10, insets.top + 10, dimension.width, dimension.height);
@@ -62,8 +64,8 @@ public class Visualisation extends JFrame implements ActionListener {
      * Call this method to run the model
      */
     private void doRun() {
-        step.setEnabled(false);
-        start.setText("Stop");
+//        step.setEnabled(false);
+//        start.setText("Stop");
         runModel = () -> {
             drawPanel.setGrid(model.getGrids());
             drawPanel.repaint();
@@ -84,6 +86,8 @@ public class Visualisation extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if ("Start".equals(e.getActionCommand())) {
+            start.setText("Stop");
+            step.setEnabled(false);
             doRun();
         }
         if ("Stop".equals(e.getActionCommand())) {

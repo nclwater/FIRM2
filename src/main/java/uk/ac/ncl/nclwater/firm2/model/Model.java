@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
 
 import javax.swing.*;
@@ -10,6 +12,7 @@ import java.util.LinkedHashMap;
  * would require the **run** methode to be implemented
  */
 public abstract class Model implements Runnable {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     protected ModelParameters modelParameters;
     private static int ids = 0;
     private boolean run = false;
@@ -57,6 +60,7 @@ public abstract class Model implements Runnable {
             if (modelParameters.getTicks() > 0 && modelParameters.getTicks() == total_ticks) {
                 running = false;
                 run = false;
+                logger.debug("Stop run tick:" + total_ticks);
             }
             try {
                 Thread.sleep(1);

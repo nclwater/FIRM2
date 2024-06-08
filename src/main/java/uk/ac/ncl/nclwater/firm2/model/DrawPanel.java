@@ -87,8 +87,9 @@ public class DrawPanel extends JPanel implements MouseListener {
         });
         JTextArea textArea = new JTextArea(sb.toString());
         JPanel panel = new JPanel(new BorderLayout());
+        JScrollPane scrollPane = new JScrollPane(panel);
         panel.add(textArea, BorderLayout.CENTER);
-        JOptionPane.showConfirmDialog(null, panel, "Cell Info",
+        JOptionPane.showConfirmDialog(null, scrollPane, "Cell Info",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);    }
 
     @Override

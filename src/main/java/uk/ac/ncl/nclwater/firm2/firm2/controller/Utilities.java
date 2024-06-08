@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointFloat;
 
 import java.awt.*;
@@ -13,6 +15,7 @@ public class Utilities {
 
     private static final String APPLICATION_DIRECTORY = System.getProperty("user.home");
     private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
+    private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
 
     /**
      * Create a new properties file and set default properties
@@ -57,7 +60,7 @@ public class Utilities {
         try (InputStream input = new FileInputStream(properties_filepath)) {
             // load a properties file
             properties.load(input);
-            System.out.println("Properties read from " + properties_filepath);
+            logger.debug("Properties read from " + properties_filepath);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

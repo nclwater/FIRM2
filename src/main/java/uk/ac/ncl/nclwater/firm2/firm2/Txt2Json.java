@@ -105,7 +105,7 @@ public class Txt2Json {
         Defences defences = new Defences();
         String defenceNameHolder = "";
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("defences-data")));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") +  "defences.txt"));
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 // skip all lines that start with ;;
@@ -114,6 +114,7 @@ public class Txt2Json {
                     line = trimBrackets(line.trim().strip());
                     // tokenise line
                     String[] tokens = (line).split("\t");
+                    System.out.println(line);
                     // extract first two tokens as co-ordinates
                     PointDouble coords = new PointDouble(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]));
                     if (tokens.length == 3) {

@@ -57,4 +57,13 @@ public class Defence extends Agent {
         this.height = height;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.ordinate).append("\n");
+        sb.append("Name: ").append(this.name).append("\n");
+        sb.append("Height: ").append(this.height).append("\n");
+        return sb.toString();
+    }
+
 }

@@ -197,7 +197,7 @@ public class Grid {
         this.grid = grid;
     }
 
-    public void createPNG(String timestamp) {
+    public void createPNG(String path, String timestamp) {
 
         int width = getWidth();
         int height = getHeight();
@@ -214,7 +214,7 @@ public class Grid {
 
         // Write the image to a file
         try {
-            ImageIO.write(image, "png", new File("data/output/" + timestamp + ".png"));
+            ImageIO.write(image, "png", new File(path +  timestamp + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

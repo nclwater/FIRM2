@@ -46,4 +46,12 @@ public class PointDouble extends Point2D {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("x: ").append(this.x).append(", ");
+        sb.append("y: ").append(this.y);
+        return sb.toString();
+    }
 }

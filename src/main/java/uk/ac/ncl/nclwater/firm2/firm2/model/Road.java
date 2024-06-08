@@ -28,10 +28,10 @@ public class Road extends Agent {
 
     /**
      * Constructor to create a new instance of a road
-     * @param agentId
-     * @param roadIDs
+     * @param agentId A unique agent id
+     * @param roadIDs The IDs of the road that make up this road (clarify)
      */
-    public Road(int agentId, String[] roadIDs) {
+    public Road(int agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
         this.agent_id = agentId;
         this.roadIDs[0] = roadIDs[0];
         this.roadIDs[1] = roadIDs[1];
