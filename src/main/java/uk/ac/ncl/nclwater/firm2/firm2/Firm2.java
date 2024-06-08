@@ -248,6 +248,7 @@ public class Firm2 extends Model {
         Grid terrain = grids.get("terrain");
         Grid defence = grids.get("defences");
         Grid newWaterGrid = new Grid(water.getWidth(), water.getHeight(), water.isIs_toroidal(), water.getGridName());
+        // If there is a timestamp in the timeline for current time, execute the state change
         if (timestamp == modelTimeStamp) {
             modelStateIndex++;
             logger.debug(mts + ": STATE CHANGE");
@@ -353,7 +354,7 @@ public class Firm2 extends Model {
         grids.put("water", newWaterGrid);
         // read the next state change
         modelState = modelStateChanges.get(modelStateIndex);
-
+        // Generate a one pixel per cell PNG image on tick
         if (floodModelParameters.isPngOnTick()) {
             grids.get("water").createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
             grids.get("terrain").createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));

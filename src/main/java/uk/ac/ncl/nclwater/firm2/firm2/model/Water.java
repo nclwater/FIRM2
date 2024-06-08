@@ -53,6 +53,7 @@ public class Water extends Agent {
         sb.append(super.toString());
         sb.append("waterLevel: ").append(waterLevel).append("\n");
         sb.append("isOcean: ").append(isOcean).append("\n");
+        sb.append("Colour: ").append(getColour().toString()).append("\n");
         return sb.toString();
     }
 }

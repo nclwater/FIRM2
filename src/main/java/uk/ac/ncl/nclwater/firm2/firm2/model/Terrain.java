@@ -60,6 +60,7 @@ public class Terrain extends Agent {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
         sb.append("Elevation: ").append(elevation).append("\n");
+        sb.append("Colour: ").append(getColour().toString()).append("\n");
         return sb.toString();
     }
 

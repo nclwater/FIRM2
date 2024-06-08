@@ -86,6 +86,7 @@ public class Building extends Agent {
         sb.append("type: ").append(type).append("\n");
         sb.append("ordinate: ").append(ordinate).append("\n");
         sb.append("nearestRoad_ID: ").append(nearestRoad_ID).append("\n");
+        sb.append("Colour:" ).append(getColour().toString()).append("\n");
         return sb.toString();
     }
 }
