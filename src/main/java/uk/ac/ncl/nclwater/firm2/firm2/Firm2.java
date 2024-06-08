@@ -227,6 +227,9 @@ public class Firm2 extends Model {
         }
     }
 
+    /**
+     * Logic to happen on every tick
+     */
     @Override
     public void tick() {
         // FYI https://www.unixtimestamp.com/
@@ -257,6 +260,15 @@ public class Firm2 extends Model {
                 }
             }
         }
+        moveWater(water, terrain, defence, newWaterGrid);
+        if (floodModelParameters.isVisualise()) {
+            visualisation.getDrawPanel().repaint();
+        }
+
+//        printGrid('x', null);
+    }
+
+    private void moveWater(Grid water, Grid terrain, Grid defence, Grid newWaterGrid) {
         // MOVE WATER
         for (int row = 0; row < floodModelParameters.getHeight(); row++) {
             for (int col = 0; col < floodModelParameters.getWidth(); col++) {
@@ -342,14 +354,10 @@ public class Firm2 extends Model {
         // read the next state change
         modelState = modelStateChanges.get(modelStateIndex);
 
-
-        grids.get("water").createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
-        grids.get("terrain").createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));
-        if (floodModelParameters.isVisualise()) {
-            visualisation.getDrawPanel().repaint();
+        if (floodModelParameters.isPngOnTick()) {
+            grids.get("water").createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
+            grids.get("terrain").createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));
         }
-
-//        printGrid('x', null);
     }
 
     /**
@@ -397,6 +405,7 @@ public class Firm2 extends Model {
         modelTimeStamp = floodModelParameters.getTimestamp() * 1000; // start time for model
         floodModelParameters.setSlowdown(Integer.parseInt(properties.getProperty("slowdown")));
         floodModelParameters.setTitle(properties.getProperty("application-title"));
+        floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG-on-tick")));
         modelInit();
     }
 
