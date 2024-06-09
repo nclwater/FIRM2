@@ -36,6 +36,8 @@ public class Firm2 extends Model {
     ModelState modelState = new ModelState();
     int modelStateIndex = 0;
     ModelStateChanges modelStateChanges;
+    Float maintainSeaLevel;
+
 
     /**
      * Initialise the model
@@ -57,7 +59,7 @@ public class Firm2 extends Model {
             plotRoads();
             plotDefences();
             modelStateChanges = readTimeLine();
-            modelState = modelStateChanges.get(modelStateIndex);
+            modelState = modelStateChanges.getModelStates().get(modelStateIndex);
             // Visualise if visualisation is set to true
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
@@ -160,7 +162,6 @@ public class Firm2 extends Model {
                         newRoad.setRoadType(r.getRoadType());
                         roadGrid.setCell(point.x, point.y, newRoad);
                     } else {
-                        //System.out.print("Road: " + point.x + ", " + point.y + " is out of bounds\n");
                         logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
                     }
                 });
@@ -235,6 +236,7 @@ public class Firm2 extends Model {
     public void tick() {
         // FYI https://www.unixtimestamp.com/
         // increment time - model start time + tick time value
+        if (maintainSeaLevel == null) maintainSeaLevel = floodModelParameters.getOceanDepth();
         modelTimeStamp += floodModelParameters.getTickTimeValue() * 1000;
         long timestamp = 0;
         if (modelState != null) {
@@ -245,37 +247,74 @@ public class Firm2 extends Model {
         }
         Timestamp ts = new Timestamp(timestamp);
         Timestamp mts = new Timestamp(modelTimeStamp);
-        Grid water = grids.get("water");
-        Grid terrain = grids.get("terrain");
-        Grid defence = grids.get("defences");
-        Grid newWaterGrid = new Grid(water.getWidth(), water.getHeight(), water.isIs_toroidal(), water.getGridName());
+        Grid waterGrid = grids.get("water");
+        Grid terrainGrid = grids.get("terrain");
+        Grid defenceGrid = grids.get("defences");
+        Grid newWaterGrid = new Grid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
-        for (int row = 0; row < water.getHeight(); row++) {
-            for (int col = 0; col < water.getWidth(); col++) {
-                newWaterGrid.setCell(col, row, new Water(water.getCell(col, row).getAgent_id(),
-                        ((Water) water.getCell(col, row)).getWaterLevel(), ((Water) water.getCell(col, row)).isOcean()));
+        for (int row = 0; row < waterGrid.getHeight(); row++) {
+            for (int col = 0; col < waterGrid.getWidth(); col++) {
+                newWaterGrid.setCell(col, row, new Water(waterGrid.getCell(col, row).getAgent_id(),
+                        ((Water) waterGrid.getCell(col, row)).getWaterLevel(), ((Water) waterGrid.getCell(col, row)).isOcean()));
             }
         }
+
+        // reset sea level for ocean cells on every tick
+        logger.debug("Sea level: {}", maintainSeaLevel);
+        setSeaLevel(waterGrid, maintainSeaLevel);
         // If there is a timestamp in the timeline for current time, execute the state change
         if (timestamp == modelTimeStamp) {
-            modelStateIndex++;
-            logger.debug(mts + ": STATE CHANGE");
-            modelState.
-            float seaLevel = modelState.getSeaLevel();
+            Float stateSeaLevel = modelState.getSeaLevel();
+            modelStateIndex = (modelStateIndex + 1 < modelStateChanges.getModelStates().size())?modelStateIndex + 1:modelStateIndex;
+            // get sealevel change
+            if (stateSeaLevel != null) {
+                setSeaLevel(waterGrid, stateSeaLevel);
+                maintainSeaLevel = stateSeaLevel;
+            }
+            // get defence breaches
+            ArrayList<String> defences = (ArrayList<String>) modelState.getDefenceBreach();;
+            logger.debug(mts + ": STATE CHANGE: sea level: {}", modelState);
 
-            for (int row = 0; row < water.getHeight(); row++) {
-                for (int col = 0; col < water.getWidth(); col++) {
-                    Water w = (Water) water.getCell(col, row);
-                    if (w.isOcean()) w.setWaterLevel(seaLevel);
+            for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+                for (int col = 0; col < floodModelParameters.getWidth(); col++) {
+
+                    if (defences != null) {
+                        Defence defenceCell = (Defence) defenceGrid.getCell(col, row);
+                        if (defenceCell != null) {
+                            for (int i = 0; i < defences.size(); i++) {
+                                if (defenceCell.getName().equals(defences.get(i))) {
+                                    defenceGrid.setCell(col, row, null);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         }
-        moveWater(water, terrain, defence, newWaterGrid);
+        moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
+        // read the next state change
+        modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
 
 //        printGrid('x', null);
+    }
+
+    /**
+     * Restore ocean to level
+     * @param waterGrid the water grid
+     * @param level the level to which the ocean cells have to be restore
+     */
+    private void setSeaLevel(Grid waterGrid, float level) {
+        for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+            for (int col = 0; col < floodModelParameters.getWidth(); col++) {
+                Water w = (Water) waterGrid.getCell(col, row);
+                if (w.isOcean()) w.setWaterLevel(level);
+            }
+        }
     }
 
     private void moveWater(Grid water, Grid terrain, Grid defence, Grid newWaterGrid) {
@@ -315,17 +354,11 @@ public class Firm2 extends Model {
                     }
                     // if a neighbour was found with the lowest level lower than the current cell
                     if (targetNeighbour != null) {
-                        logger.debug("low neighbour found");
 
                         Water newCell = (Water)newWaterGrid.getCell(col, row);
                         Water newTarget = (Water)newWaterGrid.getCell(targetPos.x, targetPos.y);
-                        Water oldCell = (Water)water.getCell(col, row);
-                        Water oldTarget = (Water)water.getCell(targetPos.x, targetPos.y);
-
                         float difference = currentCellWaterHeight - targetHeight;
-
                         float portion = difference < 0.0000001f ? difference : difference / 2.0f;
-
                         float newHeight = newCell.getWaterLevel() - portion;
                         float newTargetHeight = newTarget.getWaterLevel() + portion;
 
@@ -348,9 +381,6 @@ public class Firm2 extends Model {
                     }
                 }
                 Water newWaterCell = (Water) newWaterGrid.getCell(col, row);
-                // if the water level of the cell is greater than 0 change its colour
-//                newWaterCell.setColour(new Color(0x00, 117, 0x99,
-//                        (newWaterCell.getWaterLevel() <= 0.0000001 ? 0x00 : 0xFF)));
 
                 // Set color based on water is in ocean or not
                 if (newWaterCell.getWaterLevel() > 0) {
@@ -366,12 +396,12 @@ public class Firm2 extends Model {
             }
         }
         grids.put("water", newWaterGrid);
-        // read the next state change
-        modelState = modelStateChanges.get(modelStateIndex);
+
         // Generate a one pixel per cell PNG image on tick
         if (floodModelParameters.isPngOnTick()) {
             grids.get("water").createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
             grids.get("terrain").createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));
+            grids.get("defences").createPNG(properties.getProperty("output-data"), "defences_" + Long.toString(modelTimeStamp));
         }
     }
 
@@ -388,7 +418,7 @@ public class Firm2 extends Model {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("input-data") + "/timeline.json";
             modelStateChanges = gson.fromJson(new FileReader(filename), ModelStateChanges.class);
-            logger.debug("Reading: {}", filename);
+            logger.debug("Reading timeline: {}", filename);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

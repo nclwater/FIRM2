@@ -297,12 +297,12 @@ public class Txt2Json {
         ModelStateChanges modelStateChanges = new ModelStateChanges();
         ModelState modelState = new ModelState();
         modelState.setTime("07:45");
-        modelState.setSeaLevel(6);
-        modelStateChanges.add(modelState);
+        modelState.setSeaLevel(6f);
+        modelStateChanges.getModelStates().add(modelState);
         modelState = new ModelState();
         modelState.setTime("08:45");
-        modelState.setSeaLevel(4);
-        modelStateChanges.add(modelState);
+        modelState.setSeaLevel(4f);
+        modelStateChanges.getModelStates().add(modelState);
 
         Gson gson1 = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String outfile1 = (properties.getProperty("input-data") + "timeline.json");

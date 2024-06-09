@@ -1,25 +1,22 @@
-package uk.ac.ncl.nclwater.firm2.firm2.model;
+package uk.ac.ncl.nclwater.firm2.examples.GsonTest;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+// ModelState.java
 public class ModelState {
     @SerializedName("time")
-    @Expose
     private String time;
     @SerializedName("sea-level")
-    @Expose
-    private Float seaLevel;
+    private Integer seaLevel;
     @SerializedName("vehicles")
-    @Expose
-    private Object vehicles;
+    private String vehicles;
     @SerializedName("defence-breach")
-    @Expose
-    private List<String> defenceBreach;
+    private List<String> defenceBreach = new ArrayList<>();
 
+    // Getters and Setters
     public String getTime() {
         return time;
     }
@@ -28,19 +25,19 @@ public class ModelState {
         this.time = time;
     }
 
-    public Float getSeaLevel() {
+    public Integer getSeaLevel() {
         return seaLevel;
     }
 
-    public void setSeaLevel(Float seaLevel) {
+    public void setSeaLevel(Integer seaLevel) {
         this.seaLevel = seaLevel;
     }
 
-    public Object getVehicles() {
+    public String getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(Object vehicles) {
+    public void setVehicles(String vehicles) {
         this.vehicles = vehicles;
     }
 
@@ -51,14 +48,5 @@ public class ModelState {
     public void setDefenceBreach(List<String> defenceBreach) {
         this.defenceBreach = defenceBreach;
     }
-
-    @Override
-    public String toString() {
-        return "ModelState{" +
-                "time='" + time + '\'' +
-                ", seaLevel=" + seaLevel +
-                ", vehicles=" + vehicles +
-                ", defenceBreach=" + defenceBreach +
-                '}';
-    }
 }
+

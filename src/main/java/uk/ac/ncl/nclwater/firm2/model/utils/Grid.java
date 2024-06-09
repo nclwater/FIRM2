@@ -148,7 +148,7 @@ public class Grid {
         neighborhood[0] = new Point(neighborhoodClamp(x, width - 1), neighborhoodClamp(y - 1, height - 1));
         neighborhood[1] = new Point(neighborhoodClamp(x, width - 1), neighborhoodClamp(y + 1, height - 1));
         neighborhood[2] = new Point(neighborhoodClamp(x - 1, width - 1), neighborhoodClamp(y, height - 1));
-        neighborhood[3] = new Point(neighborhoodClamp(x + 1, width - 1), neighborhoodClamp(y, height - 1));
+        neighborhood[3] = new Point(neighborhoodClamp(x + 1, width - 1), neighborhoodClamp(y, height - 1 ));
 
         return neighborhood;
     }
@@ -181,6 +181,12 @@ public class Grid {
         this.grid = grid;
     }
 
+    /**
+     * Create a PNG image from the grid
+     * https://github.com/nayuki/PNG-library
+     * @param path
+     * @param timestamp
+     */
     public void createPNG(String path, String timestamp) {
 
         int width = getWidth();
