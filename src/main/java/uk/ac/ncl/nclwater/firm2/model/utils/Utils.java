@@ -14,12 +14,25 @@ public class Utils {
      * @param height_max
      * @return the calculated colour
      */
-    public static Color getHeightmapGradient(float height, float height_min, float height_max) {
-        final GradientData[] gradient = new GradientData[]{
+    public static Color getHeightmapGradient(String type, float height, float height_min, float height_max) {
+        GradientData[] gradient = new GradientData[]{
                 new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
                 new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
-                new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f),
-        };
+                new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f)};
+        if (type.equals("water")) {
+            gradient = new GradientData[]{
+                    new GradientData(new Color(0x00, 0x75, 0x99, 0x00), 0.0f),
+                    new GradientData(new Color(0x27, 0x75, 0x99, 0x7F), 0.5f),
+                    new GradientData(new Color(0x0B, 0x75, 0x99, 0xff), 1.0f),
+                };
+        }
+        if (type.equals("terrain")) {
+            gradient = new GradientData[]{
+                    new GradientData(new Color(0xe0, 0xce, 0xb5, 0xff), 0.0f),
+                    new GradientData(new Color(0x97, 0x70, 0x3c, 0xff), 0.5f),
+                    new GradientData(new Color(0x0B, 0x08, 0x04, 0xff), 1.0f),
+            };
+        }
 
         float threshold = (height - height_min) / height_max;
 

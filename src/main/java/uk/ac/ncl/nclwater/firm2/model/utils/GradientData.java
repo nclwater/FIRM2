@@ -9,8 +9,13 @@ class GradientData {
     public Color value;
     public float threshold;
 
-    public GradientData(Color v, float t) {
-        value = v;
-        threshold = t;
+    /**
+     *
+     * @param value a colour value
+     * @param threshold
+     */
+    public GradientData(Color value, float threshold) {
+        this.value = value;
+        this.threshold = threshold;
     }
 }

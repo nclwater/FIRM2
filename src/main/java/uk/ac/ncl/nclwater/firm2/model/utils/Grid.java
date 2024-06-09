@@ -130,42 +130,26 @@ public class Grid {
         return neighbours;
     }
 
+    private int neighborhoodClamp(int value, int max) {
+        return value < 0   ? (is_toroidal ? max : 0  ) :
+               value > max ? (is_toroidal ? 0   : max) :
+               value;
+    }
+
     /**
      * Return the xy co-oridnates for the von Neuman Neigbourhood cells.
-     * @param x
-     * @param y
+     * @param x x co-ordinate of cell
+     * @param y y co-ordinate of cell
      * @return von Neumann neighbourhood as north, south, east, west
      */
     public Point[] getVNNeighborhood(int x, int y) {
         Point[] neighborhood = new Point[4];
-        // north
-        if (y + 1 < height) {
-            neighborhood[0] = new Point(x, y + 1);
-        } else if (is_toroidal) {
-            neighborhood[0] = new Point(x, 0);
-        } else
-            neighborhood[0] = new Point(x, y);
-        //south
-        if (y - 1 >= 0) {
-            neighborhood[1] = new Point(x, y - 1);
-        } else if (is_toroidal) {
-            neighborhood[1] = new Point(x, height);
-        } else
-            neighborhood[1] = new Point(x, y);
-        //east
-        if (x + 1 < width) {
-            neighborhood[2] = new Point(x + 1, y);
-        } else if (is_toroidal) {
-            neighborhood[2] = new Point(0, y);
-        } else
-            neighborhood[2] = new Point(x, y);
-        //west
-        if (x - 1 >= 0) {
-            neighborhood[3] = new Point(x - 1, y);
-        } else if (is_toroidal) {
-            neighborhood[3] = new Point(width, y);
-        } else
-            neighborhood[3] = new Point(x, y);
+
+        neighborhood[0] = new Point(neighborhoodClamp(x, width - 1), neighborhoodClamp(y - 1, height - 1));
+        neighborhood[1] = new Point(neighborhoodClamp(x, width - 1), neighborhoodClamp(y + 1, height - 1));
+        neighborhood[2] = new Point(neighborhoodClamp(x - 1, width - 1), neighborhoodClamp(y, height - 1));
+        neighborhood[3] = new Point(neighborhoodClamp(x + 1, width - 1), neighborhoodClamp(y, height - 1));
+
         return neighborhood;
     }
 
