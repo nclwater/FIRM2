@@ -9,14 +9,15 @@ in Java in preparation of running the model insde a docker on the DAFNI
 environment
 
 ### Project Team
-PI: Richard Dawson  
-RSEs:
-    - Jannetta Steyn (jannetta.steyn@newcastle.ac.uk)
-    - Robin Wardle (robin.wardle@newcastle.ac.uk)
+**PI:** Richard Dawson  
+**RSEs:**
+
+- Jannetta Steyn (jannetta.steyn@newcastle.ac.uk)
+- Robin Wardle (robin.wardle@newcastle.ac.uk)
 
 ### RSE Contact
-    - Jannetta Steyn (jannetta.steyn@newcastle.ac.uk)
-    - Robin Wardle (robin.wardle@newcastle.ac.uk)
+- Jannetta Steyn (jannetta.steyn@newcastle.ac.uk)
+- Robin Wardle (robin.wardle@newcastle.ac.uk)
 
 
 ## Built With
