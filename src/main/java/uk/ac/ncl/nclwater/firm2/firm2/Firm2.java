@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
-import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getHeightmapGradient;
 
 public class Firm2 extends Model {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -49,14 +49,20 @@ public class Firm2 extends Model {
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
                             properties.getProperty("input-data") + properties.getProperty("model-parameters")),
                     GlobalVariables.class);
+            x_origin = globalVariables.getLowerLeftX();
+            y_origin = globalVariables.getLowerLeftY();
+            cellMeters = globalVariables.getCellSize();
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());
 
             // Create and populate all grids
-            plotWaterAndTerrain(globalVariables);
-            plotBuildings();
-            plotRoads();
-            plotDefences();
+            grids.put("terrain", LoadTerrainGrid.loadTerrain(globalVariables, floodModelParameters,
+                    properties));
+            grids.put("water", LoadWaterGrid.loadWater(globalVariables, floodModelParameters,
+                    properties));
+            grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
+            grids.put("roads", LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties));
+            grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
 
             modelStateChanges = readTimeLine();
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
@@ -71,162 +77,6 @@ public class Firm2 extends Model {
             throw new RuntimeException(e);
         }
 
-    }
-
-    /**
-     * Read the file containing the terrain elevations. If a tile is marked as null it is ocean and the terrain agent
-     * should be set to the negative default water level. If the tile has an elevation the water level of the water
-     * agent should be set to zero.
-     *
-     * @param globalVariables
-     */
-    private void plotWaterAndTerrain(GlobalVariables globalVariables) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        // Read the file to populate the basic grid of cells
-        Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
-        Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
-
-        String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data"));
-        logger.debug("Reading: {}", filename);
-        TerrainLayer terrainLayer = null;
-        try {
-            terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
-
-            for (int grid_y = 0; grid_y < floodModelParameters.getHeight(); grid_y++) {
-                TerrainLine terrainLine = terrainLayer.get(grid_y);
-                for (int grid_x = 0; grid_x < floodModelParameters.getWidth(); grid_x++) {
-                    int id = getNewId();
-                    // if null assume tile is ocean
-                    if (terrainLine.getElevation()[grid_x] != null) {
-                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
-                        terrainGrid.getCell(grid_x, grid_y).setColour(
-                                getHeightmapGradient("terrain", terrainLine.getElevation()[grid_x],
-                                        globalVariables.getMinHeight(),
-                                        globalVariables.getMaxHeight()));
-                        waterGrid.setCell(grid_x, grid_y, new Water(id, 0, false));
-                        waterGrid.getCell(grid_x, grid_y).setColour(new Color(0x00, 117, 0x99, 0x00));
-                    } else {
-                        terrainGrid.setCell(grid_x, grid_y, new Terrain(id, -floodModelParameters.getOceanDepth()));
-                        waterGrid.setCell(grid_x, grid_y, new Water(id, floodModelParameters.getOceanDepth(), true));
-                        waterGrid.getCell(grid_x, grid_y).setColour(new Color(0x00, 117, 0x99, 0xFF));
-                    }
-                }
-            }
-
-            x_origin = globalVariables.getLowerLeftX();
-            y_origin = globalVariables.getLowerLeftY();
-            cellMeters = globalVariables.getCellSize();
-
-            grids.put("terrain", terrainGrid);
-            grids.put("water", waterGrid);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Read the roads.json configuration from file and populate the road grid
-     */
-    private void plotRoads() {
-//
-//         		;; manually fix up the bridge over the river.
-//         		;; XXX this should be done from a config file.
-//         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
-//
-        try {
-            Grid roadGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "roads");
-            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + properties.getProperty("roads-data");
-            logger.debug("Reading: {}", filename);
-            Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
-            roads.getRoads().forEach(r -> {
-                ArrayList<PointDouble> roadPoints = r.getPolylineCoordinates();
-                ArrayList<Point> pixelPoints = new ArrayList<>();
-                ArrayList<Point> wholeRoad = new ArrayList<>();
-                for (PointDouble roadPoint : roadPoints) {
-                    // Road co-ordinates have to be divided after read from the json file
-                    Point coords = Ordinance2GridXY(x_origin, y_origin, (float) roadPoint.getX() / 1000,
-                            (float) roadPoint.getY() / 1000, cellMeters);
-                    // flip horizontally
-                    coords.y = floodModelParameters.getHeight() - 1 - coords.y;
-                    pixelPoints.add(coords);
-                }
-                for (int i = 1; i < pixelPoints.size(); i++) {
-                    wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).x, pixelPoints.get(i - 1).y,
-                            pixelPoints.get(i).x, pixelPoints.get(i).y));
-                }
-                wholeRoad.forEach(point -> {
-                    if (point.x > 0 && point.x < floodModelParameters.getWidth() && point.y > 0 && point.y < floodModelParameters.getHeight()) {
-                        Road newRoad = new Road(getNewId(), r.getRoadIDs());
-                        newRoad.setRoadLength(r.getRoadLength());
-                        newRoad.setRoadType(r.getRoadType());
-                        roadGrid.setCell(point.x, point.y, newRoad);
-                    } else {
-                        logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
-                    }
-                });
-            });
-            grids.put("roads", roadGrid);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Read the building.json file and populate the buildings grid
-     */
-    private void plotBuildings() {
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + properties.getProperty("buildings-data");
-            Buildings buildings = gson.fromJson(new FileReader(filename), Buildings.class);
-            logger.debug("Reading: {}", filename);
-            Grid buildingGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
-                    floodModelParameters.isToroidal(), "buildings");
-            buildings.getBuildings().forEach(b -> {
-                Point coords = Ordinance2GridXY(x_origin, y_origin, (float) b.getOrdinate().getX(),
-                        (float) b.getOrdinate().getY(), cellMeters);
-                coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                int type = b.getType();
-                if (coords.x > 0 && coords.x < floodModelParameters.getWidth() &&
-                        coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
-                    Building building = new Building(getNewId(), type, b.getOrdinate(), b.getNearestRoad_ID());
-                    buildingGrid.setCell(coords.x, coords.y, building);
-                }
-            });
-            grids.put("buildings", buildingGrid);
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Read the defences.json file and populate the defences grid
-     */
-    public void plotDefences() {
-        Grid defenceGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "defences");
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + properties.getProperty("defences-data");
-            Defences defences = gson.fromJson(new FileReader(filename), Defences.class);
-            logger.debug("Reading: {}", filename);
-            defences.getDefences().forEach(d -> {
-                Point coords = Ordinance2GridXY(x_origin, y_origin, (float) d.getOrdinate().getX(),
-                        (float) d.getOrdinate().getY(), cellMeters);
-                coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                if (coords.x > 0 && coords.x < floodModelParameters.getWidth() && coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
-                    Defence defence = new Defence(getNewId(), d.getOrdinate(), d.getName(), d.getHeight());
-                    defenceGrid.setCell(coords.x, coords.y, defence);
-                } else {
-                    logger.trace("Building: " + coords.x + ", " + coords.y + " is out of bounds");
-                }
-            });
-
-            grids.put("defences", defenceGrid);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**

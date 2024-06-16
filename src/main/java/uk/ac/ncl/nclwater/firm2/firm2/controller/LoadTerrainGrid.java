@@ -7,16 +7,15 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
+
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Properties;
+
 import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getHeightmapGradient;
 
-/**
- * THIS NEEDS REFACTORING. IT IS THE SAME AS LoadRoadsGrid.
- */
-public class LoadWaterGrid {
+public class LoadTerrainGrid {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadWaterGrid.class);
 
@@ -27,8 +26,8 @@ public class LoadWaterGrid {
      *
      * @param globalVariables
      */
-    public static Grid loadWater(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                                   Properties properties) {
+    public static Grid loadTerrain(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
+                                           Properties properties) {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         // Read the file to populate the basic grid of cells
         Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
@@ -61,11 +60,9 @@ public class LoadWaterGrid {
                 }
             }
 
-
-            return waterGrid;
+            return terrainGrid;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
