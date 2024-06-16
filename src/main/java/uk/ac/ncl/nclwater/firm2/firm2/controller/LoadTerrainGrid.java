@@ -17,7 +17,7 @@ import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getH
 
 public class LoadTerrainGrid {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoadWaterGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoadTerrainGrid.class);
 
     /**
      * Read the file containing the terrain elevations. If a tile is marked as null it is ocean and the terrain agent

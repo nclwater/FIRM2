@@ -37,7 +37,6 @@ public class Firm2 extends Model {
     ModelStateChanges modelStateChanges;
     Float maintainSeaLevel;
 
-
     /**
      * Initialise the model
      */
@@ -64,7 +63,7 @@ public class Firm2 extends Model {
             grids.put("roads", LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
 
-            modelStateChanges = readTimeLine();
+            modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
             // Visualise if visualisation is set to true
             if (floodModelParameters.isVisualise()) {
@@ -110,7 +109,7 @@ public class Firm2 extends Model {
         }
 
         // reset sea level for ocean cells on every tick
-        logger.debug("Sea level: {}", maintainSeaLevel);
+        logger.debug("Reset sea level: {}", maintainSeaLevel);
         setSeaLevel(waterGrid, maintainSeaLevel);
         // If there is a timestamp in the timeline for current time, execute the state change
         if (timestamp == modelTimeStamp) {
@@ -154,7 +153,7 @@ public class Firm2 extends Model {
     /**
      * Restore ocean to level
      * @param waterGrid the water grid
-     * @param level the level to which the ocean cells have to be restore
+     * @param level the level to which the ocean cells have to be restored
      */
     private void setSeaLevel(Grid waterGrid, float level) {
         for (int row = 0; row < floodModelParameters.getHeight(); row++) {
@@ -237,9 +236,6 @@ public class Firm2 extends Model {
                         newWaterCell.setColour(new Color(0x11, 0x55, 0xff));
                     }
                 }
-                //water with opacity on water level
-//                    newWaterCell.setColour(Utils.getHeightmapGradient("water",
-//                        newWaterCell.getWaterLevel(), 0, 20));
             }
         }
         grids.put("water", newWaterGrid);
@@ -252,25 +248,6 @@ public class Firm2 extends Model {
         }
     }
 
-    /**
-     * Read the json file containing the timeline for the model. The timeline is an arraylist stored in the
-     * ModeStateChanges class. Each item in the array is an event at a specific time and is stored in a ModelState
-     * class
-     *
-     * @return
-     */
-    public ModelStateChanges readTimeLine() {
-        ModelStateChanges modelStateChanges;
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + "/timeline.json";
-            modelStateChanges = gson.fromJson(new FileReader(filename), ModelStateChanges.class);
-            logger.debug("Reading timeline: {}", filename);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return modelStateChanges;
-    }
 
 
     /**
@@ -300,6 +277,4 @@ public class Firm2 extends Model {
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
         modelthread.start();
     }
-
-
 }
