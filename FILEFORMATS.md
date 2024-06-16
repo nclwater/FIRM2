@@ -116,6 +116,18 @@ This file describes the coordinates of the flood defences.  Each defence has a n
 Etc.
 
 ## vehicles.txt
+
+### vehicle agent names
+- transit eastbound
+- transit westbound
+
+## 
+agents start in a building going somewhere
+
+Find code in codes.json
+- A55 west
+- A55 east
+
 This describes the agent rules as a finite state machine
 This agent produces vehicles that flow along one of the main roads that bypasses the town at the South.  
 Vehicles are produced at the point (taken from the preprocessed-buildings.txt file) and drive to another 

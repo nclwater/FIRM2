@@ -299,8 +299,6 @@ public class Firm2 extends Model {
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
-
-//        printGrid('x', null);
     }
 
     /**
@@ -381,7 +379,6 @@ public class Firm2 extends Model {
                     }
                 }
                 Water newWaterCell = (Water) newWaterGrid.getCell(col, row);
-
                 // Set color based on water is in ocean or not
                 if (newWaterCell.getWaterLevel() > 0) {
                     if (newWaterCell.isOcean()) {
@@ -449,16 +446,10 @@ public class Firm2 extends Model {
         floodModelParameters.setTitle(properties.getProperty("application-title"));
         floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG-on-tick")));
         modelInit();
-    }
-
-    /**
-     * This is where the program starts
-     */
-    public static void main(String[] args) {
-        System.setProperty("log4j.debug", "");
-        Firm2 model = new Firm2();
-        Thread modelthread = new Thread(model);
-        model.setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
+        Thread modelthread = new Thread(this);
+        setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
         modelthread.start();
     }
+
+
 }
