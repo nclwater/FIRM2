@@ -1,6 +1,6 @@
 package uk.ac.ncl.nclwater.firm2.examples.nagelschreckenberg;
 
-import uk.ac.ncl.nclwater.firm2.model.Agent;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 
 import java.awt.*;
 

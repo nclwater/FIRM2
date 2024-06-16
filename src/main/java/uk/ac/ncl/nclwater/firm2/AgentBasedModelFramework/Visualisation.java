@@ -1,6 +1,6 @@
-package uk.ac.ncl.nclwater.firm2.model;
+package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
 
 import javax.swing.*;
 import java.awt.*;

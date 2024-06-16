@@ -1,6 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.model.utils;
-
-import uk.ac.ncl.nclwater.firm2.firm2.Firm2;
+package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils;
 
 import java.awt.*;
 

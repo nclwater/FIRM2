@@ -3,7 +3,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import uk.ac.ncl.nclwater.firm2.model.Agent;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 
 /**
  * An agent of type building

@@ -8,10 +8,9 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-import uk.ac.ncl.nclwater.firm2.model.Model;
-import uk.ac.ncl.nclwater.firm2.model.Visualisation;
-import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
-import uk.ac.ncl.nclwater.firm2.model.utils.Utils;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
-import static uk.ac.ncl.nclwater.firm2.model.utils.Utils.getHeightmapGradient;
+import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getHeightmapGradient;
 
 public class Firm2 extends Model {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -53,11 +52,12 @@ public class Firm2 extends Model {
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());
 
-
+            // Create and populate all grids
             plotWaterAndTerrain(globalVariables);
             plotBuildings();
             plotRoads();
             plotDefences();
+
             modelStateChanges = readTimeLine();
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
             // Visualise if visualisation is set to true

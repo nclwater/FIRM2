@@ -1,8 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.examples.nagelschreckenberg;
 
-import uk.ac.ncl.nclwater.firm2.model.Model;
-import uk.ac.ncl.nclwater.firm2.model.Visualisation;
-import uk.ac.ncl.nclwater.firm2.model.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
 
 import java.awt.*;
 import java.util.Random;
