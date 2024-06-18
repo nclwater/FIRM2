@@ -6,8 +6,19 @@ import java.awt.*;
  * An abstract class that needs to be inherited by all agents
  */
 public abstract class Agent {
+
+    /**
+     * A unique id for each agent that comes into existence
+     */
     public int agent_id = 0;
+
+    /**
+     * The age of this agent in ticks
+     */
     public int tickAge = 0;
+    /**
+     * A colour for use if model is visualised
+     */
     public Color colour = new Color(0);
 
 

@@ -37,6 +37,14 @@ The codes are:
 
 | Code | Non residential property type                |
 |---|-------------------------------------------------|
+|0|house/residence/home                               |
+|-2|shop                                              |
+|-3|work                                              |
+|-4|other                                             |
+|-5|recreation                                        |
+|-6|warehouse                                         |
+|23|retail services                                   |
+|100|class code100                                    |
 |211|SHOP AND PREMISES                                |
 |212|STORE AND PREMISES                               |
 |213|SUPERSTORE/HYPERSTORE AND PREMISES               |
@@ -73,10 +81,10 @@ The codes are:
 |521|SPORTS GROUND/PLAYING FIELD AND PREMISES         |
 |522|GOLF COURSE AND PREMISES                         |
 |523|SPORTS & LEISURE CENTRE AND PREMISES             |
-|524|AMUSEMENT ARCADE/PARK AND PREMISES								|
-|525|FOOTBALL GROUND AND PREMISES											|
-|526|MOORING/WHARF/MARINA AND PREMISES								|
-|527|SWIMMING POOL AND PREMISES|
+|524|AMUSEMENT ARCADE/PARK AND PREMISES			      |
+|525|FOOTBALL GROUND AND PREMISES				      |
+|526|MOORING/WHARF/MARINA AND PREMISES				  |
+|527|SWIMMING POOL AND PREMISES                       |
 |610|SCHOOL/COLLEGE/UNIVERSITY/NURSERY AND PREMISES|
 |620|SURGERY AND HEALTH CENTRE AND PREMISES|
 |625|RESIDENTIAL HOME00|
@@ -97,6 +105,11 @@ The codes are:
 |940|BUS STATION AND PREMISES|
 |950|DOCK HEREDITAMENT AND PREMISES|
 |960|ELECTRICITY HEREDITAMENT AND PREMISES|
+|1000|evacuation point|
+|1001|A55 east|
+|1002|A55 west|
+|1003|towyn test|
+|1004|class code-9999|
 
 ## preprocessed-buildings.txt
 **Format:** `%longitude %latitude %building type %Nearest road link ID`
@@ -120,6 +133,8 @@ Etc.
 ### vehicle agent names
 - transit eastbound
 - transit westbound
+- kids & work
+
 
 ## 
 agents start in a building going somewhere
@@ -140,8 +155,20 @@ point on the file before leaving the domain (“exit”)
 ]]
 ```
 
-This agent produces someone who has kids and a job.  They start at home (which is randomly assigned from the list of residential buildings) and then at 7:45 with a standard deviation (SD) of 5 minutes vehicles appear at their home and drive to a school.  They spend 5 minutes, with SD=1 minute at the school before 90% of them (0.9) head to a non-residential building that is not a shop, the remaining 10% (0.1) head to a randomly selected shop and then after 2 hours (SD=1 hour) head to work.  Work finishes at 5pm, SD=15m and people head home/shops/recreation non-residential building.  
-The second part shows that when they achieve the order to evacuate (see timeline.txt).  In this case 90% respond within 5m (SD=1m) to head to one of the evacuation points, the others do not.  The final point is a return home after 4 hours which is not normally used.
+This agent produces someone who has kids and a job.  They start at home 
+(which is randomly assigned from the list of residential buildings) and then 
+at 7:45 with a standard deviation (SD) of 5 minutes vehicles appear at their 
+home and drive to a school.  They spend 5 minutes, with SD=1 minute at the 
+school before 90% of them (0.9) head to a non-residential building that is not 
+a shop, the remaining 10% (0.1) head to a randomly selected shop and then after 
+2 hours (SD=1 hour) head to work.  Work finishes at 5pm, SD=15m and people head 
+home/shops/recreation non-residential building.
+
+The second part shows that when they achieve the order to evacuate (see 
+timeline.txt).  In this case 90% respond within 5m (SD=1m) to head to one of 
+the evacuation points, the others do not.  The final point is a return home 
+after 4 hours which is not normally used.
+
 Hopefully that gives a sense of how it works?
 
 ```
@@ -164,23 +191,31 @@ Hopefully that gives a sense of how it works?
 ```
 
 ## roads.txt
-This is a series of polylines describing all the roads in the network taken from the Ordnance Survey Integrated 
-Transport Network (ITN).  This data was processed in advance from the ITN.  It would be useful to develop a utility 
-model that processes this data into an appropriate format for buildings, road network etc.
-The first three numbers are the unique ID of the road link (should correspond to the preprocessed-buildings.txt ID), 
+This is a series of polylines describing all the roads in the network taken 
+from the Ordnance Survey Integrated 
+Transport Network (ITN).  This data was processed in advance from the ITN.  
+It would be useful to develop a utility 
+model that processes this data into an appropriate format for buildings, road 
+network etc.
+The first three numbers are the unique ID of the road link (should correspond 
+to the preprocessed-buildings.txt ID), 
 the ID of the staring node and the ID of the end node of the road link.  
-I think the next number is the length, then the road type (which dictates agent speed – this is hard coded in the 
+I think the next number is the length, then the road type (which dictates 
+agent speed – this is hard coded in the 
 model at the moment I think).
 The final set of pairs of numbers give the [x y] coordinates of the polyline.
+
 
 ```[“4000000013081056” “4000000012843503” “4000000012843508” 17810 “Single Carriageway” [[301510000 374871000] [301512000 374868000] [301515000 374859000] [301517000 374856000] [301517803 374855219] ]]```
 
 ### Look into this: (model.nls)
-for some reason, lengths of roads are often less than crow-flies distance, so adjust them so they're at least as long.
+for some reason, lengths of roads are often less than crow-flies distance, so 
+adjust them so they're at least as long.
 
 ## terrain.txt
 
-This file describes the elevation of the domain.  It is a ASCII Raster format – a grid where each value is the elevation of the land (in metres) for that grid point.   ncols x nrows is the size of the matrix, cellsize is the dimension of the grid square (in meters), xllcorner and yllcorner are the lower left coordinates, NODATA_value is the value for areas of the matrix that are then converted to sea level in the model simulation.
+This file describes the elevation of the domain.  It is a ASCII Raster 
+format – a grid where each value is the elevation of the land (in metres) for that grid point.   ncols x nrows is the size of the matrix, cellsize is the dimension of the grid square (in meters), xllcorner and yllcorner are the lower left coordinates, NODATA_value is the value for areas of the matrix that are then converted to sea level in the model simulation.
 
 ```
 [%elevation %elevation …  ncols
@@ -189,20 +224,28 @@ This file describes the elevation of the domain.  It is a ASCII Raster format �
 ```
 
 ## timeline.txt
-This provides the timeline of the scenario being simulated.  Probably easiest explained with line by line explanation.
+This provides the timeline of the scenario being simulated.  Probably easiest 
+explained with line by line explanation.
 
 ```
-[["normal", "08:00", "15m"], 500,  % produces 500 cars with 80% going eastbound, 20% westbound 
-(see vehicles.txt) centred around 8am normally distributed before and after this time with 
+[
+	["normal", "08:00", "15m"], 500,
+	["vehicle", "transit eastbound"], 0.8,
+	["vehicle", "transit westbound"], 0.2
+],
+
+["0s", 1000, 
+	["vehicle", "kids & work"]
+],
+["07:54", ["sealevel", 6]],
+["07:55", ["breach", defence1]],
+
+[8:00, ["evacuate"]]]]
+```
+
+- produces 500 cars with 80% going eastbound, 20% westbound (see vehicles.txt) centred around 8am normally distributed before and after this time with 
 SD=15minutes
-["vehicle", "transit eastbound"], 0.8,
-["vehicle", "transit westbound"], 0.2],
-
-["0s", 1000, ["vehicle", "kids & work"]],   %sets up 1000 vehicles following the kids & work routine in the vehicles.txt
-
-["07:54", ["sealevel", 6]],    %sets the sealevel loading to be 6m elevation at 7:54.  The sea is those areas in the terrain.txt file that has nodata_value
-
-["07:55", ["breach", defence1]],  %removes the flood defence named defence 1 at 7:55 allowing water to flow through
-
-[8:00, ["evacuate"]]]]  %sends an evacuation order out following the rules in vehicles.txt to go out at 8am
-```
+- sets up 1000 vehicles following the kids & work routine in the vehicles.txt
+- sets the sealevel loading to be 6m elevation at 7:54.  The sea is those areas in the terrain.txt file that has nodata_value
+- removes the flood defence named defence 1 at 7:55 allowing water to flow through
+- sends an evacuation order out following the rules in vehicles.txt to go out at 8am

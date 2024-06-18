@@ -99,6 +99,7 @@ public class Firm2 extends Model {
         Grid waterGrid = grids.get("water");
         Grid terrainGrid = grids.get("terrain");
         Grid defenceGrid = grids.get("defences");
+        Grid vehicleGrid = grids.get("vehicles");
         Grid newWaterGrid = new Grid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
@@ -143,11 +144,16 @@ public class Firm2 extends Model {
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
+        moveVehicles(vehicleGrid);
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
+    }
+
+    private void moveVehicles(Grid vehicleGrid) {
+
     }
 
     /**

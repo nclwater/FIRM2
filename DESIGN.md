@@ -41,11 +41,70 @@ classDiagram
     Agent <|--Defence
     Agent <|--Road
     Agent <|--Car
-    
-
-    
-
 ```
 
-Agents have to implement the `Agent` abstract class which is in the `model` 
-package.
+```mermaid
+---
+title: Grids
+---
+
+classDiagram
+    
+    class Grid {
+        +Agent[][] agent
+    }
+    class Grids {
+        +Grid[] grids
+    }
+
+    class Agent {
+        +int agentID
+        +int tickAge
+        +Color colour
+    }
+    
+    Grid o-- Agent
+    Grids "1" --> "1..*" Grid
+```
+
+```mermaid
+---
+title: Timeline
+---
+classDiagram
+    
+    class ModelStateChanges {
+        +ModelState[]: modelStates
+    }
+    
+    class ModelState {
+        +String time
+    }
+    
+    class VehicleState {
+        +int code
+        +String description
+        +PointDouble startPosition
+        +PointDouble endPosition
+    }
+    
+    class SeaLevelState {
+        +int depth
+    }
+    
+    class DefenceBreachState {
+        +String[] defences
+    }
+
+    
+    ModelStateChanges "1" --> "1..*" ModelState
+    ModelState <|-- VehicleState
+    ModelState <|-- SeaLevelState
+    ModelState <|-- DefenceBreachState
+     
+    
+    
+```
+
+Agents have to implement the `Agent` abstract class which is in the 
+`AgentBasedModelFramework` package.
