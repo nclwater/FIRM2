@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
@@ -36,6 +37,7 @@ public class Firm2 extends Model {
     int modelStateIndex = 0;
     ModelStateChanges modelStateChanges;
     Float maintainSeaLevel;
+    HashMap<String, VehicleCode> vehicleCodes;
 
     /**
      * Initialise the model
@@ -53,6 +55,8 @@ public class Firm2 extends Model {
             cellMeters = globalVariables.getCellSize();
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());
+            vehicleCodes = VehicleCodeDescriptors.loadVehicleCodeDescriptors(properties);
+
 
             // Create and populate all grids
             grids.put("terrain", LoadTerrainGrid.loadTerrain(globalVariables, floodModelParameters,
@@ -62,6 +66,9 @@ public class Firm2 extends Model {
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("roads", LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
+            Grid vehicles = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "vehicles");
+            grids.put("vehicles", vehicles);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
@@ -84,7 +91,7 @@ public class Firm2 extends Model {
     @Override
     public void tick() {
         // FYI https://www.unixtimestamp.com/
-        // increment time - model start time + tick time value
+        // increment time: time = model start time + tick time value
         if (maintainSeaLevel == null) maintainSeaLevel = floodModelParameters.getOceanDepth();
         modelTimeStamp += floodModelParameters.getTickTimeValue() * 1000;
         long timestamp = 0;
@@ -100,6 +107,7 @@ public class Firm2 extends Model {
         Grid terrainGrid = grids.get("terrain");
         Grid defenceGrid = grids.get("defences");
         Grid vehicleGrid = grids.get("vehicles");
+        Grid roadGrid = grids.get("roads");
         Grid newWaterGrid = new Grid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
@@ -110,41 +118,58 @@ public class Firm2 extends Model {
         }
 
         // reset sea level for ocean cells on every tick
-        logger.debug("Reset sea level: {}", maintainSeaLevel);
         setSeaLevel(waterGrid, maintainSeaLevel);
+        //
         // If there is a timestamp in the timeline for current time, execute the state change
+        //
         if (timestamp == modelTimeStamp) {
+            logger.debug("STATE CHANGE {}:", mts);
             Float stateSeaLevel = modelState.getSeaLevel();
             modelStateIndex = (modelStateIndex + 1 < modelStateChanges.getModelStates().size())?modelStateIndex + 1:modelStateIndex;
             // get sealevel change
             if (stateSeaLevel != null) {
+                logger.debug("sea level change: {}", stateSeaLevel);
                 setSeaLevel(waterGrid, stateSeaLevel);
                 maintainSeaLevel = stateSeaLevel;
             }
             // get defence breaches
-            ArrayList<String> defences = (ArrayList<String>) modelState.getDefenceBreach();;
-            logger.debug(mts + ": STATE CHANGE: sea level: {}", modelState);
+            if (modelState.getDefenceBreach() != null) {
+                ArrayList<String> defences = (ArrayList<String>) modelState.getDefenceBreach();
+                logger.debug("defence breach: {}", defences);
 
-            for (int row = 0; row < floodModelParameters.getHeight(); row++) {
-                for (int col = 0; col < floodModelParameters.getWidth(); col++) {
+                for (int row = 0; row < floodModelParameters.getHeight(); row++) {
+                    for (int col = 0; col < floodModelParameters.getWidth(); col++) {
 
-                    if (defences != null) {
-                        Defence defenceCell = (Defence) defenceGrid.getCell(col, row);
-                        if (defenceCell != null) {
-                            for (int i = 0; i < defences.size(); i++) {
-                                if (defenceCell.getName().equals(defences.get(i))) {
-                                    defenceGrid.setCell(col, row, null);
-                                    break;
+                        if (defences != null) {
+                            Defence defenceCell = (Defence) defenceGrid.getCell(col, row);
+                            if (defenceCell != null) {
+                                for (int i = 0; i < defences.size(); i++) {
+                                    if (defenceCell.getName().equals(defences.get(i))) {
+                                        defenceGrid.setCell(col, row, null);
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
+                    }
+                }
+            }
+            if (modelState.getVehicles() != null) {
+                if (!modelState.getVehicles().isEmpty()) {
+                    // Place vehicles
+                    ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) modelState.getVehicles();
+                    logger.debug("vehicles enter: {}", vehicles);
+                    for (int i = 0; i < vehicles.size(); i++) {
+                        Vehicle vehicle = vehicles.get(i);
+                        vehicleCodes.get(vehicle.getCode()).getNearestRoad();
+
+                    }
                 }
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
-        moveVehicles(vehicleGrid);
+        moveVehicles(vehicleGrid, vehicleCodes);
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
@@ -152,7 +177,8 @@ public class Firm2 extends Model {
         }
     }
 
-    private void moveVehicles(Grid vehicleGrid) {
+    private void moveVehicles(Grid vehicleGrid, HashMap<String, VehicleCode> vehicleCodes) {
+
 
     }
 

@@ -3,9 +3,12 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+/**
+ * This class contains the state change for a given point in time. It should contain a state change for each grid
+ * of the model. If the state change for a specif grid is null then there was no change at that point in time.
+ */
 public class ModelState {
     @SerializedName("time")
     @Expose
@@ -15,7 +18,7 @@ public class ModelState {
     private Float seaLevel;
     @SerializedName("vehicles")
     @Expose
-    private Object vehicles;
+    private ArrayList<Vehicle> vehicles;
     @SerializedName("defence-breach")
     @Expose
     private List<String> defenceBreach;
@@ -36,11 +39,11 @@ public class ModelState {
         this.seaLevel = seaLevel;
     }
 
-    public Object getVehicles() {
+    public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(Object vehicles) {
+    public void setVehicles(ArrayList<VehicleCode> vehicleCodes) {
         this.vehicles = vehicles;
     }
 
@@ -54,11 +57,21 @@ public class ModelState {
 
     @Override
     public String toString() {
-        return "ModelState{" +
-                "time='" + time + '\'' +
-                ", seaLevel=" + seaLevel +
-                ", vehicles=" + vehicles +
-                ", defenceBreach=" + defenceBreach +
-                '}';
+        StringBuilder vsb = new StringBuilder();
+        if (vehicles != null) {
+            for (int i = 0; i < vehicles.size(); i++) {
+                Vehicle vehicle = vehicles.get(i);
+                vsb.append(vehicle.getCode()).append(vehicle.getDist()).append(vehicle.getSd()).append(vehicle.getQty());
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ModelState {\n");
+        sb.append("  time: ").append(time).append("\n");
+        sb.append("  seaLevel: ").append(seaLevel).append("\n");
+        sb.append("  vehicles: ").append(vsb.toString()).append("\n");
+        sb.append("  defenceBreach: ").append(defenceBreach).append("\n");
+        sb.append("}\n");
+
+        return sb.toString();
     }
 }

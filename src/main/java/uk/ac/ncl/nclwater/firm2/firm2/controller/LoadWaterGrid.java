@@ -35,7 +35,7 @@ public class LoadWaterGrid {
         Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
 
         String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data"));
-        logger.debug("Reading: {}", filename);
+        logger.debug("Reading: {} to get water (to be refactored)", filename);
         TerrainLayer terrainLayer = null;
         try {
             terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);

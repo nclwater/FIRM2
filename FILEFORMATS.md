@@ -23,7 +23,9 @@ classDiagram
     Building <|-- BuildingCode
     BuildingCode <|-- BuildingType
 ```
+### Relations between old data files
 
+![Relationships between old data files](Capture.jpg)
 
 **Format:** `%Easting  %Northing  %Building Type`
 
@@ -128,12 +130,14 @@ This file describes the coordinates of the flood defences.  Each defence has a n
 ```
 Etc.
 
-## vehicles.txt
+## vehiclesCodes.txt
 
-### vehicle agent names
+### vehicleCode agent names
 - transit eastbound
 - transit westbound
 - kids & work
+- test2
+- test
 
 
 ## 
@@ -144,7 +148,7 @@ Find code in codes.json
 - A55 east
 
 This describes the agent rules as a finite state machine
-This agent produces vehicles that flow along one of the main roads that bypasses the town at the South.  
+This agent produces vehiclesCodes that flow along one of the main roads that bypasses the town at the South.  
 Vehicles are produced at the point (taken from the preprocessed-buildings.txt file) and drive to another 
 point on the file before leaving the domain (“exit”)
 
@@ -157,7 +161,7 @@ point on the file before leaving the domain (“exit”)
 
 This agent produces someone who has kids and a job.  They start at home 
 (which is randomly assigned from the list of residential buildings) and then 
-at 7:45 with a standard deviation (SD) of 5 minutes vehicles appear at their 
+at 7:45 with a standard deviation (SD) of 5 minutes vehiclesCodes appear at their 
 home and drive to a school.  They spend 5 minutes, with SD=1 minute at the 
 school before 90% of them (0.9) head to a non-residential building that is not 
 a shop, the remaining 10% (0.1) head to a randomly selected shop and then after 
@@ -230,12 +234,12 @@ explained with line by line explanation.
 ```
 [
 	["normal", "08:00", "15m"], 500,
-	["vehicle", "transit eastbound"], 0.8,
-	["vehicle", "transit westbound"], 0.2
+	["vehicleCode", "transit eastbound"], 0.8,
+	["vehicleCode", "transit westbound"], 0.2
 ],
 
 ["0s", 1000, 
-	["vehicle", "kids & work"]
+	["vehicleCode", "kids & work"]
 ],
 ["07:54", ["sealevel", 6]],
 ["07:55", ["breach", defence1]],
@@ -243,9 +247,9 @@ explained with line by line explanation.
 [8:00, ["evacuate"]]]]
 ```
 
-- produces 500 cars with 80% going eastbound, 20% westbound (see vehicles.txt) centred around 8am normally distributed before and after this time with 
+- produces 500 cars with 80% going eastbound, 20% westbound (see vehiclesCodes.txt) centred around 8am normally distributed before and after this time with 
 SD=15minutes
-- sets up 1000 vehicles following the kids & work routine in the vehicles.txt
+- sets up 1000 vehiclesCodes following the kids & work routine in the vehiclesCodes.txt
 - sets the sealevel loading to be 6m elevation at 7:54.  The sea is those areas in the terrain.txt file that has nodata_value
 - removes the flood defence named defence 1 at 7:55 allowing water to flow through
-- sends an evacuation order out following the rules in vehicles.txt to go out at 8am
+- sends an evacuation order out following the rules in vehiclesCodes.txt to go out at 8am
