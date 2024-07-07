@@ -10,8 +10,12 @@ import java.io.IOException;
 
 public class Grid {
 
+
     Agent[][] grid;
 
+    /**
+     * If the model is toroidal (i.e. wraps around) set this to true
+     */
     boolean is_toroidal = false;
 
     public String getGridName() {

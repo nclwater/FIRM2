@@ -27,15 +27,13 @@ public class LoadWaterGrid {
      *
      * @param globalVariables
      */
-    public static Grid loadWater(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                                   Properties properties) {
+    public static void loadWaterAndTerrain(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
+                                           Properties properties, Grid terrainGrid, Grid waterGrid) {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         // Read the file to populate the basic grid of cells
-        Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
-        Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
 
         String filename = (properties.getProperty("input-data") + properties.getProperty("terrain-data"));
-        logger.debug("Reading: {} to get water (to be refactored)", filename);
+        logger.debug("Reading: {} to get water and terrain", filename);
         TerrainLayer terrainLayer = null;
         try {
             terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);
@@ -60,9 +58,6 @@ public class LoadWaterGrid {
                     }
                 }
             }
-
-
-            return waterGrid;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -22,10 +22,9 @@ public class VehicleCodeDescriptors {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("input-data") + properties.getProperty("vehicles-data");
             VehiclesCodes vehiclesCodes = gson.fromJson(new FileReader(filename), VehiclesCodes.class);
-            logger.debug("Reading: {}", filename);
+            logger.debug("Reading vehicle code descriptors: {}", filename);
             vehiclesCodes.getVehicleCodes().forEach(v -> {
                 hsh_vehicles.put(v.getCode(), v);
-                System.out.println("vehicle: " + v.getCode());
             });
             return hsh_vehicles;
         } catch (FileNotFoundException e) {

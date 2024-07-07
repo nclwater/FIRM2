@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
@@ -37,7 +38,8 @@ public class Firm2 extends Model {
     int modelStateIndex = 0;
     ModelStateChanges modelStateChanges;
     Float maintainSeaLevel;
-    HashMap<String, VehicleCode> vehicleCodes;
+    HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
+    HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
 
     /**
      * Initialise the model
@@ -59,13 +61,16 @@ public class Firm2 extends Model {
 
 
             // Create and populate all grids
-            grids.put("terrain", LoadTerrainGrid.loadTerrain(globalVariables, floodModelParameters,
-                    properties));
-            grids.put("water", LoadWaterGrid.loadWater(globalVariables, floodModelParameters,
-                    properties));
+            Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
+            Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
+            Grid roadsGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "roads");
+            LoadWaterGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid, waterGrid);
+            LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, roadsGrid, roadHashMap);
+            grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
-            grids.put("roads", LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties));
+            grids.put("roads", roadsGrid);
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
+            grids.put("water", waterGrid);
             Grid vehicles = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "vehicles");
             grids.put("vehicles", vehicles);
@@ -155,15 +160,24 @@ public class Firm2 extends Model {
                     }
                 }
             }
+            // Get entering vehicles
             if (modelState.getVehicles() != null) {
                 if (!modelState.getVehicles().isEmpty()) {
                     // Place vehicles
                     ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) modelState.getVehicles();
-                    logger.debug("vehicles enter: {}", vehicles);
+                    logger.debug("{} vehicle types enter: {}", modelState.getVehicles().size(), vehicles);
                     for (int i = 0; i < vehicles.size(); i++) {
                         Vehicle vehicle = vehicles.get(i);
-                        vehicleCodes.get(vehicle.getCode()).getNearestRoad();
-
+                        String nearestRoad = vehicleCodes.get(vehicle.getCode()).getNearestRoad();
+                        logger.debug("vehicle: {} {}", vehicle, nearestRoad);
+                        Point roadOrigin = roadHashMap.get(nearestRoad).get(0);
+                        int id = AgentIDProducer.getNewId();
+                        Car car = new Car(id);
+                        logger.debug("Origins: {} {} {} {} {}", x_origin, y_origin, (float) roadOrigin.x,
+                                (float) roadOrigin.y, cellMeters);
+                        Point p = Utilities.Ordinance2GridXY(x_origin, y_origin,(float) roadOrigin.x,
+                                (float) roadOrigin.y, cellMeters);
+                        vehicleGrid.setCell(roadOrigin.x, roadOrigin.y, car);
                     }
                 }
             }
