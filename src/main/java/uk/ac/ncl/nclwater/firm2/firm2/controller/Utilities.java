@@ -43,6 +43,7 @@ public class Utilities {
                 properties.setProperty("slowdown", "0");
                 properties.setProperty("time-stamp", "1719874800");
                 properties.setProperty("tick-time-value", "60");
+                properties.setProperty("ocean-depth", "4");
                 properties.store(output, null);
                 System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
             }

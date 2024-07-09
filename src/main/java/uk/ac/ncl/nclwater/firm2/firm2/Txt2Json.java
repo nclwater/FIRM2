@@ -204,19 +204,18 @@ public class Txt2Json {
      */
     public static void CodesTxt2Json() {
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("codes-data")));
-            System.out.println("Read file: " + properties.getProperty("codes-data"));
+            Scanner sc = new Scanner(new File("DATA/inputs/codes.txt"));
             BuildingTypes buildingTypes = new BuildingTypes();
             // Read first 6 lines for building-type-codes
             int lineIndex = 1;
             while (lineIndex < 7) {
-                String[] tokens = trimBrackets(sc.nextLine()).split(" ");
+                String[] tokens = trimBrackets(sc.nextLine()).split("\t");
                 BuildingType buildingType = new BuildingType(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]));
                 buildingTypes.add(buildingType);
                 lineIndex++;
             }
             Gson gson1 = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile1 = (properties.getProperty("input-data") + "buildingtypes.json");
+            String outfile1 = ("DATA/inputs/buildingtypes.json");
             FileWriter fileWriter1 = new FileWriter(outfile1);
             gson1.toJson(buildingTypes, fileWriter1);
             fileWriter1.close();
@@ -226,7 +225,7 @@ public class Txt2Json {
                 String line = sc.nextLine();
                 if (!(line.isEmpty() || line.startsWith(";;"))) {
                     System.out.println(line);
-                    String[] tokens = trimBrackets(line).split(" ");
+                    String[] tokens = trimBrackets(line).split("\t");
                     BuildingCode buildingCode = new BuildingCode(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]),
                             buildingTypes.findBuildingType(trimQuotes(tokens[2])));
                     buildingCodes.add(buildingCode);
@@ -234,7 +233,7 @@ public class Txt2Json {
             }
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile = (properties.getProperty("input-data") + properties.get("codes-data")).replace(".txt", ".json");
+            String outfile = ("DATA/inputs/codes.json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(buildingCodes, fileWriter);
             fileWriter.close();

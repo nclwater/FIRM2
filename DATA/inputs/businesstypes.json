@@ -1,0 +1,244 @@
+{
+  "business-types": [
+    {
+      "business-type-code": 211,
+      "business-type": "Shop and Premises"
+    },
+    {
+      "business-type-code": 212,
+      "business-type": "Store and Premises"
+    },
+    {
+      "business-type-code": 213,
+      "business-type": "Superstore/Hyperstore and Premises"
+    },
+    {
+      "business-type-code": 214,
+      "business-type": "Retail Warehouse and Premises"
+    },
+    {
+      "business-type-code": 215,
+      "business-type": "Showroom and Premises"
+    },
+    {
+      "business-type-code": 216,
+      "business-type": "Kiosk and Premises"
+    },
+    {
+      "business-type-code": 217,
+      "business-type": "Market Outdoor and Premises"
+    },
+    {
+      "business-type-code": 218,
+      "business-type": "Market Indoor and Premises"
+    },
+    {
+      "business-type-code": 221,
+      "business-type": "Garage/Vehicle Repair Workshop and Premises"
+    },
+    {
+      "business-type-code": 222,
+      "business-type": "Petrol Filling Station and Premises"
+    },
+    {
+      "business-type-code": 223,
+      "business-type": "Car Showroom and Premises"
+    },
+    {
+      "business-type-code": 224,
+      "business-type": "Plant Hire"
+    },
+    {
+      "business-type-code": 231,
+      "business-type": "Hairdressing Salon and Premises"
+    },
+    {
+      "business-type-code": 232,
+      "business-type": "Betting Shop and Premises"
+    },
+    {
+      "business-type-code": 233,
+      "business-type": "Launderette and Premises"
+    },
+    {
+      "business-type-code": 234,
+      "business-type": "Public House and Premises/Club/Clubhouse"
+    },
+    {
+      "business-type-code": 235,
+      "business-type": "Restaurant and Premises"
+    },
+    {
+      "business-type-code": 236,
+      "business-type": "Café and Premises"
+    },
+    {
+      "business-type-code": 237,
+      "business-type": "Post Office and Premises"
+    },
+    {
+      "business-type-code": 310,
+      "business-type": "Offices and Premises"
+    },
+    {
+      "business-type-code": 311,
+      "business-type": "Hi Tech Offices"
+    },
+    {
+      "business-type-code": 320,
+      "business-type": "Bank and Premises"
+    },
+    {
+      "business-type-code": 410,
+      "business-type": "Warehouse and Premises"
+    },
+    {
+      "business-type-code": 420,
+      "business-type": "Land Used for Storage and Premises"
+    },
+    {
+      "business-type-code": 430,
+      "business-type": "Road Haulage Depot and Premises"
+    },
+    {
+      "business-type-code": 511,
+      "business-type": "Hotel and Premises"
+    },
+    {
+      "business-type-code": 512,
+      "business-type": "Boarding House and Premises/Holiday Unit"
+    },
+    {
+      "business-type-code": 513,
+      "business-type": "Caravan Park and Premises"
+    },
+    {
+      "business-type-code": 514,
+      "business-type": "Beach Hut"
+    },
+    {
+      "business-type-code": 515,
+      "business-type": "Self Catering Unit"
+    },
+    {
+      "business-type-code": 516,
+      "business-type": "Hostel and Premises"
+    },
+    {
+      "business-type-code": 517,
+      "business-type": "Bingo Hall and Premises"
+    },
+    {
+      "business-type-code": 518,
+      "business-type": "Theatre/Cinema and Premises"
+    },
+    {
+      "business-type-code": 521,
+      "business-type": "Sports Ground/Playing Field and Premises"
+    },
+    {
+      "business-type-code": 522,
+      "business-type": "Golf Course and Premises"
+    },
+    {
+      "business-type-code": 523,
+      "business-type": "Sports \u0026 Leisure Centre and Premises"
+    },
+    {
+      "business-type-code": 524,
+      "business-type": "Amusement Arcade/Park and Premises"
+    },
+    {
+      "business-type-code": 525,
+      "business-type": "Football Ground and Premises"
+    },
+    {
+      "business-type-code": 526,
+      "business-type": "Mooring/Wharf/Marina and Premises"
+    },
+    {
+      "business-type-code": 527,
+      "business-type": "Swimming Pool and Premises"
+    },
+    {
+      "business-type-code": 610,
+      "business-type": "School/College/University/Nursery and Premises"
+    },
+    {
+      "business-type-code": 620,
+      "business-type": "Surgery and Health Centre and Premises"
+    },
+    {
+      "business-type-code": 625,
+      "business-type": "Residential Home"
+    },
+    {
+      "business-type-code": 630,
+      "business-type": "Community Centre/Halls and Premises"
+    },
+    {
+      "business-type-code": 640,
+      "business-type": "Library and Premises"
+    },
+    {
+      "business-type-code": 650,
+      "business-type": "Police Station and Premises"
+    },
+    {
+      "business-type-code": 660,
+      "business-type": "Hospital and Premises"
+    },
+    {
+      "business-type-code": 670,
+      "business-type": "Museum and Premises"
+    },
+    {
+      "business-type-code": 680,
+      "business-type": "Law Court and Premises"
+    },
+    {
+      "business-type-code": 690,
+      "business-type": "Church"
+    },
+    {
+      "business-type-code": 810,
+      "business-type": "Workshop and Premises"
+    },
+    {
+      "business-type-code": 820,
+      "business-type": "Factory/Works and Premises"
+    },
+    {
+      "business-type-code": 830,
+      "business-type": "Quarry/Tip Site/Concrete Batching and Premises"
+    },
+    {
+      "business-type-code": 840,
+      "business-type": "Sewage Treatment Works and Premises"
+    },
+    {
+      "business-type-code": 910,
+      "business-type": "Car Park/Premises"
+    },
+    {
+      "business-type-code": 920,
+      "business-type": "Public Convenience"
+    },
+    {
+      "business-type-code": 930,
+      "business-type": "Cemetery and Crematorium and Premises"
+    },
+    {
+      "business-type-code": 940,
+      "business-type": "Bus Station and Premises"
+    },
+    {
+      "business-type-code": 950,
+      "business-type": "Dock Hereditament and Premises"
+    },
+    {
+      "business-type-code": 960,
+      "business-type": "Electricity Hereditament and Premises"
+    }
+  ]
+}

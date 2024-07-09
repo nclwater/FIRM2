@@ -1,0 +1,384 @@
+{
+  "building-codes": [
+    {
+      "code": 23,
+      "description": "retail services",
+      "building-type-code": 0
+    },
+    {
+      "code": 100,
+      "description": "class code100",
+      "building-type-code": 0
+    },
+    {
+      "code": 211,
+      "description": "high street shop",
+      "building-type-code": 0
+    },
+    {
+      "code": 212,
+      "description": "class code212",
+      "building-type-code": 0
+    },
+    {
+      "code": 213,
+      "description": "superstore/hypermarket/supermarket",
+      "building-type-code": 0
+    },
+    {
+      "code": 214,
+      "description": "retail warehouse",
+      "building-type-code": 0
+    },
+    {
+      "code": 215,
+      "description": "showroom",
+      "building-type-code": 0
+    },
+    {
+      "code": 216,
+      "description": "kiosk",
+      "building-type-code": 0
+    },
+    {
+      "code": 217,
+      "description": "outdoor market",
+      "building-type-code": 0
+    },
+    {
+      "code": 218,
+      "description": "indoor market",
+      "building-type-code": 0
+    },
+    {
+      "code": 221,
+      "description": "vehicle repair garage",
+      "building-type-code": 0
+    },
+    {
+      "code": 222,
+      "description": "petrol station",
+      "building-type-code": 0
+    },
+    {
+      "code": 223,
+      "description": "car showroom",
+      "building-type-code": 0
+    },
+    {
+      "code": 224,
+      "description": "plant hire",
+      "building-type-code": 0
+    },
+    {
+      "code": 231,
+      "description": "hairdressing salon",
+      "building-type-code": 0
+    },
+    {
+      "code": 232,
+      "description": "betting shop",
+      "building-type-code": 0
+    },
+    {
+      "code": 233,
+      "description": "laundrette",
+      "building-type-code": 0
+    },
+    {
+      "code": 234,
+      "description": "pub/social club/wine bar",
+      "building-type-code": 0
+    },
+    {
+      "code": 235,
+      "description": "restaurant",
+      "building-type-code": 0
+    },
+    {
+      "code": 236,
+      "description": "cafe/food court",
+      "building-type-code": 0
+    },
+    {
+      "code": 237,
+      "description": "post office",
+      "building-type-code": 0
+    },
+    {
+      "code": 238,
+      "description": "garden centre",
+      "building-type-code": 0
+    },
+    {
+      "code": 310,
+      "description": "offices",
+      "building-type-code": 0
+    },
+    {
+      "code": 311,
+      "description": "computer centres",
+      "building-type-code": 0
+    },
+    {
+      "code": 320,
+      "description": "bank",
+      "building-type-code": 0
+    },
+    {
+      "code": 410,
+      "description": "warehouse code410",
+      "building-type-code": 0
+    },
+    {
+      "code": 420,
+      "description": "land used for storage",
+      "building-type-code": 0
+    },
+    {
+      "code": 430,
+      "description": "road haulage",
+      "building-type-code": 0
+    },
+    {
+      "code": 411,
+      "description": "warehouse code411",
+      "building-type-code": 0
+    },
+    {
+      "code": 412,
+      "description": "ambient goods warehouse",
+      "building-type-code": 0
+    },
+    {
+      "code": 413,
+      "description": "frozen goods warehouse",
+      "building-type-code": 0
+    },
+    {
+      "code": 511,
+      "description": "hotel",
+      "building-type-code": 0
+    },
+    {
+      "code": 512,
+      "description": "boarding house",
+      "building-type-code": 0
+    },
+    {
+      "code": 513,
+      "description": "mobile caravan",
+      "building-type-code": 0
+    },
+    {
+      "code": 514,
+      "description": "static caravan",
+      "building-type-code": 0
+    },
+    {
+      "code": 515,
+      "description": "self catering unit",
+      "building-type-code": 0
+    },
+    {
+      "code": 516,
+      "description": "hostel/prison",
+      "building-type-code": 0
+    },
+    {
+      "code": 517,
+      "description": "bingo hall",
+      "building-type-code": 0
+    },
+    {
+      "code": 518,
+      "description": "theatre/cinema",
+      "building-type-code": 0
+    },
+    {
+      "code": 519,
+      "description": "beach hut",
+      "building-type-code": 0
+    },
+    {
+      "code": 521,
+      "description": "sports ground/playing field",
+      "building-type-code": 0
+    },
+    {
+      "code": 522,
+      "description": "golf course",
+      "building-type-code": 0
+    },
+    {
+      "code": 523,
+      "description": "sports centre/leisure centre/sports and leisure centre",
+      "building-type-code": 0
+    },
+    {
+      "code": 524,
+      "description": "amusement arcade/park",
+      "building-type-code": 0
+    },
+    {
+      "code": 525,
+      "description": "football ground and stadia",
+      "building-type-code": 0
+    },
+    {
+      "code": 526,
+      "description": "mooring/wharf/marina",
+      "building-type-code": 0
+    },
+    {
+      "code": 527,
+      "description": "swimming pool",
+      "building-type-code": 0
+    },
+    {
+      "code": 610,
+      "description": "school/college/university/nursery",
+      "building-type-code": 0
+    },
+    {
+      "code": 620,
+      "description": "surgery/health centre",
+      "building-type-code": 0
+    },
+    {
+      "code": 625,
+      "description": "residential home",
+      "building-type-code": 0
+    },
+    {
+      "code": 630,
+      "description": "community centres/hall",
+      "building-type-code": 0
+    },
+    {
+      "code": 640,
+      "description": "library",
+      "building-type-code": 0
+    },
+    {
+      "code": 650,
+      "description": "fire station/ambulance station",
+      "building-type-code": 0
+    },
+    {
+      "code": 651,
+      "description": "police station",
+      "building-type-code": 0
+    },
+    {
+      "code": 660,
+      "description": "hospital",
+      "building-type-code": 0
+    },
+    {
+      "code": 670,
+      "description": "museum",
+      "building-type-code": 0
+    },
+    {
+      "code": 680,
+      "description": "law court",
+      "building-type-code": 0
+    },
+    {
+      "code": 690,
+      "description": "church",
+      "building-type-code": 0
+    },
+    {
+      "code": 810,
+      "description": "workshop",
+      "building-type-code": 0
+    },
+    {
+      "code": 820,
+      "description": "factory/works/mill",
+      "building-type-code": 0
+    },
+    {
+      "code": 830,
+      "description": "extractive/heavy industry",
+      "building-type-code": 0
+    },
+    {
+      "code": 840,
+      "description": "sewage treatment works",
+      "building-type-code": 0
+    },
+    {
+      "code": 850,
+      "description": "laboratory",
+      "building-type-code": 0
+    },
+    {
+      "code": 860,
+      "description": "class 860",
+      "building-type-code": 0
+    },
+    {
+      "code": 910,
+      "description": "car park",
+      "building-type-code": 0
+    },
+    {
+      "code": 920,
+      "description": "public convenience",
+      "building-type-code": 0
+    },
+    {
+      "code": 930,
+      "description": "cemetry/crematorium",
+      "building-type-code": 0
+    },
+    {
+      "code": 940,
+      "description": "bus station",
+      "building-type-code": 0
+    },
+    {
+      "code": 950,
+      "description": "dock hereditament",
+      "building-type-code": 0
+    },
+    {
+      "code": 960,
+      "description": "electricity hereditament",
+      "building-type-code": 0
+    },
+    {
+      "code": 1000,
+      "description": "evacuation point",
+      "building-type-code": 0
+    },
+    {
+      "code": 1001,
+      "description": "A55 east",
+      "building-type-code": 0
+    },
+    {
+      "code": 1002,
+      "description": "A55 west",
+      "building-type-code": 0
+    },
+    {
+      "code": 1003,
+      "description": "towyn test",
+      "building-type-code": 0
+    },
+    {
+      "code": 1004,
+      "description": "rhyl test",
+      "building-type-code": 0
+    },
+    {
+      "code": -9999,
+      "description": "class code-9999",
+      "building-type-code": 0
+    }
+  ]
+}

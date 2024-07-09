@@ -1,0 +1,28 @@
+{
+  "building-type-list": [
+    {
+      "building-type-code": 0,
+      "building-type-description": "house/residence/home"
+    },
+    {
+      "building-type-code": -2,
+      "building-type-description": "shop"
+    },
+    {
+      "building-type-code": -3,
+      "building-type-description": "work"
+    },
+    {
+      "building-type-code": -4,
+      "building-type-description": "other"
+    },
+    {
+      "building-type-code": -5,
+      "building-type-description": "recreation"
+    },
+    {
+      "building-type-code": -6,
+      "building-type-description": "warehouse"
+    }
+  ]
+}
