@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -16,9 +16,9 @@ import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getH
 /**
  * THIS NEEDS REFACTORING. IT IS THE SAME AS LoadRoadsGrid.
  */
-public class LoadWaterGrid {
+public class LoadWaterAndTerrainGrid {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoadWaterGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoadWaterAndTerrainGrid.class);
 
     /**
      * Read the file containing the terrain elevations. If a tile is marked as null it is ocean and the terrain agent
@@ -43,7 +43,7 @@ public class LoadWaterGrid {
                 for (int grid_x = 0; grid_x < floodModelParameters.getWidth(); grid_x++) {
                     int id = AgentIDProducer.getNewId();
                     // if null assume tile is ocean
-                    if (terrainLine.getElevation()[grid_x] != null) {
+                    if (terrainLine.getElevation()[grid_x] != -9999) {
                         terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));
                         terrainGrid.getCell(grid_x, grid_y).setColour(
                                 getHeightmapGradient("terrain", terrainLine.getElevation()[grid_x],

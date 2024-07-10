@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Building;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Buildings;
 import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;

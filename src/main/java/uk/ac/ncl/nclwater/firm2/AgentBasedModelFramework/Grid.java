@@ -1,6 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils;
-
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
+package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

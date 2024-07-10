@@ -2,7 +2,7 @@ package uk.ac.ncl.nclwater.firm2.examples.conway;
 
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 
 import java.util.Random;
 

@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils;
 
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
+
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;

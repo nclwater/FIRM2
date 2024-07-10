@@ -27,7 +27,7 @@ public class TerrainLine {
         this.elevation = new Float[str_elevation.length];
         for (int i = 0; i < str_elevation.length; i++) {
             if (str_elevation[i].equals("-9999"))
-                this.elevation[i] = null;
+                this.elevation[i] = -9999F;
             else
                 this.elevation[i] = Float.parseFloat(str_elevation[i]);
         }

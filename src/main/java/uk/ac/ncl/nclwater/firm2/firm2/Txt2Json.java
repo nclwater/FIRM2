@@ -247,23 +247,30 @@ public class Txt2Json {
 
     public static void TerrainTxt2Json() {
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
+            Scanner sc = new Scanner(new File("DATA/inputs/terrain.txt"));
             System.out.println("Read file: " + properties.getProperty("terrain-data"));
             // Read and ignore the first 7 lines
             for (int i = 0; i < 7; i++) {
                 sc.nextLine();
             }
             TerrainLayer terrainLayer = new TerrainLayer();
+            float minHeight = 0F;
+            float maxHeight = 0F;
             while (sc.hasNext()) {
                 TerrainLine terrainLine = new TerrainLine(trimBrackets(sc.nextLine()).split("\t"));
                 terrainLayer.add(terrainLine);
+                float min = Collections.min(Arrays.asList(terrainLine.getElevation()));
+                float max = Collections.max(Arrays.asList(terrainLine.getElevation()));
+                minHeight = Math.min(minHeight, min);
+                maxHeight = Math.max(maxHeight, max);
             }
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile = (properties.getProperty("input-data") + properties.get("terrain-data")).replace(".txt", ".json");
+            String outfile = ("DATA/inputs/terrain.json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(terrainLayer, fileWriter);
             fileWriter.close();
+            System.out.println("minHeight: " + minHeight + " maxHeight: " + maxHeight);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

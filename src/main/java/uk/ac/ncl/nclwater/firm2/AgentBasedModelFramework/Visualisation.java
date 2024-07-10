@@ -1,7 +1,5 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

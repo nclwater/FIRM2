@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -59,7 +59,7 @@ public class LoadRoadsGrid {
                         roadGrid.setCell(point.x, point.y, newRoad);
                         cleanedWholeRoad.add(point);
                     } else {
-                        logger.debug("Road: {}, {} is out of bounds", point.x, point.y);
+                        logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
                     }
                 });
                 roadHashMap.put(r.getRoadIDs()[0],cleanedWholeRoad);

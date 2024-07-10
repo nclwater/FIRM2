@@ -12,7 +12,7 @@ import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -61,10 +61,10 @@ public class Firm2 extends Model {
 
 
             // Create and populate all grids
-            Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
             Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
+            Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
+            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid, waterGrid);
             Grid roadsGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "roads");
-            LoadWaterGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid, waterGrid);
             LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, roadsGrid, roadHashMap);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
@@ -172,7 +172,7 @@ public class Firm2 extends Model {
                         logger.debug("vehicle: {} {}", vehicle, nearestRoad);
                         Point roadOrigin = roadHashMap.get(nearestRoad).get(0);
                         int id = AgentIDProducer.getNewId();
-                        Car car = new Car(id);
+                        Car car = new Car(id, roadHashMap.get(nearestRoad));
                         logger.debug("Origins: {} {} {} {} {}", x_origin, y_origin, (float) roadOrigin.x,
                                 (float) roadOrigin.y, cellMeters);
                         Point p = Utilities.Ordinance2GridXY(x_origin, y_origin,(float) roadOrigin.x,
