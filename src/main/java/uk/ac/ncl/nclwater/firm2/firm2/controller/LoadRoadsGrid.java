@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ public class LoadRoadsGrid {
      * Read the roads.json configuration from file and populate the road grid
      */
     public static void loadRoads(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                                 Properties properties, Grid roadGrid, HashMap<String, ArrayList<Point>> roadHashMap) {
+                                 Properties properties, SimpleGrid roadGrid, HashMap<String, ArrayList<Point>> roadHashMap) {
 //         		;; manually fix up the bridge over the river.
 //         		;; XXX this should be done from a config file.
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]

@@ -1,6 +1,6 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils;
 
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 
 import java.awt.*;
 
@@ -21,7 +21,7 @@ class GridTest {
 
     @org.junit.jupiter.api.Test
     void getVNNeighborhoodNorth() {
-        Grid grid = new Grid(10, 10, false, "test");
+        SimpleGrid grid = new SimpleGrid(10, 10, false, "test");
         Point[] points = grid.getVNNeighborhood(x, y);
         assertEquals(points[0].x, nx);
         assertEquals(points[0].y, ny);
@@ -29,7 +29,7 @@ class GridTest {
 
     @org.junit.jupiter.api.Test
     void getVNNeighborhoodSouth() {
-        Grid grid = new Grid(10, 10, false, "test");
+        SimpleGrid grid = new SimpleGrid(10, 10, false, "test");
         Point[] points = grid.getVNNeighborhood(x, y);
         assertEquals(points[1].x, sx);
         assertEquals(points[1].y, sy);
@@ -37,7 +37,7 @@ class GridTest {
 
     @org.junit.jupiter.api.Test
     void getVNNeighborhoodEast() {
-        Grid grid = new Grid(10, 10, false, "test");
+        SimpleGrid grid = new SimpleGrid(10, 10, false, "test");
         Point[] points = grid.getVNNeighborhood(x, y);
         assertEquals(points[2].x, ex);
         assertEquals(points[2].y, ey);
@@ -45,7 +45,7 @@ class GridTest {
 
     @org.junit.jupiter.api.Test
     void getVNNeighborhoodWest() {
-        Grid grid = new Grid(10, 10, false, "test");
+        SimpleGrid grid = new SimpleGrid(10, 10, false, "test");
         Point[] points = grid.getVNNeighborhood(x, y);
         assertEquals(points[3].x, wx);
         assertEquals(points[3].y, wy);

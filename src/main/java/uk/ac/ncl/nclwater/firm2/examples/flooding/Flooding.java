@@ -1,12 +1,12 @@
 package uk.ac.ncl.nclwater.firm2.examples.flooding;
 
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 
 public class Flooding extends Model {
     @Override
     public void modelInit() {
-        this.grids.put("water", new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "water"));
+        this.grids.put("water", new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "water"));
 
     }
 

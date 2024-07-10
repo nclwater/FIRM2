@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Building;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Buildings;
 import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
@@ -25,14 +25,14 @@ public class LoadBuildingsGrid {
     /**
      * Read the building.json file and populate the buildings grid
      */
-    public static Grid loadBuildings(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                               Properties properties) {
+    public static SimpleGrid loadBuildings(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
+                                           Properties properties) {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("input-data") + properties.getProperty("buildings-data");
             Buildings buildings = gson.fromJson(new FileReader(filename), Buildings.class);
             logger.debug("Reading: {}", filename);
-            Grid buildingGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+            SimpleGrid buildingGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "buildings");
             buildings.getBuildings().forEach(b -> {
                 Point coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(), (float) b.getOrdinate().getX(),

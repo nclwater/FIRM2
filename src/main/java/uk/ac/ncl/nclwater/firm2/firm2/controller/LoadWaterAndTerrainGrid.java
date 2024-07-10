@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ public class LoadWaterAndTerrainGrid {
      * @param globalVariables
      */
     public static void loadWaterAndTerrain(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                                           Properties properties, Grid terrainGrid, Grid waterGrid) {
+                                           Properties properties, SimpleGrid terrainGrid, SimpleGrid waterGrid) {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         // Read the file to populate the basic grid of cells
 

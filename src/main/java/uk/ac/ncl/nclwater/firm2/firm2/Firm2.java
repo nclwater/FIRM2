@@ -7,12 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -61,17 +61,17 @@ public class Firm2 extends Model {
 
 
             // Create and populate all grids
-            Grid waterGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
-            Grid terrainGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
+            SimpleGrid waterGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
+            SimpleGrid terrainGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid, waterGrid);
-            Grid roadsGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "roads");
+            SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "roads");
             LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, roadsGrid, roadHashMap);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("roads", roadsGrid);
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
-            Grid vehicles = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+            SimpleGrid vehicles = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "vehicles");
             grids.put("vehicles", vehicles);
 
@@ -108,11 +108,11 @@ public class Firm2 extends Model {
         }
         Timestamp ts = new Timestamp(timestamp);
         Timestamp mts = new Timestamp(modelTimeStamp);
-        Grid waterGrid = grids.get("water");
-        Grid terrainGrid = grids.get("terrain");
-        Grid defenceGrid = grids.get("defences");
-        Grid roadGrid = grids.get("roads");
-        Grid newWaterGrid = new Grid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
+        SimpleGrid waterGrid = grids.get("water");
+        SimpleGrid terrainGrid = grids.get("terrain");
+        SimpleGrid defenceGrid = grids.get("defences");
+        SimpleGrid roadGrid = grids.get("roads");
+        SimpleGrid newWaterGrid = new SimpleGrid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
             for (int col = 0; col < waterGrid.getWidth(); col++) {
@@ -199,7 +199,7 @@ public class Firm2 extends Model {
      * @param waterGrid the water grid
      * @param level the level to which the ocean cells have to be restored
      */
-    private void setSeaLevel(Grid waterGrid, float level) {
+    private void setSeaLevel(SimpleGrid waterGrid, float level) {
         for (int row = 0; row < floodModelParameters.getHeight(); row++) {
             for (int col = 0; col < floodModelParameters.getWidth(); col++) {
                 Water w = (Water) waterGrid.getCell(col, row);
@@ -208,7 +208,7 @@ public class Firm2 extends Model {
         }
     }
 
-    private void moveWater(Grid water, Grid terrain, Grid defence, Grid newWaterGrid) {
+    private void moveWater(SimpleGrid water, SimpleGrid terrain, SimpleGrid defence, SimpleGrid newWaterGrid) {
         // MOVE WATER
         for (int row = 0; row < floodModelParameters.getHeight(); row++) {
             for (int col = 0; col < floodModelParameters.getWidth(); col++) {

@@ -1,8 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.examples.nagelschreckenberg;
 
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 
 import java.awt.*;
 import java.util.Random;
@@ -23,7 +23,7 @@ public class NagelSchreckenberg extends Model {
 
     @Override
     public void tick() {
-        Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cars");
+        SimpleGrid newGrid = new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cars");
         // Acceleration: All cars not at the maximum velocity have their velocity increased by one unit.
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
@@ -59,7 +59,7 @@ public class NagelSchreckenberg extends Model {
 
     @Override
     public void modelInit() {
-        this.grids.put("cars", new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cars"));
+        this.grids.put("cars", new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cars"));
 
         // Create grid
         for (int row = 0; row < modelParameters.getHeight(); row++) {

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Grid {
+public class SimpleGrid {
 
 
     Agent[][] grid;
@@ -59,7 +59,7 @@ public class Grid {
      * @param toroidal If toroidal is true the edges of the grid wraps around to the beginning
      * @param name A name for the grid as a string
      */
-    public Grid(int width, int height, boolean toroidal, String name) {
+    public SimpleGrid(int width, int height, boolean toroidal, String name) {
         this.width = width;
         this.height = height;
         this.is_toroidal = toroidal;

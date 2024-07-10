@@ -16,7 +16,7 @@ public abstract class Model implements Runnable {
     private static int ids = 0;
     private boolean run = false;
     protected Visualisation visualisation;
-    protected LinkedHashMap<String, Grid> grids = new LinkedHashMap<>();
+    protected LinkedHashMap<String, SimpleGrid> grids = new LinkedHashMap<>();
     private boolean running = true;
     private int total_ticks = 0;
 
@@ -125,7 +125,7 @@ public abstract class Model implements Runnable {
      * Returns the grid in its current state
      * @return the grid in its current state
      */
-    public LinkedHashMap<String, Grid> getGrids() {
+    public LinkedHashMap<String, SimpleGrid> getGrids() {
         return grids;
     }
 

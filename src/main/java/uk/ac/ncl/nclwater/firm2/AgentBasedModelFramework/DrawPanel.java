@@ -15,9 +15,9 @@ public class DrawPanel extends JPanel implements MouseListener {
     final JDialog dialog = new JDialog();
     JTextArea dialog_text = new JTextArea("one two three");
 
-    LinkedHashMap<String, Grid> grids;
+    LinkedHashMap<String, SimpleGrid> grids;
 
-    public DrawPanel(LinkedHashMap<String, Grid> grids, int cell_size, ModelParameters modelParameters) {
+    public DrawPanel(LinkedHashMap<String, SimpleGrid> grids, int cell_size, ModelParameters modelParameters) {
         super();
         addMouseListener(this);
         this.grids = grids;
@@ -32,7 +32,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int font_height = g.getFontMetrics().getHeight();
-        Map<String, Grid> gridsCopy;
+        Map<String, SimpleGrid> gridsCopy;
 
 //        synchronized (grids) {
 //            gridsCopy = new LinkedHashMap<>(grids);
@@ -52,7 +52,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     }
 
 
-    public void setGrid(LinkedHashMap<String, Grid> grids) {
+    public void setGrid(LinkedHashMap<String, SimpleGrid> grids) {
         this.grids = grids;
     }
 
@@ -75,7 +75,7 @@ public class DrawPanel extends JPanel implements MouseListener {
         int cell_y = y / cell_size;
         int map_y = (height - 1) - (y / cell_size);
         sb.append("Map co-ordinate:").append(cell_x).append(", Y: ").append(map_y).append("\n");
-        sb.append("Grid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
+        sb.append("SimpleGrid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
         sb.append(grids.size()).append(" layers:\n");
         grids.forEach((key, grid) -> {
             if (grid.getCell(cell_x, cell_y) != null) {

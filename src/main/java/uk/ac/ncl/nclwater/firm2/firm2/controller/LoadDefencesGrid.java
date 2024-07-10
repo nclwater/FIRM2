@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Defence;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Defences;
 import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
@@ -25,9 +25,9 @@ public class LoadDefencesGrid {
     /**
      * Read the defences.json file and populate the defences grid
      */
-    public static Grid loadDefences(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                                    Properties properties) {
-        Grid defenceGrid = new Grid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+    public static SimpleGrid loadDefences(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
+                                          Properties properties) {
+        SimpleGrid defenceGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                 floodModelParameters.isToroidal(), "defences");
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();

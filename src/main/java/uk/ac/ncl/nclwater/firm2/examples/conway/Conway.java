@@ -1,8 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.examples.conway;
 
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Grid;
 
 import java.util.Random;
 
@@ -28,7 +28,7 @@ public class Conway extends Model {
 
     @Override
     public void tick() {
-        Grid newGrid = new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cells");
+        SimpleGrid newGrid = new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cells");
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
                 int neighbourCount = grids.get("cells").occupiedNeighbourCount('m', col, row, Alive.class);
@@ -55,7 +55,7 @@ public class Conway extends Model {
 
     @Override
     public void modelInit() {
-        this.grids.put("cells", new Grid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cells"));
+        this.grids.put("cells", new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cells"));
 
         // Create grid
         for (int row = 0; row < modelParameters.getHeight(); row++) {
