@@ -111,7 +111,6 @@ public class Firm2 extends Model {
         Grid waterGrid = grids.get("water");
         Grid terrainGrid = grids.get("terrain");
         Grid defenceGrid = grids.get("defences");
-        Grid vehicleGrid = grids.get("vehicles");
         Grid roadGrid = grids.get("roads");
         Grid newWaterGrid = new Grid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
@@ -177,13 +176,12 @@ public class Firm2 extends Model {
                                 (float) roadOrigin.y, cellMeters);
                         Point p = Utilities.Ordinance2GridXY(x_origin, y_origin,(float) roadOrigin.x,
                                 (float) roadOrigin.y, cellMeters);
-                        vehicleGrid.setCell(roadOrigin.x, roadOrigin.y, car);
                     }
                 }
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
-        moveVehicles(vehicleGrid, vehicleCodes);
+        moveVehicles();
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
@@ -191,7 +189,7 @@ public class Firm2 extends Model {
         }
     }
 
-    private void moveVehicles(Grid vehicleGrid, HashMap<String, VehicleCode> vehicleCodes) {
+    private void moveVehicles() {
 
 
     }
