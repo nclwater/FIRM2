@@ -108,10 +108,10 @@ public class Firm2 extends Model {
         }
         Timestamp ts = new Timestamp(timestamp);
         Timestamp mts = new Timestamp(modelTimeStamp);
-        SimpleGrid waterGrid = grids.get("water");
-        SimpleGrid terrainGrid = grids.get("terrain");
-        SimpleGrid defenceGrid = grids.get("defences");
-        SimpleGrid roadGrid = grids.get("roads");
+        SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
+        SimpleGrid terrainGrid = (SimpleGrid) grids.get("terrain");
+        SimpleGrid defenceGrid = (SimpleGrid) grids.get("defences");
+        SimpleGrid roadGrid = (SimpleGrid) grids.get("roads");
         SimpleGrid newWaterGrid = new SimpleGrid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
@@ -286,9 +286,9 @@ public class Firm2 extends Model {
 
         // Generate a one pixel per cell PNG image on tick
         if (floodModelParameters.isPngOnTick()) {
-            grids.get("water").createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
-            grids.get("terrain").createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));
-            grids.get("defences").createPNG(properties.getProperty("output-data"), "defences_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("output-data"), "defences_" + Long.toString(modelTimeStamp));
         }
     }
 

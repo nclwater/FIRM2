@@ -16,7 +16,7 @@ public abstract class Model implements Runnable {
     private static int ids = 0;
     private boolean run = false;
     protected Visualisation visualisation;
-    protected LinkedHashMap<String, SimpleGrid> grids = new LinkedHashMap<>();
+    protected LinkedHashMap<String, Grid> grids = new LinkedHashMap<>();
     private boolean running = true;
     private int total_ticks = 0;
 
@@ -85,29 +85,32 @@ public abstract class Model implements Runnable {
      */
     protected void printGrid(char type, Class<?> t, int layer) {
         String text = "o";
-        for (int row = 0; row < modelParameters.getHeight(); row++) {
-            for (int col = 0; col < modelParameters.getWidth(); col++) {
-                switch (type) {
-                    case 'n':
-                        text = "" + grids.get(layer).occupiedNeighbourCount('m', col, row, t);
-                        break;
-                    case 'd':
-                        text = "" + grids.get(layer).distanceBetween('f', col, row, t);
-                        break;
-                    case 'x':
-                        text = "x";
-                        break;
-                    case 'i':
-                        text = grids.get(layer).getCell(col, row) == null ? " " : "" + grids.get(layer).getCell(col, row).getAgent_id();
-                        break;
+        if (grids.get(layer) instanceof SimpleGrid) {
+            SimpleGrid g = (SimpleGrid) grids.get(layer);
+            for (int row = 0; row < modelParameters.getHeight(); row++) {
+                for (int col = 0; col < modelParameters.getWidth(); col++) {
+                    switch (type) {
+                        case 'n':
+                            text = "" + g.occupiedNeighbourCount('m', col, row, t);
+                            break;
+                        case 'd':
+                            text = "" + g.distanceBetween('f', col, row, t);
+                            break;
+                        case 'x':
+                            text = "x";
+                            break;
+                        case 'i':
+                            text = g.getCell(col, row) == null ? " " : "" + g.getCell(col, row).getAgent_id();
+                            break;
+                    }
+                    if (g.getCell(col, row) != null) {
+                        System.out.print(text + "\t");
+                    } else {
+                        System.out.print(text + "\t");
+                    }
                 }
-                if (grids.get(layer).getCell(col, row) != null) {
-                    System.out.print(text + "\t");
-                } else {
-                    System.out.print(text + "\t");
-                }
+                System.out.println();
             }
-            System.out.println();
         }
         System.out.println("\033[H\033[2J");
     }
@@ -125,7 +128,7 @@ public abstract class Model implements Runnable {
      * Returns the grid in its current state
      * @return the grid in its current state
      */
-    public LinkedHashMap<String, SimpleGrid> getGrids() {
+    public LinkedHashMap<String, Grid> getGrids() {
         return grids;
     }
 

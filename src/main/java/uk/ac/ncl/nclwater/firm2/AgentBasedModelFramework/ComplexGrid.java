@@ -2,7 +2,7 @@ package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
 import java.util.ArrayList;
 
-public class ComplexGrid {
+public class ComplexGrid implements Grid {
 
     /**
      * An ArrayList of type Agent. This array list is an alternative to a grid. Rather than having a grid of type agent

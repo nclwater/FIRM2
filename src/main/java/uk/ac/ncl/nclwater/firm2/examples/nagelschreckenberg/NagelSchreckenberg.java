@@ -27,7 +27,7 @@ public class NagelSchreckenberg extends Model {
         // Acceleration: All cars not at the maximum velocity have their velocity increased by one unit.
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                Car c = (Car)grids.get("cars").getCell(col, row);
+                Car c = (Car)((SimpleGrid)grids.get("cars")).getCell(col, row);
                 if ((c != null) && (c.getVelocity() < c.getMaxVelocity())) {
                     c.setVelocity(c.getVelocity() + 1);
                 }
@@ -35,9 +35,9 @@ public class NagelSchreckenberg extends Model {
         }
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                Car c = (Car)grids.get("cars").getCell(col, row);
+                Car c = (Car)((SimpleGrid)grids.get("cars")).getCell(col, row);
                 if (c != null) {
-                    int distance = grids.get("cars").distanceBetween('f', col, row, Car.class);
+                    int distance = ((SimpleGrid)grids.get("cars")).distanceBetween('f', col, row, Car.class);
                     if (distance < c.getVelocity()) {
                         c.setVelocity(distance);
                     }
@@ -47,9 +47,9 @@ public class NagelSchreckenberg extends Model {
         // Move cars forward the number of cells equal to their velocity
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                if (grids.get("cars").getCell(col, row) != null) {
-                    newGrid.setCell((((Car)(grids.get("cars").getCell(col, row))).getVelocity() + col) %
-                            grids.get("cars").getWidth(), row, grids.get("cars").getCell(col, row));
+                if (((SimpleGrid)grids.get("cars")).getCell(col, row) != null) {
+                    newGrid.setCell((((Car)(((SimpleGrid)grids.get("cars")).getCell(col, row))).getVelocity() + col) %
+                            ((SimpleGrid)grids.get("cars")).getWidth(), row, ((SimpleGrid)grids.get("cars")).getCell(col, row));
                 }
             }
         }
@@ -70,9 +70,9 @@ public class NagelSchreckenberg extends Model {
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
                     if (newId == 1)
-                        this.grids.get("cars").setCell(col, row, new Car(newId, Color.RED));
+                        ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(newId, Color.RED));
                     else
-                        this.grids.get("cars").setCell(col, row, new Car(newId, Color.BLUE));
+                        ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(newId, Color.BLUE));
                 }
             }
         }

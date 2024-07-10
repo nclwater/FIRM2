@@ -31,12 +31,12 @@ public class Conway extends Model {
         SimpleGrid newGrid = new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cells");
         for (int row = 0; row < modelParameters.getHeight(); row++) {
             for (int col = 0; col < modelParameters.getWidth(); col++) {
-                int neighbourCount = grids.get("cells").occupiedNeighbourCount('m', col, row, Alive.class);
+                int neighbourCount = ((SimpleGrid)grids.get("cells")).occupiedNeighbourCount('m', col, row, Alive.class);
                 // If cell is alive
-                if (grids.get("cells").getCell(col, row) != null) {
+                if (((SimpleGrid)grids.get("cells")).getCell(col, row) != null) {
                     // has two or three neighbours keeps on living
                     if (neighbourCount == 2 || neighbourCount == 3) {
-                        newGrid.setCell(col, row, grids.get("cells").getCell(col, row));
+                        newGrid.setCell(col, row, ((SimpleGrid)grids.get("cells")).getCell(col, row));
                     } else {
                         newGrid.setCell(col, row, null);
                     }
@@ -65,7 +65,7 @@ public class Conway extends Model {
                 int newId = 0;
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
-                    this.grids.get("cells").setCell(col, row, new Alive(newId));
+                    ((SimpleGrid)this.grids.get("cells")).setCell(col, row, new Alive(newId));
                 }
             }
         }

@@ -33,7 +33,7 @@ public class Visualisation extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
-        LinkedHashMap<String, SimpleGrid> grids = model.getGrids();
+        LinkedHashMap<String, Grid> grids = model.getGrids();
         this.setSize(1024,768);
         drawPanel = new DrawPanel(grids, cell_size, model.getModelParameters());
         drawPanel.setSize(model.getModelParameters().getWidth() * cell_size, model.getModelParameters().getHeight() * cell_size);

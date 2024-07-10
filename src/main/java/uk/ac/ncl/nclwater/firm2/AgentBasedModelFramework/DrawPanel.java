@@ -15,9 +15,9 @@ public class DrawPanel extends JPanel implements MouseListener {
     final JDialog dialog = new JDialog();
     JTextArea dialog_text = new JTextArea("one two three");
 
-    LinkedHashMap<String, SimpleGrid> grids;
+    LinkedHashMap<String, Grid> grids;
 
-    public DrawPanel(LinkedHashMap<String, SimpleGrid> grids, int cell_size, ModelParameters modelParameters) {
+    public DrawPanel(LinkedHashMap<String, Grid> grids, int cell_size, ModelParameters modelParameters) {
         super();
         addMouseListener(this);
         this.grids = grids;
@@ -38,13 +38,15 @@ public class DrawPanel extends JPanel implements MouseListener {
 //            gridsCopy = new LinkedHashMap<>(grids);
 //        }
         grids.forEach((key, grid) -> {
-            for (int row = 0; row < height; row++) {
-                for (int col = 0; col < width; col++) {
-                    if (grid.getCell(col, row) != null) {
-                        g.setColor(grid.getCell(col, row).getColour());
-                        g.fillRect(col * cell_size, row * cell_size,
-                                cell_size, cell_size);
-                        g.setColor(Color.WHITE);
+            if (grid instanceof SimpleGrid simpleGrid) {
+                for (int row = 0; row < height; row++) {
+                    for (int col = 0; col < width; col++) {
+                        if (simpleGrid.getCell(col, row) != null) {
+                            g.setColor(simpleGrid.getCell(col, row).getColour());
+                            g.fillRect(col * cell_size, row * cell_size,
+                                    cell_size, cell_size);
+                            g.setColor(Color.WHITE);
+                        }
                     }
                 }
             }
@@ -52,7 +54,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     }
 
 
-    public void setGrid(LinkedHashMap<String, SimpleGrid> grids) {
+    public void setGrid(LinkedHashMap<String, Grid> grids) {
         this.grids = grids;
     }
 
@@ -78,9 +80,11 @@ public class DrawPanel extends JPanel implements MouseListener {
         sb.append("SimpleGrid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
         sb.append(grids.size()).append(" layers:\n");
         grids.forEach((key, grid) -> {
-            if (grid.getCell(cell_x, cell_y) != null) {
-                sb.append(grid.getCell(cell_x, cell_y).getClass().getName()).append("\n");
-                sb.append(grid.getCell(cell_x, cell_y).toString()).append("\n");
+            if (grid instanceof SimpleGrid simpleGrid) {
+                if (simpleGrid.getCell(cell_x, cell_y) != null) {
+                    sb.append(simpleGrid.getCell(cell_x, cell_y).getClass().getName()).append("\n");
+                    sb.append(simpleGrid.getCell(cell_x, cell_y).toString()).append("\n");
+                }
             }
         });
         JTextArea textArea = new JTextArea(sb.toString());
