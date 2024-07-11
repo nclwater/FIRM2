@@ -1,0 +1,24 @@
+{
+	"vehicle-codes": [
+		{
+			"code": "0",
+			"description": "transit eastbound",
+			"building-type": 1002,
+			"nearest-road": "4000000012474130"
+		},
+		{
+			"code": "1",
+			"description": "transit westbound",
+			"building-type": 1001,
+			"nearest-road": "4000000013047278"
+		},
+		{
+			"code": "2",
+			"description": "kids and work",
+			"description": "transit westbound",
+			"building-type": 100,
+			"nearest-road": "4000000013047278"
+		}
+	]	
+}
+	
