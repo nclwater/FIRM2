@@ -25,4 +25,12 @@ public abstract class ComplexAgent extends Agent {
     public void setMovementIndex(int movementIndex) {
         this.movementIndex = movementIndex;
     }
+
+    public ArrayList<Point> getMovements() {
+        return movements;
+    }
+
+    public void setMovements(ArrayList<Point> movements) {
+        this.movements = movements;
+    }
 }

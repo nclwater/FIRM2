@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,6 +51,17 @@ public class DrawPanel extends JPanel implements MouseListener {
                     }
                 }
             }
+            if (grid instanceof ComplexGrid complexGrid) {
+                // for each complex agent
+                ArrayList<ComplexAgent> complexAgents = ((ComplexGrid) grid).getAgents();
+                complexAgents.forEach(complexAgent -> {
+                    g.setColor(complexAgent.getColour());
+                    int index = complexAgent.getMovementIndex();
+                    Point point = complexAgent.getMovements().get(index);
+                    g.fillRect(point.x * cell_size, point.y * cell_size,
+                            cell_size, cell_size);
+                });
+            }
         });
     }
 
@@ -85,6 +97,10 @@ public class DrawPanel extends JPanel implements MouseListener {
                     sb.append(simpleGrid.getCell(cell_x, cell_y).getClass().getName()).append("\n");
                     sb.append(simpleGrid.getCell(cell_x, cell_y).toString()).append("\n");
                 }
+            }
+            if (grid instanceof ComplexGrid) {
+                ArrayList<ComplexAgent> complexAgents = ((ComplexGrid) grid).getAgents();
+
             }
         });
         JTextArea textArea = new JTextArea(sb.toString());
