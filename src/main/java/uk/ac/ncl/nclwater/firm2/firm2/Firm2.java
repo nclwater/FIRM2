@@ -31,7 +31,7 @@ public class Firm2 extends Model {
     private float x_origin;
     private float y_origin;
     private int cellMeters;
-    Properties properties = createPropertiesFile();
+    Properties properties;
     Long modelTimeStamp = 0L;
     ModelState modelState = new ModelState();
     int modelStateIndex = 0;
@@ -173,7 +173,7 @@ public class Firm2 extends Model {
                         Car car = new Car(id, roadHashMap.get(nearestRoad));
                         logger.debug("Origins: {} {} {} {} {}", x_origin, y_origin, (float) roadOrigin.x,
                                 (float) roadOrigin.y, cellMeters);
-                        Point p = Utilities.Ordinance2GridXY(x_origin, y_origin,(float) roadOrigin.x,
+                        PointInteger p = Utilities.Ordinance2GridXY(x_origin, y_origin,(float) roadOrigin.x,
                                 (float) roadOrigin.y, cellMeters);
                     }
                 }
@@ -307,13 +307,14 @@ public class Firm2 extends Model {
         floodModelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
         floodModelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
         floodModelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
-        floodModelParameters.setTitle(String.valueOf(properties.get("title")));
+        floodModelParameters.setTitle(String.valueOf(properties.get("application-title")));
         floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
         floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("time-stamp")));
         floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("tick-time-value")));
         modelTimeStamp = floodModelParameters.getTimestamp() * 1000; // start time for model
         floodModelParameters.setSlowdown(Integer.parseInt(properties.getProperty("slowdown")));
         floodModelParameters.setTitle(properties.getProperty("application-title"));
+        floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG-on-tick")));
         floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG-on-tick")));
         modelInit();
         Thread modelthread = new Thread(this);

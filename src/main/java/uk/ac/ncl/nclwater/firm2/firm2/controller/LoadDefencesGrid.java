@@ -5,10 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Defence;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Defences;
-import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
-import uk.ac.ncl.nclwater.firm2.firm2.model.GlobalVariables;
+import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -35,14 +32,15 @@ public class LoadDefencesGrid {
             Defences defences = gson.fromJson(new FileReader(filename), Defences.class);
             logger.debug("Reading: {}", filename);
             defences.getDefences().forEach(d -> {
-                Point coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(),
+                PointInteger coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(),
                         (float) d.getOrdinate().getX(), (float) d.getOrdinate().getY(), globalVariables.getCellSize());
-                coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
-                if (coords.x > 0 && coords.x < floodModelParameters.getWidth() && coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
+                coords.setY(floodModelParameters.getHeight() - 1 - coords.getY()); // flip horizontally
+                if (coords.getX() > 0 && coords.getX() < floodModelParameters.getWidth() && coords.getY() > 0
+                        && coords.getY() < floodModelParameters.getHeight()) {
                     Defence defence = new Defence(getNewId(), d.getOrdinate(), d.getName(), d.getHeight());
-                    defenceGrid.setCell(coords.x, coords.y, defence);
+                    defenceGrid.setCell(coords.getX(), coords.getY(), defence);
                 } else {
-                    logger.trace("Building: " + coords.x + ", " + coords.y + " is out of bounds");
+                    logger.trace("Building: " + coords.getX() + ", " + coords.getY() + " is out of bounds");
                 }
             });
 

@@ -35,21 +35,13 @@ public class LoadRoadsGrid {
             logger.debug("Reading: {}", filename);
             Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
             roads.getRoads().forEach(r -> {
-                ArrayList<PointDouble> roadPoints = r.getPolylineCoordinates();
-                ArrayList<Point> pixelPoints = new ArrayList<>();
+                ArrayList<PointInteger> roadPoints = r.getPolylineCoordinates();
                 ArrayList<Point> wholeRoad = new ArrayList<>();
                 ArrayList<Point> cleanedWholeRoad = new ArrayList<>();
-                for (PointDouble roadPoint : roadPoints) {
-                    // Road co-ordinates have to be divided after read from the json file
-                    Point coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(), (float) roadPoint.getX() / 1000,
-                            (float) roadPoint.getY() / 1000, globalVariables.getCellSize());
-                    // flip horizontally
-                    coords.y = floodModelParameters.getHeight() - 1 - coords.y;
-                    pixelPoints.add(coords);
-                }
+                ArrayList<PointInteger> pixelPoints = new ArrayList<>(roadPoints);
                 for (int i = 1; i < pixelPoints.size(); i++) {
-                    wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).x, pixelPoints.get(i - 1).y,
-                            pixelPoints.get(i).x, pixelPoints.get(i).y));
+                    wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).getX(), pixelPoints.get(i - 1).getY(),
+                            pixelPoints.get(i).getX(), pixelPoints.get(i).getY()));
                 }
                 wholeRoad.forEach(point -> {
                     if (point.x >= 0 && point.x < floodModelParameters.getWidth() && point.y >= 0 && point.y < floodModelParameters.getHeight()) {

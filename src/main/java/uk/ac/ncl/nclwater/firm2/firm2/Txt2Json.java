@@ -2,10 +2,14 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 
+import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +22,8 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
  */
 public class Txt2Json {
     private static Properties properties;
+    private static final Logger logger = LoggerFactory.getLogger(Txt2Json.class);
+
 
     /**
      * The global variable which are currently stored in the first six lines
@@ -37,17 +43,17 @@ public class Txt2Json {
                     Float.parseFloat(lines[3]),
                     Integer.parseInt(lines[4]),
                     0, 0);
-            System.out.println(globalVariables.asString());
+            logger.debug(globalVariables.asString());
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + "globals.json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(globalVariables, fileWriter);
-            System.out.println(gson.toJson(globalVariables));
+            logger.debug(gson.toJson(globalVariables));
             fileWriter.close();
 
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            logger.debug(e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +85,7 @@ public class Txt2Json {
                     buildings.add(building);
                 }
             }
-            System.out.println(properties.getProperty("input-data") + properties.getProperty("buildings-data"));
+            logger.debug(properties.getProperty("input-data") + properties.getProperty("buildings-data"));
 
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -149,7 +155,7 @@ public class Txt2Json {
     public static void RoadsTxt2Json() {
         Roads roads = new Roads();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("roads-data")));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + "roads.txt"));
             Origins origins = new Origins();
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
@@ -174,11 +180,12 @@ public class Txt2Json {
                             topHalf.trim().lastIndexOf('"')));
                     String match = "] \\[";
                     String[] coordinates = trimBrackets(bottomHalf).split(match);
-                    ArrayList<PointDouble> roadPoints = new ArrayList<>();
+                    ArrayList<PointInteger> roadPoints = new ArrayList<>();
                     for (String coordinate : coordinates) {
                         String[] xy = (coordinate).split(" ");
-                        PointDouble coords = new PointDouble(Double.parseDouble(xy[0]), Double.parseDouble(xy[1]));
-                        //coords.setY(origins.getModelHeight() - 1 - coords.getY()); // flip horizontally
+                        PointInteger coords = Utilities.Ordinance2GridXY(origins.getX_origin(), origins.getY_origin(),
+                                Float.parseFloat(xy[0]) / 1000, Float.parseFloat(xy[1]) / 1000, origins.getCellMeters());
+                        coords.setY((origins.getModelHeight() - 1 - coords.getY())); // flip horizontally
                         roadPoints.add(coords);
                     }
                     Road road = new Road(roadLength, type, roadPoints, roadIDs);
@@ -188,7 +195,7 @@ public class Txt2Json {
             }
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile = (properties.getProperty("input-data") + properties.get("roads-data")).replace(".txt", ".json");
+            String outfile = (properties.getProperty("input-data") + properties.get("roads-data"));
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(roads, fileWriter);
             fileWriter.close();
@@ -374,6 +381,7 @@ public class Txt2Json {
  * format data files.
  */
 class Origins {
+    private static final Logger logger = LoggerFactory.getLogger(Origins.class);
     private int modelWidth;
     private int modelHeight;
     private float x_origin;
@@ -390,8 +398,11 @@ class Origins {
         }
         properties = loadPropertiesFile();
         try {
-            sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
+            String filename = properties.getProperty("input-data") + "terrain.txt";
+            sc = new Scanner(new File(filename));
+            logger.debug("Reading file: " + filename);
             String line = sc.nextLine();     //model width
+            logger.debug(line);
             setModelWidth(Integer.parseInt(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();            //model height
             setModelHeight(Integer.parseInt(trimBrackets(line).split("\t")[1]));
@@ -400,6 +411,7 @@ class Origins {
             line = sc.nextLine();
             setY_origin(Float.parseFloat(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();
+            logger.debug("CellSize: {} {} {}", line, trimBrackets(line).split("\t")[0], trimBrackets(line).split("\t")[1]);
             setCellMeters(Integer.parseInt(trimBrackets(line).split("\t")[1]));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

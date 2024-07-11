@@ -5,10 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Building;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Buildings;
-import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
-import uk.ac.ncl.nclwater.firm2.firm2.model.GlobalVariables;
+import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -35,14 +32,14 @@ public class LoadBuildingsGrid {
             SimpleGrid buildingGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "buildings");
             buildings.getBuildings().forEach(b -> {
-                Point coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(), (float) b.getOrdinate().getX(),
+                PointInteger coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(), (float) b.getOrdinate().getX(),
                         (float) b.getOrdinate().getY(), globalVariables.getCellSize());
-                coords.y = floodModelParameters.getHeight() - 1 - coords.y; // flip horizontally
+                coords.setY(floodModelParameters.getHeight() - 1 - coords.getY()); // flip horizontally
                 int type = b.getType();
-                if (coords.x > 0 && coords.x < floodModelParameters.getWidth() &&
-                        coords.y > 0 && coords.y < floodModelParameters.getHeight()) {
+                if (coords.getX() > 0 && coords.getX() < floodModelParameters.getWidth() &&
+                        coords.getY() > 0 && coords.getY() < floodModelParameters.getHeight()) {
                     Building building = new Building(getNewId(), type, b.getOrdinate(), b.getNearestRoad_ID());
-                    buildingGrid.setCell(coords.x, coords.y, building);
+                    buildingGrid.setCell(coords.getX(), coords.getY(), building);
                 }
             });
             return buildingGrid;

@@ -3,6 +3,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointFloat;
+import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
 
 import java.awt.*;
 import java.io.*;
@@ -32,13 +33,14 @@ public class Utilities {
                 properties.setProperty("cell-size","3");
                 properties.setProperty("chance","50");
                 properties.setProperty("application-title","FIRM2");
-                properties.setProperty("input-data", "/data/inputs/");
-                properties.setProperty("output-data", "/data/outputs/");
-                properties.setProperty("terrain-data", "terrain.txt");
-                properties.setProperty("roads-data", "roads.txt");
-                properties.setProperty("buildings-data", "buildings.txt");
-                properties.setProperty("defences-data", "defences.txt");
+                properties.setProperty("input-data", "data/inputs/");
+                properties.setProperty("output-data", "data/outputs/");
+                properties.setProperty("terrain-data", "terrain.json");
+                properties.setProperty("roads-data", "roads.json");
+                properties.setProperty("buildings-data", "buildings.json");
+                properties.setProperty("defences-data", "defences.json");
                 properties.setProperty("model-parameters", "globals.json");
+                properties.setProperty("vehicles-data", "vehicles.json");
                 properties.setProperty("ocean-depth", "4");
                 properties.setProperty("slowdown", "0");
                 properties.setProperty("time-stamp", "1719874800");
@@ -126,10 +128,10 @@ public class Utilities {
      * @param cellMeters the size, in square meters of one cell
      * @return return the grid co-ordinates as a Point
      */
-    public static Point Ordinance2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
+    public static PointInteger Ordinance2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
         int y_coord = Math.round((y - y_origin) / cellMeters);
-        Point point = new Point(x_coord, y_coord);
+        PointInteger point = new PointInteger(x_coord, y_coord);
         return point;
     }
 
