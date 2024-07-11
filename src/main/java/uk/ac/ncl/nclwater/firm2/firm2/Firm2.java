@@ -31,7 +31,6 @@ public class Firm2 extends Model {
     private float x_origin;
     private float y_origin;
     private int cellMeters;
-    private int _NODATA;
     Properties properties = createPropertiesFile();
     Long modelTimeStamp = 0L;
     ModelState modelState = new ModelState();
