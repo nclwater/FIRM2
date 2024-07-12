@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
+import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,26 +32,23 @@ public class Visualisation extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         start.addActionListener(this);
         step.addActionListener(this);
-        this.setLayout(null);
+        this.setLayout(new MigLayout("fill", "[grow][]", "[]"));
         this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
         LinkedHashMap<String, Grid> grids = model.getGrids();
         this.setSize(1024,768);
         drawPanel = new DrawPanel(grids, cell_size, model.getModelParameters());
-        drawPanel.setSize(model.getModelParameters().getWidth() * cell_size, model.getModelParameters().getHeight() * cell_size);
+        drawPanel.setSize(model.getModelParameters().getWidth() * cell_size,
+                model.getModelParameters().getHeight() * cell_size);
 
         buttonPanel.add(start);
         start.setText((model.getModelParameters().isRunOnStartUp()?"Stop":"Start"));
         buttonPanel.add(step);
         step.setEnabled(!model.getModelParameters().isRunOnStartUp());
-        Insets insets = this.getInsets();
-        Dimension dimension = buttonPanel.getPreferredSize();
-        buttonPanel.setBounds(insets.left + 10, insets.top + 10, dimension.width, dimension.height);
-        this.add(drawPanel);
-//        dimension = drawPanel.getPreferredSize();
-        drawPanel.setBounds(insets.left + 10, insets.top + 50, model.getModelParameters().getWidth() * cell_size,
-                model.getModelParameters().getHeight() * cell_size + cell_size);
-        this.add(buttonPanel);
+        drawPanel.setPreferredSize(new Dimension(model.getModelParameters().getWidth() * cell_size,
+                model.getModelParameters().getHeight() * cell_size));
+        this.add(drawPanel, "growy");
+        this.add(buttonPanel, "grow");
         this.setVisible(true);
 
 

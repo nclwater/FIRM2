@@ -14,8 +14,7 @@ public class ComplexGrid implements Grid {
      */
     String key;
 
-    public ComplexGrid(ArrayList<ComplexAgent> agents, String key) {
-        this.agents = agents;
+    public ComplexGrid(String key) {
         this.key = key;
     }
 
@@ -33,5 +32,9 @@ public class ComplexGrid implements Grid {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public boolean add(ComplexAgent agent) {
+        return agents.add(agent);
     }
 }

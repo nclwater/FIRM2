@@ -13,10 +13,14 @@ public abstract class ComplexAgent extends Agent {
      */
     ArrayList<Point> movements;
 
+    /**
+     * A value to indicate whether movement is forward (1) or in reverse (-1)
+     */
+    boolean directionForward = true;
+
     public ComplexAgent() {
 
     }
-
 
     public int getMovementIndex() {
         return movementIndex;
@@ -26,11 +30,23 @@ public abstract class ComplexAgent extends Agent {
         this.movementIndex = movementIndex;
     }
 
+    public void incrementMovementIndex() {
+        movementIndex = (movementIndex < movements.size() - 1?movementIndex+1:movementIndex);
+    }
+
     public ArrayList<Point> getMovements() {
         return movements;
     }
 
     public void setMovements(ArrayList<Point> movements) {
         this.movements = movements;
+    }
+
+    public boolean isDirectionForward() {
+        return directionForward;
+    }
+
+    public void setDirectionForward(boolean directionForward) {
+        this.directionForward = directionForward;
     }
 }

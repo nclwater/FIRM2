@@ -113,7 +113,7 @@ public class Utilities {
         for (int i = 0; i < delta; i++) {
             int x = (int)((float)startX + ((float)i * stepX));
             int y = (int)((float)startY + ((float)i * stepY));
-            points.add(new Point(x, y));
+            points.addFirst(new Point(x, y));
         }
 
         return points;

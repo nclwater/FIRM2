@@ -1,5 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -9,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DrawPanel extends JPanel implements MouseListener {
+    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     int width;
     int height;
@@ -32,12 +36,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int font_height = g.getFontMetrics().getHeight();
-        Map<String, SimpleGrid> gridsCopy;
 
-//        synchronized (grids) {
-//            gridsCopy = new LinkedHashMap<>(grids);
-//        }
         grids.forEach((key, grid) -> {
             if (grid instanceof SimpleGrid simpleGrid) {
                 for (int row = 0; row < height; row++) {
@@ -87,9 +86,9 @@ public class DrawPanel extends JPanel implements MouseListener {
         StringBuilder sb = new StringBuilder("Mouse Clicked at pixel X: " + x + ", Y: " + y + "\n");
         int cell_x = x / cell_size;
         int cell_y = y / cell_size;
-        int map_y = (height - 1) - (y / cell_size);
+        int map_y = (height - 1) - cell_y; // invert y co-ordinate
         sb.append("Map co-ordinate:").append(cell_x).append(", Y: ").append(map_y).append("\n");
-        sb.append("SimpleGrid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
+        sb.append("Grid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
         sb.append(grids.size()).append(" layers:\n");
         grids.forEach((key, grid) -> {
             if (grid instanceof SimpleGrid simpleGrid) {
@@ -100,6 +99,16 @@ public class DrawPanel extends JPanel implements MouseListener {
             }
             if (grid instanceof ComplexGrid) {
                 ArrayList<ComplexAgent> complexAgents = ((ComplexGrid) grid).getAgents();
+                sb.append(((ComplexGrid) grid).key).append("\n");
+                complexAgents.forEach(complexAgent -> {
+                    int agent_x = complexAgent.getMovements().get(complexAgent.getMovementIndex()).x;
+                    int agent_y = complexAgent.getMovements().get(complexAgent.getMovementIndex()).y;
+                    sb.append(complexAgent.getAgent_id()).append(" ").append(agent_x).append(",")
+                            .append(agent_y).append(" ").append(cell_x).append(",").append(cell_y).append("\n");
+                    if (agent_y == cell_y && agent_x == cell_x) {
+                        sb.append(complexAgent.getAgent_id()).append("\n");
+                    }
+                });
 
             }
         });

@@ -7,12 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -70,8 +68,7 @@ public class Firm2 extends Model {
             grids.put("roads", roadsGrid);
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
-            SimpleGrid vehicles = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
-                    floodModelParameters.isToroidal(), "vehicles");
+            ComplexGrid vehicles = new ComplexGrid("vehicles");
             grids.put("vehicles", vehicles);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
@@ -166,15 +163,15 @@ public class Firm2 extends Model {
                     logger.debug("{} vehicle types enter: {}", modelState.getVehicles().size(), vehicles);
                     for (int i = 0; i < vehicles.size(); i++) {
                         Vehicle vehicle = vehicles.get(i);
+
                         String nearestRoad = vehicleCodes.get(vehicle.getCode()).getNearestRoad();
-                        logger.debug("vehicle: {} {}", vehicle, nearestRoad);
+                        logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
+                                vehicle.getSd(), vehicle.getQty(), nearestRoad);
                         Point roadOrigin = roadHashMap.get(nearestRoad).get(0);
                         int id = AgentIDProducer.getNewId();
                         Car car = new Car(id, roadHashMap.get(nearestRoad));
-                        logger.debug("Origins: {} {} {} {} {}", x_origin, y_origin, (float) roadOrigin.x,
-                                (float) roadOrigin.y, cellMeters);
-                        PointInteger p = Utilities.Ordinance2GridXY(x_origin, y_origin,(float) roadOrigin.x,
-                                (float) roadOrigin.y, cellMeters);
+                        ((ComplexGrid) grids.get("vehicles")).add(car);
+
                     }
                 }
             }
@@ -189,8 +186,7 @@ public class Firm2 extends Model {
     }
 
     private void moveVehicles() {
-
-
+        ((ComplexGrid) grids.get("vehicles")).getAgents().forEach(ComplexAgent::incrementMovementIndex);
     }
 
     /**
