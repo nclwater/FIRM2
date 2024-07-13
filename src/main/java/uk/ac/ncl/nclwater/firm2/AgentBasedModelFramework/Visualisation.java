@@ -1,8 +1,11 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
 import net.miginfocom.swing.MigLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +16,7 @@ import java.util.LinkedHashMap;
  * If visualisation is set to true, the visualisation is set to true.
  */
 public class Visualisation extends JFrame implements ActionListener {
-
+    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
    DrawPanel drawPanel;
    JPanel buttonPanel = new JPanel();
    JButton start = new JButton("Start");
@@ -30,17 +33,20 @@ public class Visualisation extends JFrame implements ActionListener {
         this.model = model;
         int cell_size = model.getCell_size();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setSize(1024,768);
         start.addActionListener(this);
         step.addActionListener(this);
-        this.setLayout(new MigLayout("fill", "[grow][]", "[]"));
+        this.setLayout(new MigLayout("", "[grow][]", "[]"));
         this.setTitle(model.getModelParameters().getTitle());
         this.setResizable(true);
         LinkedHashMap<String, Grid> grids = model.getGrids();
-        this.setSize(1024,768);
+        Border blackline = BorderFactory.createLineBorder(Color.black);
         drawPanel = new DrawPanel(grids, cell_size, model.getModelParameters());
+        drawPanel.setBorder(blackline);
         drawPanel.setSize(model.getModelParameters().getWidth() * cell_size,
                 model.getModelParameters().getHeight() * cell_size);
-
+        logger.debug("{} {}",model.getModelParameters().getWidth() * cell_size,
+                model.getModelParameters().getHeight() * cell_size);
         buttonPanel.add(start);
         start.setText((model.getModelParameters().isRunOnStartUp()?"Stop":"Start"));
         buttonPanel.add(step);

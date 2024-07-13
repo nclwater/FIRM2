@@ -17,8 +17,7 @@ public class DrawPanel extends JPanel implements MouseListener {
     int width;
     int height;
     int cell_size;
-    final JDialog dialog = new JDialog();
-    JTextArea dialog_text = new JTextArea("one two three");
+
 
     LinkedHashMap<String, Grid> grids;
 
@@ -79,21 +78,21 @@ public class DrawPanel extends JPanel implements MouseListener {
     /**
      * A double click on a cell would cause this popup to be displayed with info of all the
      * layers of the cell
-     * @param x
-     * @param y
+     * @param mouse_x
+     * @param mouse_y
      */
-    private void showInfoPopup(int x, int y) {
-        StringBuilder sb = new StringBuilder("Mouse Clicked at pixel X: " + x + ", Y: " + y + "\n");
-        int cell_x = x / cell_size;
-        int cell_y = y / cell_size;
+    private void showInfoPopup(int mouse_x, int mouse_y) {
+        StringBuilder sb = new StringBuilder("Mouse Clicked at pixel X: " + mouse_x + ", Y: " + mouse_y + "\n");
+        int cell_x = mouse_x / cell_size;
+        int cell_y = mouse_y / cell_size;
         int map_y = (height - 1) - cell_y; // invert y co-ordinate
         sb.append("Map co-ordinate:").append(cell_x).append(", Y: ").append(map_y).append("\n");
-        sb.append("Grid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n");
+        sb.append("Grid cell X:").append(cell_x).append(", Y: ").append(cell_y).append("\n\n");
         sb.append(grids.size()).append(" layers:\n");
         grids.forEach((key, grid) -> {
             if (grid instanceof SimpleGrid simpleGrid) {
                 if (simpleGrid.getCell(cell_x, cell_y) != null) {
-                    sb.append(simpleGrid.getCell(cell_x, cell_y).getClass().getName()).append("\n");
+                    sb.append(key).append("\n");
                     sb.append(simpleGrid.getCell(cell_x, cell_y).toString()).append("\n");
                 }
             }
@@ -117,7 +116,8 @@ public class DrawPanel extends JPanel implements MouseListener {
         JScrollPane scrollPane = new JScrollPane(panel);
         panel.add(textArea, BorderLayout.CENTER);
         JOptionPane.showConfirmDialog(null, scrollPane, "Cell Info",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);    }
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+    }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
