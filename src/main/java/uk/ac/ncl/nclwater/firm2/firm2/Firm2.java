@@ -168,9 +168,11 @@ public class Firm2 extends Model {
                         logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
                                 vehicle.getSd(), vehicle.getQty(), nearestRoad);
                         Point roadOrigin = roadHashMap.get(nearestRoad).get(0);
-                        int id = AgentIDProducer.getNewId();
-                        Car car = new Car(id, roadHashMap.get(nearestRoad));
-                        ((ComplexGrid) grids.get("vehicles")).add(car);
+                        for (int c = 0; c < vehicle.getQty(); c++){
+                            int id = AgentIDProducer.getNewId();
+                            Car car = new Car(id, roadHashMap.get(nearestRoad));
+                            ((ComplexGrid) grids.get("vehicles")).add(car);
+                        }
 
                     }
                 }

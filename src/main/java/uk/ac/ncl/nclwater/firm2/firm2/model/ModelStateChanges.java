@@ -37,7 +37,6 @@ public class ModelStateChanges {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("input-data") + "/timeline.json";
             modelStateChanges = gson.fromJson(new FileReader(filename), ModelStateChanges.class);
-//            logger.debug("Reading timeline: {}", filename);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
