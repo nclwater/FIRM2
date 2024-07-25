@@ -8,6 +8,7 @@ public class FloodModelParameters extends uk.ac.ncl.nclwater.firm2.AgentBasedMod
     float oceanDepth = 0;
     boolean pngOnTick = false;
 
+
     public FloodModelParameters() {}
 
     public float getOceanDepth() {

@@ -9,6 +9,9 @@ import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -174,4 +177,32 @@ public class Utilities {
         // colour range
         return 255 - (int)(low + ( ((value - min) * high / (max - min))));
     }
+
+    /**
+     * Converts a date string to a Unix timestamp
+     *
+     * @param dateString
+     * @param pattern
+     * @return
+     */
+    public static long dateStringToUnixTimestamp(String dateString, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
+        return dateTime.toEpochSecond(ZoneOffset.UTC);
+    }
+
+    /**
+     * Converts a Unix timestamp to a date string
+     *
+     * @param timestamp
+     * @param pattern
+     * @return
+     */
+    public static String unixTimestampToDateString(long timestamp, String pattern) {
+        LocalDateTime dateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return dateTime.format(formatter);
+    }
+
+
 }
