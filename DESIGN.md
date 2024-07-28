@@ -1,3 +1,5 @@
+
+
 ## Layers
 
 The basic framework for this modelling environment consists of several layers of
@@ -11,7 +13,9 @@ instance, the Terrain class has a default value of (65, 62, 62), but during
 initialisation linear interpolation is used to colour the cell based on its 
 elevation. 
 
-## Complex Agents
+## Complex Agents 
+(This is more a graph than a grid with sections of a specified length - a graph with 
+a resolution of 7.5m - a resolution graph)
 Because multiple agents such as cars can occupy one cell at any point in time, they don't
 fit into the grid concept. Thus, a different type of grid class, ComplexGrid, is used. 
 ComplexGrid is not really a grid but rather an ArrayList of Agents (such as cars). Each agent

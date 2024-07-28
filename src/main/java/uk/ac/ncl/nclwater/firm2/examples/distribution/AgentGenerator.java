@@ -41,8 +41,8 @@ public class AgentGenerator extends ApplicationFrame {
     }
 
     private JFreeChart createChart() {
-        int numberOfAgents = 1000; // Example input
-        double standardDeviationInMinutes = 10; // Example input
+        int numberOfAgents = 400; // Example input
+        double standardDeviationInMinutes = 15; // Example input
         long specifiedTime = System.currentTimeMillis(); // Example input
 
         List<Agent> agents = generateAgents(numberOfAgents, standardDeviationInMinutes, specifiedTime);

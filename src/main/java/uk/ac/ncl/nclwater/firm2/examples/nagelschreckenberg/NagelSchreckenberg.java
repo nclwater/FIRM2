@@ -89,9 +89,6 @@ public class NagelSchreckenberg extends Model {
     public void modelInit() {
         this.grids.put("cars", new SimpleGrid(modelParameters.getWidth(), modelParameters.getHeight(), modelParameters.isToroidal(), "cars"));
 
-        for (int i = 0; i < numberOfCars; i++) {
-
-        }
 
         // Create grid
         for (int row = 0; row < modelParameters.getHeight(); row++) {
@@ -99,9 +96,8 @@ public class NagelSchreckenberg extends Model {
                 Random random = new Random();
                 int nextInt = random.nextInt(100);
                 System.out.println("Next int: " + nextInt);
-                int newId = 0;
                 if (nextInt < modelParameters.getChance()) {
-                    newId = getNewId();
+                    int newId = getNewId();
                     if (newId == 1)
                         ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(newId, Color.RED));
                     else
