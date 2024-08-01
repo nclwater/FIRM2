@@ -4,17 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 
-import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.List;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
@@ -228,6 +225,9 @@ public class Txt2Json {
         }
     }
 
+    /**
+     * Retrieve the road length by entering the road ID
+     */
     public static void distances() {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String filename = properties.getProperty("input-data") + "BNG_roads.json";
@@ -257,6 +257,9 @@ public class Txt2Json {
         }
     }
 
+    /**
+     * Print a list of roads (the three IDs)
+     */
     public static void listRoads() {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String filename = properties.getProperty("input-data") + "BNG_roads.json";
@@ -264,6 +267,31 @@ public class Txt2Json {
             BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             roads.getRoads().forEach(bngroad -> {
                 System.out.println(bngroad.getRoadIDs()[0] + " " + bngroad.getRoadIDs()[1] + " " + bngroad.getRoadIDs()[2]);
+            });
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Create a network of nodes and connections with the roads
+     */
+    public static void roadNetwork() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        RoadNetwork roadNetwork = new RoadNetwork();
+
+        String filename = properties.getProperty("input-data") + "BNG_roads.json";
+        try {
+            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
+            roads.getRoads().forEach(bngroad -> {
+                roadNetwork.addNode(bngroad.getRoadIDs()[1]);
+                roadNetwork.addNode(bngroad.getRoadIDs()[2]);
+                Connection connection = new Connection(bngroad.getRoadIDs()[0],
+                        bngroad.getRoadIDs()[1],
+                        bngroad.getRoadIDs()[2],
+                        bngroad.getRoadLength());
+                roadNetwork.addConnection(connection);
+
             });
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -410,7 +438,8 @@ public class Txt2Json {
         while (!input.equals("x")) {
             // Reading data using readLinef
             System.out.println("0. BNG Roads\t1. Roads\t2. Codes\t3. Defences\t4. Buildings\t5. Globals\t6. Terrain\n" +
-                    "7. Business Types\t8. Example Timeline\t10. Distances\t11. List roads\tx. Exit");
+                    "7. Business Types\t8. Example Timeline\t10. Distances\t11. List roads\t12. Create Road network\n" +
+                    "x. Exit");
             try {
                 input = reader.readLine();
             } catch (IOException e) {
@@ -449,6 +478,9 @@ public class Txt2Json {
                     break;
                 case "11":
                     listRoads();
+                    break;
+                case "12":
+                    roadNetwork();
                     break;
             }
         }

@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A road defined using British Network Grid co-ordinates
+ */
 public class BNGRoads {
 
     @SerializedName("roads")

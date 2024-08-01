@@ -26,7 +26,6 @@ public class Firm2 extends Model {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
 
-    private float x_origin;
     private float y_origin;
     private int cellMeters;
     Properties properties;
@@ -49,7 +48,7 @@ public class Firm2 extends Model {
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
                             properties.getProperty("input-data") + properties.getProperty("model-parameters")),
                     GlobalVariables.class);
-            x_origin = globalVariables.getLowerLeftX();
+            float x_origin = globalVariables.getLowerLeftX();
             y_origin = globalVariables.getLowerLeftY();
             cellMeters = globalVariables.getCellSize();
             floodModelParameters.setWidth(globalVariables.getColumns());
@@ -58,9 +57,12 @@ public class Firm2 extends Model {
 
 
             // Create and populate all grids
-            SimpleGrid waterGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "water");
-            SimpleGrid terrainGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(), floodModelParameters.isToroidal(), "terrain");
-            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid, waterGrid);
+            SimpleGrid waterGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "water");
+            SimpleGrid terrainGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "terrain");
+            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
+                    waterGrid);
             SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "roads");
             LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, roadsGrid, roadHashMap);
