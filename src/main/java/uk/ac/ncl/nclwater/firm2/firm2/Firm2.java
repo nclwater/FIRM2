@@ -26,8 +26,6 @@ public class Firm2 extends Model {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
 
-    private float y_origin;
-    private int cellMeters;
     Properties properties;
     Long modelTimeStamp = 0L;
     ModelState modelState = new ModelState();
@@ -48,9 +46,7 @@ public class Firm2 extends Model {
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
                             properties.getProperty("input-data") + properties.getProperty("model-parameters")),
                     GlobalVariables.class);
-            float x_origin = globalVariables.getLowerLeftX();
-            y_origin = globalVariables.getLowerLeftY();
-            cellMeters = globalVariables.getCellSize();
+
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());
             vehicleCodes = VehicleCodeDescriptors.loadVehicleCodeDescriptors(properties);
