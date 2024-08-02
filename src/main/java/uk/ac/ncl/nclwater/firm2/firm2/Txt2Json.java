@@ -2,11 +2,9 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,8 +18,6 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
  */
 public class Txt2Json {
     private static Properties properties;
-    private static final Logger logger = LoggerFactory.getLogger(Txt2Json.class);
-
 
     /**
      * The global variable which are currently stored in the first six lines
@@ -41,17 +37,17 @@ public class Txt2Json {
                     Float.parseFloat(lines[3]),
                     Integer.parseInt(lines[4]),
                     0, 0);
-            logger.debug(globalVariables.asString());
+            System.out.println(globalVariables.asString());
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile = (properties.getProperty("input-data") + "globals.json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(globalVariables, fileWriter);
-            logger.debug(gson.toJson(globalVariables));
+            System.out.println(gson.toJson(globalVariables));
             fileWriter.close();
 
         } catch (FileNotFoundException e) {
-            logger.debug(e.getMessage());
+            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +79,7 @@ public class Txt2Json {
                     buildings.add(building);
                 }
             }
-            logger.debug(properties.getProperty("input-data") + properties.getProperty("buildings-data"));
+            System.out.println(properties.getProperty("input-data") + properties.getProperty("buildings-data"));
 
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -149,14 +145,11 @@ public class Txt2Json {
 
     /**
      * Read original roads.txt file and convert it to json as roads.json
-     *
-     * @param toBNG If true, export to BNG co-ordinates. If false, export to matrix x,y
      */
-    public static void RoadsTxt2Json(boolean toBNG) {
+    public static void RoadsTxt2Json() {
         Roads roads = new Roads();
-        BNGRoads bngRoads = new BNGRoads();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + "original_textfile_data/roads.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("roads-data")));
             Origins origins = new Origins();
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
@@ -181,42 +174,23 @@ public class Txt2Json {
                             topHalf.trim().lastIndexOf('"')));
                     String match = "] \\[";
                     String[] coordinates = trimBrackets(bottomHalf).split(match);
-                    if (toBNG) {
-                        ArrayList<PointDouble> roadPoints = new ArrayList<>();
-                        for (String coord : coordinates) {
-                            String[] xy = (coord).split(" ");
-                            PointDouble coords = new PointDouble(Double.parseDouble(xy[0]) / 1000, Double.parseDouble(xy[1]) / 1000);
-                            roadPoints.add(coords);
-                        }
-                        BNGRoad bngRoad = new BNGRoad(roadLength, type, roadPoints, roadIDs);
-                        bngRoads.add(bngRoad);
-                    } else {
-                        ArrayList<PointInteger> roadPoints = new ArrayList<>();
-                        for (String coordinate : coordinates) {
-                            String[] xy = (coordinate).split(" ");
-                            PointInteger coords = Utilities.Ordinance2GridXY(origins.getX_origin(), origins.getY_origin(),
-                                    Float.parseFloat(xy[0]) / 1000, Float.parseFloat(xy[1]) / 1000, origins.getCellMeters());
-                            coords.setY((origins.getModelHeight() - 1 - coords.getY())); // flip horizontally
-                            roadPoints.add(coords);
-                        }
-                        Road road = new Road(roadLength, type, roadPoints, roadIDs);
-                        //System.out.println(defence.getOrdinate().getX() + ", " + defence.getOrdinate().getY());
-                        roads.add(road);
+                    ArrayList<PointDouble> roadPoints = new ArrayList<>();
+                    for (String coordinate : coordinates) {
+                        String[] xy = (coordinate).split(" ");
+                        PointDouble coords = new PointDouble(Double.parseDouble(xy[0]), Double.parseDouble(xy[1]));
+                        //coords.setY(origins.getModelHeight() - 1 - coords.getY()); // flip horizontally
+                        roadPoints.add(coords);
                     }
+                    Road road = new Road(roadLength, type, roadPoints, roadIDs);
+                    //System.out.println(defence.getOrdinate().getX() + ", " + defence.getOrdinate().getY());
+                    roads.add(road);
                 }
             }
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile;
-            outfile = (toBNG)?(properties.getProperty("input-data") + "BNG_" + properties.get("roads-data")):
-                        (properties.getProperty("input-data") + properties.get("roads-data"));
-
+            String outfile = (properties.getProperty("input-data") + properties.get("roads-data")).replace(".txt", ".json");
             FileWriter fileWriter = new FileWriter(outfile);
-            if ((toBNG)) {
-                gson.toJson(bngRoads, fileWriter);
-            } else {
-                gson.toJson(roads, fileWriter);
-            }
+            gson.toJson(roads, fileWriter);
             fileWriter.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -226,101 +200,23 @@ public class Txt2Json {
     }
 
     /**
-     * Retrieve the road length by entering the road ID
-     */
-    public static void distances() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String filename = properties.getProperty("input-data") + "BNG_roads.json";
-        try {
-            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
-            HashMap<String, BNGRoad> hsh_roads = BNGlistToMap(roads.getRoads());
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(System.in));
-            try {
-                System.out.print("Enter road ID: " );
-                String input = reader.readLine();
-                BNGRoad bngRoad = hsh_roads.get(input);
-                ArrayList<PointDouble> coords = bngRoad.getPolylineCoordinates();
-                double totalDistance = 0;
-                for (int i = 1; i < coords.size(); i++) {
-                    totalDistance += calculateDistance(coords.get(i).getX(), coords.get(i).getY(),
-                            coords.get(i - 1).getX(), coords.get(i - 1).getY());
-                    System.out.println("Distance: " + calculateDistance(coords.get(i).getX(), coords.get(i).getY(),
-                            coords.get(i - 1).getX(), coords.get(i - 1).getY()));
-                }
-                System.out.println("Total distance: " + totalDistance + "m : " + (bngRoad.getRoadLength() / 1000) + "m");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Print a list of roads (the three IDs)
-     */
-    public static void listRoads() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String filename = properties.getProperty("input-data") + "BNG_roads.json";
-        try {
-            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
-            roads.getRoads().forEach(bngroad -> {
-                System.out.println(bngroad.getRoadIDs()[0] + " " + bngroad.getRoadIDs()[1] + " " + bngroad.getRoadIDs()[2]);
-            });
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Create a network of nodes and connections with the roads
-     */
-    public static void roadNetwork() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        RoadNetwork roadNetwork = new RoadNetwork();
-
-        String filename = properties.getProperty("input-data") + "BNG_roads.json";
-        try {
-            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
-            roads.getRoads().forEach(bngroad -> {
-                roadNetwork.addNode(bngroad.getRoadIDs()[1]);
-                roadNetwork.addNode(bngroad.getRoadIDs()[2]);
-                Connection connection = new Connection(bngroad.getRoadIDs()[0],
-                        bngroad.getRoadIDs()[1],
-                        bngroad.getRoadIDs()[2],
-                        bngroad.getRoadLength());
-                roadNetwork.addConnection(connection);
-
-            });
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static HashMap<String, BNGRoad> BNGlistToMap(List<BNGRoad> list) {
-        HashMap<String, BNGRoad> hashMap = new HashMap();
-        list.forEach(r -> hashMap.put(r.getID(), r));
-        return hashMap;
-    }
-
-    /**
      * REMEMBER: There is an error on line 54 - it did not have a type - I added "other"
      */
     public static void CodesTxt2Json() {
         try {
-            Scanner sc = new Scanner(new File("DATA/inputs/codes.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("codes-data")));
+            System.out.println("Read file: " + properties.getProperty("codes-data"));
             BuildingTypes buildingTypes = new BuildingTypes();
             // Read first 6 lines for building-type-codes
             int lineIndex = 1;
             while (lineIndex < 7) {
-                String[] tokens = trimBrackets(sc.nextLine()).split("\t");
+                String[] tokens = trimBrackets(sc.nextLine()).split(" ");
                 BuildingType buildingType = new BuildingType(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]));
                 buildingTypes.add(buildingType);
                 lineIndex++;
             }
             Gson gson1 = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile1 = ("DATA/inputs/buildingtypes.json");
+            String outfile1 = (properties.getProperty("input-data") + "buildingtypes.json");
             FileWriter fileWriter1 = new FileWriter(outfile1);
             gson1.toJson(buildingTypes, fileWriter1);
             fileWriter1.close();
@@ -330,7 +226,7 @@ public class Txt2Json {
                 String line = sc.nextLine();
                 if (!(line.isEmpty() || line.startsWith(";;"))) {
                     System.out.println(line);
-                    String[] tokens = trimBrackets(line).split("\t");
+                    String[] tokens = trimBrackets(line).split(" ");
                     BuildingCode buildingCode = new BuildingCode(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]),
                             buildingTypes.findBuildingType(trimQuotes(tokens[2])));
                     buildingCodes.add(buildingCode);
@@ -338,7 +234,7 @@ public class Txt2Json {
             }
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile = ("DATA/inputs/codes.json");
+            String outfile = (properties.getProperty("input-data") + properties.get("codes-data")).replace(".txt", ".json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(buildingCodes, fileWriter);
             fileWriter.close();
@@ -352,30 +248,23 @@ public class Txt2Json {
 
     public static void TerrainTxt2Json() {
         try {
-            Scanner sc = new Scanner(new File("DATA/inputs/terrain.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
             System.out.println("Read file: " + properties.getProperty("terrain-data"));
             // Read and ignore the first 7 lines
             for (int i = 0; i < 7; i++) {
                 sc.nextLine();
             }
             TerrainLayer terrainLayer = new TerrainLayer();
-            float minHeight = 0F;
-            float maxHeight = 0F;
             while (sc.hasNext()) {
                 TerrainLine terrainLine = new TerrainLine(trimBrackets(sc.nextLine()).split("\t"));
                 terrainLayer.add(terrainLine);
-                float min = Collections.min(Arrays.asList(terrainLine.getElevation()));
-                float max = Collections.max(Arrays.asList(terrainLine.getElevation()));
-                minHeight = Math.min(minHeight, min);
-                maxHeight = Math.max(maxHeight, max);
             }
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String outfile = ("DATA/inputs/terrain.json");
+            String outfile = (properties.getProperty("input-data") + properties.get("terrain-data")).replace(".txt", ".json");
             FileWriter fileWriter = new FileWriter(outfile);
             gson.toJson(terrainLayer, fileWriter);
             fileWriter.close();
-            System.out.println("minHeight: " + minHeight + " maxHeight: " + maxHeight);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -437,20 +326,16 @@ public class Txt2Json {
 
         while (!input.equals("x")) {
             // Reading data using readLinef
-            System.out.println("0. BNG Roads\t1. Roads\t2. Codes\t3. Defences\t4. Buildings\t5. Globals\t6. Terrain\n" +
-                    "7. Business Types\t8. Example Timeline\t10. Distances\t11. List roads\t12. Create Road network\n" +
-                    "x. Exit");
+            System.out.println("1. Roads\n2. Codes\n3. Defences\n4. Buildings\n5. Globals\n6. Terrain\n" +
+                    "7. Business Types\n8. Example Timeline\nx. Exit");
             try {
                 input = reader.readLine();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             switch (input) {
-                case "0":
-                    RoadsTxt2Json(true);
-                    break;
                 case "1":
-                    RoadsTxt2Json(false);
+                    RoadsTxt2Json();
                     break;
                 case "2":
                     CodesTxt2Json();
@@ -473,15 +358,6 @@ public class Txt2Json {
                 case "8":
                     MakeATimeLine();
                     break;
-                case "10":
-                    distances();
-                    break;
-                case "11":
-                    listRoads();
-                    break;
-                case "12":
-                    roadNetwork();
-                    break;
             }
         }
     }
@@ -492,7 +368,6 @@ public class Txt2Json {
  * format data files.
  */
 class Origins {
-    private static final Logger logger = LoggerFactory.getLogger(Origins.class);
     private int modelWidth;
     private int modelHeight;
     private float x_origin;
@@ -509,11 +384,8 @@ class Origins {
         }
         properties = loadPropertiesFile();
         try {
-            String filename = properties.getProperty("input-data") + "/original_textfile_data/terrain.txt";
-            sc = new Scanner(new File(filename));
-            logger.debug("Reading file: " + filename);
+            sc = new Scanner(new File(properties.getProperty("input-data") + properties.getProperty("terrain-data")));
             String line = sc.nextLine();     //model width
-            logger.debug(line);
             setModelWidth(Integer.parseInt(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();            //model height
             setModelHeight(Integer.parseInt(trimBrackets(line).split("\t")[1]));
@@ -522,7 +394,6 @@ class Origins {
             line = sc.nextLine();
             setY_origin(Float.parseFloat(trimBrackets(line).split("\t")[1]));
             line = sc.nextLine();
-            logger.debug("CellSize: {} {} {}", line, trimBrackets(line).split("\t")[0], trimBrackets(line).split("\t")[1]);
             setCellMeters(Integer.parseInt(trimBrackets(line).split("\t")[1]));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

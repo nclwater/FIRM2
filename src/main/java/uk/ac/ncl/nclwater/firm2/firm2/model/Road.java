@@ -23,7 +23,7 @@ public class Road extends Agent {
 
     @Expose
     @SerializedName("polyline_coordinates")
-    ArrayList<PointInteger> polylineCoordinates = new ArrayList<>();
+    ArrayList<PointDouble> polylineCoordinates = new ArrayList<>();
 
 
     /**
@@ -39,7 +39,7 @@ public class Road extends Agent {
         this.colour = Color.black;
     }
 
-    public Road(long roadLength, String roadType, ArrayList<PointInteger> polylineCoordinates, String[] roadIDs) {
+    public Road(long roadLength, String roadType, ArrayList<PointDouble> polylineCoordinates, String[] roadIDs) {
         this.roadLength = roadLength;
         this.roadType = roadType;
         this.polylineCoordinates = polylineCoordinates;
@@ -92,15 +92,15 @@ public class Road extends Agent {
         this.roadType = roadType;
     }
 
-    public ArrayList<PointInteger> getPolylineCoordinates() {
+    public ArrayList<PointDouble> getPolylineCoordinates() {
         return polylineCoordinates;
     }
 
-    public void setPolylineCoordinates(ArrayList<PointInteger> polylineCoordinates) {
+    public void setPolylineCoordinates(ArrayList<PointDouble> polylineCoordinates) {
         this.polylineCoordinates = polylineCoordinates;
     }
 
-    public void addCoordinates(PointInteger coordinates) {
+    public void addCoordinates(PointDouble coordinates) {
         polylineCoordinates.add(coordinates);
     }
 }

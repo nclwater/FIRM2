@@ -138,6 +138,22 @@ public class Utilities {
     }
 
     /**
+     * Turn an ordinance survey co-ordinate into a grid co-ordinate
+     * @param x_origin the ordinance survey x co-ordinate of the bottom left corner of the map
+     * @param y_origin the ordinance survey y co-ordinate of the bottom left corner of the map
+     * @param x the x-coordinate to be converted
+     * @param y the y-coordinate to be converted
+     * @param cellMeters the size, in square meters of one cell
+     * @return return the grid co-ordinates as a Point
+     */
+    public static Point BNG2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
+        int x_coord = Math.round((x - x_origin) / cellMeters);
+        int y_coord = Math.round((y - y_origin) / cellMeters);
+        Point point = new Point(x_coord, y_coord);
+        return point;
+    }
+
+    /**
      * Helper method to trim brackets of a string
      * @param str The string to be trimmed
      * @return The trimmed string
