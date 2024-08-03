@@ -1,6 +1,4 @@
-package uk.ac.ncl.nclwater.firm2;
-
-import uk.ac.ncl.nclwater.firm2.firm2.model.PointDouble;
+package uk.ac.ncl.nclwater.firm2.examples;
 
 import java.lang.Math;
 

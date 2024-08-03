@@ -306,5 +306,17 @@ public class Utilities {
         return new double[]{lat, lon};
     }
 
+    /**
+     * Converts speed from miles per hour to meters per second.
+     *
+     * @param mph Speed in miles per hour
+     * @return Speed in meters per second
+     */
+    public static double convertMphToMps(double mph) {
+        // 1 mile per hour is equal to 0.44704 meters per second
+        final double conversionFactor = 0.44704;
+        return mph * conversionFactor;
+    }
+
 
 }

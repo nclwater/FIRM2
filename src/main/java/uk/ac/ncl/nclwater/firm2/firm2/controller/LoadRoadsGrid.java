@@ -2,6 +2,11 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.graphstream.graph.EdgeRejectedException;
+import org.graphstream.graph.ElementNotFoundException;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.IdAlreadyInUseException;
+import org.graphstream.graph.implementations.SingleGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
@@ -19,6 +24,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 public class LoadRoadsGrid {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadRoadsGrid.class);
+    static Graph graph = new SingleGraph("Road Network");
 
     /**
      * Read the roads.json configuration from file and populate the road grid
@@ -35,6 +41,32 @@ public class LoadRoadsGrid {
             logger.debug("Reading: {}", filename);
             Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
             roads.getRoads().forEach(r -> {
+                String node1 = r.getRoadIDs()[1];
+                String node2 = r.getRoadIDs()[2];
+                if (graph.getNode(node1) == null) {
+                    graph.addNode(node1).setAttribute("ui.label", node1);
+                }
+                if (graph.getNode(node2) == null) {
+                    graph.addNode(node2).setAttribute("ui.label", node2);
+                }
+
+                String edgeId = r.getRoadIDs()[0];
+                try {
+                    if (graph.getEdge(edgeId) == null) {
+                        graph.addEdge(edgeId, node1, node2, true)
+                                .setAttribute("ui.label", r.getRoadLength());
+                    }
+                } catch (IdAlreadyInUseException e) {
+                    logger.debug("Error adding edge, id already in use: " + edgeId + " between " +
+                            node1 + " and " + node2);
+                } catch (ElementNotFoundException e) {
+                    logger.debug("Error adding edge, element not found: " + edgeId + " between " +
+                            node1 + " and " + node2);
+                } catch (EdgeRejectedException e) {
+                    logger.debug("Error adding edge, edge rejected " + edgeId + " between " +
+                            node1 + " and " + node2);
+                }
+                /**
                 ArrayList<PointDouble> roadPoints = r.getPolylineCoordinates();
                 ArrayList<Point> pixelPoints = new ArrayList<>();
                 ArrayList<Point> wholeRoad = new ArrayList<>();
@@ -63,6 +95,7 @@ public class LoadRoadsGrid {
                     }
                 });
                 roadHashMap.put(r.getRoadIDs()[0],cleanedWholeRoad);
+                 **/
             });
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

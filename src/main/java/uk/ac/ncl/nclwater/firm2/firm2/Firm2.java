@@ -1,8 +1,5 @@
 package uk.ac.ncl.nclwater.firm2.firm2;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
@@ -166,7 +163,7 @@ public class Firm2 extends Model {
                         String nearestRoad = vehicleCodes.get(vehicle.getCode()).getNearestRoad();
                         logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
                                 vehicle.getSd(), vehicle.getQty(), nearestRoad);
-                        Point roadOrigin = roadHashMap.get(nearestRoad).get(0);
+                        Point roadOrigin = roadHashMap.get(nearestRoad).getFirst();
                         for (int c = 0; c < vehicle.getQty(); c++){
                             int id = AgentIDProducer.getNewId();
                             Car car = new Car(id, roadHashMap.get(nearestRoad));

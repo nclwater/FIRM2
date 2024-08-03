@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.firm2;
+package uk.ac.ncl.nclwater.firm2.examples;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +13,7 @@ import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.util.InteractiveElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
+import uk.ac.ncl.nclwater.firm2.firm2.model.Roads;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -50,29 +50,24 @@ public class VisualiseNetwork {
 
         String filename = "DATA/inputs/BNG_roads.json";
         try {
-            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
+            Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
 
             // Add nodes to the graph
-            roads.getRoads().forEach(bngroad -> {
-                String node1 = bngroad.getRoadIDs()[1];
-                String node2 = bngroad.getRoadIDs()[2];
+            roads.getRoads().forEach(road -> {
+                String node1 = road.getRoadIDs()[1];
+                String node2 = road.getRoadIDs()[2];
                 if (graph.getNode(node1) == null) {
                     graph.addNode(node1).setAttribute("ui.label", node1);
                 }
                 if (graph.getNode(node2) == null) {
                     graph.addNode(node2).setAttribute("ui.label", node2);
                 }
-            });
 
-            // Add connections to the graph
-            roads.getRoads().forEach(bngroad -> {
-                String edgeId = bngroad.getRoadIDs()[0];
-                String node1 = bngroad.getRoadIDs()[1];
-                String node2 = bngroad.getRoadIDs()[2];
+                String edgeId = road.getRoadIDs()[0];
                 try {
                     if (graph.getEdge(edgeId) == null) {
                         graph.addEdge(edgeId, node1, node2, true)
-                                .setAttribute("ui.label", bngroad.getRoadLength());
+                                .setAttribute("ui.label", road.getRoadLength());
                     }
                 } catch (IdAlreadyInUseException e) {
                     logger.debug("Error adding edge, id already in use: " + edgeId + " between " +

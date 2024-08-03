@@ -45,8 +45,7 @@ public class Visualisation extends JFrame implements ActionListener {
         drawPanel.setBorder(blackline);
         drawPanel.setSize(model.getModelParameters().getWidth() * cell_size,
                 model.getModelParameters().getHeight() * cell_size);
-        logger.debug("{} {}",model.getModelParameters().getWidth() * cell_size,
-                model.getModelParameters().getHeight() * cell_size);
+
         buttonPanel.add(start);
         start.setText((model.getModelParameters().isRunOnStartUp()?"Stop":"Start"));
         buttonPanel.add(step);

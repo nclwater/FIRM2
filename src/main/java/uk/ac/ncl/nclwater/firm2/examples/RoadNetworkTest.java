@@ -2,7 +2,7 @@ package uk.ac.ncl.nclwater.firm2.examples;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
+import uk.ac.ncl.nclwater.firm2.firm2.model.Roads;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Connection;
 
 import javax.swing.*;
@@ -52,7 +52,7 @@ public class RoadNetworkTest {
 
         String filename = "DATA/inputs/BNG_roads.json";
         try {
-            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
+            Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
             roads.getRoads().forEach(bngroad -> {
                 roadNetworkTest.addNode(bngroad.getRoadIDs()[1]);
                 roadNetworkTest.addNode(bngroad.getRoadIDs()[2]);
