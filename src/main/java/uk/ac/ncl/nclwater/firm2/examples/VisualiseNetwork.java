@@ -10,6 +10,9 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swing_viewer.util.MouseOverMouseManager;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
+import org.graphstream.ui.view.camera.Camera;
 import org.graphstream.ui.view.util.InteractiveElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,31 +24,14 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-public class VisualiseNetwork {
+public class VisualiseNetwork implements ViewerListener {
     private static final Logger logger = LoggerFactory.getLogger(VisualiseNetwork.class);
 
     static List<String> nodes = new ArrayList<>();
     static Graph graph = new SingleGraph("Road Network");
 
     public VisualiseNetwork() {
-    }
-
-    public static void visualize() {
-        // Set the GraphStream UI property
-        System.setProperty("org.graphstream.ui", "swing");
-        graph.setAttribute("ui.stylesheet", "node { fill-color: red; }");
-        //        graph.addAttribute("ui.stylesheet", "node { size: 5px, 5px; }");
-        Viewer viewer = graph.display();
-        viewer.getDefaultView().enableMouseOptions();
-        viewer.getDefaultView().setMouseManager(new MouseOverMouseManager(EnumSet.of(InteractiveElement.EDGE,
-                InteractiveElement.NODE, InteractiveElement.SPRITE)));
-        View view = viewer.getDefaultView();
-        view.getCamera().setViewPercent(0.5);
-    }
-
-    public static void main(String[] args) {
-        VisualiseNetwork visualiseNetwork = new VisualiseNetwork();
-
+        boolean loop = true;
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
 
         String filename = "DATA/inputs/BNG_roads.json";
@@ -85,6 +71,50 @@ public class VisualiseNetwork {
             throw new RuntimeException(e);
         }
 
-        VisualiseNetwork.visualize();
+        // Set the GraphStream UI property
+        System.setProperty("org.graphstream.ui", "swing");
+        graph.setAttribute("ui.stylesheet", "node { fill-color: red; }");
+        //        graph.addAttribute("ui.stylesheet", "node { size: 5px, 5px; }");
+        Viewer viewer = graph.display();
+        viewer.enableAutoLayout();
+        viewer.getDefaultView().enableMouseOptions();
+        viewer.getDefaultView().setMouseManager(new MouseOverMouseManager(EnumSet.of(InteractiveElement.EDGE,
+                InteractiveElement.NODE, InteractiveElement.SPRITE)));
+        ViewerPipe fromViewer = viewer.newViewerPipe();
+        fromViewer.addViewerListener(this);
+        fromViewer.addSink(graph);
+        View view = viewer.getDefaultView();
+        view.getCamera().setViewPercent(0.5);
+        view.enableMouseOptions();
+        while (loop) {
+            fromViewer.pump();
+        }
+    }
+
+    public static void main(String[] args) {
+        new VisualiseNetwork();
+    }
+
+    @Override
+    public void viewClosed(String s) {
+
+    }
+
+    @Override
+    public void buttonPushed(String s) {
+        System.out.println("Button pushed: " + s);
+    }
+
+    @Override
+    public void buttonReleased(String s) {
+
+    }
+
+    @Override
+    public void mouseOver(String s) {
+    }
+
+    @Override
+    public void mouseLeft(String s) {
     }
 }
