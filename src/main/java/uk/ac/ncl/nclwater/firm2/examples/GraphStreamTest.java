@@ -16,7 +16,7 @@ public class GraphStreamTest implements ViewerListener {
     Node first = null;
     Node second = null;
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         System.setProperty("org.graphstream.ui", "swing");
         new GraphStreamTest();
     }
