@@ -163,12 +163,12 @@ public class Firm2 extends Model {
                         String nearestRoad = vehicleCodes.get(vehicle.getCode()).getNearestRoad();
                         logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
                                 vehicle.getSd(), vehicle.getQty(), nearestRoad);
-                        Point roadOrigin = roadHashMap.get(nearestRoad).getFirst();
-                        for (int c = 0; c < vehicle.getQty(); c++){
-                            int id = AgentIDProducer.getNewId();
-                            Car car = new Car(id, roadHashMap.get(nearestRoad));
-                            ((ComplexGrid) grids.get("vehicles")).add(car);
-                        }
+//                        Point roadOrigin = roadHashMap.get(nearestRoad).getFirst();
+//                        for (int c = 0; c < vehicle.getQty(); c++){
+//                            int id = AgentIDProducer.getNewId();
+//                            Car car = new Car(id, roadHashMap.get(nearestRoad));
+//                            ((ComplexGrid) grids.get("vehicles")).add(car);
+//                        }
 
                     }
                 }

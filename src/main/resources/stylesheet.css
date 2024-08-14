@@ -1,0 +1,11 @@
+graph {
+    padding: 60px;
+}
+
+node {
+    fill-color: red;
+}
+
+edge {
+    fill-color: blue;
+}

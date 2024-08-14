@@ -128,7 +128,7 @@ public class Utilities {
      * @param x the x-coordinate to be converted
      * @param y the y-coordinate to be converted
      * @param cellMeters the size, in square meters of one cell
-     * @return return the grid co-ordinates as a Point
+     * @return return the grid co-ordinates as a Point Integer
      */
     public static PointInteger Ordinance2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
