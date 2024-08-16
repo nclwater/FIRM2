@@ -30,19 +30,17 @@ public class LoadRoadsGrid {
      * Read the roads.json configuration from file and populate the road grid
      */
     public static void loadRoads(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
-                                 Properties properties, Graph graph, HashMap<String, ArrayList<Point>> roadHashMap) {
+                                 Properties properties, Graph graph) {
 //         		;; manually fix up the bridge over the river.
 //         		;; XXX this should be done from a config file.
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
 //
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + properties.getProperty("roads-data");
+            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
             logger.debug("Reading: {}", filename);
             Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
             roads.getRoads().forEach(bngroad -> {
-                System.out.println(("0: " + bngroad.getRoadIDs()[0] + ", 1: " + bngroad.getRoadIDs()[1]) +
-                        ", 2: " + bngroad.getRoadIDs()[2]);
                 int nodeInc = 0;
                 int edgeInc = 0;
                 PointDouble road = bngroad.getPolylineCoordinates().get(1);
@@ -50,17 +48,15 @@ public class LoadRoadsGrid {
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);
                     graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("xyz",
-                            bngroad.getPolylineCoordinates().getFirst().getX(),
-                            bngroad.getPolylineCoordinates().getFirst().getY(), 0);
+                            bngroad.getPolylineCoordinates().get(0).getX(),
+                            bngroad.getPolylineCoordinates().get(0).getY(), 0);
                 }
-                System.out.print(prevID + ", ");
                 // for each road add all the xy co-ordinates in the file as a node
                 // use the road ID plus a number as the ID of the node
                 // add and edge between the previous node and the current node and
                 // use the road ID plus a number as the ID of the edge
                 for (int roadsection = 1; roadsection < bngroad.getPolylineCoordinates().size() - 2; roadsection++) {
                     String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
-                    System.out.print(nodeID + ", ");
                     graph.addNode(nodeID);
                     graph.getNode(nodeID).setAttribute("xyz",
                             bngroad.getPolylineCoordinates().get(roadsection).getX(),
@@ -78,7 +74,6 @@ public class LoadRoadsGrid {
                 }
                 graph.addEdge(bngroad.getRoadIDs()[0] + "." + edgeInc, graph.getNode(prevID),
                         graph.getNode(bngroad.getRoadIDs()[2]));
-                System.out.println(bngroad.getRoadIDs()[2]);
             });
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

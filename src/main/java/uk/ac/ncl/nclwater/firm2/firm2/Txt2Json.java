@@ -317,9 +317,9 @@ public class Txt2Json {
     }
 
     public static void main(String[] args) {
-        final String APPLICATION_DIRECTORY = System.getProperty("user.home");
-        final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
-        properties = Utilities.loadPropertiesFile(PROPERTIES_FILEPATH);
+        final String APPLICATION_DIRECTORY = "";
+        final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "./.firm2.properties";
+        properties = Utilities.createPropertiesFile();
         String input = "";
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));

@@ -43,7 +43,7 @@ public class Firm2 extends Model {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             // Read global variable (eventually to be read from environment vars for DAFNI)
             GlobalVariables globalVariables = gson.fromJson(new FileReader(
-                            properties.getProperty("input-data") + properties.getProperty("model-parameters")),
+                            properties.getProperty("INPUT_DATA") + properties.getProperty("MODEL_PARAMETERS")),
                     GlobalVariables.class);
 
             floodModelParameters.setWidth(globalVariables.getColumns());
@@ -59,7 +59,7 @@ public class Firm2 extends Model {
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
             Graph graph = new SingleGraph("Road Network");
-            LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, graph, roadHashMap);
+            LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, graph);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             //grids.put("roads", roadsGrid);
@@ -280,9 +280,9 @@ public class Firm2 extends Model {
 
         // Generate a one pixel per cell PNG image on tick
         if (floodModelParameters.isPngOnTick()) {
-            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("output-data"), "water_" + Long.toString(modelTimeStamp));
-            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("output-data"), "terrain_" + Long.toString(modelTimeStamp));
-            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("output-data"), "defences_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("OUTPUT_DATA"), "water_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("OUTPUT_DATA"), "terrain_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("OUTPUT_DATA"), "defences_" + Long.toString(modelTimeStamp));
         }
     }
 
@@ -295,22 +295,21 @@ public class Firm2 extends Model {
         super(new FloodModelParameters());
         floodModelParameters = (FloodModelParameters) modelParameters;
         // load properties file or create one if it doesn't exist and add default values
-        createPropertiesFile();
-        properties = loadPropertiesFile();
-        floodModelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("toroidal")));
-        floodModelParameters.setTicks(Integer.parseInt(properties.getProperty("ticks")));
-        floodModelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("visualise")));
-        floodModelParameters.setCell_size(Integer.parseInt(properties.getProperty("cell-size")));
-        floodModelParameters.setChance(Integer.parseInt(properties.getProperty("chance")));
-        floodModelParameters.setTitle(String.valueOf(properties.get("application-title")));
-        floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("ocean-depth")));
-        floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("time-stamp")));
-        floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("tick-time-value")));
+        properties = createPropertiesFile();
+        floodModelParameters.setToroidal(Boolean.parseBoolean(properties.getProperty("TOROIDAL")));
+        floodModelParameters.setTicks(Integer.parseInt(properties.getProperty("TICKS")));
+        floodModelParameters.setVisualise(Boolean.parseBoolean(properties.getProperty("VISUALISE")));
+        floodModelParameters.setCell_size(Integer.parseInt(properties.getProperty("CELL_SIZE")));
+        floodModelParameters.setChance(Integer.parseInt(properties.getProperty("CHANCE")));
+        floodModelParameters.setTitle(String.valueOf(properties.get("APPLICATION_TITLE")));
+        floodModelParameters.setOceanDepth(Float.parseFloat(properties.getProperty("OCEAN_DEPTH")));
+        floodModelParameters.setTimestamp(Long.parseLong(properties.getProperty("TIME_STAMP")));
+        floodModelParameters.setTickTimeValue(Long.parseLong(properties.getProperty("TICK_TIME_VALUE")));
         modelTimeStamp = floodModelParameters.getTimestamp() * 1000; // start time for model
-        floodModelParameters.setSlowdown(Integer.parseInt(properties.getProperty("slowdown")));
-        floodModelParameters.setTitle(properties.getProperty("application-title"));
-        floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG-on-tick")));
-        floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG-on-tick")));
+        floodModelParameters.setSlowdown(Integer.parseInt(properties.getProperty("SLOWDOWN")));
+        floodModelParameters.setTitle(properties.getProperty("APPLICATION_TITLE"));
+        floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG_ON_TICK")));
+        floodModelParameters.setRunOnStartUp(Boolean.parseBoolean(properties.getProperty("RUN_ON_STARTUP")));
         modelInit();
         Thread modelthread = new Thread(this);
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup

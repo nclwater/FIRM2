@@ -28,7 +28,7 @@ public class LoadDefencesGrid {
                 floodModelParameters.isToroidal(), "defences");
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + properties.getProperty("defences-data");
+            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("DEFENCES_DATA");
             Defences defences = gson.fromJson(new FileReader(filename), Defences.class);
             logger.debug("Reading: {}", filename);
             defences.getDefences().forEach(d -> {

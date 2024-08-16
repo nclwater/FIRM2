@@ -20,7 +20,7 @@ public class VehicleCodeDescriptors {
         try {
             HashMap<String, VehicleCode> hsh_vehicles = new HashMap<>();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("input-data") + properties.getProperty("vehicles-data");
+            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("VEHICLES_DATA");
             VehiclesCodes vehiclesCodes = gson.fromJson(new FileReader(filename), VehiclesCodes.class);
             logger.debug("Reading vehicle code descriptors: {}", filename);
             vehiclesCodes.getVehicleCodes().forEach(v -> {

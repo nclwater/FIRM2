@@ -3,6 +3,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
+import uk.ac.ncl.nclwater.firm2.firm2.model.SystemProperties;
 
 import java.awt.*;
 import java.io.*;
@@ -12,44 +13,54 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class Utilities {
 
-    private static final String APPLICATION_DIRECTORY = System.getProperty("user.home");
-    private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "/.firm2.properties";
+    private static final String APPLICATION_DIRECTORY = ""; //System.getProperty("user.home");
+    private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "./.firm2.properties";
     private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
+    private static final SystemProperties systemProperties = SystemProperties.getInstance();
 
     /**
      * Create a new properties file and set default properties
      */
      public static Properties createPropertiesFile() {
-        Properties properties = new Properties();
+        Properties properties;
         File propertiesFile = new File(PROPERTIES_FILEPATH);
         try {
             if (!Files.exists(Paths.get(PROPERTIES_FILEPATH))) {
+                logger.debug("Creating properties file: " + PROPERTIES_FILEPATH);
+                properties = new Properties();
                 OutputStream output = new FileOutputStream(propertiesFile);
-                properties.setProperty("toroidal","false");
-                properties.setProperty("ticks","30");
-                properties.setProperty("visualise","TRUE");
-                properties.setProperty("cell-size","3");
-                properties.setProperty("chance","50");
-                properties.setProperty("application-title","FIRM2");
-                properties.setProperty("input-data", "data/inputs/");
-                properties.setProperty("output-data", "data/outputs/");
-                properties.setProperty("terrain-data", "terrain.json");
-                properties.setProperty("roads-data", "roads.json");
-                properties.setProperty("buildings-data", "buildings.json");
-                properties.setProperty("defences-data", "defences.json");
-                properties.setProperty("model-parameters", "globals.json");
-                properties.setProperty("vehicles-data", "vehicles.json");
-                properties.setProperty("ocean-depth", "4");
-                properties.setProperty("slowdown", "0");
-                properties.setProperty("time-stamp", "1719874800");
-                properties.setProperty("tick-time-value", "60");
-                properties.setProperty("ocean-depth", "4");
+                systemProperties.getProperties().forEach(properties::setProperty);
                 properties.store(output, null);
                 System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
+            } else {
+                properties = Utilities.loadPropertiesFile();
+                logger.debug("Read properties file: {}", PROPERTIES_FILEPATH);
+                HashMap<String, String> propertiesMap = systemProperties.getProperties();
+                propertiesMap.forEach((key, value) -> {
+                    if (properties.getProperty(key) != null) {
+                        logger.debug("{} key found in properties file: {}", key, properties.getProperty(key));
+                        if (System.getenv(key) != null) {
+                            logger.debug("Alternative value found in environment: {}", System.getenv(key));
+                            properties.setProperty(key, System.getenv(key));
+                        }
+                    } else {
+                        logger.debug("{} key not found, check environment", key);
+                        if (System.getenv(key) != null) {
+                            logger.debug("Alternative value found in system properties: {}", System.getenv(key));
+                            properties.setProperty(key, System.getenv(key));
+                        } else {
+                            logger.debug("Alternative value not found in system properties, using default {}",
+                                    systemProperties.getProperties().get(key));
+                            properties.setProperty(key, systemProperties.getProperties().get(key));
+                        }
+                    }
+                });
+
             }
             return properties;
         } catch (IOException e) {
@@ -61,28 +72,11 @@ public class Utilities {
     /**
      * Load properties from the properties file
      */
-    public static Properties loadPropertiesFile(String properties_filepath) {
-        Properties properties = new Properties();
-
-        try (InputStream input = new FileInputStream(properties_filepath)) {
-            // load a properties file
-            properties.load(input);
-            logger.debug("Properties read from " + properties_filepath);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return properties;
-    }
-
-    /**
-     * Load properties from the properties file
-     */
     public static Properties loadPropertiesFile() {
         Properties properties = new Properties();
         try (InputStream input = new FileInputStream(PROPERTIES_FILEPATH)) {
             // load a properties file
             properties.load(input);
-            System.out.println("Properties read from " + PROPERTIES_FILEPATH);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -115,7 +109,7 @@ public class Utilities {
         for (int i = 0; i < delta; i++) {
             int x = (int)((float)startX + ((float)i * stepX));
             int y = (int)((float)startY + ((float)i * stepY));
-            points.addFirst(new Point(x, y));
+            points.add(0, new Point(x, y));
         }
 
         return points;

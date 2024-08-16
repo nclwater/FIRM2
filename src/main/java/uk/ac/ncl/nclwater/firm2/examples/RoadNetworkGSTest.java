@@ -59,8 +59,8 @@ public class RoadNetworkGSTest  implements ViewerListener {
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);
                     graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("xyz",
-                            bngroad.getPolylineCoordinates().getFirst().getX(),
-                            bngroad.getPolylineCoordinates().getFirst().getY(), 0);
+                            bngroad.getPolylineCoordinates().get(0).getX(),
+                            bngroad.getPolylineCoordinates().get(0).getY(), 0);
                 }
                 System.out.print(prevID + ", ");
                 // for each road add all the xy co-ordinates in the file as a node
