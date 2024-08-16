@@ -15,6 +15,10 @@ import uk.ac.ncl.nclwater.firm2.firm2.model.Roads;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class RoadNetworkGSTest  implements ViewerListener {
@@ -33,20 +37,37 @@ public class RoadNetworkGSTest  implements ViewerListener {
     }
 
     RoadNetworkGSTest() {
+        String stylesheet = null;
+        try {
+            stylesheet = new String(Files.readAllBytes(Paths.get(getClass().getResource("/stylesheet.css").toURI())));
+            graph.setAttribute("ui.stylesheet", stylesheet);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         String filename = "DATA/inputs/BNG_roads.json";
         try {
             Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
             roads.getRoads().forEach(bngroad -> {
+                System.out.println(("0: " + bngroad.getRoadIDs()[0] + ", 1: " + bngroad.getRoadIDs()[1]) +
+                        ", 2: " + bngroad.getRoadIDs()[2]);
                 int nodeInc = 0;
                 int edgeInc = 0;
                 PointDouble road = bngroad.getPolylineCoordinates().get(1);
                 String prevID = bngroad.getRoadIDs()[1];
-                graph.addNode(prevID);
-                graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("xyz",
-                        bngroad.getPolylineCoordinates().getFirst().getX(),
-                        bngroad.getPolylineCoordinates().getFirst().getY(), 0);
+                if (graph.getNode(prevID) == null) {
+                    graph.addNode(prevID);
+                    graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("xyz",
+                            bngroad.getPolylineCoordinates().getFirst().getX(),
+                            bngroad.getPolylineCoordinates().getFirst().getY(), 0);
+                }
                 System.out.print(prevID + ", ");
-                for (int roadsection = 1; roadsection < bngroad.getPolylineCoordinates().size() - 1; roadsection++) {
+                // for each road add all the xy co-ordinates in the file as a node
+                // use the road ID plus a number as the ID of the node
+                // add and edge between the previous node and the current node and
+                // use the road ID plus a number as the ID of the edge
+                for (int roadsection = 1; roadsection < bngroad.getPolylineCoordinates().size() - 2; roadsection++) {
                     String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
                     System.out.print(nodeID + ", ");
                     graph.addNode(nodeID);
@@ -58,14 +79,16 @@ public class RoadNetworkGSTest  implements ViewerListener {
                     prevID = nodeID;
                 }
                 int last = bngroad.getPolylineCoordinates().size() - 1;
-                if (graph.getNode(bngroad.getRoadIDs()[2]) != null) {
+                if (graph.getNode(bngroad.getRoadIDs()[2]) == null) {
                     graph.addNode(bngroad.getRoadIDs()[2]);
                     graph.getNode(bngroad.getRoadIDs()[2]).setAttribute("xyz",
                             bngroad.getPolylineCoordinates().get(last).getX(),
                             bngroad.getPolylineCoordinates().get(last).getY(), 0);
                 }
-                graph.addEdge(bngroad.getRoadIDs()[2] + edgeInc, graph.getNode(prevID),
+                graph.addEdge(bngroad.getRoadIDs()[0] + "." + edgeInc, graph.getNode(prevID),
                         graph.getNode(bngroad.getRoadIDs()[2]));
+                System.out.println(bngroad.getRoadIDs()[2]);
+
             });
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

@@ -9,6 +9,10 @@ import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class GraphStreamTest implements ViewerListener {
     protected boolean loop = true;
@@ -22,9 +26,16 @@ public class GraphStreamTest implements ViewerListener {
     }
 
     public GraphStreamTest() {
-        // We do as usual to display a graph. This
-        // connect the graph outputs to the viewer.
-        // The viewer is a sink of the graph.
+        String stylesheet = null;
+        try {
+            stylesheet = new String(Files.readAllBytes(Paths.get(getClass().getResource("/stylesheet.css").toURI())));
+            graph.setAttribute("ui.stylesheet", stylesheet);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
         graph.addNode("a").setAttribute("ui.label", "a");
         graph.getNode("a").setAttribute("ui.style", "fill-color: blue;");
         graph.addNode("b").setAttribute("ui.label", "b");

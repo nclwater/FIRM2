@@ -318,5 +318,13 @@ public class Utilities {
         return mph * conversionFactor;
     }
 
+    /**
+     * Calculate the distance travelled in one second given a speed
+     * @param speed The speed at which the object is moving
+     * @return The distance travelled in one second
+     */
+    public static double distanceTravelled(double speed) {
+        return 1000.0 / 3600.0 * speed;
+    }
 
 }

@@ -3,9 +3,16 @@ graph {
 }
 
 node {
-    fill-color: red;
+    fill-color: blue;
+    size: 1px;
 }
 
+node.marked  {
+    fill-color: red;
+}
 edge {
     fill-color: blue;
+}
+edge.marked {
+    fill-color: red;
 }
