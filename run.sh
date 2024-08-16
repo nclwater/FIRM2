@@ -20,6 +20,7 @@ echo "Reading from "$app_data_inputs
 echo "Writing to "$app_data_outputs
 
 # java -cp FIRM2.jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
-java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
+# java -cp target/FIRM2.jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
+java -jar firm2.jar
 
 cp -r $app_data_inputs/* $app_data_outputs/
