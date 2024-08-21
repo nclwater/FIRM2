@@ -1,0 +1,84 @@
+package uk.ac.ncl.nclwater.firm2.firm2.view;
+
+import org.graphstream.graph.Graph;
+import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class ViewGrid  implements ViewerListener {
+    private static final Logger logger = LoggerFactory.getLogger(ViewGrid.class);
+    static boolean loop = true;
+
+    public void displayGraph(Graph graph, Object s) {
+            String stylesheet = null;
+            Path pth_styleSheet = null;
+            try {
+                pth_styleSheet = Paths.get(s.getClass().getResource("/stylesheet.css").toURI());
+            } catch (NullPointerException e) {
+                logger.debug("CSS file not found.");
+            } catch (URISyntaxException e) {
+                logger.debug("URI syntax error.");
+            }
+            if (pth_styleSheet != null) {
+                try {
+                    stylesheet = new String(Files.readAllBytes(pth_styleSheet));
+                    graph.setAttribute("ui.stylesheet", stylesheet);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            System.setProperty("org.graphstream.ui", "swing");
+
+            Viewer viewer = graph.display();
+            viewer.getDefaultView().enableMouseOptions();
+            viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
+
+            ViewerPipe fromViewer = viewer.newViewerPipe();
+            fromViewer.addViewerListener(this);
+            fromViewer.addSink(graph);
+            while (loop) {
+                try {
+                    fromViewer.pump();
+                } catch (Exception e) {
+                    logger.error("here: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+    @Override
+    public void viewClosed(String s) {
+        loop = false;
+    }
+
+    @Override
+    public void buttonPushed(String s) {
+        logger.debug("Pressed button on {}", s);
+
+    }
+
+    @Override
+    public void buttonReleased(String s) {
+        logger.debug("Button released");
+    }
+
+    @Override
+    public void mouseOver(String s) {
+        logger.debug("Mouse over");
+    }
+
+    @Override
+    public void mouseLeft(String s) {
+        logger.debug("Mouse left");
+    }
+}

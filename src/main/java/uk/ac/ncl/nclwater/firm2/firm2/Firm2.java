@@ -4,16 +4,26 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
+import uk.ac.ncl.nclwater.firm2.examples.RoadNetworkGSTest;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
+import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +32,7 @@ import java.util.Properties;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
 
@@ -33,6 +44,7 @@ public class Firm2 extends Model {
     Float maintainSeaLevel;
     HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
     HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
+    Graph graph;
 
     /**
      * Initialise the model
@@ -58,15 +70,13 @@ public class Firm2 extends Model {
                     floodModelParameters.isToroidal(), "terrain");
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
-            Graph graph = new SingleGraph("Road Network");
+            graph = new SingleGraph("Road Network");
             LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, graph);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             //grids.put("roads", roadsGrid);
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
-            ComplexGrid vehicles = new ComplexGrid("vehicles");
-            grids.put("vehicles", vehicles);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
@@ -74,8 +84,22 @@ public class Firm2 extends Model {
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
-            // Do an initial tick
             Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
+
+            if (floodModelParameters.isVisualise()) {
+                Thread t1 = new Thread(new Runnable() {
+                    public void run()
+                    {
+//                        ViewGrid viewGrid = new ViewGrid();
+//                        viewGrid.displayGraph(graph, this);
+                        new RoadNetworkGSTest();
+
+                    }});
+                t1.start();
+
+            }
+
+            // Do an initial tick
             tick();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -164,22 +188,15 @@ public class Firm2 extends Model {
                         String nearestRoad = vehicleCodes.get(vehicle.getCode()).getNearestRoad();
                         logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
                                 vehicle.getSd(), vehicle.getQty(), nearestRoad);
-//                        Point roadOrigin = roadHashMap.get(nearestRoad).getFirst();
-//                        for (int c = 0; c < vehicle.getQty(); c++){
-//                            int id = AgentIDProducer.getNewId();
-//                            Car car = new Car(id, roadHashMap.get(nearestRoad));
-//                            ((ComplexGrid) grids.get("vehicles")).add(car);
-//                        }
-
                     }
                 }
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
-        moveVehicles();
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
+
             visualisation.getDrawPanel().repaint();
         }
     }
@@ -315,4 +332,6 @@ public class Firm2 extends Model {
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
         modelthread.start();
     }
+
+
 }
