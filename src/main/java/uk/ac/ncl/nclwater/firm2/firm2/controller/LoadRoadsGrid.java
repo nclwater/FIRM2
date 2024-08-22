@@ -7,6 +7,9 @@ import org.graphstream.graph.ElementNotFoundException;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.IdAlreadyInUseException;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
@@ -18,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
@@ -81,8 +85,85 @@ public class LoadRoadsGrid {
 
     }
 
-    public static void loadBNGRoads() {
+    /**
+     * This method is used to load roads from json into a GraphStream network
+     */
+    public static Roads gsLoadRoads(String filename, Graph graph, HashMap<String, Road> roadsMap) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        Roads roads = null;
+        try {
+            roads = gson.fromJson(new FileReader(filename), Roads.class);
+            roads.getRoads().forEach(bngroad -> {
+                int nodeInc = 0;
+                int edgeInc = 0;
+                PointDouble road = bngroad.getPolylineCoordinates().get(1);
+                String prevID = bngroad.getRoadIDs()[1];
+                if (graph.getNode(prevID) == null) {
+                    graph.addNode(prevID);
+                    logger.trace("Add node {}", prevID);
+                    // This node (prevID) belongs to this road (bngroad)
+                    roadsMap.put(prevID, bngroad);
+                    graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("xyz",
+                            bngroad.getPolylineCoordinates().get(0).getX(),
+                            bngroad.getPolylineCoordinates().get(0).getY(), 0);
+                }
+                // for each road add all the xy co-ordinates in the file as a node
+                // use the road ID plus a number as the ID of the node
+                // add and edge between the previous node and the current node and
+                // use the road ID plus a number as the ID of the edge
+                for (int roadsection = 1; roadsection < bngroad.getPolylineCoordinates().size() - 2; roadsection++) {
+                    String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
+                    if (graph.getNode(nodeID) == null) {
+                        graph.addNode(nodeID);
+                        logger.trace("Add node {}", prevID);
+                        // This node (nodeID) belongs to this road (bngroad)
+                        roadsMap.put(nodeID, bngroad);
+                        graph.getNode(nodeID).setAttribute("xyz",
+                                bngroad.getPolylineCoordinates().get(roadsection).getX(),
+                                bngroad.getPolylineCoordinates().get(roadsection).getY(), 0);
+                        String edgeID = bngroad.getRoadIDs()[0] + edgeInc++;
+                        graph.addEdge(edgeID, graph.getNode(prevID),
+                                graph.getNode(nodeID), true);
+                        prevID = nodeID;
+                    }
+                }
+                int last = bngroad.getPolylineCoordinates().size() - 1;
+                if (graph.getNode(bngroad.getRoadIDs()[2]) == null) {
+                    graph.addNode(bngroad.getRoadIDs()[2]);
+                    logger.trace("Add node {}", prevID);
+                    graph.getNode(bngroad.getRoadIDs()[2]).setAttribute("xyz",
+                            bngroad.getPolylineCoordinates().get(last).getX(),
+                            bngroad.getPolylineCoordinates().get(last).getY(), 0);
+                }
+                String edgeID = bngroad.getRoadIDs()[0] + "." + edgeInc;
+                graph.addEdge(edgeID, graph.getNode(prevID),
+                        graph.getNode(bngroad.getRoadIDs()[2]), true);
 
+            });
+        } catch (FileNotFoundException e) {
+            logger.debug("File not found.");
+            throw new RuntimeException(e);
+        } catch (NoSuchElementException e) {
+            logger.debug(e.getMessage());
+        }
+        return roads;
+
+    }
+
+    public static void viewGraph(Graph graph, ViewerListener listener) {
+        boolean loop = true;
+        Viewer viewer = graph.display(false);
+        viewer.getDefaultView().enableMouseOptions();
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
+
+        ViewerPipe fromViewer = viewer.newViewerPipe();
+        fromViewer.addViewerListener(listener);
+        fromViewer.addSink(graph);
+
+
+        while (loop) {
+            fromViewer.pump(); // or fromViewer.blockingPump(); in the nightly builds
+        }
     }
 
 
