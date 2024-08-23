@@ -7,30 +7,27 @@ import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
-import org.graphstream.ui.view.ViewerPipe;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
-import uk.ac.ncl.nclwater.firm2.firm2.model.PointDouble;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Road;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Roads;
 import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
+import java.util.Properties;
+
+import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createPropertiesFile;
+
 
 public class RoadNetworkGSTest  implements ViewerListener {
 
     private final Graph graph = new SingleGraph("Road Networks GraphStream Test");
+    private Viewer viewer = null;
     private Node first = null;
     private Node second = null;
     private static final Logger logger = LoggerFactory.getLogger(RoadNetworkGSTest.class);
@@ -39,31 +36,30 @@ public class RoadNetworkGSTest  implements ViewerListener {
     Path shortest = null;
     Roads roads = null;
 
-    public static void main(String[] args) {
-        new RoadNetworkGSTest();
-    }
-
     public RoadNetworkGSTest() {
         logger.debug("Run RoadNetworkGSTest");
         System.setProperty("org.graphstream.ui", "swing");
-        String stylesheetName = "/stylesheet.css";
         String stylesheet = null;
         try {
-            stylesheet = new String(Files.readAllBytes(Paths.get(getClass().getResource(stylesheetName).toURI())));
+            File file = new File("stylesheet.css");
+            stylesheet = org.apache.commons.io.FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+            logger.trace("Stylesheet {}", file.getAbsolutePath());
             graph.setAttribute("ui.stylesheet", stylesheet);
-            logger.debug("Set stylesheet to {}", stylesheetName);
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            logger.error("Stylesheet not found");
+            //throw new RuntimeException(e);
         }
-        String filename = "DATA/inputs/sample_roads.json";
-        roads = LoadRoadsGrid.gsLoadRoads(filename, graph, roadsMap);
-        LoadRoadsGrid.viewGraph(graph, this);
+        Properties properties = createPropertiesFile();
+        roads = LoadRoadsGrid.gsLoadRoads(graph, roadsMap, properties);
+//        LoadRoadsGrid.viewGraph(graph, this);
+        ViewGrid viewgrid = new ViewGrid();
+        viewgrid.displayGraph(graph, properties, this);
 
     }
 
 
     public void viewClosed(String id) {
-        logger.debug("Exiting");
+        logger.trace("Exiting");
 //        loop = false;
     }
 

@@ -16,8 +16,15 @@ import java.nio.file.Paths;
 public class ViewGrid  implements ViewerListener {
     private static final Logger logger = LoggerFactory.getLogger(ViewGrid.class);
     static boolean loop = true;
+    ViewerListener viewerListener;
+    Graph graph = null;
 
-    public void displayGraph(Graph graph, Object s) {
+
+    public void displayGraph(Graph graph, Object s, ViewerListener vl) {
+            this.graph = graph;
+            if (vl != null) {
+                this.viewerListener = vl;
+            }
             String stylesheet = null;
             Path pth_styleSheet = null;
             try {
@@ -37,12 +44,12 @@ public class ViewGrid  implements ViewerListener {
             }
             System.setProperty("org.graphstream.ui", "swing");
 
-            Viewer viewer = graph.display();
+            Viewer viewer = graph.display(false);
             viewer.getDefaultView().enableMouseOptions();
             viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
 
             ViewerPipe fromViewer = viewer.newViewerPipe();
-            fromViewer.addViewerListener(this);
+            fromViewer.addViewerListener(viewerListener);
             fromViewer.addSink(graph);
             while (loop) {
                 try {

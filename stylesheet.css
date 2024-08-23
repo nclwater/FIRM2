@@ -12,7 +12,8 @@ node.marked  {
 }
 edge {
     fill-color: blue;
-    arrow-size: 0px, 0px;
+    arrow-size: 3px, 2px;
+
 }
 edge.marked {
     fill-color: red;

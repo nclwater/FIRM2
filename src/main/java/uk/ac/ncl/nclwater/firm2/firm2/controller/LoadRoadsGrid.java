@@ -88,10 +88,12 @@ public class LoadRoadsGrid {
     /**
      * This method is used to load roads from json into a GraphStream network
      */
-    public static Roads gsLoadRoads(String filename, Graph graph, HashMap<String, Road> roadsMap) {
+    public static Roads gsLoadRoads(Graph graph, HashMap<String, Road> roadsMap, Properties properties) {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         Roads roads = null;
         try {
+            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
+            logger.debug("Read roads from {}", filename);
             roads = gson.fromJson(new FileReader(filename), Roads.class);
             roads.getRoads().forEach(bngroad -> {
                 int nodeInc = 0;
@@ -100,7 +102,7 @@ public class LoadRoadsGrid {
                 String prevID = bngroad.getRoadIDs()[1];
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);
-                    logger.trace("Add node {}", prevID);
+                    logger.trace("Add start node {}", prevID);
                     // This node (prevID) belongs to this road (bngroad)
                     roadsMap.put(prevID, bngroad);
                     graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("xyz",
@@ -115,7 +117,7 @@ public class LoadRoadsGrid {
                     String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
                     if (graph.getNode(nodeID) == null) {
                         graph.addNode(nodeID);
-                        logger.trace("Add node {}", prevID);
+                        logger.trace("Add intermediate node {}", nodeID);
                         // This node (nodeID) belongs to this road (bngroad)
                         roadsMap.put(nodeID, bngroad);
                         graph.getNode(nodeID).setAttribute("xyz",
@@ -130,7 +132,7 @@ public class LoadRoadsGrid {
                 int last = bngroad.getPolylineCoordinates().size() - 1;
                 if (graph.getNode(bngroad.getRoadIDs()[2]) == null) {
                     graph.addNode(bngroad.getRoadIDs()[2]);
-                    logger.trace("Add node {}", prevID);
+                    logger.trace("Add end node {}", bngroad.getRoadIDs()[2]);
                     graph.getNode(bngroad.getRoadIDs()[2]).setAttribute("xyz",
                             bngroad.getPolylineCoordinates().get(last).getX(),
                             bngroad.getPolylineCoordinates().get(last).getY(), 0);
@@ -150,21 +152,6 @@ public class LoadRoadsGrid {
 
     }
 
-    public static void viewGraph(Graph graph, ViewerListener listener) {
-        boolean loop = true;
-        Viewer viewer = graph.display(false);
-        viewer.getDefaultView().enableMouseOptions();
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
-
-        ViewerPipe fromViewer = viewer.newViewerPipe();
-        fromViewer.addViewerListener(listener);
-        fromViewer.addSink(graph);
-
-
-        while (loop) {
-            fromViewer.pump(); // or fromViewer.blockingPump(); in the nightly builds
-        }
-    }
 
 
 }

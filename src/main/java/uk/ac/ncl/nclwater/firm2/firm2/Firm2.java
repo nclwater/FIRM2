@@ -2,7 +2,10 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
@@ -22,7 +25,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -31,21 +33,25 @@ import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
-public class Firm2 extends Model {
+public class Firm2 extends Model implements ViewerListener{
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
 
-    Properties properties;
+    Properties properties = null;
     Long modelTimeStamp = 0L;
     ModelState modelState = new ModelState();
     int modelStateIndex = 0;
     ModelStateChanges modelStateChanges;
-    Float maintainSeaLevel;
+    Float maintainSeaLevel = null;
     HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
-    HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
-    Graph graph;
-
+    HashMap<String, Road> roadHashMap = new HashMap<>();
+    Graph graph = null;
+    Roads roads = null;
+    private Node first = null;
+    private Node second = null;
+    AStar aStar = null;
+    Path shortest = null;
     /**
      * Initialise the model
      */
@@ -71,10 +77,10 @@ public class Firm2 extends Model {
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
             graph = new SingleGraph("Road Network");
-            LoadRoadsGrid.loadRoads(globalVariables, floodModelParameters, properties, graph);
+            aStar = new AStar(graph);
+            roads = LoadRoadsGrid.gsLoadRoads(graph, roadHashMap, properties);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
-            //grids.put("roads", roadsGrid);
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
 
@@ -87,17 +93,10 @@ public class Firm2 extends Model {
             Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
 
             if (floodModelParameters.isVisualise()) {
-                Thread t1 = new Thread(new Runnable() {
-                    public void run()
-                    {
-//                        ViewGrid viewGrid = new ViewGrid();
-//                        viewGrid.displayGraph(graph, this);
-                        new RoadNetworkGSTest();
-
-                    }});
-                t1.start();
-
-            }
+                T
+                        ViewGrid viewGrid = new ViewGrid();
+                        viewGrid.displayGraph(graph, this, this);
+           }
 
             // Do an initial tick
             tick();
@@ -333,5 +332,60 @@ public class Firm2 extends Model {
         modelthread.start();
     }
 
+    public void viewClosed(String id) {
+        logger.trace("Exiting");
+//        loop = false;
+    }
+
+    public void buttonPushed(String id) {
+        if (first == null) {
+            if (shortest != null) {
+
+                logger.debug("aStar.getShortestPath() = {}", shortest.toString());
+                shortest.getEdgePath().forEach(p -> {
+                    p.removeAttribute("ui.class");
+                });                    } else {
+                logger.debug("Remove previous paths");
+            }
+            if (second != null) {
+                second.removeAttribute("ui.class");
+                second = null;
+            }
+            first = graph.getNode(id);
+            if (first != null) {
+                logger.debug("First node {} is part of road {}", first,roadHashMap.get(id)==null?"":roadHashMap.get(id).getRoadIDs()[0]);
+                graph.getNode(id).setAttribute("ui.class", "marked");
+            }
+        } else {
+            if (second == null) {
+                second = graph.getNode(id);
+                if (second != null) {
+                    logger.debug("Second node {} is part of road {}", second, roadHashMap.get(id)==null?"":roadHashMap.get(id).getRoadIDs()[0]);
+                    graph.getNode(id).setAttribute("ui.class", "marked");
+                    aStar.compute(first.getId(), second.getId());
+                    shortest = aStar.getShortestPath();
+                    if (shortest != null) {
+                        logger.debug("aStar.getShortestPath() = {}", shortest.toString());
+                        shortest.getEdgePath().forEach(p -> {
+                            p.setAttribute("ui.class", "marked");
+                        });                    } else {
+                        logger.debug("No path found between nodes");
+                    }
+
+                    first.removeAttribute("ui.class");
+                    first = null;
+                }
+            }
+        }
+    }
+
+    public void buttonReleased(String id) {
+    }
+
+    public void mouseOver(String id) {
+    }
+
+    public void mouseLeft(String id) {
+    }
 
 }
