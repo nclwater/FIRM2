@@ -38,20 +38,21 @@ public class Firm2 extends Model implements ViewerListener{
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
 
-    Properties properties = null;
-    Long modelTimeStamp = 0L;
-    ModelState modelState = new ModelState();
-    int modelStateIndex = 0;
-    ModelStateChanges modelStateChanges;
-    Float maintainSeaLevel = null;
-    HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
-    HashMap<String, Road> roadHashMap = new HashMap<>();
-    Graph graph = null;
-    Roads roads = null;
+    private Properties properties = null;
+    private Long modelTimeStamp = 0L;
+    private ModelState modelState = new ModelState();
+    private int modelStateIndex = 0;
+    private ModelStateChanges modelStateChanges;
+    private Float maintainSeaLevel = null;
+    private HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
+    private HashMap<String, Road> roadHashMap = new HashMap<>();
+    private HashMap<String, BNGRoad> bngRoadHashMap = new HashMap<>();
+    private Graph graph = null;
+    private Roads roads = null;
     private Node first = null;
     private Node second = null;
-    AStar aStar = null;
-    Path shortest = null;
+    private AStar aStar = null;
+    private Path shortest = null;
     /**
      * Initialise the model
      */
@@ -78,7 +79,7 @@ public class Firm2 extends Model implements ViewerListener{
                     waterGrid);
             graph = new SingleGraph("Road Network");
             aStar = new AStar(graph);
-            roads = LoadRoadsGrid.gsLoadRoads(graph, roadHashMap, properties);
+            LoadRoadsGrid.gsLoadRoads(graph, bngRoadHashMap, properties);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
@@ -93,9 +94,13 @@ public class Firm2 extends Model implements ViewerListener{
             Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
 
             if (floodModelParameters.isVisualise()) {
-                T
+                ViewerListener viewerListener = this;
+                Thread t1 = new Thread(new Runnable() {
+                    public void run() {
                         ViewGrid viewGrid = new ViewGrid();
-                        viewGrid.displayGraph(graph, this, this);
+                        viewGrid.displayGraph(graph, this, viewerListener);
+                    }});
+                t1.start();
            }
 
             // Do an initial tick
@@ -184,7 +189,7 @@ public class Firm2 extends Model implements ViewerListener{
                     for (int i = 0; i < vehicles.size(); i++) {
                         Vehicle vehicle = vehicles.get(i);
 
-                        String nearestRoad = vehicleCodes.get(vehicle.getCode()).getNearestRoad();
+                        String nearestRoad = "4000000012475200"; //vehicleCodes.get(vehicle.getCode()).getNearestRoad();
                         logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
                                 vehicle.getSd(), vehicle.getQty(), nearestRoad);
                     }

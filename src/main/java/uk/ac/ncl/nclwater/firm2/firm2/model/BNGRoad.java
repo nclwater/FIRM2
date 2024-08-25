@@ -7,7 +7,7 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Road extends Agent {
+public class BNGRoad extends Agent {
     int speedLimit = 30;
     @Expose
     @SerializedName("road_IDs")
@@ -23,7 +23,7 @@ public class Road extends Agent {
 
     @Expose
     @SerializedName("polyline_coordinates")
-    ArrayList<PointInteger> polylineCoordinates = new ArrayList<>();
+    ArrayList<PointDouble> polylineCoordinates = new ArrayList<>();
 
 
     /**
@@ -31,7 +31,7 @@ public class Road extends Agent {
      * @param agentId A unique agent id
      * @param roadIDs The IDs of the road that make up this road (clarify)
      */
-    public Road(int agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
+    public BNGRoad(int agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
         this.agent_id = agentId;
         this.roadIDs[0] = roadIDs[0];
         this.roadIDs[1] = roadIDs[1];
@@ -39,7 +39,11 @@ public class Road extends Agent {
         this.colour = Color.black;
     }
 
-    public Road(long roadLength, String roadType, ArrayList<PointInteger> polylineCoordinates, String[] roadIDs) {
+    public String getID() {
+        return roadIDs[0];
+    }
+
+    public BNGRoad(long roadLength, String roadType, ArrayList<PointDouble> polylineCoordinates, String[] roadIDs) {
         this.roadLength = roadLength;
         this.roadType = roadType;
         this.polylineCoordinates = polylineCoordinates;
@@ -92,15 +96,19 @@ public class Road extends Agent {
         this.roadType = roadType;
     }
 
-    public ArrayList<PointInteger> getPolylineCoordinates() {
+    /**
+     * Get the co-ordinates that comprise the road
+     * @return The co-ordinates that comprise the road as an ArrayList of PointDouble
+     */
+    public ArrayList<PointDouble> getPolylineCoordinates() {
         return polylineCoordinates;
     }
 
-    public void setPolylineCoordinates(ArrayList<PointInteger> polylineCoordinates) {
+    public void setPolylineCoordinates(ArrayList<PointDouble> polylineCoordinates) {
         this.polylineCoordinates = polylineCoordinates;
     }
 
-    public void addCoordinates(PointInteger coordinates) {
+    public void addCoordinates(PointDouble coordinates) {
         polylineCoordinates.add(coordinates);
     }
 }

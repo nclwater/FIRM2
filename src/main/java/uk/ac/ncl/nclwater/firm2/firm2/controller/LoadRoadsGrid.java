@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
+import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -43,7 +44,7 @@ public class LoadRoadsGrid {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
             logger.debug("Reading: {}", filename);
-            Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
+            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             roads.getRoads().forEach(bngroad -> {
                 int nodeInc = 0;
                 int edgeInc = 0;
@@ -88,13 +89,13 @@ public class LoadRoadsGrid {
     /**
      * This method is used to load roads from json into a GraphStream network
      */
-    public static Roads gsLoadRoads(Graph graph, HashMap<String, Road> roadsMap, Properties properties) {
+    public static BNGRoads gsLoadRoads(Graph graph, HashMap<String, BNGRoad> roadsMap, Properties properties) {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        Roads roads = null;
+        BNGRoads roads = null;
         try {
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
             logger.debug("Read roads from {}", filename);
-            roads = gson.fromJson(new FileReader(filename), Roads.class);
+            roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             roads.getRoads().forEach(bngroad -> {
                 int nodeInc = 0;
                 int edgeInc = 0;

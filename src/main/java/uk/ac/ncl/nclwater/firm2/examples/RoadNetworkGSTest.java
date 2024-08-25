@@ -11,6 +11,9 @@ import org.graphstream.ui.view.ViewerListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
+import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoad;
+import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Road;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Roads;
 import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
@@ -31,10 +34,10 @@ public class RoadNetworkGSTest  implements ViewerListener {
     private Node first = null;
     private Node second = null;
     private static final Logger logger = LoggerFactory.getLogger(RoadNetworkGSTest.class);
-    private final HashMap<String, Road> roadsMap = new HashMap<>();
+    private final HashMap<String, BNGRoad> roadsMap = new HashMap<>();
     AStar aStar = new AStar(graph);
     Path shortest = null;
-    Roads roads = null;
+    BNGRoads roads = null;
 
     public RoadNetworkGSTest() {
         logger.debug("Run RoadNetworkGSTest");
@@ -94,7 +97,11 @@ public class RoadNetworkGSTest  implements ViewerListener {
                         logger.debug("aStar.getShortestPath() = {}", shortest.toString());
                         shortest.getEdgePath().forEach(p -> {
                             p.setAttribute("ui.class", "marked");
-                        });                    } else {
+                        });
+                        logger.debug("Distance between road {} and {} is {}", first.getAttribute("xyz"),
+                                second.getAttribute("xyz"), 0);
+
+                    } else {
                         logger.debug("No path found between nodes");
                     }
 
