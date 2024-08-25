@@ -233,7 +233,7 @@ public class Txt2Json {
      */
     public static void distances() {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String filename = properties.getProperty("INPUT_DATA") + "BNG_roads.json";
+        String filename = properties.getProperty("INPUT_DATA") + "sample_roads.json";
         try {
             BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             HashMap<String, BNGRoad> hsh_roads = BNGlistToMap(roads.getRoads());
@@ -251,7 +251,7 @@ public class Txt2Json {
                     System.out.println("Distance: " + calculateDistance(coords.get(i).getX(), coords.get(i).getY(),
                             coords.get(i - 1).getX(), coords.get(i - 1).getY()));
                 }
-                System.out.println("Total distance: " + totalDistance + "m : " + (bngRoad.getRoadLength() / 1000) + "m");
+                System.out.println("Total distance: " + totalDistance + "m : " + (bngRoad.getRoadLength() / 1000d) + "m");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

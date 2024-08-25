@@ -4,7 +4,7 @@ graph {
 
 node {
     fill-color: blue;
-    size: 3px;
+    size: 4px;
 }
 
 node.marked  {

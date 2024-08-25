@@ -1,5 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.examples;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -20,8 +22,11 @@ import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createPropertiesFile;
@@ -82,14 +87,16 @@ public class RoadNetworkGSTest  implements ViewerListener {
             }
             first = graph.getNode(id);
             if (first != null) {
-                logger.debug("First node {} is part of road {}", first,roadsMap.get(id)==null?"":roadsMap.get(id).getRoadIDs()[0]);
+                logger.debug("First node {} ({}) is part of road {}", first,first.getAttribute("xyz"),
+                        roadsMap.get(id)==null?"":roadsMap.get(id).getRoadIDs()[0]);
                 graph.getNode(id).setAttribute("ui.class", "marked");
             }
         } else {
             if (second == null) {
                 second = graph.getNode(id);
                 if (second != null) {
-                    logger.debug("Second node {} is part of road {}", second, roadsMap.get(id)==null?"":roadsMap.get(id).getRoadIDs()[0]);
+                    logger.debug("Second node {} ({}) is part of road {}", second, second.getAttribute("xyz"),
+                            roadsMap.get(id)==null?"":roadsMap.get(id).getRoadIDs()[0]);
                     graph.getNode(id).setAttribute("ui.class", "marked");
                     aStar.compute(first.getId(), second.getId());
                     shortest = aStar.getShortestPath();
@@ -98,8 +105,16 @@ public class RoadNetworkGSTest  implements ViewerListener {
                         shortest.getEdgePath().forEach(p -> {
                             p.setAttribute("ui.class", "marked");
                         });
+                        Object[] xyzValues1 = (Object[]) first.getAttribute("xyz");
+                        double northing1 = (double) xyzValues1[0];
+                        double easting1 = (double) xyzValues1[1];
+                        Object[] xyzValues2 = (Object[]) first.getAttribute("xyz");
+                        double northing2 = (double) xyzValues2[0];
+                        double easting2 = (double) xyzValues2[1];
+
                         logger.debug("Distance between road {} and {} is {}", first.getAttribute("xyz"),
-                                second.getAttribute("xyz"), 0);
+                                second.getAttribute("xyz"),
+                                Utilities.calculateDistance(easting1, northing1, easting2, northing2 ));
 
                     } else {
                         logger.debug("No path found between nodes");
