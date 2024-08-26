@@ -147,6 +147,14 @@ public class Utilities {
         return point;
     }
 
+    public static Point GridXY2BNG(float x_origin, float y_origin, int x_coord, int y_coord, int cellMeters) {
+        float x = x_origin + (x_coord * cellMeters);
+        float y = y_origin + (y_coord * cellMeters);
+        Point point = new Point(Math.round(x), Math.round(y));
+        return point;
+    }
+
+
     /**
      * Helper method to trim brackets of a string
      * @param str The string to be trimmed
@@ -320,7 +328,6 @@ public class Utilities {
     public static double distanceTravelled(double speed) {
         return 1000.0 / 3600.0 * speed;
     }
-
 
 
 }

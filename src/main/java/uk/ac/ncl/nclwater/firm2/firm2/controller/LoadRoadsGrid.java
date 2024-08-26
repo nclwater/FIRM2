@@ -32,6 +32,51 @@ public class LoadRoadsGrid {
     private static final Logger logger = LoggerFactory.getLogger(LoadRoadsGrid.class);
 
     /**
+     * Original method - not used anymore.
+     * Read the roads.json configuration from file and populate the road grid
+     */
+    public static void loadRoadsOld(FloodModelParameters floodModelParameters,
+                                 Properties properties, SimpleGrid roadGrid, HashMap<String, ArrayList<Point>> roadHashMap) {
+//         		;; manually fix up the bridge over the river.
+//         		;; XXX this should be done from a config file.
+//         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
+//
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+                String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
+            logger.debug("Reading: {}", filename);
+            Roads roads = gson.fromJson(new FileReader(filename), Roads.class);
+            roads.getRoads().forEach(r -> {
+                ArrayList<PointInteger> roadPoints = r.getPolylineCoordinates();
+                ArrayList<Point> wholeRoad = new ArrayList<>();
+                ArrayList<Point> cleanedWholeRoad = new ArrayList<>();
+                ArrayList<PointInteger> pixelPoints = new ArrayList<>(roadPoints);
+                for (int i = 1; i < pixelPoints.size(); i++) {
+//                    logger.debug("Interpolating ...");
+                    wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).getX(), pixelPoints.get(i - 1).getY(),
+                            pixelPoints.get(i).getX(), pixelPoints.get(i).getY()));
+                }
+                logger.debug("Interpolating complete ...");
+                wholeRoad.forEach(point -> {
+                    if (point.x >= 0 && point.x < floodModelParameters.getWidth() && point.y >= 0 && point.y < floodModelParameters.getHeight()) {
+                        Road newRoad = new Road(AgentIDProducer.getNewId(), r.getRoadIDs());
+                        newRoad.setRoadLength(r.getRoadLength());
+                        newRoad.setRoadType(r.getRoadType());
+                        roadGrid.setCell(point.x, point.y, newRoad);
+                        cleanedWholeRoad.add(point);
+                    } else {
+                        logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
+                    }
+                });
+                roadHashMap.put(r.getRoadIDs()[0],cleanedWholeRoad);
+            });
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
      * Read the roads.json configuration from file and populate the road grid
      */
     public static void loadRoads(GlobalVariables globalVariables, FloodModelParameters floodModelParameters,
@@ -48,7 +93,6 @@ public class LoadRoadsGrid {
             roads.getRoads().forEach(bngroad -> {
                 int nodeInc = 0;
                 int edgeInc = 0;
-                PointDouble road = bngroad.getPolylineCoordinates().get(1);
                 String prevID = bngroad.getRoadIDs()[1];
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);
@@ -56,11 +100,12 @@ public class LoadRoadsGrid {
                             bngroad.getPolylineCoordinates().get(0).getX(),
                             bngroad.getPolylineCoordinates().get(0).getY(), 0);
                 }
-                // for each road add all the xy co-ordinates in the file as a node
+                // for each road add all the co-ordinate pairs in the file as a node
                 // use the road ID plus a number as the ID of the node
                 // add and edge between the previous node and the current node and
                 // use the road ID plus a number as the ID of the edge
                 for (int roadsection = 1; roadsection < bngroad.getPolylineCoordinates().size() - 2; roadsection++) {
+
                     String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
                     graph.addNode(nodeID);
                     graph.getNode(nodeID).setAttribute("xyz",

@@ -29,6 +29,7 @@ public class SystemProperties {
         hsh_properties.put("SLOWDOWN", "0");
         hsh_properties.put("TIME_STAMP", "1719874800");
         hsh_properties.put("TICK_TIME_VALUE", "60");
+        hsh_properties.put("TIMELINE", "timeline.json");
         hsh_properties.put("OCEAN_DEPTH", "4");
         hsh_properties.put("RUN_ON_STARTUP", "TRUE");
     }

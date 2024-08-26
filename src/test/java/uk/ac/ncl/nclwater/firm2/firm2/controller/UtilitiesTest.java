@@ -1,6 +1,9 @@
 package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import org.junit.jupiter.api.Test;
+import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
+
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,5 +37,17 @@ class UtilitiesTest {
         expected = 33.333333333333336; // Expected distance for 120 km/h
         actual = Utilities.distanceTravelled(speed);
         assertEquals(expected, actual, 1e-9, "Distance travelled at 120 km/h should be approximately 33.33 meters");
+    }
+
+    @Test
+    void BNG2GridXYTest() {
+        float x_origin = 292485.78f;
+        float y_origin = 374690.12f;
+        float x = 291930.0f;
+        float y = 378061.918f;
+
+        Point xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
+        assertEquals(-17, xy.getX());
+        assertEquals(68, xy.getY());
     }
 }

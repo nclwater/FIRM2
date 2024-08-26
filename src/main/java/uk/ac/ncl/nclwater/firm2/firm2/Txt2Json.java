@@ -158,7 +158,7 @@ public class Txt2Json {
         Roads roads = new Roads();
         BNGRoads bngRoads = new BNGRoads();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "original_textfile_data/sample_roads.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "original_textfile_data/roads.txt"));
             Origins origins = new Origins();
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
@@ -211,8 +211,8 @@ public class Txt2Json {
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile;
+            outfile = (properties.getProperty("INPUT_DATA") + "BNG_Roads.json");
             logger.debug("Write output file {}", properties.getProperty("INPUT_DATA")+ properties.getProperty("ROADS_DATA"));
-            outfile = (properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA"));
 
             FileWriter fileWriter = new FileWriter(outfile);
             if ((toBNG)) {

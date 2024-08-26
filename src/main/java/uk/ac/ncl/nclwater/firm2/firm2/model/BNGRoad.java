@@ -104,6 +104,19 @@ public class BNGRoad extends Agent {
         return polylineCoordinates;
     }
 
+    /**
+     * Get the co-ordinates that comprise the road
+     * @return The co-ordinates that comprise the road as an ArrayList of PointDouble
+     */
+    public ArrayList<PointInteger> getPolylineCoordinatesInt() {
+        ArrayList<PointInteger> points = new ArrayList<>();
+        polylineCoordinates.forEach(p -> {
+            PointInteger newpoint = new PointInteger((int) (p.getX() * 1000), (int) (p.getX() * 1000));
+            points.add(newpoint);
+        });
+        return points;
+    }
+
     public void setPolylineCoordinates(ArrayList<PointDouble> polylineCoordinates) {
         this.polylineCoordinates = polylineCoordinates;
     }

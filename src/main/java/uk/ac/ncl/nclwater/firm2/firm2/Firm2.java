@@ -37,7 +37,7 @@ public class Firm2 extends Model implements ViewerListener{
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
-
+    private static GlobalVariables globalVariables;
     private Properties properties = null;
     private Long modelTimeStamp = 0L;
     private ModelState modelState = new ModelState();
@@ -45,10 +45,8 @@ public class Firm2 extends Model implements ViewerListener{
     private ModelStateChanges modelStateChanges;
     private Float maintainSeaLevel = null;
     private HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
-    private HashMap<String, Road> roadHashMap = new HashMap<>();
     private HashMap<String, BNGRoad> bngRoadHashMap = new HashMap<>();
     private Graph graph = null;
-    private Roads roads = null;
     private Node first = null;
     private Node second = null;
     private AStar aStar = null;
@@ -61,7 +59,7 @@ public class Firm2 extends Model implements ViewerListener{
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             // Read global variable (eventually to be read from environment vars for DAFNI)
-            GlobalVariables globalVariables = gson.fromJson(new FileReader(
+            globalVariables = gson.fromJson(new FileReader(
                             properties.getProperty("INPUT_DATA") + properties.getProperty("MODEL_PARAMETERS")),
                     GlobalVariables.class);
 
@@ -77,6 +75,10 @@ public class Firm2 extends Model implements ViewerListener{
                     floodModelParameters.isToroidal(), "terrain");
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
+            SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "roads");
+            HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
+            // LoadRoadsGrid.loadRoadsOld(floodModelParameters, properties, roadsGrid, roadHashMap);
             graph = new SingleGraph("Road Network");
             aStar = new AStar(graph);
             LoadRoadsGrid.gsLoadRoads(graph, bngRoadHashMap, properties);
@@ -84,15 +86,11 @@ public class Firm2 extends Model implements ViewerListener{
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
+            grids.put("roads", roadsGrid);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
             // Visualise if visualisation is set to true
-            if (floodModelParameters.isVisualise()) {
-                visualisation = new Visualisation(this);
-            }
-            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
-
             if (floodModelParameters.isVisualise()) {
                 ViewerListener viewerListener = this;
                 Thread t1 = new Thread(new Runnable() {
@@ -101,7 +99,13 @@ public class Firm2 extends Model implements ViewerListener{
                         viewGrid.displayGraph(graph, this, viewerListener);
                     }});
                 t1.start();
-           }
+            }
+            if (floodModelParameters.isVisualise()) {
+                visualisation = new Visualisation(this);
+            }
+            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
+
+
 
             // Do an initial tick
             tick();
@@ -188,10 +192,32 @@ public class Firm2 extends Model implements ViewerListener{
                     logger.debug("{} vehicle types enter: {}", modelState.getVehicles().size(), vehicles);
                     for (int i = 0; i < vehicles.size(); i++) {
                         Vehicle vehicle = vehicles.get(i);
+                        String nearestRoad = "4000000012475200";
 
-                        String nearestRoad = "4000000012475200"; //vehicleCodes.get(vehicle.getCode()).getNearestRoad();
-                        logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
-                                vehicle.getSd(), vehicle.getQty(), nearestRoad);
+//                        logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
+//                                vehicle.getSd(), vehicle.getQty(), nearestRoad);
+                        String carID = "V." + modelState.getTime() + "." + vehicle.getCode() + ".";
+                        for (int car = 0; car < vehicle.getQty(); car++) {
+                            Node n = graph.addNode(carID + car);
+                            n.setAttribute("fill-color: red");
+                            n.setAttribute("size", "5px");
+                            n.setAttribute("xyz", 299739.0, 377627.0, 0);
+                            logger.debug("Add car to graph {}",n.getId());
+                            float[] xy = {299739.0F, 377627.0F};
+                            logger.debug("Lower left corner of map: {}, {}", globalVariables.getLowerLeftX(),
+                                    globalVariables.getLowerLeftY());
+                            Point xy1 = Utilities.BNG2GridXY(
+                                    globalVariables.getLowerLeftX(),
+                                    globalVariables.getLowerLeftY(), xy[0], xy[1],
+                                    floodModelParameters.getCell_size());
+                            if (xy1.x >= 0 && xy1.x < floodModelParameters.getWidth() &&
+                                    xy1.y >= 0 && xy1.y < floodModelParameters.getHeight()) {
+                                ((SimpleGrid) grids.get("roads")).setCell(xy1.x, xy1.y, new Car(getNewId(), null));
+                            } else {
+                                logger.debug("Coordinates out of bounds: {}, {}\t {}, {}", xy[0],  xy[1], xy1.x, xy1.y);
+
+                            }
+                        }
                     }
                 }
             }
@@ -358,14 +384,17 @@ public class Firm2 extends Model implements ViewerListener{
             }
             first = graph.getNode(id);
             if (first != null) {
-                logger.debug("First node {} is part of road {}", first,roadHashMap.get(id)==null?"":roadHashMap.get(id).getRoadIDs()[0]);
+                String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
+
+                logger.debug("First node {} is part of road {}, {}", first, roadID, first.getAttribute("xyz"));
                 graph.getNode(id).setAttribute("ui.class", "marked");
             }
         } else {
             if (second == null) {
                 second = graph.getNode(id);
                 if (second != null) {
-                    logger.debug("Second node {} is part of road {}", second, roadHashMap.get(id)==null?"":roadHashMap.get(id).getRoadIDs()[0]);
+                    String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
+                    logger.debug("Second node {} is part of road {}, {}", second, roadID, second.getAttribute("xyz"));
                     graph.getNode(id).setAttribute("ui.class", "marked");
                     aStar.compute(first.getId(), second.getId());
                     shortest = aStar.getShortestPath();

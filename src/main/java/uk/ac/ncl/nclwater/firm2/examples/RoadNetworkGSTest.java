@@ -62,6 +62,7 @@ public class RoadNetworkGSTest  implements ViewerListener {
 //        LoadRoadsGrid.viewGraph(graph, this);
         ViewGrid viewgrid = new ViewGrid();
         viewgrid.displayGraph(graph, properties, this);
+        logger.debug("Add a node");
 
     }
 
