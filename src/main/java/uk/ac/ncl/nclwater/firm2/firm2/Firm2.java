@@ -202,8 +202,6 @@ public class Firm2 extends Model implements ViewerListener{
                             if (n != null) {
                                 n.setAttribute("fill-color: red");
                                 n.setAttribute("size", "5px");
-                                //298978.0, 378571.0, 0
-
                                 float[] xy = {298978.0F, 378571.0F};
                                 n.setAttribute("xyz", xy[0], xy[1], 0);
                                 logger.debug("Add car to graph {}", n.getId());
@@ -217,12 +215,13 @@ public class Firm2 extends Model implements ViewerListener{
                                         globalVariables.getCellSize(),
                                         xy[0],
                                         xy[1],
-                                        xy1.getX(),
-                                        xy1.getY()
+                                        xy1.x,
+                                        xy1.y
                                         );
                                 if (xy1.x >= 0 && xy1.x < floodModelParameters.getWidth() &&
                                         xy1.y >= 0 && xy1.y < floodModelParameters.getHeight()) {
                                     ((SimpleGrid)grids.get("roads")).setCell(xy1.x, xy1.y, new Car(getNewId(), null));
+                                    ((SimpleGrid)grids.get("roads")).getCell(xy1.x, xy1.y).setColour(Color.red);
                                 } else {
                                     logger.debug("Coordinates out of bounds: {}, {}\t {}, {}", xy[0], xy[1], xy1.x, xy1.y);
 
@@ -398,8 +397,12 @@ public class Firm2 extends Model implements ViewerListener{
             first = graph.getNode(id);
             if (first != null) {
                 String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
-
-                logger.debug("First node {} is part of road [{}, {}", first, roadID, first.getAttribute("xyz"));
+                Object[] xyz = (Object[])first.getAttribute("xyz");
+                Point xy = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                        globalVariables.getLowerLeftY(),
+                        ((Double)xyz[0]).floatValue(), ((Double)xyz[1]).floatValue(), globalVariables.getCellSize());
+                logger.debug("First node {} is part of road [{}], {}, [{},{}]", first, roadID,
+                        first.getAttribute("xyz"), xy.x, xy.y);
                 graph.getNode(id).setAttribute("ui.class", "marked");
             }
         } else {

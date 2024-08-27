@@ -20633,3 +20633,472 @@
 2024-08-27 18:58:22 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
 2024-08-27 18:58:22 DEBUG Firm2 - Add car to graph V.00:30.1.1
 2024-08-27 18:58:22 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 19:55:54 DEBUG Main - Simulation starting ...
+2024-08-27 19:55:54 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 19:55:54 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 19:55:54 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 19:55:54 DEBUG Utilities - OUTPUT_DATA key found in properties file: /home/jannetta/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 19:55:54 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 19:55:54 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 19:55:54 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 19:55:54 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 19:55:54 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 19:55:54 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 19:55:54 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 19:55:54 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 19:55:54 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 19:55:54 DEBUG Utilities - INPUT_DATA key found in properties file: /home/jannetta/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 19:55:54 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 19:55:54 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 19:55:54 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 19:55:54 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 19:55:54 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 19:55:54 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 19:55:54 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 19:55:54 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 19:56:36 DEBUG Main - Simulation starting ...
+2024-08-27 19:56:36 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 19:56:36 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 19:56:36 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 19:56:36 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 19:56:36 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 19:56:36 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 19:56:36 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 19:56:36 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 19:56:36 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 19:56:36 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 19:56:36 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 19:56:36 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 19:56:36 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 19:56:36 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 19:56:36 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 19:56:36 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 19:56:36 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 19:56:36 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 19:56:36 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 19:56:36 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 19:56:36 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 19:56:36 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 19:56:36 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 19:56:36 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 19:56:36 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 19:56:37 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 19:56:37 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 19:56:38 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 19:56:38 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 19:56:38 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 19:56:38 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:37 DEBUG Main - Simulation starting ...
+2024-08-27 20:00:37 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 20:00:37 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 20:00:37 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 20:00:37 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 20:00:37 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 20:00:37 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 20:00:37 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 20:00:37 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 20:00:37 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 20:00:37 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 20:00:37 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 20:00:37 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 20:00:37 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 20:00:37 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 20:00:37 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 20:00:37 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 20:00:37 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 20:00:37 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 20:00:37 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 20:00:37 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 20:00:37 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 20:00:37 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 20:00:37 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 20:00:37 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 20:00:37 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 20:00:37 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 20:00:37 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 20:00:39 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 20:00:39 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.1
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.2
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.3
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.4
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.5
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.6
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.0.7
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.1.0
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:00:39 DEBUG Firm2 - here 1
+2024-08-27 20:00:39 DEBUG Firm2 - here 2
+2024-08-27 20:00:39 DEBUG Firm2 - Add car to graph V.00:30.1.1
+2024-08-27 20:00:39 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:02:07 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:02:07 DEBUG Firm2 - First node 4000000013047881.1 is part of road [4000000013047881, [299739.0, 377627.0, 0]
+2024-08-27 20:02:09 DEBUG Firm2 - Second node 4000000013646449.0 is part of road [4000000013646449], [301000.0, 377714.0, 0]
+2024-08-27 20:02:09 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.1, 4000000013047881.2, 4000000013047881.3, 4000000013047881.4, 4000000013047881.5, 4000000013646412, 4000000013646449.0]
+2024-08-27 20:02:30 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.1, 4000000013047881.2, 4000000013047881.3, 4000000013047881.4, 4000000013047881.5, 4000000013646412, 4000000013646449.0]
+2024-08-27 20:02:30 DEBUG Firm2 - First node 4000000013047881.0 is part of road [4000000013047881, [299505.0, 377611.0, 0]
+2024-08-27 20:02:39 DEBUG Firm2 - Second node 4000000012475210.20 is part of road [4000000012475210], [299000.0, 377577.0, 0]
+2024-08-27 20:02:39 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:02:52 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:02:52 DEBUG Firm2 - First node 4000000012475210.7 is part of road [4000000012475210, [298148.0, 377359.0, 0]
+2024-08-27 20:03:06 DEBUG Firm2 - Second node 4000000012475210.9 is part of road [4000000012475210], [298250.0, 377395.328, 0]
+2024-08-27 20:03:06 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.7, 4000000012475210.8, 4000000012475210.9]
+2024-08-27 20:03:20 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.7, 4000000012475210.8, 4000000012475210.9]
+2024-08-27 20:03:20 DEBUG Firm2 - First node 4000000012475210.10 is part of road [4000000012475210, [298566.714, 377510.0, 0]
+2024-08-27 20:03:28 DEBUG Firm2 - Second node 4000000012475210.16 is part of road [4000000012475210], [298753.0, 377557.0, 0]
+2024-08-27 20:03:28 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.10, 4000000012475210.11, 4000000012475210.12, 4000000012475210.13, 4000000012475210.14, 4000000012475210.15, 4000000012475210.16]
+2024-08-27 20:03:39 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.10, 4000000012475210.11, 4000000012475210.12, 4000000012475210.13, 4000000012475210.14, 4000000012475210.15, 4000000012475210.16]
+2024-08-27 20:03:39 DEBUG Firm2 - First node 4000000012475210.20 is part of road [4000000012475210, [299000.0, 377577.0, 0]
+2024-08-27 20:03:48 DEBUG Firm2 - Second node 4000000012475210.21 is part of road [4000000012475210], [299266.0, 377594.0, 0]
+2024-08-27 20:03:48 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.20, 4000000012475210.21]
+2024-08-27 20:04:13 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.20, 4000000012475210.21]
+2024-08-27 20:04:13 DEBUG Firm2 - First node 4000000012475210.20 is part of road [4000000012475210, [299000.0, 377577.0, 0]
+2024-08-27 20:04:28 DEBUG Firm2 - Second node 4000000012475210.19 is part of road [4000000012475210], [298903.0, 377572.0, 0]
+2024-08-27 20:04:28 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:04:34 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:04:34 DEBUG Firm2 - First node 4000000012475210.16 is part of road [4000000012475210, [298753.0, 377557.0, 0]
+2024-08-27 20:04:48 DEBUG Firm2 - Second node 4000000012475210.18 is part of road [4000000012475210], [298860.0, 377569.0, 0]
+2024-08-27 20:04:48 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.16, 4000000012475210.17, 4000000012475210.18]
+2024-08-27 20:04:55 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.16, 4000000012475210.17, 4000000012475210.18]
+2024-08-27 20:04:55 DEBUG Firm2 - First node 4000000012475210.19 is part of road [4000000012475210, [298903.0, 377572.0, 0]
+2024-08-27 20:05:08 DEBUG Firm2 - Second node 4000000012475210.20 is part of road [4000000012475210], [299000.0, 377577.0, 0]
+2024-08-27 20:05:08 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.19, 4000000012475210.20]
+2024-08-27 20:05:39 DEBUG Firm2 - aStar.getShortestPath() = [4000000012475210.19, 4000000012475210.20]
+2024-08-27 20:05:39 DEBUG Firm2 - First node 4000000012515740.1 is part of road [4000000012515740, [298832.72, 379107.326, 0]
+2024-08-27 20:05:52 DEBUG Firm2 - Second node 4000000012515524 is part of road [4000000012515734], [298885.554, 379130.749, 0]
+2024-08-27 20:05:52 DEBUG Firm2 - aStar.getShortestPath() = [4000000012515740.1, 4000000012515740.2, 4000000012515523, 4000000012515744.0, 4000000012515520, 4000000012515733.0, 4000000012515733.1, 4000000012515733.2, 4000000012515522, 4000000012515742.0, 4000000012515524]
+2024-08-27 20:06:05 DEBUG Firm2 - aStar.getShortestPath() = [4000000012515740.1, 4000000012515740.2, 4000000012515523, 4000000012515744.0, 4000000012515520, 4000000012515733.0, 4000000012515733.1, 4000000012515733.2, 4000000012515522, 4000000012515742.0, 4000000012515524]
+2024-08-27 20:06:05 DEBUG Firm2 - First node 4000000012473592 is part of road [, [298986.0, 378910.0, 0]
+2024-08-27 20:06:20 DEBUG Firm2 - Second node 4000000012473579 is part of road [4000000012495081], [298926.871, 378899.424, 0]
+2024-08-27 20:06:20 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:06:38 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:06:38 DEBUG Firm2 - First node 4000000012515736.2 is part of road [4000000012515736, [298822.858, 378879.963, 0]
+2024-08-27 20:06:45 DEBUG Firm2 - Second node 4000000012473593 is part of road [4000000012501508], [299056.5, 378923.247, 0]
+2024-08-27 20:06:45 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:07:06 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:07:06 DEBUG Firm2 - First node 4000000012482496.4 is part of road [4000000012482496, [299000.0, 378662.0, 0]
+2024-08-27 20:07:12 DEBUG Firm2 - Second node 4000000012473581 is part of road [], [298753.0, 378659.0, 0]
+2024-08-27 20:07:12 DEBUG Firm2 - aStar.getShortestPath() = [4000000012482496.4, 4000000012473575, 4000000012515731.0, 4000000012473581]
+2024-08-27 20:07:23 DEBUG Firm2 - aStar.getShortestPath() = [4000000012482496.4, 4000000012473575, 4000000012515731.0, 4000000012473581]
+2024-08-27 20:07:23 DEBUG Firm2 - First node 4000000012515731.0 is part of road [4000000012515731, [298772.0, 378659.0, 0]
+2024-08-27 20:07:31 DEBUG Firm2 - Second node 4000000012473571 is part of road [4000000012495076], [298971.0, 378569.0, 0]
+2024-08-27 20:07:31 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:07:44 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:07:44 DEBUG Firm2 - First node 4000000012495076.1 is part of road [4000000012495076, [298990.9, 378577.496, 0]
+2024-08-27 20:08:03 DEBUG Firm2 - Second node 4000000012473584 is part of road [], [298976.0, 378520.0, 0]
+2024-08-27 20:08:03 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:08:28 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:08:28 DEBUG Firm2 - First node 4000000012473587 is part of road [, [299123.317, 378561.319, 0]
+2024-08-27 20:08:43 DEBUG Firm2 - Second node 4000000012473572 is part of road [], [298880.742, 378454.966, 0]
+2024-08-27 20:08:43 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:08:52 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:08:52 DEBUG Firm2 - First node 4000000012473584 is part of road [, [298976.0, 378520.0, 0]
+2024-08-27 20:29:28 DEBUG Main - Simulation starting ...
+2024-08-27 20:29:28 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 20:29:28 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 20:29:28 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 20:29:28 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 20:29:28 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 20:29:28 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 20:29:28 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 20:29:28 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 20:29:28 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 20:29:28 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 20:29:28 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 20:29:28 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 20:29:28 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 20:29:28 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 20:29:28 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 20:29:28 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 20:29:28 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 20:29:28 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 20:29:28 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 20:29:28 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 20:29:28 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 20:29:28 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 20:29:28 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 20:29:28 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 20:29:29 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 20:29:29 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 20:29:29 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 20:29:30 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 20:29:30 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.1
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.2
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.3
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.4
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.5
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:30 DEBUG Firm2 - Add car to graph V.00:30.0.6
+2024-08-27 20:29:30 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130.0, y 78.0
+2024-08-27 20:29:43 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:29:43 DEBUG Firm2 - First node 4000000012473689 is part of road [4000000012495111], [298239.0, 380264.0, 0]
+2024-08-27 20:29:45 DEBUG Firm2 - Second node 4000000012495131.0 is part of road [4000000012495131], [298642.0, 380160.0, 0]
+2024-08-27 20:29:45 DEBUG Firm2 - aStar.getShortestPath() = [4000000012473689, 4000000012495111.0, 4000000012495111.1, 4000000012495111.2, 4000000012495111.3, 4000000012495111.4, 4000000012495111.5, 4000000012495111.6, 4000000012495111.7, 4000000012495111.8, 4000000012513259, 4000000012513336.0, 4000000012513258, 4000000012473673, 4000000012473675, 4000000012495109.0, 4000000012495109.1, 4000000012473687, 4000000012473677, 4000000012473676, 4000000012473732, 4000000012473731, 4000000012473733, 4000000012473728, 4000000012505319.0, 4000000012473738, 4000000012487972.0, 4000000012473739, 4000000012473726, 4000000012473814, 4000000012473816, 4000000012473827, 4000000012495152.0, 4000000012495152.1, 4000000012473747, 4000000012495131.0]
+2024-08-27 20:29:51 DEBUG Firm2 - aStar.getShortestPath() = [4000000012473689, 4000000012495111.0, 4000000012495111.1, 4000000012495111.2, 4000000012495111.3, 4000000012495111.4, 4000000012495111.5, 4000000012495111.6, 4000000012495111.7, 4000000012495111.8, 4000000012513259, 4000000012513336.0, 4000000012513258, 4000000012473673, 4000000012473675, 4000000012495109.0, 4000000012495109.1, 4000000012473687, 4000000012473677, 4000000012473676, 4000000012473732, 4000000012473731, 4000000012473733, 4000000012473728, 4000000012505319.0, 4000000012473738, 4000000012487972.0, 4000000012473739, 4000000012473726, 4000000012473814, 4000000012473816, 4000000012473827, 4000000012495152.0, 4000000012495152.1, 4000000012473747, 4000000012495131.0]
+2024-08-27 20:29:51 DEBUG Firm2 - First node 4000000012522474 is part of road [], [297987.054, 380184.148, 0]
+2024-08-27 20:29:52 DEBUG Firm2 - Second node 4000000012473735 is part of road [4000000012495153], [298404.0, 380198.0, 0]
+2024-08-27 20:29:52 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:29:55 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:29:55 DEBUG Firm2 - First node 4000000012473691 is part of road [], [298226.0, 380348.0, 0]
+2024-08-27 20:29:57 DEBUG Firm2 - Second node 4000000012473769 is part of road [], [299088.0, 379666.0, 0]
+2024-08-27 20:29:57 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:30:01 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:30:01 DEBUG Firm2 - First node 4000000012487843.5 is part of road [4000000012487843], [293861.701, 376960.923, 0]
+2024-08-27 20:30:02 DEBUG Firm2 - Second node 4000000012482443.3 is part of road [4000000012482443], [294237.726, 376919.719, 0]
+2024-08-27 20:30:02 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:30:04 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:30:04 DEBUG Firm2 - First node 4000000012472861 is part of road [4000000012494835], [294209.691, 376782.688, 0]
+2024-08-27 20:30:07 DEBUG Firm2 - Second node 4000000012472814 is part of road [], [293740.632, 376989.625, 0]
+2024-08-27 20:30:07 DEBUG Firm2 - No path found between nodes
+2024-08-27 20:30:11 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:30:11 DEBUG Firm2 - First node 4000000013047881.3 is part of road [4000000013047881], [300000.0, 377645.0, 0]
+2024-08-27 20:30:15 DEBUG Firm2 - Second node 4000000013047881.5 is part of road [4000000013047881], [300545.0, 377684.0, 0]
+2024-08-27 20:30:15 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.3, 4000000013047881.4, 4000000013047881.5]
+2024-08-27 20:30:40 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.3, 4000000013047881.4, 4000000013047881.5]
+2024-08-27 20:30:40 DEBUG Firm2 - First node 4000000013047881.0 is part of road [4000000013047881], [299505.0, 377611.0, 0]
+2024-08-27 20:30:44 DEBUG Firm2 - Second node 4000000013047881.5 is part of road [4000000013047881], [300545.0, 377684.0, 0]
+2024-08-27 20:30:44 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.0, 4000000013047881.1, 4000000013047881.2, 4000000013047881.3, 4000000013047881.4, 4000000013047881.5]
+2024-08-27 20:32:24 DEBUG Main - Simulation starting ...
+2024-08-27 20:32:24 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 20:32:24 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 20:32:24 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 20:32:24 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 20:32:24 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 20:32:24 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 20:32:24 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 20:32:24 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 20:32:24 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 20:32:24 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 20:32:24 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 20:32:24 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 20:32:24 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 20:32:24 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 20:32:24 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 20:32:24 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 20:32:24 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 20:32:24 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 20:32:24 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 20:32:24 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 20:32:24 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 20:32:24 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 20:32:24 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 20:32:24 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 20:32:24 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 20:32:24 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 20:32:24 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 20:32:26 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 20:32:26 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.1
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.2
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.3
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.4
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.5
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.6
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.0.7
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.1.0
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:26 DEBUG Firm2 - Add car to graph V.00:30.1.1
+2024-08-27 20:32:26 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:32:35 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:32:35 DEBUG Firm2 - First node 4000000013047881.1 is part of road [4000000013047881], [299739.0, 377627.0, 0]
+2024-08-27 20:32:39 DEBUG Firm2 - Second node 4000000013047881.5 is part of road [4000000013047881], [300545.0, 377684.0, 0]
+2024-08-27 20:32:39 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.1, 4000000013047881.2, 4000000013047881.3, 4000000013047881.4, 4000000013047881.5]
+2024-08-27 20:39:34 DEBUG Main - Simulation starting ...
+2024-08-27 20:39:34 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 20:39:34 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 20:39:34 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 20:39:34 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 20:39:34 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 20:39:34 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 20:39:34 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 20:39:34 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 20:39:34 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 20:39:34 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 20:39:34 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 20:39:34 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 20:39:34 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 20:39:34 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 20:39:34 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 20:39:34 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 20:39:34 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 20:39:34 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 20:39:34 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 20:39:34 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 20:39:34 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 20:39:34 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 20:39:34 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 20:39:34 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 20:39:34 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 20:39:34 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 20:39:34 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 20:39:36 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 20:39:36 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.1
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.2
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.3
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.4
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.5
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.6
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.0.7
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.1.0
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:36 DEBUG Firm2 - Add car to graph V.00:30.1.1
+2024-08-27 20:39:36 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:39:48 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:39:48 ERROR ViewGrid - here: class java.lang.Double cannot be cast to class java.lang.Float (java.lang.Double and java.lang.Float are in module java.base of loader 'bootstrap')
+2024-08-27 20:43:11 DEBUG Main - Simulation starting ...
+2024-08-27 20:43:11 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 20:43:11 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 20:43:11 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 20:43:11 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 20:43:11 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 20:43:11 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 20:43:11 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 20:43:11 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 20:43:11 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 20:43:11 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 20:43:11 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 20:43:11 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 20:43:11 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 20:43:11 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 20:43:11 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 20:43:11 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 20:43:11 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 20:43:11 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 20:43:11 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 20:43:11 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 20:43:11 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 20:43:11 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 20:43:12 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 20:43:12 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 20:43:12 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 20:43:12 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 20:43:12 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 20:43:13 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 20:43:13 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.1
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.2
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.3
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.4
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.5
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.6
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.0.7
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.1.0
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:13 DEBUG Firm2 - Add car to graph V.00:30.1.1
+2024-08-27 20:43:13 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:43:19 DEBUG Firm2 - Remove previous paths
+2024-08-27 20:43:19 DEBUG Firm2 - First node 4000000013047881.1 is part of road [4000000013047881], [299739.0, 377627.0, 0], [145,59]
+2024-08-27 20:43:40 DEBUG Firm2 - Second node 4000000013646460.0 is part of road [4000000013646460], [300927.09, 377732.196, 0]
+2024-08-27 20:43:40 DEBUG Firm2 - aStar.getShortestPath() = [4000000013047881.1, 4000000013047881.2, 4000000013047881.3, 4000000013047881.4, 4000000013047881.5, 4000000013646412, 4000000013646460.0]
+2024-08-27 20:54:02 DEBUG Main - Simulation starting ...
+2024-08-27 20:54:02 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-27 20:54:02 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-27 20:54:02 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-27 20:54:02 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-27 20:54:02 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-27 20:54:02 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-27 20:54:02 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-27 20:54:02 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-27 20:54:02 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-27 20:54:02 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-27 20:54:02 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-27 20:54:02 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-27 20:54:02 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-27 20:54:02 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-27 20:54:02 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-27 20:54:02 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-27 20:54:02 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-27 20:54:02 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-27 20:54:02 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-27 20:54:02 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-27 20:54:02 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-27 20:54:02 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-27 20:54:02 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-27 20:54:02 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-27 20:54:02 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-27 20:54:02 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-27 20:54:02 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-27 20:54:04 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-27 20:54:04 DEBUG Firm2 - 2 vehicle types enter: [0-normal-5-88, 1-normal-5-22]
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.0
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.1
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.2
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.3
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.4
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.5
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.6
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.0.7
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.1.0
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-27 20:54:04 DEBUG Firm2 - Add car to graph V.00:30.1.1
+2024-08-27 20:54:04 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
