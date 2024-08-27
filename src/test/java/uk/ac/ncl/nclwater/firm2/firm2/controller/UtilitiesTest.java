@@ -10,18 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class UtilitiesTest {
 
     @Test
-    void convertMphToMps() {
+    void convertMphToMpsTest() {
         assertEquals(13.4112, Utilities.convertMphToMps(30));
     }
 
     @Test
-    void BNGToLatLon() {
+    void BNGToLatLonTest() {
         assertEquals(53.292353995052224, Utilities.BNGToLatLon(294191.255, 378471.609)[0]);
         assertEquals(-3.5875918387056784, Utilities.BNGToLatLon(294191.255, 378471.609)[1]);
     }
 
     @Test
-    void distanceTravelled() {
+    void distanceTravelledTest() {
         // Test case 1: speed = 30 km/h
         double speed = 30.0;
         double expected = 8.333333333333334; // This is the expected distance in meters
@@ -39,15 +39,16 @@ class UtilitiesTest {
         assertEquals(expected, actual, 1e-9, "Distance travelled at 120 km/h should be approximately 33.33 meters");
     }
 
+    //298978.0, 378571.0, 0
     @Test
     void BNG2GridXYTest() {
         float x_origin = 292485.78f;
         float y_origin = 374690.12f;
-        float x = 291930.0f;
-        float y = 378061.918f;
+        float x = 298978.0f;
+        float y = 378571.0f;
 
         Point xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
-        assertEquals(-17, xy.getX());
+        assertEquals(0, xy.getX());
         assertEquals(68, xy.getY());
     }
 }

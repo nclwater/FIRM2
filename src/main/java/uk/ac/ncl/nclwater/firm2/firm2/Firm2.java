@@ -199,23 +199,34 @@ public class Firm2 extends Model implements ViewerListener{
                         String carID = "V." + modelState.getTime() + "." + vehicle.getCode() + ".";
                         for (int car = 0; car < vehicle.getQty(); car++) {
                             Node n = graph.addNode(carID + car);
-                            n.setAttribute("fill-color: red");
-                            n.setAttribute("size", "5px");
-                            n.setAttribute("xyz", 299739.0, 377627.0, 0);
-                            logger.debug("Add car to graph {}",n.getId());
-                            float[] xy = {299739.0F, 377627.0F};
-                            logger.debug("Lower left corner of map: {}, {}", globalVariables.getLowerLeftX(),
-                                    globalVariables.getLowerLeftY());
-                            Point xy1 = Utilities.BNG2GridXY(
-                                    globalVariables.getLowerLeftX(),
-                                    globalVariables.getLowerLeftY(), xy[0], xy[1],
-                                    floodModelParameters.getCell_size());
-                            if (xy1.x >= 0 && xy1.x < floodModelParameters.getWidth() &&
-                                    xy1.y >= 0 && xy1.y < floodModelParameters.getHeight()) {
-                                ((SimpleGrid) grids.get("roads")).setCell(xy1.x, xy1.y, new Car(getNewId(), null));
-                            } else {
-                                logger.debug("Coordinates out of bounds: {}, {}\t {}, {}", xy[0],  xy[1], xy1.x, xy1.y);
+                            if (n != null) {
+                                n.setAttribute("fill-color: red");
+                                n.setAttribute("size", "5px");
+                                //298978.0, 378571.0, 0
 
+                                float[] xy = {298978.0F, 378571.0F};
+                                n.setAttribute("xyz", xy[0], xy[1], 0);
+                                logger.debug("Add car to graph {}", n.getId());
+                               Point xy1 = Utilities.BNG2GridXY(
+                                        globalVariables.getLowerLeftX(),
+                                        globalVariables.getLowerLeftY(), xy[0], xy[1],
+                                        globalVariables.getCellSize());
+                                logger.debug("Lower left corner of map: orig_x {}, orig_y {}, cell size {}, xy_x {}, xy_y {}, x {}, y {}",
+                                        globalVariables.getLowerLeftX(),
+                                        globalVariables.getLowerLeftY(),
+                                        globalVariables.getCellSize(),
+                                        xy[0],
+                                        xy[1],
+                                        xy1.getX(),
+                                        xy1.getY()
+                                        );
+                                if (xy1.x >= 0 && xy1.x < floodModelParameters.getWidth() &&
+                                        xy1.y >= 0 && xy1.y < floodModelParameters.getHeight()) {
+                                    ((SimpleGrid)grids.get("roads")).setCell(xy1.x, xy1.y, new Car(getNewId(), null));
+                                } else {
+                                    logger.debug("Coordinates out of bounds: {}, {}\t {}, {}", xy[0], xy[1], xy1.x, xy1.y);
+
+                                }
                             }
                         }
                     }
@@ -228,6 +239,8 @@ public class Firm2 extends Model implements ViewerListener{
         if (floodModelParameters.isVisualise()) {
 
             visualisation.getDrawPanel().repaint();
+            ;
+
         }
     }
 
@@ -386,7 +399,7 @@ public class Firm2 extends Model implements ViewerListener{
             if (first != null) {
                 String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
 
-                logger.debug("First node {} is part of road {}, {}", first, roadID, first.getAttribute("xyz"));
+                logger.debug("First node {} is part of road [{}, {}", first, roadID, first.getAttribute("xyz"));
                 graph.getNode(id).setAttribute("ui.class", "marked");
             }
         } else {
@@ -394,7 +407,7 @@ public class Firm2 extends Model implements ViewerListener{
                 second = graph.getNode(id);
                 if (second != null) {
                     String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
-                    logger.debug("Second node {} is part of road {}, {}", second, roadID, second.getAttribute("xyz"));
+                    logger.debug("Second node {} is part of road [{}], {}", second, roadID, second.getAttribute("xyz"));
                     graph.getNode(id).setAttribute("ui.class", "marked");
                     aStar.compute(first.getId(), second.getId());
                     shortest = aStar.getShortestPath();
