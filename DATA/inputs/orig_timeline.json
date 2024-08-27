@@ -1,0 +1,74 @@
+{
+  "model-states": [
+    {
+      "time": "00:05",
+      "sea-level": null,
+      "defence-breach": null,
+      "vehicles": [
+        {
+          "code": "0",
+          "dist": "normal",
+          "sd": 5,
+          "qty": 800
+        },
+        {
+          "code": "1",
+          "dist": "normal",
+          "sd": 5,
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "time": "00:10",
+      "sea-level": 5,
+      "vehicles": null,
+      "defence-breach": []
+    },
+    {
+      "time": "00:15",
+      "sea-level": null,
+      "vehicles": null,
+      "defence-breach": ["a", "b"]
+    },
+    {
+      "time": "00:30",
+      "sea-level": null,
+      "defence-breach": null,
+      "vehicles": [
+        {
+          "code": "0",
+          "dist": "normal",
+          "sd": 5,
+          "qty": 8
+        },
+        {
+          "code": "1",
+          "dist": "normal",
+          "sd": 5,
+          "qty": 2
+        }
+        ]
+    },
+    {
+      "time": "02:00",
+      "sea-level": 15,
+      "vehicles": null,
+      "defence-breach": []
+    },
+    {
+      "time": "02:30",
+      "sea-level": null,
+      "vehicles": null,
+      "defence-breach": [
+        "c"
+      ]
+    },
+    {
+      "time": "04:00",
+      "sea-level": null,
+      "vehicles": null,
+      "defence-breach": ["i"]
+    }
+  ]
+}
