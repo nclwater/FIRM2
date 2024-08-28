@@ -140,10 +140,10 @@ public class Utilities {
      * @param cellMeters the size, in square meters of one cell
      * @return return the grid co-ordinates as a Point
      */
-    public static Point BNG2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
+    public static PointInteger BNG2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
         int y_coord = Math.round((y - y_origin) / cellMeters);
-        Point point = new Point(x_coord, y_coord);
+        PointInteger point = new PointInteger(x_coord, y_coord);
         return point;
     }
 

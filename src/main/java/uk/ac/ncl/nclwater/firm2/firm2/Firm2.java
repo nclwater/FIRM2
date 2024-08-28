@@ -184,53 +184,24 @@ public class Firm2 extends Model implements ViewerListener{
                     }
                 }
             }
-            // Get entering vehicles
-            if (modelState.getVehicles() != null) {
-                if (!modelState.getVehicles().isEmpty()) {
-                    // Place vehicles
-                    ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) modelState.getVehicles();
-                    logger.debug("{} vehicle types enter: {}", modelState.getVehicles().size(), vehicles);
-                    for (int i = 0; i < vehicles.size(); i++) {
-                        Vehicle vehicle = vehicles.get(i);
-                        String nearestRoad = "4000000012475200";
+            // get car
+            if (modelState.getCar() != null) {
+                logger.debug("Car loaded");
+                Car car = modelState.getCar();
+                PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                        globalVariables.getLowerLeftY(),
+                        (float)car.getStartcoordinates().getX(),
+                        (float)car.getStartcoordinates().getY(),
+                        globalVariables.getCellSize());
+                xy.setY(floodModelParameters.getHeight() - 1 - xy.getY()); // flip horizontally
+                car.setColour(Color.red);
+                ((SimpleGrid) grids.get("roads")).setCell(xy.getX(), xy.getY(), car);
 
-//                        logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
-//                                vehicle.getSd(), vehicle.getQty(), nearestRoad);
-                        String carID = "V." + modelState.getTime() + "." + vehicle.getCode() + ".";
-                        for (int car = 0; car < vehicle.getQty(); car++) {
-                            Node n = graph.addNode(carID + car);
-                            if (n != null) {
-                                n.setAttribute("fill-color: red");
-                                n.setAttribute("size", "5px");
-                                float[] xy = {298978.0F, 378571.0F};
-                                n.setAttribute("xyz", xy[0], xy[1], 0);
-                                logger.debug("Add car to graph {}", n.getId());
-                               Point xy1 = Utilities.BNG2GridXY(
-                                        globalVariables.getLowerLeftX(),
-                                        globalVariables.getLowerLeftY(), xy[0], xy[1],
-                                        globalVariables.getCellSize());
-                                logger.debug("Lower left corner of map: orig_x {}, orig_y {}, cell size {}, xy_x {}, xy_y {}, x {}, y {}",
-                                        globalVariables.getLowerLeftX(),
-                                        globalVariables.getLowerLeftY(),
-                                        globalVariables.getCellSize(),
-                                        xy[0],
-                                        xy[1],
-                                        xy1.x,
-                                        xy1.y
-                                        );
-                                if (xy1.x >= 0 && xy1.x < floodModelParameters.getWidth() &&
-                                        xy1.y >= 0 && xy1.y < floodModelParameters.getHeight()) {
-                                    ((SimpleGrid)grids.get("roads")).setCell(xy1.x, xy1.y, new Car(getNewId(), null));
-                                    ((SimpleGrid)grids.get("roads")).getCell(xy1.x, xy1.y).setColour(Color.red);
-                                } else {
-                                    logger.debug("Coordinates out of bounds: {}, {}\t {}, {}", xy[0], xy[1], xy1.x, xy1.y);
-
-                                }
-                            }
-                        }
-                    }
-                }
             }
+
+
+
+
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
         // read the next state change
@@ -398,11 +369,11 @@ public class Firm2 extends Model implements ViewerListener{
             if (first != null) {
                 String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
                 Object[] xyz = (Object[])first.getAttribute("xyz");
-                Point xy = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                PointInteger xy = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
                         globalVariables.getLowerLeftY(),
                         ((Double)xyz[0]).floatValue(), ((Double)xyz[1]).floatValue(), globalVariables.getCellSize());
                 logger.debug("First node {} is part of road [{}], {}, [{},{}]", first, roadID,
-                        first.getAttribute("xyz"), xy.x, xy.y);
+                        first.getAttribute("xyz"), xy.getX(), xy.getY());
                 graph.getNode(id).setAttribute("ui.class", "marked");
             }
         } else {

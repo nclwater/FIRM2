@@ -27984,3 +27984,950 @@
 2024-08-28 12:47:28 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
 2024-08-28 12:47:28 DEBUG Firm2 - Add car to graph V.00:30.1.1
 2024-08-28 12:47:28 DEBUG Firm2 - Lower left corner of map: orig_x 292485.78, orig_y 374690.12, cell size 50, xy_x 298978.0, xy_y 378571.0, x 130, y 78
+2024-08-28 22:40:41 DEBUG Main - Simulation starting ...
+2024-08-28 22:40:41 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 22:40:41 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 22:40:41 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 22:40:41 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 22:40:41 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 22:40:41 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 22:40:41 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 22:40:41 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 22:40:41 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 22:40:41 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 22:40:41 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 22:40:41 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 22:40:41 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 22:40:41 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 22:40:41 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 22:40:41 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 22:40:41 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 22:40:41 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 22:40:41 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 22:40:41 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 22:40:41 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 22:40:41 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 22:40:42 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 22:40:42 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 22:40:42 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 22:40:42 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 22:40:42 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 22:40:44 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 22:51:06 DEBUG Main - Simulation starting ...
+2024-08-28 22:51:06 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 22:51:06 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 22:51:06 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 22:51:06 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 22:51:06 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 22:51:06 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 22:51:06 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 22:51:06 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 22:51:06 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 22:51:06 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 22:51:06 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 22:51:06 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 22:51:06 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 22:51:06 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 22:51:06 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 22:51:06 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 22:51:06 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 22:51:06 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 22:51:06 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 22:51:06 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 22:51:06 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 22:51:06 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 22:51:06 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 22:51:06 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 22:51:06 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 22:51:06 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 22:51:06 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 22:51:08 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 22:51:46 DEBUG Main - Simulation starting ...
+2024-08-28 22:51:46 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 22:51:46 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 22:51:46 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 22:51:46 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 22:51:46 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 22:51:46 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 22:51:46 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 22:51:46 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 22:51:46 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 22:51:46 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 22:51:46 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 22:51:46 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 22:51:46 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 22:51:46 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 22:51:46 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 22:51:46 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 22:51:46 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 22:51:46 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 22:51:46 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 22:51:46 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 22:51:46 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 22:51:46 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 22:51:46 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 22:51:46 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 22:51:46 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 22:51:46 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 22:51:46 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 22:51:48 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 22:52:32 DEBUG Main - Simulation starting ...
+2024-08-28 22:52:32 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 22:52:32 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 22:52:32 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 22:52:32 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 22:52:32 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 22:52:32 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 22:52:32 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 22:52:32 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 22:52:32 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 22:52:32 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 22:52:32 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 22:52:32 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 22:52:32 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 22:52:32 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 22:52:32 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 22:52:32 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 22:52:32 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 22:52:32 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 22:52:32 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 22:52:32 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 22:52:32 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 22:52:32 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 22:52:32 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 22:52:32 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 22:52:32 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 22:52:32 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 22:52:32 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 22:52:32 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 22:52:33 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 22:55:52 DEBUG Main - Simulation starting ...
+2024-08-28 22:55:52 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 22:55:52 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 22:55:52 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 22:55:52 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 22:55:52 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 22:55:52 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 22:55:52 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 22:55:52 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 22:55:52 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 22:55:52 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 22:55:52 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 22:55:52 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 22:55:52 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 22:55:52 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 22:55:52 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 22:55:52 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 22:55:52 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 22:55:52 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 22:55:52 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 22:55:52 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 22:55:52 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 22:55:52 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 22:55:52 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 22:55:52 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 22:55:52 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 22:55:53 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 22:55:53 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 22:55:53 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 22:55:54 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:02:41 DEBUG Main - Simulation starting ...
+2024-08-28 23:02:41 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:02:41 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:02:41 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:02:41 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 23:02:41 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:02:41 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:02:41 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:02:41 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:02:41 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:02:41 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:02:41 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:02:41 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:02:41 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:02:41 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 23:02:41 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:02:41 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:02:41 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:02:41 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:02:41 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:02:41 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:02:41 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:02:41 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:02:41 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:02:41 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 23:02:42 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:02:42 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 23:02:42 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 23:02:42 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 23:02:42 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:30"
+    }
+  ]
+}
+2024-08-28 23:02:43 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:03:53 DEBUG Main - Simulation starting ...
+2024-08-28 23:03:53 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:03:53 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:03:53 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:03:53 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 23:03:53 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:03:53 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:03:53 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:03:53 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:03:53 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:03:53 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:03:53 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:03:53 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:03:53 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:03:53 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 23:03:53 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:03:53 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:03:53 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:03:53 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:03:53 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:03:53 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:03:53 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:03:53 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:03:53 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:03:53 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 23:03:53 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:03:53 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 23:03:53 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 23:03:53 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 23:03:53 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:30"
+    }
+  ]
+}
+2024-08-28 23:03:55 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:05:05 DEBUG Main - Simulation starting ...
+2024-08-28 23:05:05 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:05:05 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:05:05 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:05:05 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/outputs/
+2024-08-28 23:05:05 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:05:05 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:05:05 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:05:05 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:05:05 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:05:05 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:05:05 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:05:05 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:05:05 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:05:05 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/
+2024-08-28 23:05:05 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:05:05 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:05:05 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:05:05 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:05:05 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:05:05 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:05:05 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:05:05 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:05:05 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:05:05 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/vehicles.json
+2024-08-28 23:05:05 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:05:05 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/BNG_roads.json
+2024-08-28 23:05:06 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/buildings.json
+2024-08-28 23:05:06 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/defences.json
+2024-08-28 23:05:06 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2/DATA/inputs/timeline.json
+2024-08-28 23:05:06 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:30"
+    }
+  ]
+}
+2024-08-28 23:05:07 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:05:37 DEBUG Main - Simulation starting ...
+2024-08-28 23:05:37 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:05:37 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:05:37 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:05:37 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:05:37 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:05:37 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:05:37 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:05:37 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:05:37 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:05:37 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:05:37 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:05:37 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:05:37 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:05:37 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:05:37 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:05:37 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:05:37 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:05:37 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:05:37 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:05:37 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:05:37 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:05:37 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:05:37 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:05:37 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:05:37 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:05:37 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:05:38 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:05:38 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:15:04 DEBUG Main - Simulation starting ...
+2024-08-28 23:15:04 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:15:04 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:15:04 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:15:04 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:15:04 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:15:04 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:15:04 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:15:04 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:15:04 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:15:04 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:15:04 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:15:04 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:15:04 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:15:04 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:15:04 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:15:04 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:15:04 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:15:04 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:15:04 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:15:04 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:15:04 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:15:04 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:15:04 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:15:04 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:15:04 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:15:04 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:15:05 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:15:05 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:16:02 DEBUG Main - Simulation starting ...
+2024-08-28 23:16:02 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:16:02 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:16:02 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:16:02 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:16:02 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:16:02 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:16:02 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:16:02 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:16:02 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:16:02 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:16:02 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:16:02 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:16:02 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:16:02 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:16:02 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:16:02 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:16:02 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:16:02 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:16:02 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:16:02 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:16:02 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:16:02 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:16:02 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:16:03 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:16:03 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:16:03 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:16:03 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:16:03 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:16:43 DEBUG Main - Simulation starting ...
+2024-08-28 23:16:43 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:16:43 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:16:43 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:16:43 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:16:43 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:16:43 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:16:43 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:16:43 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:16:43 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:16:43 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:16:43 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:16:43 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:16:43 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:16:43 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:16:43 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:16:43 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:16:43 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:16:43 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:16:43 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:16:43 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:16:43 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:16:43 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:16:43 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:16:43 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:16:43 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:16:43 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:16:44 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:16:44 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:16:44 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:16:44 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:16:45 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:16:45 DEBUG Firm2 - Car loaded
+2024-08-28 23:31:19 DEBUG Main - Simulation starting ...
+2024-08-28 23:31:19 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:31:19 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:31:19 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:31:19 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:31:19 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:31:19 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:31:19 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:31:19 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:31:19 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:31:19 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:31:19 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:31:19 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:31:19 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:31:19 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:31:19 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:31:19 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:31:19 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:31:19 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:31:19 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:31:19 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:31:19 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:31:19 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:31:19 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:31:19 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:31:19 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:31:19 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:31:20 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:31:20 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:31:20 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:31:20 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:31:21 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:31:21 DEBUG Firm2 - Car loaded
+2024-08-28 23:31:46 DEBUG Main - Simulation starting ...
+2024-08-28 23:31:46 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:31:46 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:31:46 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:31:46 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:31:46 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:31:46 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:31:46 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:31:46 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:31:46 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:31:46 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:31:46 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:31:46 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:31:46 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:31:46 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:31:46 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:31:46 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:31:46 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:31:46 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:31:46 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:31:46 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:31:46 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:31:46 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:31:46 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:31:46 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:31:46 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:31:47 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:31:47 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:31:47 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:31:47 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:31:47 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:31:48 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:31:48 DEBUG Firm2 - Car loaded
+2024-08-28 23:32:30 DEBUG Main - Simulation starting ...
+2024-08-28 23:32:30 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:32:30 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:32:30 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:32:30 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:32:30 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:32:30 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:32:30 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:32:30 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:32:30 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:32:30 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:32:30 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:32:30 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:32:30 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:32:30 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:32:30 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:32:30 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:32:30 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:32:30 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:32:30 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:32:30 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:32:30 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:32:30 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:32:30 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:32:30 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:32:30 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:32:30 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:32:30 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:32:30 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:32:30 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:32:30 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:32:31 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:32:31 DEBUG Firm2 - Car loaded
+2024-08-28 23:32:32 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:32:32 DEBUG Firm2 - Car loaded
+2024-08-28 23:33:20 DEBUG Main - Simulation starting ...
+2024-08-28 23:33:20 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:33:20 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:33:20 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:33:20 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:33:20 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:33:20 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:33:20 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:33:20 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:33:20 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:33:20 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:33:20 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:33:20 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:33:20 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:33:20 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:33:20 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:33:20 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:33:20 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:33:20 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:33:20 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:33:20 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:33:20 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:33:20 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:33:20 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:33:20 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:33:20 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:33:21 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:33:21 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:33:21 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:33:21 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:33:21 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 292774.5,
+          "y": 378047.90625
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:33:22 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:33:22 DEBUG Firm2 - Car loaded
+2024-08-28 23:33:22 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:33:22 DEBUG Firm2 - Car loaded
+2024-08-28 23:33:46 DEBUG Main - Simulation starting ...
+2024-08-28 23:33:46 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:33:46 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:33:46 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:33:46 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:33:46 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:33:46 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:33:46 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:33:46 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:33:46 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:33:46 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:33:46 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:33:46 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:33:46 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:33:46 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:33:46 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:33:46 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:33:46 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:33:46 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:33:46 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:33:46 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:33:46 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:33:46 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:33:46 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:33:46 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:33:46 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:33:46 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:33:46 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:33:46 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:33:46 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:33:46 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 292774.5,
+          "y": 378047.90625
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:33:47 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:33:47 DEBUG Firm2 - Car loaded
+2024-08-28 23:33:48 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:33:48 DEBUG Firm2 - Car loaded
+2024-08-28 23:34:54 DEBUG Firm2 - Remove previous paths
+2024-08-28 23:34:54 DEBUG Firm2 - First node 4000000012475200.1 is part of road [4000000012475200], [291649.0, 378060.0, 0], [-17,67]
+2024-08-28 23:35:17 DEBUG Main - Simulation starting ...
+2024-08-28 23:35:17 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:35:17 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:35:17 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:35:17 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:35:17 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:35:17 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:35:17 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:35:17 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:35:17 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:35:17 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:35:17 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:35:17 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:35:17 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:35:17 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:35:17 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:35:17 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:35:17 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:35:17 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:35:17 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:35:17 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:35:17 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:35:17 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:35:17 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:35:17 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:35:17 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:35:18 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:35:18 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:35:18 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:35:18 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:35:18 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 291649.0,
+          "y": 378060.0
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:35:19 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:35:19 DEBUG Firm2 - Car loaded
+2024-08-28 23:35:19 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:35:19 DEBUG Firm2 - Car loaded
+2024-08-28 23:35:37 DEBUG Firm2 - Remove previous paths
+2024-08-28 23:35:37 DEBUG Firm2 - First node 4000000012475200.7 is part of road [4000000012475200], [291930.0, 378061.918, 0], [-11,67]
+2024-08-28 23:35:53 DEBUG Main - Simulation starting ...
+2024-08-28 23:35:53 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:35:53 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:35:53 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:35:53 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:35:53 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:35:53 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:35:53 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:35:53 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:35:53 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:35:53 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:35:53 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:35:53 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:35:53 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:35:53 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:35:53 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:35:53 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:35:53 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:35:53 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:35:53 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:35:53 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:35:53 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:35:53 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:35:53 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:35:53 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:35:53 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:35:53 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:35:54 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:35:54 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:35:54 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:35:54 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 291930.0,
+          "y": 378061.0
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:35:55 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:35:55 DEBUG Firm2 - Car loaded
+2024-08-28 23:35:55 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:35:55 DEBUG Firm2 - Car loaded
+2024-08-28 23:40:00 DEBUG Firm2 - Remove previous paths
+2024-08-28 23:40:00 DEBUG Firm2 - First node 4000000012473044 is part of road [], [294013.382, 378051.155, 0], [31,67]
+2024-08-28 23:41:48 DEBUG Main - Simulation starting ...
+2024-08-28 23:41:48 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:41:48 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:41:48 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:41:48 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:41:48 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:41:48 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:41:48 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:41:48 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:41:48 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:41:48 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:41:48 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:41:48 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:41:48 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:41:48 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:41:48 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:41:48 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:41:48 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:41:48 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:41:48 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:41:48 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:41:48 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:41:48 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:41:48 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:41:48 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:41:48 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:41:48 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:41:49 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:41:49 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:41:49 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:41:49 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 294013.382,
+          "y": 378051.155
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:41:50 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:41:50 DEBUG Firm2 - Car loaded
+2024-08-28 23:41:50 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:41:50 DEBUG Firm2 - Car loaded
+2024-08-28 23:50:40 DEBUG Main - Simulation starting ...
+2024-08-28 23:50:40 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-08-28 23:50:40 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-08-28 23:50:40 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-08-28 23:50:40 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-08-28 23:50:40 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-08-28 23:50:40 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-08-28 23:50:40 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-08-28 23:50:40 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-08-28 23:50:40 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-08-28 23:50:40 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-08-28 23:50:40 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-08-28 23:50:40 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-08-28 23:50:40 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-08-28 23:50:40 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-08-28 23:50:40 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-08-28 23:50:40 DEBUG Utilities - TICKS key found in properties file: 0
+2024-08-28 23:50:40 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-08-28 23:50:40 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-08-28 23:50:40 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-08-28 23:50:40 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-08-28 23:50:40 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-08-28 23:50:40 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
+2024-08-28 23:50:40 DEBUG Utilities - Alternative value found in environment: timeline.json
+2024-08-28 23:50:40 DEBUG VehicleCodeDescriptors - Reading vehicle code descriptors: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/vehicles.json
+2024-08-28 23:50:40 DEBUG LoadWaterAndTerrainGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/terrain.json to get water and terrain
+2024-08-28 23:50:41 DEBUG LoadRoadsGrid - Read roads from c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/BNG_roads.json
+2024-08-28 23:50:41 DEBUG LoadBuildingsGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/buildings.json
+2024-08-28 23:50:41 DEBUG LoadDefencesGrid - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/defences.json
+2024-08-28 23:50:41 DEBUG ModelStateChanges - Reading: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/timeline.json
+2024-08-28 23:50:41 DEBUG ModelStateChanges - {
+  "model-states": [
+    {
+      "time": "00:10",
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    },
+    {
+      "time": "00:30",
+      "car": {
+        "startcoordinates": {
+          "x": 294013.382,
+          "y": 378051.155
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
+    }
+  ]
+}
+2024-08-28 23:50:42 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:10:00.0:
+2024-08-28 23:50:42 DEBUG Firm2 - Car loaded
+2024-08-28 23:50:42 DEBUG Firm2 - STATE CHANGE 2024-07-02 00:30:00.0:
+2024-08-28 23:50:42 DEBUG Firm2 - Car loaded

@@ -2,6 +2,7 @@ package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.model.PointDouble;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.GridXY2BNG;
 
@@ -53,17 +53,6 @@ public class DrawPanel extends JPanel implements MouseListener {
                     }
                 }
             }
-            if (grid instanceof ComplexGrid complexGrid) {
-                // for each complex agent
-                ArrayList<ComplexAgent> complexAgents = ((ComplexGrid) grid).getAgents();
-                complexAgents.forEach(complexAgent -> {
-                    g.setColor(complexAgent.getColour());
-                    int index = complexAgent.getMovementIndex();
-                    Point point = complexAgent.getMovements().get(index);
-                    g.fillRect(point.x * cell_size, point.y * cell_size,
-                            cell_size, cell_size);
-                });
-            }
         });
     }
 
@@ -101,20 +90,6 @@ public class DrawPanel extends JPanel implements MouseListener {
                     sb.append(key).append("\n");
                     sb.append(simpleGrid.getCell(cell_x, cell_y).toString()).append("\n");
                 }
-            }
-            if (grid instanceof ComplexGrid) {
-                ArrayList<ComplexAgent> complexAgents = ((ComplexGrid) grid).getAgents();
-                sb.append(((ComplexGrid) grid).key).append("\n");
-                complexAgents.forEach(complexAgent -> {
-                    int agent_x = complexAgent.getMovements().get(complexAgent.getMovementIndex()).x;
-                    int agent_y = complexAgent.getMovements().get(complexAgent.getMovementIndex()).y;
-                    sb.append(complexAgent.getAgent_id()).append(" ").append(agent_x).append(",")
-                            .append(agent_y).append(" ").append(cell_x).append(",").append(cell_y).append("\n");
-                    if (agent_y == cell_y && agent_x == cell_x) {
-                        sb.append(complexAgent.getAgent_id()).append("\n");
-                    }
-                });
-
             }
         });
         JTextArea textArea = new JTextArea(sb.toString());

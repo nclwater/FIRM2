@@ -1,6 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import java.awt.*;
+import uk.ac.ncl.nclwater.firm2.firm2.model.PointDouble;
+
 import java.util.ArrayList;
 
 public abstract class ComplexAgent extends Agent {
@@ -11,7 +12,7 @@ public abstract class ComplexAgent extends Agent {
     /**
      * An ArrayList of pre-determined positions eg. a road.
      */
-    ArrayList<Point> movements;
+    ArrayList<PointDouble> routeNodes;
 
     /**
      * A value to indicate whether movement is forward (1) or in reverse (-1)
@@ -31,15 +32,15 @@ public abstract class ComplexAgent extends Agent {
     }
 
     public void incrementMovementIndex() {
-        movementIndex = (movementIndex < movements.size() - 1?movementIndex+1:movementIndex);
+        movementIndex = (movementIndex < routeNodes.size() - 1?movementIndex+1:movementIndex);
     }
 
-    public ArrayList<Point> getMovements() {
-        return movements;
+    public ArrayList<PointDouble> getRouteNodes() {
+        return routeNodes;
     }
 
-    public void setMovements(ArrayList<Point> movements) {
-        this.movements = movements;
+    public void setRouteNodes(ArrayList<PointDouble> routeNodes) {
+        this.routeNodes = routeNodes;
     }
 
     public boolean isDirectionForward() {

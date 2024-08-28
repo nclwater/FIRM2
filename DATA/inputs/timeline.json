@@ -1,24 +1,35 @@
 {
   "model-states": [
-
     {
-      "time": "01:00",
+      "time": "00:10",
       "sea-level": null,
       "defence-breach": null,
-      "vehicles": [
-        {
-          "code": "0",
-          "dist": "normal",
-          "sd": 5,
-          "qty": 8
+      "car": {
+        "startcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
         },
-        {
-          "code": "1",
-          "dist": "normal",
-          "sd": 5,
-          "qty": 2
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
         }
-        ]
+      }
+    },
+    {
+      "time": "00:30",
+      "sea-level": null,
+      "defence-breach": null,
+      "car": {
+        "startcoordinates": {
+          "x": 294013.382,
+          "y": 378051.155
+        },
+        "endcoordinates": {
+          "x": 299088.3125,
+          "y": 379406.3125
+        }
+      }
     }
+
   ]
 }

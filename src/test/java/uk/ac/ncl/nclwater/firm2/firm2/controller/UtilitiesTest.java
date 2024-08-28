@@ -47,8 +47,14 @@ class UtilitiesTest {
         float x = 298978.0f;
         float y = 378571.0f;
 
-        Point xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
-        assertEquals(0, xy.getX());
-        assertEquals(68, xy.getY());
+        PointInteger xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
+        assertEquals(130, xy.getX());
+        assertEquals(78, xy.getY());
+
+        x = 294013.382f;
+        y = 378051.155f;
+        xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
+        assertEquals(31, xy.getX());
+        assertEquals(67, xy.getY());
     }
 }
