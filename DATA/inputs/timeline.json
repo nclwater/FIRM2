@@ -1,7 +1,7 @@
 {
   "model-states": [
     {
-      "time": "00:10",
+      "time": "00:30",
       "sea-level": null,
       "defence-breach": null,
       "car": {
@@ -16,7 +16,7 @@
       }
     },
     {
-      "time": "00:30",
+      "time": "00:40",
       "sea-level": null,
       "defence-breach": null,
       "car": {

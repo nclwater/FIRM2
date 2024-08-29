@@ -6,6 +6,7 @@
         "4000000012473099",
         "4000000012472802"
       ],
+      "speed_limit": 30,
       "road_length": 2591530,
       "road_type": "Dual Carriageway",
       "polyline_coordinates": [
