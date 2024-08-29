@@ -13,6 +13,10 @@ public class Roads {
     @Expose
     private List<Road> roads = new ArrayList<>();
 
+    @SerializedName("directed")
+    @Expose
+    private Boolean directed = true;
+
     public List<Road> getRoads() {
         return roads;
     }
@@ -25,4 +29,11 @@ public class Roads {
         roads.add(road);
     }
 
+    public Boolean getDirected() {
+        return directed;
+    }
+
+    public void setDirected(Boolean directed) {
+        this.directed = directed;
+    }
 }

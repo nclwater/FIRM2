@@ -196,26 +196,19 @@ public class Firm2 extends Model implements ViewerListener{
                 xy.setY(floodModelParameters.getHeight() - 1 - xy.getY()); // flip horizontally
                 car.setColour(Color.red);
                 ((SimpleGrid) grids.get("roads")).setCell(xy.getX(), xy.getY(), car);
-
             }
-
-
-
-
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
+        moveVehicles();
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
-
             visualisation.getDrawPanel().repaint();
-            ;
-
         }
     }
 
     private void moveVehicles() {
-        ((ComplexGrid) grids.get("vehicles")).getAgents().forEach(ComplexAgent::incrementMovementIndex);
+
     }
 
     /**
