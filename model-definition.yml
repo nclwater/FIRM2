@@ -16,124 +16,124 @@ spec:
   inputs:
     parameters:
       - name: TOROIDAL
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: boolean
         default: false
         required: false
       - name: TICKS
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: integer
         default: 0
         min: 0
         required: false
       - name: VISUALISE
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: boolean
         default: true
         required: false
       - name: CELL_SIZE
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: integer
         default: 5
         min: 1
         required: false
       - name: CHANCE
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: number
         default: 50
         min: 0
         max: 100
         required: false
       - name: APPLICATION_TITLE
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "FIRM2"
         required: false
       - name: INPUT_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "/data/inputs"
         required: false
       - name: OUTPUT_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "/data/outputs"
         required: false
       - name: TERRAIN_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "terrain.json"
         required: false
       - name: ROADS_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "roads.json"
         required: false
       - name: BUILDINGS_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "buildings.json"
         required: false
       - name: DEFENCES_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "defences.json"
         required: false
       - name: MODEL_PARAMETERS
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "globals.json"
         required: false
       - name: VEHICLES_DATA
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: string
         default: "vehicles.json"
         required: false
       - name: SLOWDOWN
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: number
         default: 0
         min: 0
         required: false
       - name: TIME_STAMP
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: integer
         default: 1719874800
         min: 0
         required: false
       - name: TICK_TIME_VALUE
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: integer
         default: 60
         min: 1
         required: false
       - name: OCEAN_DEPTH
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: integer
         default: 4
         min: 0
         required: false
       - name: RUN_ON_STARTUP
-        title: [TODO] Need title here
-        description: [TODO] Need description here
+        title: TODO Need title here
+        description: TODO Need description here
         type: boolean
         default: true
         required: false
