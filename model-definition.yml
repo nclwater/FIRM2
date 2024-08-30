@@ -137,6 +137,13 @@ spec:
         type: boolean
         default: true
         required: false
+    dataslots:
+      - name: Location Properties
+        description: Geographic properties of the location at which the simulation takes place
+        path: inputs
+        default:
+          - abda4af3-e677-4fe0-b606-353437a5af8f
+        required: true
   outputs:
     datasets:
       - name: FIRM results
