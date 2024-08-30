@@ -15,14 +15,137 @@ metadata:
 spec:
   inputs:
     parameters:
-      - name: OUTPUT_DATA_FOLDER
-        title: Outgoing data folder name
+      - name: TOROIDAL
+        title: Toroidal wrap
+        description: Specify whether the map wraps toroidally at the edges
+        type: boolean
+        default: false
+        required: false
+      - name: TICKS
+        title: Ticks
+        description: TODO Need description here
+        type: integer
+        default: 0
+        min: 0
+        required: false
+      - name: VISUALISE
+        title: Visualisation
+        description: Visualisation on or off
+        type: boolean
+        default: true
+        required: false
+      - name: CELL_SIZE
+        title: Cell size
+        description: Map cell size in metres
+        type: integer
+        default: 5
+        min: 1
+        required: false
+      - name: CHANCE
+        title: Chance
+        description: TODO Need description here
+        type: number
+        default: 50
+        min: 0
+        max: 100
+        required: false
+      - name: APPLICATION_TITLE
+        title: Application title
+        description: The title of the application
         type: string
-        description: The name of the data folder where output data should be saved
-        default: output_data_folder
+        default: "FIRM2"
+        required: false
+      - name: INPUT_DATA
+        title: Input data path
+        description: The input data path
+        type: string
+        default: "/data/inputs"
+        required: false
+      - name: OUTPUT_DATA
+        title: Output data path
+        description: The output data path
+        type: string
+        default: "/data/outputs"
+        required: false
+      - name: TERRAIN_DATA
+        title: Terrain data filename
+        description: Name of the JSON filename containing terrain data
+        type: string
+        default: "terrain.json"
+        required: false
+      - name: ROADS_DATA
+        title: Road data filename
+        description: Name of the JSON filename containing road data
+        type: string
+        default: "roads.json"
+        required: false
+      - name: BUILDINGS_DATA
+        title: Building data filename
+        description: Name of the JSON filename containing building data
+        type: string
+        default: "buildings.json"
+        required: false
+      - name: DEFENCES_DATA
+        title: Sea defences data filename
+        description: Name of the JSON filename containing sea defence data
+        type: string
+        default: "defences.json"
+        required: false
+      - name: MODEL_PARAMETERS
+        title: Global parameters data filename
+        description: Name of the JSON filename containing global parameter data
+        type: string
+        default: "globals.json"
+        required: false
+      - name: VEHICLES_DATA
+        title: Vehicle data filename
+        description: Name of the JSON filename containing vehicle data
+        type: string
+        default: "vehicles.json"
+        required: false
+      - name: SLOWDOWN
+        title: Slowdown
+        description: TODO Need description here
+        type: number
+        default: 0
+        min: 0
+        required: false
+      - name: TIME_STAMP
+        title: Time stamp
+        description: TODO Need description here
+        type: integer
+        default: 1719874800
+        min: 0
+        required: false
+      - name: TICK_TIME_VALUE
+        title: Tick time value
+        description: Simulation interval in seconds
+        type: integer
+        default: 60
+        min: 1
+        required: false
+      - name: OCEAN_DEPTH
+        title: Ocean depth
+        description: Depth of the ocean in metres
+        type: integer
+        default: 4
+        min: 0
+        required: false
+      - name: RUN_ON_STARTUP
+        title: Run on startup
+        description: TODO Need description here
+        type: boolean
+        default: true
+        required: false
+    dataslots:
+      - name: Location Properties
+        description: Geographic properties of the location at which the simulation takes place
+        path: inputs
+        default:
+          - abda4af3-e677-4fe0-b606-353437a5af8f
         required: true
   outputs:
     datasets:
-      - name: FIRM results
+      - name: FIRM simulation results
         type: txt
         description: Model output
