@@ -178,9 +178,22 @@ public class Txt2Json {
                     roadIDs[2] = topHalf.split(" ")[2].replace('"', ' ').trim();
                     String[] tokens = trimQuotes(topHalf.replace("\" \"", " ")).split(" ");
                     long roadLength = Long.parseLong(tokens[3]);
-                    String type = trimQuotes(tokens[4]);
-                    type = trimQuotes(topHalf.trim().substring(topHalf.substring(0, topHalf.trim().length() - 1).lastIndexOf('"'),
-                            topHalf.trim().lastIndexOf('"')));
+                    String roadType = trimQuotes(topHalf.trim().substring(topHalf.substring(0, topHalf.trim().length() - 1).lastIndexOf('"'),
+                            topHalf.trim().lastIndexOf('"')));;
+                    String type = switch (roadType) {
+                        case "Dual Carriageway" -> "dc";
+                        case "Single Carriageway" -> "sc";
+                        case "Traffic Island Link At Junction" -> "tilj";
+                        case "Enclosed Traffic Area Link" -> "etal";
+                        case "Slip Road" -> "sr";
+                        case "Roundabout" -> "r";
+                        case "Traffic Island Link" -> "til";
+
+                        default -> "";
+                    };
+                    if (type.isEmpty()) {
+                        logger.debug("unknown road type: " + roadType);
+                    }
                     String match = "] \\[";
                     String[] coordinates = trimBrackets(bottomHalf).split(match);
                     if (toBNG) {
@@ -211,8 +224,8 @@ public class Txt2Json {
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile;
-            outfile = (properties.getProperty("INPUT_DATA") + "BNG_Roads.json");
-            logger.debug("Write output file {}", properties.getProperty("INPUT_DATA")+ properties.getProperty("ROADS_DATA"));
+            outfile = (properties.getProperty("INPUT_DATA") + ((toBNG)?"BNG_Roads.json":"Roads.json"));
+            logger.debug("Write output file {}", outfile);
 
             FileWriter fileWriter = new FileWriter(outfile);
             if ((toBNG)) {

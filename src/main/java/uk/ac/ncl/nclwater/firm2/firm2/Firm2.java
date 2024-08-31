@@ -51,6 +51,7 @@ public class Firm2 extends Model implements ViewerListener{
     private Node second = null;
     private AStar aStar = null;
     private Path shortest = null;
+    private Cars cars = new Cars();
     /**
      * Initialise the model
      */
@@ -184,7 +185,7 @@ public class Firm2 extends Model implements ViewerListener{
                     }
                 }
             }
-            // get car
+            // Cars entering the model
             if (modelState.getCar() != null) {
                 logger.debug("Car loaded");
                 Car car = modelState.getCar();
@@ -196,6 +197,7 @@ public class Firm2 extends Model implements ViewerListener{
                 xy.setY(floodModelParameters.getHeight() - 1 - xy.getY()); // flip horizontally
                 car.setColour(Color.red);
                 ((SimpleGrid) grids.get("roads")).setCell(xy.getX(), xy.getY(), car);
+                cars.getCars().add(car);
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
@@ -208,7 +210,10 @@ public class Firm2 extends Model implements ViewerListener{
     }
 
     private void moveVehicles() {
-
+        ArrayList<Car> arr_cars = cars.getCars();
+        arr_cars.forEach(car -> {
+            
+        });
     }
 
     /**

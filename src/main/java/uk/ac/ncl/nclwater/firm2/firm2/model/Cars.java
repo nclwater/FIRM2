@@ -12,8 +12,9 @@ public class Cars {
     @Expose
     private List<Car> cars = new ArrayList<>();
 
-    public List<Car> getCars() {
-        return cars;
+    public ArrayList<Car> getCars() {
+
+        return (ArrayList<Car>) cars;
     }
 
     public void setCars(List<Car> cars) {
