@@ -212,7 +212,7 @@ public class Firm2 extends Model implements ViewerListener{
     private void moveVehicles() {
         ArrayList<Car> arr_cars = cars.getCars();
         arr_cars.forEach(car -> {
-            
+
         });
     }
 

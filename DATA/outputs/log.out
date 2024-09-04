@@ -933,3 +933,25 @@
 2024-08-29 22:09:53 DEBUG Origins - ["ncols"	249	]
 2024-08-29 22:09:53 DEBUG Origins - CellSize: ["cellsize"	50	] "cellsize" 50
 2024-08-29 22:09:53 DEBUG Txt2Json - Write output file c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/Roads.json
+2024-09-04 19:38:29 DEBUG Utilities - Read properties file: ./.firm2.properties
+2024-09-04 19:38:29 DEBUG Utilities - VISUALISE key found in properties file: TRUE
+2024-09-04 19:38:29 DEBUG Utilities - APPLICATION_TITLE key found in properties file: FIRM2a
+2024-09-04 19:38:29 DEBUG Utilities - OUTPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/outputs/
+2024-09-04 19:38:29 DEBUG Utilities - ROADS_DATA key found in properties file: BNG_roads.json
+2024-09-04 19:38:29 DEBUG Utilities - RUN_ON_STARTUP key not found, check environment
+2024-09-04 19:38:29 DEBUG Utilities - Alternative value not found in system properties, using default TRUE
+2024-09-04 19:38:29 DEBUG Utilities - TOROIDAL key found in properties file: false
+2024-09-04 19:38:29 DEBUG Utilities - OCEAN_DEPTH key found in properties file: 4
+2024-09-04 19:38:29 DEBUG Utilities - TIME_STAMP key found in properties file: 1719874800
+2024-09-04 19:38:29 DEBUG Utilities - MODEL_PARAMETERS key found in properties file: globals.json
+2024-09-04 19:38:29 DEBUG Utilities - TICK_TIME_VALUE key found in properties file: 60
+2024-09-04 19:38:29 DEBUG Utilities - DEFENCES_DATA key found in properties file: defences.json
+2024-09-04 19:38:29 DEBUG Utilities - INPUT_DATA key found in properties file: c:/users/janne/IdeaProjects/FIRM2_/DATA/inputs/
+2024-09-04 19:38:29 DEBUG Utilities - VEHICLES_DATA key found in properties file: vehicles.json
+2024-09-04 19:38:29 DEBUG Utilities - TICKS key found in properties file: 0
+2024-09-04 19:38:29 DEBUG Utilities - SLOWDOWN key found in properties file: 0
+2024-09-04 19:38:29 DEBUG Utilities - CELL_SIZE key found in properties file: 3
+2024-09-04 19:38:29 DEBUG Utilities - TERRAIN_DATA key found in properties file: terrain.json
+2024-09-04 19:38:29 DEBUG Utilities - CHANCE key found in properties file: 50
+2024-09-04 19:38:29 DEBUG Utilities - BUILDINGS_DATA key found in properties file: buildings.json
+2024-09-04 19:38:29 DEBUG Utilities - TIMELINE key found in properties file: timeline.json
