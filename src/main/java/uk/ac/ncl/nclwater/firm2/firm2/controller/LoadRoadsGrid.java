@@ -72,6 +72,8 @@ public class LoadRoadsGrid {
                         String edgeID = bngroad.getRoadIDs()[0] + edgeInc++;
                         graph.addEdge(edgeID, graph.getNode(prevID),
                                 graph.getNode(nodeID), true);
+                        graph.addEdge(edgeID + "R",
+                                graph.getNode(nodeID), graph.getNode(prevID), true);
                         prevID = nodeID;
                     }
                 }
@@ -86,6 +88,8 @@ public class LoadRoadsGrid {
                 String edgeID = bngroad.getRoadIDs()[0] + "." + edgeInc;
                 graph.addEdge(edgeID, graph.getNode(prevID),
                         graph.getNode(bngroad.getRoadIDs()[2]), true);
+                graph.addEdge(edgeID + "R",
+                        graph.getNode(bngroad.getRoadIDs()[2]), graph.getNode(prevID), true);
 
             });
         } catch (FileNotFoundException e) {
