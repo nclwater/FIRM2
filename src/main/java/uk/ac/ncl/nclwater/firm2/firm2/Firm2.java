@@ -7,14 +7,10 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
-import org.graphstream.ui.view.ViewerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.examples.RoadNetworkGSTest;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
@@ -22,15 +18,12 @@ import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model implements ViewerListener{
@@ -91,16 +84,17 @@ public class Firm2 extends Model implements ViewerListener{
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
+            logger.debug("Model state change: {}",modelState.toString());
             // Visualise if visualisation is set to true
-            if (floodModelParameters.isVisualise()) {
-                ViewerListener viewerListener = this;
-                Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                        ViewGrid viewGrid = new ViewGrid();
-                        viewGrid.displayGraph(graph, this, viewerListener);
-                    }});
-                t1.start();
-            }
+//            if (floodModelParameters.isVisualise()) {
+//                ViewerListener viewerListener = this;
+//                Thread t1 = new Thread(new Runnable() {
+//                    public void run() {
+//                        ViewGrid viewGrid = new ViewGrid();
+//                        viewGrid.displayGraph(graph, this, viewerListener);
+//                    }});
+//                t1.start();
+//            }
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
@@ -187,12 +181,13 @@ public class Firm2 extends Model implements ViewerListener{
             }
             // Cars entering the model
             if (modelState.getCar() != null) {
-                logger.debug("Car loaded");
                 Car car = modelState.getCar();
+                car.setAgent_id(getNewId());
+                logger.debug("Car loaded, start: {}, end: {}", car.getStartCoordinates(), car.getEndCoordinates());
                 PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
                         globalVariables.getLowerLeftY(),
-                        (float)car.getStartcoordinates().getX(),
-                        (float)car.getStartcoordinates().getY(),
+                        (float)car.getStartCoordinates().getX(),
+                        (float)car.getStartCoordinates().getY(),
                         globalVariables.getCellSize());
                 xy.setY(floodModelParameters.getHeight() - 1 - xy.getY()); // flip horizontally
                 car.setColour(Color.red);
@@ -204,6 +199,8 @@ public class Firm2 extends Model implements ViewerListener{
         moveVehicles();
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
+        logger.debug("Model state change: {}",modelState.toString());
+
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
         }
@@ -212,7 +209,7 @@ public class Firm2 extends Model implements ViewerListener{
     private void moveVehicles() {
         ArrayList<Car> arr_cars = cars.getCars();
         arr_cars.forEach(car -> {
-
+            logger.debug("Move car {}", car.getAgent_id());
         });
     }
 

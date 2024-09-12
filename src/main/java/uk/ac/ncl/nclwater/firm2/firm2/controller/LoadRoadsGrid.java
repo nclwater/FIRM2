@@ -2,25 +2,14 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.graphstream.graph.EdgeRejectedException;
-import org.graphstream.graph.ElementNotFoundException;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.IdAlreadyInUseException;
-import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
-import org.graphstream.ui.view.ViewerListener;
-import org.graphstream.ui.view.ViewerPipe;
+import org.graphstream.graph.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
 
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -70,10 +59,12 @@ public class LoadRoadsGrid {
                                 bngroad.getPolylineCoordinates().get(roadsection).getX(),
                                 bngroad.getPolylineCoordinates().get(roadsection).getY(), 0);
                         String edgeID = bngroad.getRoadIDs()[0] + edgeInc++;
-                        graph.addEdge(edgeID, graph.getNode(prevID),
+                        // add forward edge
+                        graph.addEdge(edgeID, (Node) graph.getNode(prevID),
                                 graph.getNode(nodeID), true);
+                        // add reverse edge
                         graph.addEdge(edgeID + "R",
-                                graph.getNode(nodeID), graph.getNode(prevID), true);
+                                (Node) graph.getNode(nodeID), graph.getNode(prevID), true);
                         prevID = nodeID;
                     }
                 }
@@ -86,10 +77,12 @@ public class LoadRoadsGrid {
                             bngroad.getPolylineCoordinates().get(last).getY(), 0);
                 }
                 String edgeID = bngroad.getRoadIDs()[0] + "." + edgeInc;
-                graph.addEdge(edgeID, graph.getNode(prevID),
+                // add forward edge
+                graph.addEdge(edgeID, (Node) graph.getNode(prevID),
                         graph.getNode(bngroad.getRoadIDs()[2]), true);
+                // add reverse edge
                 graph.addEdge(edgeID + "R",
-                        graph.getNode(bngroad.getRoadIDs()[2]), graph.getNode(prevID), true);
+                        (Node) graph.getNode(bngroad.getRoadIDs()[2]), graph.getNode(prevID), true);
 
             });
         } catch (FileNotFoundException e) {

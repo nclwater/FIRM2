@@ -43,7 +43,6 @@ public class ModelStateChanges {
             modelStateChanges = gson.fromJson(new FileReader(filename), ModelStateChanges.class);
             logger.debug("Reading: {}", filename);
             String json = gson.toJson(modelStateChanges, ModelStateChanges.class);
-            logger.debug(json);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

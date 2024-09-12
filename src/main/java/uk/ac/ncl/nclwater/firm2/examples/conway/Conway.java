@@ -6,6 +6,8 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
 
 import java.util.Random;
 
+import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
+
 /**
  * An implementation of Conway's Game of live to illustrate the use of the FIRM2 agent modelling framework
  */

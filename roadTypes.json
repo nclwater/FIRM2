@@ -1,0 +1,39 @@
+{
+  "road-types": [
+    {
+      "road-type": "dc",
+      "road-type-description": "Dual Carriageway",
+      "speed-limit": 70
+    },
+    {
+      "road-type": "sc",
+      "road-type-description": "Single Carriageway",
+      "speed-limit": 60
+    },
+    {
+      "road-type": "tilj",
+      "road-type-description": "Traffic Island Link At Junction",
+      "speed-limit": 30
+    },
+    {
+      "road-type": "etal",
+      "road-type-description": "Enclosed Traffic Area Link",
+      "speed-limit": 30
+    },
+    {
+      "road-type": "sr",
+      "road-type-description": "Slip Road",
+      "speed-limit": 60
+    },
+    {
+      "road-type": "r",
+      "road-type-description": "Roundabout",
+      "speed-limit": 30
+    },
+    {
+      "road-type": "til",
+      "road-type-description": "Traffic Island Link",
+      "speed-limit": 30
+    }
+  ]
+}

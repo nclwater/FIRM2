@@ -7,6 +7,8 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Visualisation;
 import java.awt.*;
 import java.util.Random;
 
+import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
+
 /**
  * https://en.wikipedia.org/wiki/Nagel–Schreckenberg_model
  */

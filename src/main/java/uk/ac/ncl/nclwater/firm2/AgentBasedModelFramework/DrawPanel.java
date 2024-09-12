@@ -2,13 +2,11 @@ package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.firm2.model.PointDouble;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.GridXY2BNG;

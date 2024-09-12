@@ -6,6 +6,7 @@ import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
+import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
@@ -35,7 +36,6 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createProperti
 public class RoadNetworkGSTest  implements ViewerListener {
 
     private final Graph graph = new SingleGraph("Road Networks GraphStream Test");
-    private Viewer viewer = null;
     private Node first = null;
     private Node second = null;
     private static final Logger logger = LoggerFactory.getLogger(RoadNetworkGSTest.class);

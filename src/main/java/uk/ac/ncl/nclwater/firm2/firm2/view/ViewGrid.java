@@ -7,13 +7,14 @@ import org.graphstream.ui.view.ViewerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ViewGrid  implements ViewerListener {
+public class ViewGrid  extends JFrame implements ViewerListener {
     private static final Logger logger = LoggerFactory.getLogger(ViewGrid.class);
     static boolean loop = true;
     ViewerListener viewerListener;
@@ -44,8 +45,7 @@ public class ViewGrid  implements ViewerListener {
             }
             System.setProperty("org.graphstream.ui", "swing");
 
-            Viewer viewer = graph.display(false);
-            viewer.getDefaultView().enableMouseOptions();
+            Viewer viewer = graph.display();
             viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
 
             ViewerPipe fromViewer = viewer.newViewerPipe();
@@ -80,12 +80,14 @@ public class ViewGrid  implements ViewerListener {
     }
 
     @Override
-    public void mouseOver(String s) {
-        logger.debug("Mouse over");
+    public void mouseOver(String id) {
+
     }
 
     @Override
-    public void mouseLeft(String s) {
-        logger.debug("Mouse left");
+    public void mouseLeft(String id) {
+
     }
+
+
 }
