@@ -7,6 +7,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 public class FloodModelParameters extends uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.ModelParameters {
     float oceanDepth = 0;
     boolean pngOnTick = false;
+    float vehicleFloodDepth = 0;
 
 
     public FloodModelParameters() {}
@@ -25,5 +26,13 @@ public class FloodModelParameters extends uk.ac.ncl.nclwater.firm2.AgentBasedMod
 
     public void setPngOnTick(boolean pngOnTick) {
         this.pngOnTick = pngOnTick;
+    }
+
+    public float getVehicleFloodDepth() {
+        return vehicleFloodDepth;
+    }
+
+    public void setVehicleFloodDepth(float vehicleFloodDepth) {
+        this.vehicleFloodDepth = vehicleFloodDepth;
     }
 }

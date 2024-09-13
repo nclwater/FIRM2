@@ -45,7 +45,7 @@ public class Conway extends Model {
                 } else { // If cell is dead
                     // has exactly three neighbours it becomes alive
                     if (neighbourCount == 3) {
-                        newGrid.setCell(col, row, new Alive(getNewId()));
+                        newGrid.setCell(col, row, new Alive(Integer.toString(getNewId())));
                     }
                 }
             }
@@ -67,7 +67,7 @@ public class Conway extends Model {
                 int newId = 0;
                 if (nextInt < modelParameters.getChance()) {
                     newId = getNewId();
-                    ((SimpleGrid)this.grids.get("cells")).setCell(col, row, new Alive(newId));
+                    ((SimpleGrid)this.grids.get("cells")).setCell(col, row, new Alive(Integer.toString(newId)));
                 }
             }
         }

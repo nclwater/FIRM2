@@ -7,7 +7,7 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
  */
 public class Alive extends Agent {
 
-    public Alive(int agent_id) {
+    public Alive(String agent_id) {
         this.agent_id = agent_id;
     }
 

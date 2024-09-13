@@ -38,7 +38,7 @@ public class LoadBuildingsGrid {
                 int type = b.getType();
                 if (coords.getX() > 0 && coords.getX() < floodModelParameters.getWidth() &&
                         coords.getY() > 0 && coords.getY() < floodModelParameters.getHeight()) {
-                    Building building = new Building(getNewId(), type, b.getOrdinate(), b.getNearestRoad_ID());
+                    Building building = new Building(Integer.toString(getNewId()), type, b.getOrdinate(), b.getNearestRoad_ID());
                     buildingGrid.setCell(coords.getX(), coords.getY(), building);
                 }
             });

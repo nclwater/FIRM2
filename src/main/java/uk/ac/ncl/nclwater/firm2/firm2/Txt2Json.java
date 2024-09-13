@@ -81,7 +81,7 @@ public class Txt2Json {
                     int type = Integer.parseInt(xy[2]);
                     // extract the fourth token
                     String nearestRoad_ID = trimQuotes(xy[3]);
-                    Building building = new Building(getNewId(), type, coords, nearestRoad_ID);
+                    Building building = new Building(Integer.toString(getNewId()), type, coords, nearestRoad_ID);
                     System.out.println(building.getOrdinate().getX() + ", " + building.getOrdinate().getY() + ", " + nearestRoad_ID);
                     buildings.add(building);
                 }
@@ -130,7 +130,7 @@ public class Txt2Json {
                     }
                     // use a default defence height of 10m
 
-                    Defence defence = new Defence(getNewId(), coords, defenceNameHolder, 10);
+                    Defence defence = new Defence(Integer.toString(getNewId()), coords, defenceNameHolder, 10);
                     //System.out.println(defence.getOrdinate().getX() + ", " + defence.getOrdinate().getY());
                     defences.add(defence);
                 }

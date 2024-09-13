@@ -3,12 +3,12 @@
     {
       "road-type": "dc",
       "road-type-description": "Dual Carriageway",
-      "speed-limit": 70
+      "speed-limit": 60
     },
     {
       "road-type": "sc",
       "road-type-description": "Single Carriageway",
-      "speed-limit": 60
+      "speed-limit": 30
     },
     {
       "road-type": "tilj",
@@ -23,7 +23,7 @@
     {
       "road-type": "sr",
       "road-type-description": "Slip Road",
-      "speed-limit": 60
+      "speed-limit": 30
     },
     {
       "road-type": "r",

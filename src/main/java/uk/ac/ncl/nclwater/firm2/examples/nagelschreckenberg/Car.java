@@ -5,15 +5,15 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 import java.awt.*;
 
 public class Car extends Agent {
-    int velocity = 1;
-    int maxVelocity = 3;
+    private int velocity = 1;
+    private int maxVelocity = 3;
 
-    public Car(int agentId) {
+    public Car(String agentId) {
         this.agent_id = agentId;
         this.colour = Color.BLUE;
     }
 
-    public Car(int agentId, Color colour) {
+    public Car(String agentId, Color colour) {
         this.agent_id = agentId;
         this.colour = colour;
     }

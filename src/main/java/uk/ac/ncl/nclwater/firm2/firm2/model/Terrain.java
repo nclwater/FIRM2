@@ -17,7 +17,7 @@ public class Terrain extends Agent {
 
     //    protected Agent surfaceAgent = null;
 
-    public Terrain(int id, float elevation) {
+    public Terrain(String id, float elevation) {
         this.agent_id = id;
         if (elevation == nodata) {
             colour = new Color(255, 255, 255);
@@ -36,12 +36,12 @@ public class Terrain extends Agent {
     }
 
     @Override
-    public int getAgent_id() {
+    public String getAgent_id() {
         return agent_id;
     }
 
     @Override
-    public void setAgent_id(int agent_id) {
+    public void setAgent_id(String agent_id) {
         this.agent_id = agent_id;
     }
 

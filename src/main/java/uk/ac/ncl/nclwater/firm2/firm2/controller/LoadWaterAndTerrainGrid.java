@@ -41,7 +41,7 @@ public class LoadWaterAndTerrainGrid {
             for (int grid_y = 0; grid_y < floodModelParameters.getHeight(); grid_y++) {
                 TerrainLine terrainLine = terrainLayer.get(grid_y);
                 for (int grid_x = 0; grid_x < floodModelParameters.getWidth(); grid_x++) {
-                    int id = AgentIDProducer.getNewId();
+                    String id = Integer.toString(AgentIDProducer.getNewId());
                     // if null assume tile is ocean
                     if (terrainLine.getElevation()[grid_x] != -9999) {
                         terrainGrid.setCell(grid_x, grid_y, new Terrain(id, terrainLine.getElevation()[grid_x]));

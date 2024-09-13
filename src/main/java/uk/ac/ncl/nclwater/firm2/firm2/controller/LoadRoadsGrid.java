@@ -62,9 +62,11 @@ public class LoadRoadsGrid {
                         // add forward edge
                         graph.addEdge(edgeID, (Node) graph.getNode(prevID),
                                 graph.getNode(nodeID), true);
+                        graph.getEdge(edgeID).setAttribute("speed",bngroad.getRoadType());
                         // add reverse edge
                         graph.addEdge(edgeID + "R",
                                 (Node) graph.getNode(nodeID), graph.getNode(prevID), true);
+                        graph.getEdge(edgeID + "R").setAttribute("speed",bngroad.getRoadType());
                         prevID = nodeID;
                     }
                 }
@@ -80,9 +82,11 @@ public class LoadRoadsGrid {
                 // add forward edge
                 graph.addEdge(edgeID, (Node) graph.getNode(prevID),
                         graph.getNode(bngroad.getRoadIDs()[2]), true);
+                graph.getEdge(edgeID).setAttribute("speed",bngroad.getRoadType());
                 // add reverse edge
                 graph.addEdge(edgeID + "R",
                         (Node) graph.getNode(bngroad.getRoadIDs()[2]), graph.getNode(prevID), true);
+                graph.getEdge(edgeID + "R").setAttribute("speed",bngroad.getRoadType());
 
             });
         } catch (FileNotFoundException e) {

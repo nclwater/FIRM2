@@ -101,9 +101,9 @@ public class NagelSchreckenberg extends Model {
                 if (nextInt < modelParameters.getChance()) {
                     int newId = getNewId();
                     if (newId == 1)
-                        ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(newId, Color.RED));
+                        ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(Integer.toString(newId), Color.RED));
                     else
-                        ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(newId, Color.BLUE));
+                        ((SimpleGrid)this.grids.get("cars")).setCell(col, row, new Car(Integer.toString(newId), Color.BLUE));
                 }
             }
         }

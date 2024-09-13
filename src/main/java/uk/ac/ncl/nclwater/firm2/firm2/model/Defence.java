@@ -19,12 +19,12 @@ public class Defence extends Agent {
     @Expose
     float height;
 
-    public Defence(int agent_id) {
+    public Defence(String agent_id) {
         setAgent_id(agent_id);
         setColour(new Color(0x99, 0x00, 0x00));
     }
 
-    public Defence(int agent_id, PointDouble ordinate, String defenceName, float height) {
+    public Defence(String agent_id, PointDouble ordinate, String defenceName, float height) {
         setAgent_id(agent_id);
         setOrdinate(ordinate);
         setName(defenceName);

@@ -21,6 +21,9 @@ public class BNGRoad extends Agent {
     @SerializedName("road_type")
     String roadType;
 
+    /**
+     * The nodes in the road - a list of BNG xy coordinates
+     */
     @Expose
     @SerializedName("polyline_coordinates")
     ArrayList<PointDouble> polylineCoordinates = new ArrayList<>();
@@ -31,7 +34,7 @@ public class BNGRoad extends Agent {
      * @param agentId A unique agent id
      * @param roadIDs The IDs of the road that make up this road (clarify)
      */
-    public BNGRoad(int agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
+    public BNGRoad(String agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
         this.agent_id = agentId;
         this.roadIDs[0] = roadIDs[0];
         this.roadIDs[1] = roadIDs[1];
@@ -39,6 +42,12 @@ public class BNGRoad extends Agent {
         this.colour = Color.black;
     }
 
+    /**
+     * Return the three IDs associated with this road. The first ID is the ID of the road
+     * The second ID is the first node of the road
+     * The third ID is the last node of the road
+     * @return
+     */
     public String getID() {
         return roadIDs[0];
     }

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
-import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model implements ViewerListener{
@@ -38,7 +36,7 @@ public class Firm2 extends Model implements ViewerListener{
     private ModelStateChanges modelStateChanges;
     private Float maintainSeaLevel = null;
     private HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
-    private HashMap<String, BNGRoad> bngRoadHashMap = new HashMap<>();
+    private HashMap<String, BNGRoad> bngRoads = new HashMap<>();
     private Graph graph = null;
     private Node first = null;
     private Node second = null;
@@ -69,22 +67,23 @@ public class Firm2 extends Model implements ViewerListener{
                     floodModelParameters.isToroidal(), "terrain");
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
-            SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
-                    floodModelParameters.isToroidal(), "roads");
+            SimpleGrid carsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "cars");
             HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
             // LoadRoadsGrid.loadRoadsOld(floodModelParameters, properties, roadsGrid, roadHashMap);
             graph = new SingleGraph("Road Network");
             aStar = new AStar(graph);
-            LoadRoadsGrid.gsLoadRoads(graph, bngRoadHashMap, properties);
+            LoadRoadsGrid.gsLoadRoads(graph, bngRoads, properties);
+            logger.debug("Records in bngRoads: " + bngRoads.size());
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
-            grids.put("roads", roadsGrid);
+            grids.put("cars", carsGrid);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
-            logger.debug("Model state change: {}",modelState.toString());
+//            logger.debug("Model state change: {}",modelState.toString());
             // Visualise if visualisation is set to true
 //            if (floodModelParameters.isVisualise()) {
 //                ViewerListener viewerListener = this;
@@ -99,9 +98,6 @@ public class Firm2 extends Model implements ViewerListener{
                 visualisation = new Visualisation(this);
             }
             Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
-
-
-
             // Do an initial tick
             tick();
         } catch (FileNotFoundException e) {
@@ -131,7 +127,7 @@ public class Firm2 extends Model implements ViewerListener{
         SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
         SimpleGrid terrainGrid = (SimpleGrid) grids.get("terrain");
         SimpleGrid defenceGrid = (SimpleGrid) grids.get("defences");
-        SimpleGrid roadGrid = (SimpleGrid) grids.get("roads");
+        SimpleGrid carGrid = (SimpleGrid) grids.get("cars");
         SimpleGrid newWaterGrid = new SimpleGrid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
@@ -182,16 +178,30 @@ public class Firm2 extends Model implements ViewerListener{
             // Cars entering the model
             if (modelState.getCar() != null) {
                 Car car = modelState.getCar();
-                car.setAgent_id(getNewId());
-                logger.debug("Car loaded, start: {}, end: {}", car.getStartCoordinates(), car.getEndCoordinates());
+                car.setAgent_id(car.getAgentId());
+                car.setCurrentCoordinates(car.getStartCoordinates());
+                // get the shortest path to endCoordinates
+                aStar.compute(car.getStartNode(), car.getEndNode());
+                Path shortestPath = aStar.getShortestPath();
+                car.setRouteNodes(shortestPath);
+                logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
+                logger.debug("Coordinates of {}: {}", car.getStartNode(), car.getStartCoordinates());
+                // Get the xy coordinates for the normal cell grid of the starting point
                 PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
                         globalVariables.getLowerLeftY(),
                         (float)car.getStartCoordinates().getX(),
                         (float)car.getStartCoordinates().getY(),
                         globalVariables.getCellSize());
-                xy.setY(floodModelParameters.getHeight() - 1 - xy.getY()); // flip horizontally
+                // flip y horizontally
+                xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
+                // cars are red (for now)
                 car.setColour(Color.red);
-                ((SimpleGrid) grids.get("roads")).setCell(xy.getX(), xy.getY(), car);
+                Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
+                if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+
+                }
+                // add the car to the cars grid
+                ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), car);
                 cars.getCars().add(car);
             }
         }
@@ -199,7 +209,7 @@ public class Firm2 extends Model implements ViewerListener{
         moveVehicles();
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
-        logger.debug("Model state change: {}",modelState.toString());
+//        logger.debug("Model state change: {}",modelState.toString());
 
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
@@ -209,7 +219,22 @@ public class Firm2 extends Model implements ViewerListener{
     private void moveVehicles() {
         ArrayList<Car> arr_cars = cars.getCars();
         arr_cars.forEach(car -> {
-            logger.debug("Move car {}", car.getAgent_id());
+            int speed = 30; // TODO: fix this
+            // move the car forward from its current position
+            car.setCurrentDistance((float) (car.getCurrentDistance() + distanceTravelled(speed)));
+            // Get grid xy co-ordinates from BNG co-ordinates
+            PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                    globalVariables.getLowerLeftY(),
+                    (float)car.getStartCoordinates().getX(),
+                    (float)car.getStartCoordinates().getY(),
+                    globalVariables.getCellSize());
+            Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
+            if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                // vehicle drowning
+
+            }
+//            logger.debug("Moved car {} to xy {}, {}", car.getAgent_id(), xy.getX(), xy.getY());
+//            logger.debug("Current distance from {}: {}", car.getCurrentCoordinates(), car.getCurrentDistance());
         });
     }
 
@@ -335,6 +360,7 @@ public class Firm2 extends Model implements ViewerListener{
         floodModelParameters.setTitle(properties.getProperty("APPLICATION_TITLE"));
         floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG_ON_TICK")));
         floodModelParameters.setRunOnStartUp(Boolean.parseBoolean(properties.getProperty("RUN_ON_STARTUP")));
+        floodModelParameters.setVehicleFloodDepth(Float.parseFloat(properties.getProperty("VEHICLE_FLOOD_DEPTH")));
         modelInit();
         Thread modelthread = new Thread(this);
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
@@ -362,7 +388,7 @@ public class Firm2 extends Model implements ViewerListener{
             }
             first = graph.getNode(id);
             if (first != null) {
-                String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
+                String roadID = bngRoads.get(id)==null?"": bngRoads.get(id).getRoadIDs()[0];
                 Object[] xyz = (Object[])first.getAttribute("xyz");
                 PointInteger xy = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
                         globalVariables.getLowerLeftY(),
@@ -375,7 +401,7 @@ public class Firm2 extends Model implements ViewerListener{
             if (second == null) {
                 second = graph.getNode(id);
                 if (second != null) {
-                    String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
+                    String roadID = bngRoads.get(id)==null?"": bngRoads.get(id).getRoadIDs()[0];
                     logger.debug("Second node {} is part of road [{}], {}", second, roadID, second.getAttribute("xyz"));
                     graph.getNode(id).setAttribute("ui.class", "marked");
                     aStar.compute(first.getId(), second.getId());

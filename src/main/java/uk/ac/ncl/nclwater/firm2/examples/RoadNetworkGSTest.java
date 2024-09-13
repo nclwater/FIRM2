@@ -1,14 +1,10 @@
 package uk.ac.ncl.nclwater.firm2.examples;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
-import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 
 import org.slf4j.Logger;
@@ -17,17 +13,12 @@ import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoad;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Road;
-import uk.ac.ncl.nclwater.firm2.firm2.model.Roads;
 import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createPropertiesFile;
@@ -109,7 +100,7 @@ public class RoadNetworkGSTest  implements ViewerListener {
                         Object[] xyzValues1 = (Object[]) first.getAttribute("xyz");
                         double northing1 = (double) xyzValues1[0];
                         double easting1 = (double) xyzValues1[1];
-                        Object[] xyzValues2 = (Object[]) first.getAttribute("xyz");
+                        Object[] xyzValues2 = (Object[]) second.getAttribute("xyz");
                         double northing2 = (double) xyzValues2[0];
                         double easting2 = (double) xyzValues2[1];
 
@@ -135,6 +126,10 @@ public class RoadNetworkGSTest  implements ViewerListener {
     }
 
     public void mouseLeft(String id) {
+    }
+
+    public static void main(String[] args) {
+        new RoadNetworkGSTest();
     }
 }
 

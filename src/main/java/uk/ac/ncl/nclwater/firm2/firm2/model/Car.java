@@ -2,6 +2,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.graphstream.graph.Path;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 
@@ -12,23 +13,36 @@ public class Car extends Agent {
     /**
      * An index into the movement array - thus where this agent currently resides
      */
-    int movementIndex = 0;
+    private int movementIndex = 0;
+    @Expose
+    @SerializedName("agent-id")
+    private String agentId;
     /**
      * Co-ordinates where car enters the simulation
      */
     @Expose
-    @SerializedName("startcoordinates")
+    @SerializedName("start-coordinates")
     private PointDouble startCoordinates;
+
+    @Expose
+    @SerializedName("start-node")
+    private String startNode;
+
     /**
      * Co-ordinates where car exists the simulation
      */
     @Expose
-    @SerializedName("endcoordinates")
+    @SerializedName("end-coordinates")
     private PointDouble endCoordinates;
+
+    @Expose
+    @SerializedName("end-node")
+    private String endNode;
+
     /**
      * An ArrayList of pre-determined positions eg. a road.
      */
-    ArrayList<PointDouble> routeNodes;
+    Path routeNodes;
 
     // speed limit
     private int speedLimit;
@@ -48,16 +62,14 @@ public class Car extends Agent {
     /**
      *
      * @param id
-     * @param route
      * @param startCoordinates
      * @param endCoordinates
      */
-    public Car(int id, ArrayList<PointDouble> route, PointDouble startCoordinates, PointDouble endCoordinates) {
+    public Car(String id, PointDouble startCoordinates, PointDouble endCoordinates) {
         super();
         this.startCoordinates = startCoordinates;
         this.endCoordinates = endCoordinates;
         this.currentCoordinates = new PointDouble(startCoordinates.getX(), startCoordinates.getY());
-        setRouteNodes(route);
         setColour(Color.ORANGE);
         setAgent_id(id);
     }
@@ -67,7 +79,7 @@ public class Car extends Agent {
         this.endCoordinates = endCoordinates;
     }
 
-    public void setRouteNodes(ArrayList<PointDouble> routeNodes) {
+    public void setRouteNodes(Path routeNodes) {
         this.routeNodes = routeNodes;
     }
 
@@ -151,5 +163,41 @@ public class Car extends Agent {
 
     public void setInPlay(boolean inPlay) {
         this.inPlay = inPlay;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
+
+    public String getStartNode() {
+        return startNode;
+    }
+
+    public void setStartNode(String startNode) {
+        this.startNode = startNode;
+    }
+
+    public String getEndNode() {
+        return endNode;
+    }
+
+    public void setEndNode(String endNode) {
+        this.endNode = endNode;
+    }
+
+    public Path getRouteNodes() {
+        return routeNodes;
+    }
+
+    public void setIntermediateDistance(double intermediateDistance) {
+        this.intermediateDistance = intermediateDistance;
+    }
+
+    public void setCurrentDistance(double currentDistance) {
+        this.currentDistance = currentDistance;
     }
 }

@@ -37,7 +37,7 @@ public class LoadDefencesGrid {
                 coords.setY(floodModelParameters.getHeight() - 1 - coords.getY()); // flip horizontally
                 if (coords.getX() > 0 && coords.getX() < floodModelParameters.getWidth() && coords.getY() > 0
                         && coords.getY() < floodModelParameters.getHeight()) {
-                    Defence defence = new Defence(getNewId(), d.getOrdinate(), d.getName(), d.getHeight());
+                    Defence defence = new Defence(Integer.toString(getNewId()), d.getOrdinate(), d.getName(), d.getHeight());
                     defenceGrid.setCell(coords.getX(), coords.getY(), defence);
                 } else {
                     logger.trace("Building: " + coords.getX() + ", " + coords.getY() + " is out of bounds");
