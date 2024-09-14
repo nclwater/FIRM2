@@ -37,6 +37,7 @@ The hard coded default properties are the following:
 |TICK_TIME_VALUE|60|The number of seconds in a tick|
 |OCEAN_DEPTH|4|The depth of the water for cells that are marked as ocean. This means that the land elevation for the cell will be the negative of this number|
 |RUN_ON_STARTUP|TRUE|True if the model should start running as soon as the program is started. Mostly for visualisation purposes as there is a button to start and stop the model.|
+|VEHICLE_FLOOD_DEPTH|25|Depth of water to force a car to a halt (drowned)|
 
 ### Directory Structure
 uk.ac.ncl.nclwater.firm2

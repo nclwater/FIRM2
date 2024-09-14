@@ -204,10 +204,10 @@ public class Firm2 extends Model{
     }
 
     /**
-     * Helper method to determine whether a car drowned
+     * Helper method to determine whether a car drowned. If the car drowned return true else return false.
      * @param car
      */
-    private void drownCar(Car car) {
+    private boolean drownCar(Car car) {
         // Get grid xy co-ordinates from BNG co-ordinates
         PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
                 globalVariables.getLowerLeftY(),
@@ -218,32 +218,35 @@ public class Firm2 extends Model{
         xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
         // Get the water agent on xy co-ordinate
         Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
+        // If >= to vehicle drowning level then mark car as drowned, remove from list of cars add to drowned list
         if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
             car.setDrowned(true);
             cars.getCars().remove(car);
-//                Clear car from cars grid
-//                ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
-            car.setColour(new Color(73,23,12));
+            car.setColour(new Color(73,23,12)); // change drowned car to brown
             drownedCars.getCars().add(car);
             logger.debug("Car {} removed", car.getAgent_id());
             logger.debug("Tick Car drowned: {}", car.getAgent_id());
+            return true;
         }
+        return false;
     }
 
     /**
      * Helper method to move vehicles along shortest path
      */
     private void moveVehicles() {
-        logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
         for (int c = 0; c < cars.getCars().size(); c++) {
             Car car = cars.getCars().get(c);
-            int speed = 30; // TODO: fix this
-            // move the car forward from its current position
-            car.setCurrentDistance((float) (car.getCurrentDistance() + distanceTravelled(speed)));
-            // If >= to vehicle drowning level then mark car as drown and remove from list of cars
-            drownCar(car);
-//            logger.debug("Moved car {} to xy {}, {}", car.getAgent_id(), xy.getX(), xy.getY());
-//            logger.debug("Current distance from {}: {}", car.getCurrentCoordinates(), car.getCurrentDistance());
+            // If the car hasn't drowned, move it along
+            if (!drownCar(car)) {
+                int speed = 30; // TODO: fix this to read from road files
+                // move the car forward from its current position
+                car.setCurrentDistance((float) (car.getCurrentDistance() + distanceTravelled(speed)));
+                //            logger.debug("Moved car {} to xy {}, {}", car.getAgent_id(), xy.getX(), xy.getY());
+                //            logger.debug("Current distance from {}: {}", car.getCurrentCoordinates(), car.getCurrentDistance());
+            } else {
+                logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
+            }
         }
     }
 
