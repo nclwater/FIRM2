@@ -26,14 +26,15 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createProperti
 
 public class RoadNetworkGSTest  implements ViewerListener {
 
-    private final Graph graph = new SingleGraph("Road Networks GraphStream Test");
+    private static final Logger logger = LoggerFactory.getLogger(RoadNetworkGSTest.class);
+    private static Graph graph = new SingleGraph("Road Networks GraphStream Test");
     private Node first = null;
     private Node second = null;
-    private static final Logger logger = LoggerFactory.getLogger(RoadNetworkGSTest.class);
     private final HashMap<String, BNGRoad> roadsMap = new HashMap<>();
     AStar aStar = new AStar(graph);
     Path shortest = null;
     BNGRoads roads = null;
+    private static final Properties properties = createPropertiesFile();
 
     public RoadNetworkGSTest() {
         logger.debug("Run RoadNetworkGSTest");
@@ -48,11 +49,18 @@ public class RoadNetworkGSTest  implements ViewerListener {
             logger.error("Stylesheet not found");
             //throw new RuntimeException(e);
         }
-        Properties properties = createPropertiesFile();
-        roads = LoadRoadsGrid.gsLoadRoads(graph, roadsMap, properties);
+        roads = loadRoads();
+    }
+
+    public BNGRoads loadRoads() {
+        return LoadRoadsGrid.gsLoadRoads(graph, roadsMap, properties);
+    }
+
+    private void viewNetwork(Graph graph, Properties properties, ViewerListener vl) {
+
 //        LoadRoadsGrid.viewGraph(graph, this);
         ViewGrid viewgrid = new ViewGrid();
-        viewgrid.displayGraph(graph, properties, this);
+        viewgrid.displayGraph(graph, properties,vl);
         logger.debug("Add a node");
 
     }
@@ -124,7 +132,20 @@ public class RoadNetworkGSTest  implements ViewerListener {
     }
 
     public static void main(String[] args) {
-        new RoadNetworkGSTest();
+        RoadNetworkGSTest test = new RoadNetworkGSTest();
+        AStar aStar = new AStar(graph);
+        aStar.compute("4000000012472821", "4000000012843295");
+        Path path = aStar.getShortestPath();
+        logger.debug(path.toString());
+        //test.viewNetwork(graph, properties, test);
+    }
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        RoadNetworkGSTest.graph = graph;
     }
 }
 

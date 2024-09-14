@@ -173,6 +173,7 @@ public class Firm2 extends Model{
                 aStar.compute(car.getStartNode(), car.getEndNode());
                 Path shortestPath = aStar.getShortestPath();
                 car.setRouteNodes(shortestPath);
+                logger.debug("shortest path: {}", shortestPath.toString());
 
                 // add the car to the cars grid
                 // Get the xy coordinates for the normal cell grid of the starting point
@@ -180,7 +181,7 @@ public class Firm2 extends Model{
                 cars.getCars().add(car);
                 ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), car);
                 logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
-                logger.debug("Coordinates of {}: {}", car.getStartNode());
+                logger.debug("Coordinates of {}: {},{}", car.getStartNode(), getXY(car).getX(), getXY(car).getY());
                 //drownCar(car);
             }
         }
@@ -246,11 +247,15 @@ public class Firm2 extends Model{
                 Node nextNode = route.getNodePath().get(1);
                 double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
                 if (car.getCoveredDistance() >= interDist) {
-                    logger.debug("Next node reached");
+                    PointInteger xy = getXY(car);
+                    ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                    logger.debug("Next node reached {}", car.getRouteNodes().getNodePath().get(0));
                     // remove the first node since we have now reached the next node
                     route.getNodePath().remove(0);
                     // set distance
                     car.setCurrentDistance(car.getCoveredDistance() - interDist);
+                    PointInteger xy2 = getXY(car);
+                    ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
                 }
             } else {
                 logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
