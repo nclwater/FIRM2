@@ -5,11 +5,15 @@ import com.google.gson.GsonBuilder;
 import org.graphstream.graph.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
+import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -19,6 +23,61 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 public class LoadRoadsGrid {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadRoadsGrid.class);
+    /**
+     * Original method - not used anymore.
+     * Read the roads.json configuration from file and populate the road grid
+     */
+    public static void loadRoadsOld(FloodModelParameters floodModelParameters, GlobalVariables globalVariables,
+                                    Properties properties, SimpleGrid roadGrid, HashMap<String,
+                                    ArrayList<Point>> roadHashMap) {
+//         		;; manually fix up the bridge over the river.
+//         		;; XXX this should be done from a config file.
+//         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
+//
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
+            logger.debug("Reading: {}", filename);
+            BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
+            roads.getRoads().forEach(r -> {
+                ArrayList<PointDouble> roadPoints = r.getPolylineCoordinates();
+                ArrayList<Point> wholeRoad = new ArrayList<>();
+                ArrayList<Point> cleanedWholeRoad = new ArrayList<>();
+                ArrayList<PointInteger> pixelPoints = new ArrayList<>();
+                // convert BNG coordinates to grid xy
+                roadPoints.forEach(p -> {
+                    PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                            globalVariables.getLowerLeftY(),
+                            (float)p.getX(),
+                            (float)p.getY(),
+                            globalVariables.getCellSize());
+                    // flip y horizontally
+                    xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
+                    pixelPoints.add(xy);
+                });
+                for (int i = 1; i < pixelPoints.size(); i++) {
+//                    logger.debug("Interpolating ...");
+                    wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).getX(), pixelPoints.get(i - 1).getY(),
+                            pixelPoints.get(i).getX(), pixelPoints.get(i).getY()));
+                }
+                logger.debug("Interpolating complete ...");
+                wholeRoad.forEach(point -> {
+                    if (point.x >= 0 && point.x < floodModelParameters.getWidth() && point.y >= 0 && point.y < floodModelParameters.getHeight()) {
+                        Road newRoad = new Road(Integer.toString(AgentIDProducer.getNewId()), r.getRoadIDs());
+                        newRoad.setRoadLength(r.getRoadLength());
+                        newRoad.setRoadType(r.getRoadType());
+                        roadGrid.setCell(point.x, point.y, newRoad);
+                        cleanedWholeRoad.add(point);
+                    } else {
+                        logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
+                    }
+                });
+                roadHashMap.put(r.getRoadIDs()[0],cleanedWholeRoad);
+            });
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * This method is used to load roads from json into a GraphStream network
@@ -33,7 +92,6 @@ public class LoadRoadsGrid {
             roads.getRoads().forEach(bngroad -> {
                 int nodeInc = 0;
                 int edgeInc = 0;
-                PointDouble road = bngroad.getPolylineCoordinates().get(1);
                 String prevID = bngroad.getRoadIDs()[1];
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);

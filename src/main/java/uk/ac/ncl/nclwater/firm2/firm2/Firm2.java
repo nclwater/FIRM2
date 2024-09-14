@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.ViewerListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
@@ -35,11 +33,10 @@ public class Firm2 extends Model{
     private int modelStateIndex = 0;
     private ModelStateChanges modelStateChanges;
     private Float maintainSeaLevel = null;
-    private HashMap<String, BNGRoad> bngRoads = new HashMap<>();
-    private Graph graph = null;
+    private final HashMap<String, BNGRoad> bngRoads = new HashMap<>();
     private AStar aStar = null;
-    private Cars cars = new Cars();
-    private Cars drownedCars = new Cars();
+    private final Cars cars = new Cars();
+    private final Cars drownedCars = new Cars();
     /**
      * Initialise the model
      */
@@ -60,20 +57,26 @@ public class Firm2 extends Model{
                     floodModelParameters.isToroidal(), "water");
             SimpleGrid terrainGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "terrain");
-            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
-                    waterGrid);
+            SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "roads");
             SimpleGrid carsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "cars");
+
             HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
-            // LoadRoadsGrid.loadRoadsOld(floodModelParameters, properties, roadsGrid, roadHashMap);
-            graph = new SingleGraph("Road Network");
-            aStar = new AStar(graph);
+            Graph graph = new SingleGraph("Road Network");
+
+            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
+                    waterGrid);
+            LoadRoadsGrid.loadRoadsOld(floodModelParameters, globalVariables, properties, roadsGrid, roadHashMap);
             LoadRoadsGrid.gsLoadRoads(graph, bngRoads, properties);
-            logger.debug("Nodes in bngRoads: " + bngRoads.size());
+
+            aStar = new AStar(graph);
+            logger.debug("Nodes in bngRoads: {}", bngRoads.size());
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
+            grids.put("roads", roadsGrid);
             grids.put("cars", carsGrid);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
@@ -82,7 +85,7 @@ public class Firm2 extends Model{
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
-            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
+//            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
             // Do an initial tick
             tick();
         } catch (FileNotFoundException e) {
@@ -107,12 +110,11 @@ public class Firm2 extends Model{
             timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L));
 
         }
-        Timestamp ts = new Timestamp(timestamp);
         Timestamp mts = new Timestamp(modelTimeStamp);
         SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
         SimpleGrid terrainGrid = (SimpleGrid) grids.get("terrain");
         SimpleGrid defenceGrid = (SimpleGrid) grids.get("defences");
-        SimpleGrid carGrid = (SimpleGrid) grids.get("cars");
+
         SimpleGrid newWaterGrid = new SimpleGrid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
@@ -148,8 +150,8 @@ public class Firm2 extends Model{
                         if (defences != null) {
                             Defence defenceCell = (Defence) defenceGrid.getCell(col, row);
                             if (defenceCell != null) {
-                                for (int i = 0; i < defences.size(); i++) {
-                                    if (defenceCell.getName().equals(defences.get(i))) {
+                                for (String defence : defences) {
+                                    if (defenceCell.getName().equals(defence)) {
                                         defenceGrid.setCell(col, row, null);
                                         break;
                                     }
@@ -199,7 +201,7 @@ public class Firm2 extends Model{
 
     /**
      * Helper method to determine whether a car drowned. If the car drowned return true else return false.
-     * @param car
+     * @param car Car to check drowning status of
      */
     private boolean drownCar(Car car) {
         // Get grid xy co-ordinates from BNG co-ordinates
@@ -261,10 +263,10 @@ public class Firm2 extends Model{
 
     /**
      * Helper method to simulate water movement
-     * @param water
-     * @param terrain
-     * @param defence
-     * @param newWaterGrid
+     * @param water The water grid
+     * @param terrain The terrain grid
+     * @param defence The defences grid
+     * @param newWaterGrid The new water grid after the water moved
      */
     private void moveWater(SimpleGrid water, SimpleGrid terrain, SimpleGrid defence, SimpleGrid newWaterGrid) {
         // MOVE WATER
