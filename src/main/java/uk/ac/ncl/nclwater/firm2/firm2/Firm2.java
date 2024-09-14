@@ -35,13 +35,9 @@ public class Firm2 extends Model{
     private int modelStateIndex = 0;
     private ModelStateChanges modelStateChanges;
     private Float maintainSeaLevel = null;
-    private HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
     private HashMap<String, BNGRoad> bngRoads = new HashMap<>();
     private Graph graph = null;
-    private Node first = null;
-    private Node second = null;
     private AStar aStar = null;
-    private Path shortest = null;
     private Cars cars = new Cars();
     private Cars drownedCars = new Cars();
     /**
@@ -58,8 +54,6 @@ public class Firm2 extends Model{
 
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());
-            vehicleCodes = VehicleCodeDescriptors.loadVehicleCodeDescriptors(properties);
-
 
             // Create and populate all grids
             SimpleGrid waterGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
