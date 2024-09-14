@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.slf4j.Logger;
@@ -27,8 +28,8 @@ public class Firm2 extends Model{
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
     private static GlobalVariables globalVariables;
-    private Properties properties = null;
-    private Long modelTimeStamp = 0L;
+    private final Properties properties;
+    private Long modelTimeStamp;
     private ModelState modelState = new ModelState();
     private int modelStateIndex = 0;
     private ModelStateChanges modelStateChanges;
@@ -166,7 +167,6 @@ public class Firm2 extends Model{
             if (modelState.getCar() != null) {
                 Car car = modelState.getCar();
                 car.setAgent_id(car.getAgentId());
-                car.setCurrentCoordinates(car.getStartCoordinates());
                 // cars are red (for now)
                 car.setColour(Color.red);
                 // get the shortest path to endCoordinates
@@ -176,17 +176,11 @@ public class Firm2 extends Model{
 
                 // add the car to the cars grid
                 // Get the xy coordinates for the normal cell grid of the starting point
-                PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
-                        globalVariables.getLowerLeftY(),
-                        (float)car.getStartCoordinates().getX(),
-                        (float)car.getStartCoordinates().getY(),
-                        globalVariables.getCellSize());
-                // flip y horizontally
-                xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
+                PointInteger xy = getXY(car);
                 cars.getCars().add(car);
                 ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), car);
                 logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
-                logger.debug("Coordinates of {}: {}", car.getStartNode(), car.getStartCoordinates());
+                logger.debug("Coordinates of {}: {}", car.getStartNode());
                 //drownCar(car);
             }
         }
@@ -199,19 +193,27 @@ public class Firm2 extends Model{
         }
     }
 
+    private PointInteger getXY(Car car) {
+        // Get grid xy co-ordinates from BNG co-ordinates
+        Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
+        double x = (double)xyz[0];
+        double y = (double)xyz[1];
+
+        PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                globalVariables.getLowerLeftY(),
+                (float)x, (float)y,
+                globalVariables.getCellSize());
+        // flip y horizontally
+        xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
+        return new PointInteger(xy.getX(), xy.getY());
+    }
+
     /**
      * Helper method to determine whether a car drowned. If the car drowned return true else return false.
      * @param car Car to check drowning status of
      */
     private boolean drownCar(Car car) {
-        // Get grid xy co-ordinates from BNG co-ordinates
-        PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
-                globalVariables.getLowerLeftY(),
-                (float)car.getStartCoordinates().getX(),
-                (float)car.getStartCoordinates().getY(),
-                globalVariables.getCellSize());
-        // flip y horizontally
-        xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
+        PointInteger xy = getXY(car);
         // Get the water agent on xy co-ordinate
         Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
         // If >= to vehicle drowning level then mark car as drowned, remove from list of cars add to drowned list
@@ -236,10 +238,20 @@ public class Firm2 extends Model{
             // If the car hasn't drowned, move it along
             if (!drownCar(car)) {
                 int speed = 30; // TODO: fix this to read from road files
-                // move the car forward from its current position
-                car.setCurrentDistance((float) (car.getCurrentDistance() + distanceTravelled(speed)));
-                //            logger.debug("Moved car {} to xy {}, {}", car.getAgent_id(), xy.getX(), xy.getY());
-                //            logger.debug("Current distance from {}: {}", car.getCurrentCoordinates(), car.getCurrentDistance());
+                // Calculate car's next position
+                car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));
+                // distance between current node and next node
+                Path route = car.getRouteNodes();
+                Node firstNode = route.getNodePath().get(0);
+                Node nextNode = route.getNodePath().get(1);
+                double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
+                if (car.getCoveredDistance() >= interDist) {
+                    logger.debug("Next node reached");
+                    // remove the first node since we have now reached the next node
+                    route.getNodePath().remove(0);
+                    // set distance
+                    car.setCurrentDistance(car.getCoveredDistance() - interDist);
+                }
             } else {
                 logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
             }
@@ -346,9 +358,9 @@ public class Firm2 extends Model{
 
         // Generate a one pixel per cell PNG image on tick
         if (floodModelParameters.isPngOnTick()) {
-            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("OUTPUT_DATA"), "water_" + Long.toString(modelTimeStamp));
-            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("OUTPUT_DATA"), "terrain_" + Long.toString(modelTimeStamp));
-            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("OUTPUT_DATA"), "defences_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("OUTPUT_DATA"), "water_" + modelTimeStamp);
+            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("OUTPUT_DATA"), "terrain_" + modelTimeStamp);
+            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("OUTPUT_DATA"), "defences_" + modelTimeStamp);
         }
     }
 

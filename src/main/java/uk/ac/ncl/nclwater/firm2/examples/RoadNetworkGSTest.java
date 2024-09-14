@@ -97,16 +97,11 @@ public class RoadNetworkGSTest  implements ViewerListener {
                         shortest.getEdgePath().forEach(p -> {
                             p.setAttribute("ui.class", "marked");
                         });
-                        Object[] xyzValues1 = (Object[]) first.getAttribute("xyz");
-                        double northing1 = (double) xyzValues1[0];
-                        double easting1 = (double) xyzValues1[1];
-                        Object[] xyzValues2 = (Object[]) second.getAttribute("xyz");
-                        double northing2 = (double) xyzValues2[0];
-                        double easting2 = (double) xyzValues2[1];
+
 
                         logger.debug("Distance between road {} and {} is {}", first.getAttribute("xyz"),
                                 second.getAttribute("xyz"),
-                                Utilities.calculateDistance(easting1, northing1, easting2, northing2 ));
+                                Utilities.distanceBetweenNodes(first, second));
 
                     } else {
                         logger.debug("No path found between nodes");

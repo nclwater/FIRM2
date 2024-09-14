@@ -7,33 +7,16 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Car extends Agent {
-    /**
-     * An index into the movement array - thus where this agent currently resides
-     */
-    private int movementIndex = 0;
+
     @Expose
     @SerializedName("agent-id")
     private String agentId;
-    /**
-     * Co-ordinates where car enters the simulation
-     */
-    @Expose
-    @SerializedName("start-coordinates")
-    private PointDouble startCoordinates;
 
     @Expose
     @SerializedName("start-node")
     private String startNode;
-
-    /**
-     * Co-ordinates where car exists the simulation
-     */
-    @Expose
-    @SerializedName("end-coordinates")
-    private PointDouble endCoordinates;
 
     @Expose
     @SerializedName("end-node")
@@ -54,8 +37,8 @@ public class Car extends Agent {
     private PointDouble intermediatePos;
     // the distance to the next node
     private double intermediateDistance;
-    // the distance travelled from currentCoordinates so far
-    private double currentDistance;
+    // the distance travelled from first node so far
+    private double coveredDistance;
     // is the car still on the model? If true, yes, if false it has exited the model
     private boolean inPlay = true;
     // the car has "drowned"
@@ -64,59 +47,26 @@ public class Car extends Agent {
     /**
      *
      * @param id
-     * @param startCoordinates
-     * @param endCoordinates
+
      */
-    public Car(String id, PointDouble startCoordinates, PointDouble endCoordinates) {
+    public Car(String id, String startNode, String endNode) {
         super();
-        this.startCoordinates = startCoordinates;
-        this.endCoordinates = endCoordinates;
-        this.currentCoordinates = new PointDouble(startCoordinates.getX(), startCoordinates.getY());
+        this.startNode = startNode;
+        this.endNode = endNode;
         setColour(Color.ORANGE);
         setAgent_id(id);
-    }
-
-    public Car(PointDouble startCoordinates, PointDouble endCoordinates) {
-        this.startCoordinates = startCoordinates;
-        this.endCoordinates = endCoordinates;
     }
 
     public void setRouteNodes(Path routeNodes) {
         this.routeNodes = routeNodes;
     }
 
-
-    public PointDouble getStartCoordinates() {
-        return startCoordinates;
+    public double getCoveredDistance() {
+        return coveredDistance;
     }
 
-    public void setStartCoordinates(PointDouble startCoordinates) {
-        this.startCoordinates = startCoordinates;
-    }
-
-    public PointDouble getEndCoordinates() {
-        return endCoordinates;
-    }
-
-    public void setEndCoordinates(PointDouble endCoordinates) {
-        this.endCoordinates = endCoordinates;
-    }
-
-
-    public PointDouble getCurrentCoordinates() {
-        return currentCoordinates;
-    }
-
-    public void setCurrentCoordinates(PointDouble currentCoordinates) {
-        this.currentCoordinates = currentCoordinates;
-    }
-
-    public double getCurrentDistance() {
-        return currentDistance;
-    }
-
-    public void setCurrentDistance(float currentDistance) {
-        this.currentDistance = currentDistance;
+    public void setCoveredDistance(float coveredDistance) {
+        this.coveredDistance = coveredDistance;
     }
 
     /**
@@ -124,7 +74,7 @@ public class Car extends Agent {
      * This should be called on every tick to move the car along.
      */
     public void incCurrentDistance() {
-        currentDistance += Utilities.distanceTravelled(speedLimit);
+        coveredDistance += Utilities.distanceTravelled(speedLimit);
     }
 
     public double getIntermediateDistance() {
@@ -200,7 +150,7 @@ public class Car extends Agent {
     }
 
     public void setCurrentDistance(double currentDistance) {
-        this.currentDistance = currentDistance;
+        this.coveredDistance = currentDistance;
     }
 
     public boolean isDrowned() {

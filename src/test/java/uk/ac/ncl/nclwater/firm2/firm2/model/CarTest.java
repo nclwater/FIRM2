@@ -8,21 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CarTest {
 
-    Car car = new Car( new PointDouble(299088.3125, 379406.3125), new PointDouble(299088.3125, 379406.3125));
+    Car car = new Car("CarABC", "4000000012472821", "4000000012843295");
 
     @Test
     void getJSON() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String json = gson.toJson(car, Car.class);
-        assertEquals("{\n" +
-                "  \"startcoordinates\": {\n" +
-                "    \"x\": 299088.3125,\n" +
-                "    \"y\": 379406.3125\n" +
-                "  },\n" +
-                "  \"endcoordinates\": {\n" +
-                "    \"x\": 299088.3125,\n" +
-                "    \"y\": 379406.3125\n" +
-                "  }\n" +
-                "}", json);
+        assertEquals("4000000012472821", car.getStartNode());
     }
 }

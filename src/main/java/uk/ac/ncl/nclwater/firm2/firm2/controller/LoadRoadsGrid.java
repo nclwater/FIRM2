@@ -56,11 +56,9 @@ public class LoadRoadsGrid {
                     pixelPoints.add(xy);
                 });
                 for (int i = 1; i < pixelPoints.size(); i++) {
-//                    logger.debug("Interpolating ...");
                     wholeRoad.addAll(interpolate(pixelPoints.get(i - 1).getX(), pixelPoints.get(i - 1).getY(),
                             pixelPoints.get(i).getX(), pixelPoints.get(i).getY()));
                 }
-                logger.debug("Interpolating complete ...");
                 wholeRoad.forEach(point -> {
                     if (point.x >= 0 && point.x < floodModelParameters.getWidth() && point.y >= 0 && point.y < floodModelParameters.getHeight()) {
                         Road newRoad = new Road(Integer.toString(AgentIDProducer.getNewId()), r.getRoadIDs());

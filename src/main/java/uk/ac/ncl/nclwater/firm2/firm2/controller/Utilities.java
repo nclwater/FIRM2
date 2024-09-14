@@ -1,5 +1,6 @@
 package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
+import org.graphstream.graph.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
@@ -231,6 +232,23 @@ public class Utilities {
         double dE = easting2 - easting1;
         double dN = northing2 - northing1;
         return Math.sqrt(dE * dE + dN * dN);
+    }
+
+    /**
+     * Given two graphstream nodes, calculate the distance between them using the xyz co-ordinates
+     * @param firstNode
+     * @param secondNode
+     * @return
+     */
+    public static double distanceBetweenNodes(Node firstNode, Node secondNode) {
+        Object[] xyzValues1 = (Object[]) firstNode.getAttribute("xyz");
+        double northing1 = (double) xyzValues1[0];
+        double easting1 = (double) xyzValues1[1];
+        Object[] xyzValues2 = (Object[]) secondNode.getAttribute("xyz");
+        double northing2 = (double) xyzValues2[0];
+        double easting2 = (double) xyzValues2[1];
+        return calculateDistance(easting1, northing1, easting2, northing2 );
+
     }
 
     /**
