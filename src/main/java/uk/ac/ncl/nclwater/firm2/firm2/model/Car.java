@@ -58,6 +58,8 @@ public class Car extends Agent {
     private double currentDistance;
     // is the car still on the model? If true, yes, if false it has exited the model
     private boolean inPlay = true;
+    // the car has "drowned"
+    private boolean isDrowned = false;
 
     /**
      *
@@ -199,5 +201,13 @@ public class Car extends Agent {
 
     public void setCurrentDistance(double currentDistance) {
         this.currentDistance = currentDistance;
+    }
+
+    public boolean isDrowned() {
+        return isDrowned;
+    }
+
+    public void setDrowned(boolean drowned) {
+        isDrowned = drowned;
     }
 }

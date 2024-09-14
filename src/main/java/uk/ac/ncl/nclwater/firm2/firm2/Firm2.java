@@ -43,6 +43,7 @@ public class Firm2 extends Model implements ViewerListener{
     private AStar aStar = null;
     private Path shortest = null;
     private Cars cars = new Cars();
+    private Cars drownedCars = new Cars();
     /**
      * Initialise the model
      */
@@ -74,7 +75,7 @@ public class Firm2 extends Model implements ViewerListener{
             graph = new SingleGraph("Road Network");
             aStar = new AStar(graph);
             LoadRoadsGrid.gsLoadRoads(graph, bngRoads, properties);
-            logger.debug("Records in bngRoads: " + bngRoads.size());
+            logger.debug("Nodes in bngRoads: " + bngRoads.size());
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
@@ -83,17 +84,7 @@ public class Firm2 extends Model implements ViewerListener{
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
-//            logger.debug("Model state change: {}",modelState.toString());
-            // Visualise if visualisation is set to true
-//            if (floodModelParameters.isVisualise()) {
-//                ViewerListener viewerListener = this;
-//                Thread t1 = new Thread(new Runnable() {
-//                    public void run() {
-//                        ViewGrid viewGrid = new ViewGrid();
-//                        viewGrid.displayGraph(graph, this, viewerListener);
-//                    }});
-//                t1.start();
-//            }
+
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
@@ -197,12 +188,17 @@ public class Firm2 extends Model implements ViewerListener{
                 // cars are red (for now)
                 car.setColour(Color.red);
                 Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
-                if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
-
-                }
                 // add the car to the cars grid
                 ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), car);
                 cars.getCars().add(car);
+                if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                    car.setDrowned(true);
+                    ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                    logger.debug("Car {} drowned", car.getAgent_id());
+                    cars.getCars().remove(car);
+                    drownedCars.getCars().add(car);
+                } else {
+                }
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
@@ -217,8 +213,9 @@ public class Firm2 extends Model implements ViewerListener{
     }
 
     private void moveVehicles() {
-        ArrayList<Car> arr_cars = cars.getCars();
-        arr_cars.forEach(car -> {
+        logger.debug("Cars left: {}", cars.getCars().size());
+        for (int c = 0; c < cars.getCars().size(); c++) {
+            Car car = cars.getCars().get(c);
             int speed = 30; // TODO: fix this
             // move the car forward from its current position
             car.setCurrentDistance((float) (car.getCurrentDistance() + distanceTravelled(speed)));
@@ -228,14 +225,23 @@ public class Firm2 extends Model implements ViewerListener{
                     (float)car.getStartCoordinates().getX(),
                     (float)car.getStartCoordinates().getY(),
                     globalVariables.getCellSize());
+            // Get the water agent on xy co-ordinate
             Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
+            // If >= to vehicle drowning level then mark car as drown and remove from list of cars
             if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
-                // vehicle drowning
-
+                car.setDrowned(true);
+                cars.getCars().remove(cars.getCars().get(c));
+                drownedCars.getCars().add(car);
+                // Clear car from cars grid
+                ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                logger.debug("Car {} removed", car.getAgent_id());
+                logger.debug("Tick Car drowned: {}", car.getAgent_id());
+            } else {
+                logger.debug("Car {} has not yet drowned", car.getAgent_id());
             }
 //            logger.debug("Moved car {} to xy {}, {}", car.getAgent_id(), xy.getX(), xy.getY());
 //            logger.debug("Current distance from {}: {}", car.getCurrentCoordinates(), car.getCurrentDistance());
-        });
+        }
     }
 
     /**
