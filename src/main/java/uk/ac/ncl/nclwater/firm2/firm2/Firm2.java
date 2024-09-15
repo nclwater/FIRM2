@@ -239,23 +239,27 @@ public class Firm2 extends Model{
             // If the car hasn't drowned, move it along
             if (!drownCar(car)) {
                 int speed = 30; // TODO: fix this to read from road files
-                // Calculate car's next position
-                car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));
-                // distance between current node and next node
                 Path route = car.getRouteNodes();
-                Node firstNode = route.getNodePath().get(0);
-                Node nextNode = route.getNodePath().get(1);
-                double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
-                if (car.getCoveredDistance() >= interDist) {
-                    PointInteger xy = getXY(car);
-                    ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
-                    logger.debug("Next node reached {}", car.getRouteNodes().getNodePath().get(0));
-                    // remove the first node since we have now reached the next node
-                    route.getNodePath().remove(0);
-                    // set distance
-                    car.setCurrentDistance(car.getCoveredDistance() - interDist);
-                    PointInteger xy2 = getXY(car);
-                    ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                if (route.getNodePath().size() == 1) {
+                    logger.debug("Car {} reached its destination", car.getAgent_id());
+                } else {
+                    Node firstNode = route.getNodePath().get(0);
+                    Node nextNode = route.getNodePath().get(1);
+                    // Calculate car's next position
+                    car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));
+                    // distance between current node and next node
+                    double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
+                    if (car.getCoveredDistance() >= interDist) {
+                        PointInteger xy = getXY(car);
+                        ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                        logger.debug("Next node reached {}", car.getRouteNodes().getNodePath().get(0));
+                        // remove the first node since we have now reached the next node
+                        route.getNodePath().remove(0);
+                        // set distance
+                        car.setCurrentDistance(car.getCoveredDistance() - interDist);
+                        PointInteger xy2 = getXY(car);
+                        ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                    }
                 }
             } else {
                 logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
