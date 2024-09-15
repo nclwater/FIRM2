@@ -347,5 +347,4 @@ public class Utilities {
         return 1000.0 / 3600.0 * speed;
     }
 
-
 }

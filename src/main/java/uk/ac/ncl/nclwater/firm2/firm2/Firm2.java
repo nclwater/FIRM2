@@ -195,8 +195,19 @@ public class Firm2 extends Model{
     }
 
     private PointInteger getXY(Car car) {
+        return getXY(car, 0);
+    }
+
+
+    /**
+     * Return current Grid XY co-ordinates from Car object
+     * @param car The car who's position is to be found
+     * @param index The index in the route (0 for current position)
+     * @return return Grid xy-co-ordinate
+     */
+    private PointInteger getXY(Car car, int index) {
         // Get grid xy co-ordinates from BNG co-ordinates
-        Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
+        Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(index).getAttribute("xyz");
         double x = (double)xyz[0];
         double y = (double)xyz[1];
 
@@ -208,6 +219,8 @@ public class Firm2 extends Model{
         xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
         return new PointInteger(xy.getX(), xy.getY());
     }
+
+
 
     /**
      * Helper method to determine whether a car drowned. If the car drowned return true else return false.
@@ -245,20 +258,27 @@ public class Firm2 extends Model{
                 } else {
                     Node firstNode = route.getNodePath().get(0);
                     Node nextNode = route.getNodePath().get(1);
-                    // Calculate car's next position
-                    car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));
-                    // distance between current node and next node
-                    double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
-                    if (car.getCoveredDistance() >= interDist) {
-                        PointInteger xy = getXY(car);
-                        ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
-                        logger.debug("Next node reached {}", car.getRouteNodes().getNodePath().get(0));
-                        // remove the first node since we have now reached the next node
-                        route.getNodePath().remove(0);
-                        // set distance
-                        car.setCurrentDistance(car.getCoveredDistance() - interDist);
-                        PointInteger xy2 = getXY(car);
-                        ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                    PointInteger cell = getXY(car, 1);
+                    if (((Water) ((SimpleGrid)grids.get("water")).getCell(cell.getX(),
+                            cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                        // TODO: Remove node from network
+                        // TODO: Recalculate shortest path
+                    } else {
+                        // Calculate car's next position
+                        car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));
+                        // distance between current node and next node
+                        double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
+                        if (car.getCoveredDistance() >= interDist) {
+                            PointInteger xy = getXY(car);
+                            ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                            logger.debug("Next node reached {}", car.getRouteNodes().getNodePath().get(0));
+                            // remove the first node since we have now reached the next node
+                            route.getNodePath().remove(0);
+                            // set distance
+                            car.setCurrentDistance(car.getCoveredDistance() - interDist);
+                            PointInteger xy2 = getXY(car);
+                            ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                        }
                     }
                 }
             } else {
