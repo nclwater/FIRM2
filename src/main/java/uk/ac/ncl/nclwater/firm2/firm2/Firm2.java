@@ -38,6 +38,8 @@ public class Firm2 extends Model{
     private AStar aStar = null;
     private final Cars cars = new Cars();
     private final Cars drownedCars = new Cars();
+    private Graph graph;
+
     /**
      * Initialise the model
      */
@@ -64,7 +66,7 @@ public class Firm2 extends Model{
                     floodModelParameters.isToroidal(), "cars");
 
             HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
-            Graph graph = new SingleGraph("Road Network");
+            graph = new SingleGraph("Road Network");
 
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
@@ -261,8 +263,14 @@ public class Firm2 extends Model{
                     PointInteger cell = getXY(car, 1);
                     if (((Water) ((SimpleGrid)grids.get("water")).getCell(cell.getX(),
                             cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                        logger.debug("Ouch the road is flooded, reroute");
                         // TODO: Remove node from network
+                        graph.removeNode(nextNode);
                         // TODO: Recalculate shortest path
+                        aStar.compute(firstNode.getId(), car.getEndNode());
+                        Path newShortestPath = aStar.getShortestPath();
+                        car.setRouteNodes(newShortestPath);
+                        logger.debug("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
                     } else {
                         // Calculate car's next position
                         car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));

@@ -57,6 +57,11 @@ public class Car extends Agent {
         setAgent_id(id);
     }
 
+    /**
+     * The route that the car is following. Nodes are removed as the car reaches the next node in the list so
+     * that node(0) is always the current position of the car.
+     * @param routeNodes
+     */
     public void setRouteNodes(Path routeNodes) {
         this.routeNodes = routeNodes;
     }
