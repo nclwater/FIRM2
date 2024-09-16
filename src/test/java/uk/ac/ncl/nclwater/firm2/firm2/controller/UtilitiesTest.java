@@ -42,18 +42,19 @@ class UtilitiesTest {
     //298978.0, 378571.0, 0
     @Test
     void BNG2GridXYTest() {
+        int cellMeters = 50;
         float x_origin = 292485.78f;
         float y_origin = 374690.12f;
         float x = 298978.0f;
         float y = 378571.0f;
 
-        PointInteger xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
+        PointInteger xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, cellMeters);
         assertEquals(130, xy.getX());
         assertEquals(78, xy.getY());
 
         x = 294013.382f;
         y = 378051.155f;
-        xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, 50);
+        xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, cellMeters);
         assertEquals(31, xy.getX());
         assertEquals(67, xy.getY());
     }

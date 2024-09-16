@@ -29,8 +29,6 @@ public class Car extends Agent {
 
     // speed limit
     private int speedLimit;
-    // the position (node) where the car is currently located
-    private PointDouble currentCoordinates;
     // the target location (node) of the car
     private PointDouble targetPos;
     // the next position (node) in the cars journey (A* shortest path)

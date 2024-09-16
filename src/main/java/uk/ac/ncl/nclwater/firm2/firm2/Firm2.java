@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
@@ -255,37 +256,61 @@ public class Firm2 extends Model{
             if (!drownCar(car)) {
                 int speed = 30; // TODO: fix this to read from road files
                 Path route = car.getRouteNodes();
+                // If there is only one node left in the path the car has reached its destination
                 if (route.getNodePath().size() == 1) {
                     logger.debug("Car {} reached its destination", car.getAgent_id());
+                    cars.getCars().remove(car);
                 } else {
                     Node firstNode = route.getNodePath().get(0);
                     Node nextNode = route.getNodePath().get(1);
                     PointInteger cell = getXY(car, 1);
+                    // Check if the car's next position has been flooded and reroute if it is
                     if (((Water) ((SimpleGrid)grids.get("water")).getCell(cell.getX(),
                             cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
                         logger.debug("Ouch the road is flooded, reroute");
-                        // TODO: Remove node from network
                         graph.removeNode(nextNode);
-                        // TODO: Recalculate shortest path
                         aStar.compute(firstNode.getId(), car.getEndNode());
                         Path newShortestPath = aStar.getShortestPath();
                         car.setRouteNodes(newShortestPath);
                         logger.debug("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
                     } else {
+                        // TODO: For visualisation purposes re-add complex grid (when 2 cars are in the same cell)
+                        // TODO: Implement Nagel-Schreckenberg
                         // Calculate car's next position
-                        car.setCoveredDistance((float) (car.getCoveredDistance() + distanceTravelled(speed)));
-                        // distance between current node and next node
-                        double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
-                        if (car.getCoveredDistance() >= interDist) {
-                            PointInteger xy = getXY(car);
-                            ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
-                            logger.debug("Next node reached {}", car.getRouteNodes().getNodePath().get(0));
-                            // remove the first node since we have now reached the next node
-                            route.getNodePath().remove(0);
-                            // set distance
-                            car.setCurrentDistance(car.getCoveredDistance() - interDist);
-                            PointInteger xy2 = getXY(car);
-                            ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                        float nextPosition = (float) (car.getCoveredDistance() + distanceTravelled(speed));
+                        // Check if there is already a car on next position
+                        AtomicBoolean spaceAllocated = new AtomicBoolean(false);
+                        cars.getCars().forEach(cr -> {
+                            String anotherCarID = cr.getAgent_id();
+                            String anotherCarNodeID = cr.getRouteNodes().getNodePath().get(0).getId();
+                            double cr_coveredDistance = cr.getCoveredDistance();
+                            if (anotherCarNodeID.equals(car.getRouteNodes().getNodePath().get(0).getId()) &&
+                                !anotherCarID.equals(car.getAgent_id())) {
+                                if (car.getCoveredDistance() == cr_coveredDistance) {
+                                    spaceAllocated.set(true);
+                                }
+                            }
+                        });
+                        if (spaceAllocated.get()) {
+                            // If there is another car in the car's next position, don't move
+                            // TODO: and reduce speed - HOW MUCH
+                            logger.debug("Car {} is waiting", car.getAgent_id());
+                        } else {
+                            car.setCoveredDistance(nextPosition);
+
+                            // distance between current node and next node
+                            double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
+                            if (car.getCoveredDistance() >= interDist) {
+                                PointInteger xy = getXY(car);
+                                ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                                logger.trace("Car {} reached {}", car.getAgent_id(), car.getRouteNodes().getNodePath().get(0));
+                                // remove the first node since we have now reached the next node
+                                route.getNodePath().remove(0);
+                                // set distance
+                                car.setCurrentDistance(car.getCoveredDistance() - interDist);
+                                PointInteger xy2 = getXY(car);
+                                ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                            }
                         }
                     }
                 }
