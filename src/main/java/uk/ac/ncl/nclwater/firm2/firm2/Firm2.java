@@ -63,7 +63,7 @@ public class Firm2 extends Model{
                     floodModelParameters.isToroidal(), "terrain");
             SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "roads");
-            SimpleGrid carsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+            ComplexGrid carsGrid = new ComplexGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "cars");
 
             HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
@@ -182,7 +182,7 @@ public class Firm2 extends Model{
                 // Get the xy coordinates for the normal cell grid of the starting point
                 PointInteger xy = getXY(car);
                 cars.getCars().add(car);
-                ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), car);
+                ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
                 logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
                 logger.debug("Coordinates of {}: {},{}", car.getStartNode(), getXY(car).getX(), getXY(car).getY());
                 //drownCar(car);
@@ -302,14 +302,14 @@ public class Firm2 extends Model{
                             double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
                             if (car.getCoveredDistance() >= interDist) {
                                 PointInteger xy = getXY(car);
-                                ((SimpleGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                                ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
                                 logger.trace("Car {} reached {}", car.getAgent_id(), car.getRouteNodes().getNodePath().get(0));
                                 // remove the first node since we have now reached the next node
                                 route.getNodePath().remove(0);
                                 // set distance
                                 car.setCurrentDistance(car.getCoveredDistance() - interDist);
                                 PointInteger xy2 = getXY(car);
-                                ((SimpleGrid) grids.get("cars")).setCell(xy2.getX(), xy2.getY(), car);
+                                ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
                             }
                         }
                     }

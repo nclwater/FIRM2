@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.GridXY2BNG;
@@ -51,6 +52,23 @@ public class DrawPanel extends JPanel implements MouseListener {
                     }
                 }
             }
+            if (grid instanceof ComplexGrid complexGrid) {
+                // for each complex agent
+                for (int row = 0; row < height; row++) {
+                    for (int col = 0; col < width; col++) {
+                        ArrayList<Agent> agents = complexGrid.getCells(col, row);
+                        int finalCol = col;
+                        int finalRow = row;
+                        if (agents != null)
+                        agents.forEach(agent -> {
+                            g.setColor(agent.getColour());
+                            g.fillRect(finalCol * cell_size, finalRow * cell_size,
+                                    cell_size, cell_size);
+                            g.setColor(Color.WHITE);
+                        });
+                    }
+                }
+            }
         });
     }
 
@@ -87,6 +105,12 @@ public class DrawPanel extends JPanel implements MouseListener {
                 if (simpleGrid.getCell(cell_x, cell_y) != null) {
                     sb.append(key).append("\n");
                     sb.append(simpleGrid.getCell(cell_x, cell_y).toString()).append("\n");
+                }
+            }
+            if (grid instanceof ComplexGrid complexGrid) {
+                if (complexGrid.getCells(cell_x, cell_y) != null) {
+                    ArrayList<Agent> agents = complexGrid.getCells(cell_x, cell_y);
+                    agents.forEach(agent -> sb.append(agent.getAgent_id()).append("\n"));
                 }
             }
         });
