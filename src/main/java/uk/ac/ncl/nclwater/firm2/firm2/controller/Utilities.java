@@ -339,12 +339,12 @@ public class Utilities {
     }
 
     /**
-     * Calculate the distance travelled in one second given a speed
-     * @param speed The speed at which the object is moving
-     * @return The distance travelled in one second
+     * Calculate the distance travelled (in meters) in one second given a speed (in miles per hour)
+     * @param speed The speed (in miles per hour) at which the object is moving
+     * @return The distance travelled in one second (in meters)
      */
     public static double distanceTravelled(double speed) {
-        return 1000.0 / 3600.0 * speed;
+        return speed * 0.44704;
     }
 
 }
