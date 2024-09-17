@@ -111,7 +111,8 @@ public class Firm2 extends Model{
         if (modelState != null) {
             int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
             int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
-            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L));
+            int seconds = Integer.parseInt(modelState.getTime().split(":")[2]);
+            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L) + (seconds * 1000));
 
         }
         Timestamp mts = new Timestamp(modelTimeStamp);
@@ -130,7 +131,7 @@ public class Firm2 extends Model{
 
         // reset sea level for ocean cells on every tick
         setSeaLevel(waterGrid, maintainSeaLevel);
-        //
+        // TIMELINE
         // If there is a timestamp in the timeline for current time, execute the state change
         //
         if (timestamp == modelTimeStamp) {

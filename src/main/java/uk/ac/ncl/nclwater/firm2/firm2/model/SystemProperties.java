@@ -28,7 +28,7 @@ public class SystemProperties {
         hsh_properties.put("VEHICLES_DATA", "vehicles.json");
         hsh_properties.put("SLOWDOWN", "0"); // milliseconds
         hsh_properties.put("TIME_STAMP", "1719874800"); // unix timestamp
-        hsh_properties.put("TICK_TIME_VALUE", "60"); // seconds
+        hsh_properties.put("TICK_TIME_VALUE", "1"); // seconds
         hsh_properties.put("TIMELINE", "timeline.json");
         hsh_properties.put("OCEAN_DEPTH", "4"); // meters
         hsh_properties.put("RUN_ON_STARTUP", "TRUE");
