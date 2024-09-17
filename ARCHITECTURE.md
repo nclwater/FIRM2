@@ -97,4 +97,4 @@ the distance from the nearest node. As a car reaches a node, the previous node
 is removed and whatever distance was "overshot" becomes the next distance 
 travelled. If another car occupies the space the car is meant to move to, the
 car waits in its current position until the space is clear. This, in effect,
-slows the car down
+slows the car down. When the car reaches its destination 
