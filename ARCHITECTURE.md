@@ -92,7 +92,8 @@ specifies a start node and an end node for the car. Using the A* algorithm, a
 shortest path to the end node is determined. This path is then stored in an
 attribute in the Car object. The car starts travelling along this network.
 On every tick the car is moved forward along the network by calculating the 
-distance travelled in km at the speed (mph) given. The distance is stored as
+distance travelled in km at the speed limit (mph) given for the road. 
+The distance is stored as
 the distance from the nearest node. As a car reaches a node, the previous node
 is removed and whatever distance was "overshot" becomes the next distance 
 travelled. If another car occupies the space the car is meant to move to, the
