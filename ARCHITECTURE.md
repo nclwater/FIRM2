@@ -87,7 +87,9 @@ A graph of the road would look as follows:
 
 ### Cars
 
-Cars are of type Agent. Cars enter the model via the timeline. The timeline
+Cars are of type Agent. Cars enter the model via the timeline. Two cars cannot
+enter the timeline at exactly the same time at exactly the same co-ordinates.
+The timeline
 specifies a start node and an end node for the car. Using the A* algorithm, a
 shortest path to the end node is determined. This path is then stored in an
 attribute in the Car object. The car starts travelling along this network.
@@ -98,4 +100,9 @@ the distance from the nearest node. As a car reaches a node, the previous node
 is removed and whatever distance was "overshot" becomes the next distance 
 travelled. If another car occupies the space the car is meant to move to, the
 car waits in its current position until the space is clear. This, in effect,
-slows the car down. When the car reaches its destination 
+slows the car down. When the car reaches its destination it stops and stays in
+that position. If, while the car is travelling along a road, the next node in
+the road becomes flooded the car's distance from the last node is negated and
+a new shortest path is calculated. The negated distance effectively means the 
+car turns around and returns to the last node which is the beginning of its
+new shortest path.
