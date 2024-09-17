@@ -167,6 +167,7 @@ public class Firm2 extends Model{
                     }
                 }
             }
+            // TODO: This should become an array of cars
             // Cars entering the model
             if (modelState.getCar() != null) {
                 Car car = modelState.getCar();
