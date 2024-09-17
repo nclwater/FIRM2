@@ -68,7 +68,7 @@ public class Car extends Agent {
         return coveredDistance;
     }
 
-    public void setCoveredDistance(float coveredDistance) {
+    public void setCoveredDistance(double coveredDistance) {
         this.coveredDistance = coveredDistance;
     }
 

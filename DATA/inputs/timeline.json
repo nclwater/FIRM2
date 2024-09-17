@@ -1,6 +1,26 @@
 {
   "model-states": [
     {
+      "time": "00:01",
+      "sea-level": null,
+      "defence-breach": null,
+      "car": {
+        "agent-id": "car0006",
+        "start-node": "4000000012472821",
+        "end-node": "4000000012843295"
+      }
+    },
+    {
+      "time": "00:02",
+      "sea-level": null,
+      "defence-breach": null,
+      "car": {
+        "agent-id": "car0007",
+        "start-node": "4000000012472821",
+        "end-node": "4000000012843295"
+      }
+    },
+    {
       "time": "00:10",
       "sea-level": 6,
       "defence-breach": [],

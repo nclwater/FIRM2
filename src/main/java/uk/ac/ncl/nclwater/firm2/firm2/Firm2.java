@@ -188,7 +188,7 @@ public class Firm2 extends Model{
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
-        moveVehicles();
+        moveCars();
         // read the next state change
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
@@ -198,8 +198,8 @@ public class Firm2 extends Model{
 
     /**
      * Get current Grid XY co-ordinates from Car objects
-     * @param car
-     * @return
+     * @param car The car whose position is to be determined
+     * @return xy position of the car on the grid
      */
     private PointInteger getXY(Car car) {
         return getXY(car, 0);
@@ -208,7 +208,7 @@ public class Firm2 extends Model{
 
     /**
      * Return Grid XY co-ordinates from Car object for position 'index' in the route
-     * @param car The car who's position is to be found
+     * @param car The car whose position is to be found
      * @param index The index in the route (0 for current position)
      * @return return Grid xy-co-ordinate
      */
@@ -252,7 +252,7 @@ public class Firm2 extends Model{
     /**
      * Helper method to move vehicles along shortest path
      */
-    private void moveVehicles() {
+    private void moveCars() {
         for (int c = 0; c < cars.getCars().size(); c++) {
             Car car = cars.getCars().get(c);
             // If the car hasn't drowned, move it along
@@ -270,15 +270,21 @@ public class Firm2 extends Model{
                     // Check if the car's next position has been flooded and reroute if it is
                     if (((Water) ((SimpleGrid)grids.get("water")).getCell(cell.getX(),
                             cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
-                        logger.debug("Ouch the road is flooded, reroute");
+                        logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
+                                car.getAgent_id(),
+                                car.getRouteNodes().getNodePath().get(0),
+                                car.getCoveredDistance());
+                        // TODO: Problem! When the cars reroute they "jump" to the next position whereas they should
+                        // TODO: be retracing their steps to the previous node.
                         graph.removeNode(nextNode);
+                        // TODO: retrace to previous node by setting distanceTravelled to negative ???
+                        car.setCoveredDistance(car.getCoveredDistance() * -1);
                         aStar.compute(firstNode.getId(), car.getEndNode());
                         Path newShortestPath = aStar.getShortestPath();
                         car.setRouteNodes(newShortestPath);
                         logger.debug("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
                     } else {
-                        // TODO: For visualisation purposes re-add complex grid (when 2 cars are in the same cell)
-                        // TODO: Implement Nagel-Schreckenberg
+                        // TODO: Check that Richard is happy with this implementation
                         // Calculate car's next position
                         float nextPosition = (float) (car.getCoveredDistance() + distanceTravelled(speed));
                         // Check if there is already a car on next position
@@ -294,13 +300,14 @@ public class Firm2 extends Model{
                                 }
                             }
                         });
+                        // If there is another car in the car's next position, don't move, wait
                         if (spaceAllocated.get()) {
-                            // If there is another car in the car's next position, don't move
                             // TODO: and reduce speed - HOW MUCH
                             Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
                             logger.debug("Car {} is waiting at {} from {}, {}", car.getAgent_id(),
                                     car.getCoveredDistance(), xyz[0], xyz[1]);
                         } else {
+                        // Car moves
                             car.setCoveredDistance(nextPosition);
 
                             // distance between current node and next node
