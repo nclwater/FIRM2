@@ -70,7 +70,7 @@ being the last node in the road. Intermediate nodes are numbered using the road
 ID plus an integer extension. Eg. The following road (ID 4000000012475212), 
 starts at node 4000000012473589 and ends at node 4000000012473353. Intermediate
 nodes are numbered with a .# (# being an incrementing integer). Each node
-as an attribute called `xyz` which contains the nodes co-ordinates. `z` is
+as an attribute called `xyz` which contains the node's co-ordinates. `z` is
 always given as `0`.
 
 ```
