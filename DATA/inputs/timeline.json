@@ -2,8 +2,8 @@
   "model-states": [
     {
       "time": "00:10",
-      "sea-level": 4,
-      "defence-breach": ["a", "b", "c"],
+      "sea-level": 6,
+      "defence-breach": [],
       "car": null
     },
     {
@@ -45,6 +45,12 @@
         "start-node": "4000000012473101",
         "end-node": "4000000012473883"
       }
+    },
+    {
+      "time": "04:03",
+      "sea-level": null,
+      "defence-breach": ["a"],
+      "car": null
     },
     {
       "time": "04:05",

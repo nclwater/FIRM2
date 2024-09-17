@@ -184,7 +184,6 @@ public class Firm2 extends Model{
                 cars.getCars().add(car);
                 ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
                 logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
-                logger.debug("Coordinates of {}: {},{}", car.getStartNode(), getXY(car).getX(), getXY(car).getY());
                 //drownCar(car);
             }
         }
@@ -197,13 +196,18 @@ public class Firm2 extends Model{
         }
     }
 
+    /**
+     * Get current Grid XY co-ordinates from Car objects
+     * @param car
+     * @return
+     */
     private PointInteger getXY(Car car) {
         return getXY(car, 0);
     }
 
 
     /**
-     * Return current Grid XY co-ordinates from Car object
+     * Return Grid XY co-ordinates from Car object for position 'index' in the route
      * @param car The car who's position is to be found
      * @param index The index in the route (0 for current position)
      * @return return Grid xy-co-ordinate
@@ -222,7 +226,6 @@ public class Firm2 extends Model{
         xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
         return new PointInteger(xy.getX(), xy.getY());
     }
-
 
 
     /**
@@ -294,7 +297,9 @@ public class Firm2 extends Model{
                         if (spaceAllocated.get()) {
                             // If there is another car in the car's next position, don't move
                             // TODO: and reduce speed - HOW MUCH
-                            logger.debug("Car {} is waiting", car.getAgent_id());
+                            Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
+                            logger.debug("Car {} is waiting at {} from {}, {}", car.getAgent_id(),
+                                    car.getCoveredDistance(), xyz[0], xyz[1]);
                         } else {
                             car.setCoveredDistance(nextPosition);
 

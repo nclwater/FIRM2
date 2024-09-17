@@ -59,13 +59,14 @@ public class DrawPanel extends JPanel implements MouseListener {
                         ArrayList<Agent> agents = complexGrid.getCells(col, row);
                         int finalCol = col;
                         int finalRow = row;
-                        if (agents != null)
-                        agents.forEach(agent -> {
-                            g.setColor(agent.getColour());
-                            g.fillRect(finalCol * cell_size, finalRow * cell_size,
-                                    cell_size, cell_size);
-                            g.setColor(Color.WHITE);
-                        });
+                        if (agents != null) {
+                            agents.forEach(agent -> {
+                                g.setColor(agent.getColour());
+                                g.fillRect(finalCol * cell_size, finalRow * cell_size,
+                                        cell_size, cell_size);
+                                g.setColor(Color.WHITE);
+                            });
+                        }
                     }
                 }
             }

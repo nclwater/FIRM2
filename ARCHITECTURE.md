@@ -57,13 +57,44 @@ uk.ac.ncl.nclwater.firm2
 
 - Terrain
 - Water
-- Defences
-- Buildings
-- Vehicles
+- Defence
+- Building
+- Vehicle
+- Car
 - 
-### Networks
-- Roads
+### Road Network
+Roads are read from the BNG_roads.json file. The GraphStream Java library is
+use to work with the graph. Each road has three IDs, the first
+being the roadID, the second the ID of the first node in the road and the third
+being the last node in the road. Intermediate nodes are numbered using the road
+ID plus an integer extension. Eg. The following road (ID 4000000012475212), 
+starts at node 4000000012473589 and ends at node 4000000012473353. Intermediate
+nodes are numbered with a .# (# being an incrementing integer). Each node
+as an attribute called `xyz` which contains the nodes co-ordinates. `z` is
+always given as `0`.
 
+```
+["4000000012475212" "4000000012473589" "4000000012473353" 1000950 
+"Single Carriageway" [[299176000 378609000] [299187300 378546896] 
+[299202500 378437296] [299226116 378314543] [299270000 378110000] 
+[299281112 378070887] [299297501 377991125] [299309884 377924111] 
+[299353589 377696844] [299359781 377666979] [299368000 377627000] ]]
+```
 
+A graph of the road would look as follows:
 
+![network](network.svg)
 
+### Cars
+
+Cars are of type Agent. Cars enter the model via the timeline. The timeline
+specifies a start node and an end node for the car. Using the A* algorithm, a
+shortest path to the end node is determined. This path is then stored in an
+attribute in the Car object. The car starts travelling along this network.
+On every tick the car is moved forward along the network by calculating the 
+distance travelled in km at the speed (mph) given. The distance is stored as
+the distance from the nearest node. As a car reaches a node, the previous node
+is removed and whatever distance was "overshot" becomes the next distance 
+travelled. If another car occupies the space the car is meant to move to, the
+car waits in its current position until the space is clear. This, in effect,
+slows the car down
