@@ -1,6 +1,8 @@
 ## FIRM2
 https://hackmd.io/@jannettasteyn/FIRM2
 
+[toc]
+
 ### General Description
 This program starts by checking for a file name `.firm2.properties` in the same
 directory as the `.jar` file of the program. If the file

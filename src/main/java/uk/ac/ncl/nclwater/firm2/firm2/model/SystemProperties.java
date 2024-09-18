@@ -33,6 +33,7 @@ public class SystemProperties {
         hsh_properties.put("OCEAN_DEPTH", "4"); // meters
         hsh_properties.put("RUN_ON_STARTUP", "TRUE");
         hsh_properties.put("VEHICLE_FLOOD_DEPTH", "0.025"); // centimeter
+        hsh_properties.put("ROAD_TYPES", "road_types.json");
     }
 
     public static SystemProperties getInstance() {

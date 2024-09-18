@@ -87,16 +87,16 @@ public class RoadNetworkGSTest  implements ViewerListener {
             }
             first = graph.getNode(id);
             if (first != null) {
-                logger.debug("First node {} ({}) is part of road {}", first,first.getAttribute("xyz"),
-                        roadsMap.get(id)==null?"":roadsMap.get(id).getRoadIDs()[0]);
+                logger.debug("First node {} ({}) is part of road {}, with speed limit {}", first,first.getAttribute("xyz"),
+                        first.getAttribute("road-id"), first.getAttribute("road-type"));
                 graph.getNode(id).setAttribute("ui.class", "marked");
             }
         } else {
             if (second == null) {
                 second = graph.getNode(id);
                 if (second != null) {
-                    logger.debug("Second node {} ({}) is part of road {}", second, second.getAttribute("xyz"),
-                            roadsMap.get(id)==null?"":roadsMap.get(id).getRoadIDs()[0]);
+                    logger.debug("Second node {} ({}) is part of road {}, with speed limit {}", second, second.getAttribute("xyz"),
+                           second.getAttribute("road-id"), second.getAttribute("road-type"));
                     graph.getNode(id).setAttribute("ui.class", "marked");
                     aStar.compute(first.getId(), second.getId());
                     shortest = aStar.getShortestPath();
@@ -137,7 +137,7 @@ public class RoadNetworkGSTest  implements ViewerListener {
         aStar.compute("4000000012472821", "4000000012843295");
         Path path = aStar.getShortestPath();
         logger.debug(path.toString());
-        //test.viewNetwork(graph, properties, test);
+        test.viewNetwork(graph, properties, test);
     }
 
     public Graph getGraph() {

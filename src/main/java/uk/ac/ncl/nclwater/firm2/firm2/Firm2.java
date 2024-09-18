@@ -276,10 +276,8 @@ public class Firm2 extends Model{
                                 car.getAgent_id(),
                                 car.getRouteNodes().getNodePath().get(0),
                                 car.getCoveredDistance());
-                        // TODO: Problem! When the cars reroute they "jump" to the next position whereas they should
-                        // TODO: be retracing their steps to the previous node.
+
                         graph.removeNode(nextNode);
-                        // TODO: retrace to previous node by setting distanceTravelled to negative ???
                         car.setCoveredDistance(car.getCoveredDistance() * -1);
                         aStar.compute(firstNode.getId(), car.getEndNode());
                         Path newShortestPath = aStar.getShortestPath();
@@ -288,7 +286,9 @@ public class Firm2 extends Model{
                     } else {
                         // TODO: Check that Richard is happy with this implementation
                         // Calculate car's next position
-                        float nextPosition = (float) (car.getCoveredDistance() + distanceTravelled(speed));
+                        logger.debug("speed: {}", firstNode.getAttribute("speed-limit"));
+                        float nextPosition = (float) (car.getCoveredDistance() +
+                                distanceTravelled((int)firstNode.getAttribute("speed-limit")));
                         // Check if there is already a car on next position
                         AtomicBoolean spaceAllocated = new AtomicBoolean(false);
                         cars.getCars().forEach(cr -> {
@@ -304,7 +304,7 @@ public class Firm2 extends Model{
                         });
                         // If there is another car in the car's next position, don't move, wait
                         if (spaceAllocated.get()) {
-                            // TODO: and reduce speed - HOW MUCH
+                            // We are not reducing speed we just wait for the next tick.
                             Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
                             logger.debug("Car {} is waiting at {} from {}, {}", car.getAgent_id(),
                                     car.getCoveredDistance(), xyz[0], xyz[1]);

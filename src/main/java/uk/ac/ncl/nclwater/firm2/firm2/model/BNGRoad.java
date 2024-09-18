@@ -2,13 +2,21 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BNGRoad extends Agent {
-    int speedLimit = 30;
+    private static final Logger logger = LoggerFactory.getLogger(BNGRoad.class);
+
+    /**
+     * Each road has three IDs associated with it. The first is the road id, the second is the ID of the
+     * starting position and the third is the ID of the end position of the road.
+     */
     @Expose
     @SerializedName("road_IDs")
     String[] roadIDs = new String[3];
@@ -27,6 +35,8 @@ public class BNGRoad extends Agent {
     @Expose
     @SerializedName("polyline_coordinates")
     ArrayList<PointDouble> polylineCoordinates = new ArrayList<>();
+
+    int roadSpeedLimit = 0;
 
 
     /**
@@ -66,8 +76,9 @@ public class BNGRoad extends Agent {
         sb.append("Road ID 2: ").append(roadIDs[1]).append("\n");
         sb.append("Road ID 3: ").append(roadIDs[2]).append("\n");
         sb.append("Road Length: ").append(roadLength).append("\n");
-        sb.append("Road Type: ").append(roadType).append("\nPolyline Coordinates: \n");
-        polylineCoordinates.forEach(p -> sb.append(" ").append(p.getX()).append(",").append(p.getY()).append("\n") );
+        sb.append("Road Type: ").append(roadType).append("\n");
+        logger.debug("Road type: {}", roadType);
+        sb.append("Speed: ").append(roadSpeedLimit).append("\n");
         sb.append("Colour: ").append(getColour().toString()).append("\n");
         return sb.toString();
     }
@@ -79,15 +90,6 @@ public class BNGRoad extends Agent {
     public void setRoadIDs(String[] roadIDs) {
         this.roadIDs = roadIDs;
     }
-
-    public int getSpeedLimit() {
-        return speedLimit;
-    }
-
-    public void setSpeedLimit(int speedLimit) {
-        this.speedLimit = speedLimit;
-    }
-
 
     public long getRoadLength() {
         return roadLength;
@@ -120,8 +122,8 @@ public class BNGRoad extends Agent {
     public ArrayList<PointInteger> getPolylineCoordinatesInt() {
         ArrayList<PointInteger> points = new ArrayList<>();
         polylineCoordinates.forEach(p -> {
-            PointInteger newpoint = new PointInteger((int) (p.getX() * 1000), (int) (p.getX() * 1000));
-            points.add(newpoint);
+            PointInteger newPoint = new PointInteger((int) (p.getX() * 1000), (int) (p.getX() * 1000));
+            points.add(newPoint);
         });
         return points;
     }
@@ -132,5 +134,13 @@ public class BNGRoad extends Agent {
 
     public void addCoordinates(PointDouble coordinates) {
         polylineCoordinates.add(coordinates);
+    }
+
+    public int getRoadSpeedLimit() {
+        return roadSpeedLimit;
+    }
+
+    public void setRoadSpeedLimit(int roadSpeedLimit) {
+        this.roadSpeedLimit = roadSpeedLimit;
     }
 }

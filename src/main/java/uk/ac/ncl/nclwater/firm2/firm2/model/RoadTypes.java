@@ -2,14 +2,20 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RoadTypes {
+    private static final Logger logger = LoggerFactory.getLogger(RoadTypes.class);
 
     @Expose
     @SerializedName("road-types")
-    ArrayList<RoadType> roadTypes = new ArrayList();
+    ArrayList<RoadType> roadTypes = new ArrayList<>();
+    HashMap<String, RoadType> roadTypeMap = new HashMap<>();
 
     public RoadTypes() {
         roadTypes.add(new RoadType("dc", "Dual Carriageway", 60));
@@ -19,6 +25,7 @@ public class RoadTypes {
         roadTypes.add(new RoadType("sr", "Slip Road", 30));
         roadTypes.add(new RoadType("r", "Roundabout", 30));
         roadTypes.add(new RoadType("til", "Traffic Island Link", 30));
+        roadTypes.forEach(rt -> roadTypeMap.put(rt.getRoadType(), rt));
     }
 
     public ArrayList<RoadType> getRoadTypes() {
@@ -27,5 +34,10 @@ public class RoadTypes {
 
     public void setRoadTypes(ArrayList<RoadType> roadTypes) {
         this.roadTypes = roadTypes;
+    }
+
+    public int getSpeed(String roadType) {
+
+        return roadTypeMap.get(roadType).getSpeedLimit();
     }
 }
