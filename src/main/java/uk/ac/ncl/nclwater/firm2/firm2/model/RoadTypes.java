@@ -15,7 +15,7 @@ public class RoadTypes {
     @Expose
     @SerializedName("road-types")
     ArrayList<RoadType> roadTypes = new ArrayList<>();
-    HashMap<String, RoadType> roadTypeMap = new HashMap<>();
+    HashMap<String, Integer> roadTypeMap = new HashMap<>();
 
     public RoadTypes() {
         roadTypes.add(new RoadType("dc", "Dual Carriageway", 60));
@@ -25,7 +25,9 @@ public class RoadTypes {
         roadTypes.add(new RoadType("sr", "Slip Road", 30));
         roadTypes.add(new RoadType("r", "Roundabout", 30));
         roadTypes.add(new RoadType("til", "Traffic Island Link", 30));
-        roadTypes.forEach(rt -> roadTypeMap.put(rt.getRoadType(), rt));
+        roadTypes.forEach(rt -> {
+            roadTypeMap.put(rt.getRoadType(), rt.getSpeedLimit());
+        });
     }
 
     public ArrayList<RoadType> getRoadTypes() {
@@ -38,6 +40,6 @@ public class RoadTypes {
 
     public int getSpeed(String roadType) {
 
-        return roadTypeMap.get(roadType).getSpeedLimit();
+        return roadTypeMap.get(roadType);
     }
 }

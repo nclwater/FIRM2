@@ -77,9 +77,8 @@ public class BNGRoad extends Agent {
         sb.append("Road ID 3: ").append(roadIDs[2]).append("\n");
         sb.append("Road Length: ").append(roadLength).append("\n");
         sb.append("Road Type: ").append(roadType).append("\n");
-        logger.debug("Road type: {}", roadType);
         sb.append("Speed: ").append(roadSpeedLimit).append("\n");
-        sb.append("Colour: ").append(getColour().toString()).append("\n");
+//        sb.append("Colour: ").append(getColour().toString()).append("\n");
         return sb.toString();
     }
 

@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model{
@@ -39,6 +37,7 @@ public class Firm2 extends Model{
     private AStar aStar = null;
     private final Cars cars = new Cars();
     private final Cars drownedCars = new Cars();
+    private final Cars destinationCars = new Cars();
     private Graph graph;
 
     /**
@@ -72,10 +71,9 @@ public class Firm2 extends Model{
             LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
                     waterGrid);
             LoadRoadsGrid.loadRoadsOld(floodModelParameters, globalVariables, properties, roadsGrid, roadHashMap);
-            LoadRoadsGrid.gsLoadRoads(graph, bngRoads, properties);
+            graph = LoadRoadsGrid.loadRoads(properties);
 
             aStar = new AStar(graph);
-            logger.debug("Nodes in bngRoads: {}", bngRoads.size());
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
@@ -255,11 +253,11 @@ public class Firm2 extends Model{
      * Helper method to move vehicles along shortest path
      */
     private void moveCars() {
+        //int speed; // TODO: fix this to read from road files
         for (int c = 0; c < cars.getCars().size(); c++) {
             Car car = cars.getCars().get(c);
             // If the car hasn't drowned, move it along
             if (!drownCar(car)) {
-                int speed = 30; // TODO: fix this to read from road files
                 Path route = car.getRouteNodes();
                 // If there is only one node left in the path the car has reached its destination
                 if (route.getNodePath().size() == 1) {
@@ -286,9 +284,10 @@ public class Firm2 extends Model{
                     } else {
                         // TODO: Check that Richard is happy with this implementation
                         // Calculate car's next position
-                        logger.debug("speed: {}", firstNode.getAttribute("speed-limit"));
-                        float nextPosition = (float) (car.getCoveredDistance() +
-                                distanceTravelled((int)firstNode.getAttribute("speed-limit")));
+                        int speed  = (firstNode.getAttribute("speed-limit") == null)?0:(int)firstNode.getAttribute("speed-limit");
+
+                        logger.trace("speed: {} on road {}", firstNode.getAttribute("speed-limit"), firstNode.getId());
+                        float nextPosition = (float) (car.getCoveredDistance() + speed);
                         // Check if there is already a car on next position
                         AtomicBoolean spaceAllocated = new AtomicBoolean(false);
                         cars.getCars().forEach(cr -> {

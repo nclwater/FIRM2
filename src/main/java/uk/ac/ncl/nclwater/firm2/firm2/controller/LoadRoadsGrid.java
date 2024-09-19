@@ -3,6 +3,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.SingleGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
@@ -17,15 +18,85 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Properties;
-
-import static uk.ac.ncl.nclwater.firm2.firm2.controller.RoadTypeSingleton.getInstance;
-import static uk.ac.ncl.nclwater.firm2.firm2.controller.RoadTypeSingleton.getRoadTypes;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class LoadRoadsGrid {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadRoadsGrid.class);
-    private static RoadTypeSingleton roadTypeSingleton;
+
+    public static Graph loadRoads(Properties properties) {
+        Graph graph = new SingleGraph("Road Networks GraphStream Test");
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
+        try {
+            BNGRoads bngRoads = gson.fromJson(new FileReader(filename), BNGRoads.class);
+            RoadTypes roadTypes = LoadRoadTypes.loadRoadTypes(properties);
+            int intNodeCount =0;
+            int edgeCount = 0;
+            int totalNodeCount =1;
+            int totalRoadCount = 1;
+            if (bngRoads != null) {
+                String roadID = null;
+                for (BNGRoad road : bngRoads.getRoads()) {
+                    roadID  = road.getRoadIDs()[0];
+                    intNodeCount = 0;
+                    edgeCount = 0;
+                    ArrayList<PointDouble> points = road.getPolylineCoordinates();
+                    String prevnode = null;
+                    for (PointDouble point : points) {
+                        String nodeID;
+                        if (intNodeCount == 0) {
+                            // FIRST NODE OF ROAD
+                            nodeID = road.getRoadIDs()[1];
+                        } else if (intNodeCount == points.size() - 1) {
+                            // LAST NODE OF ROAD
+                            nodeID = road.getRoadIDs()[2];
+                        } else {
+                            // INTERMEDIATE NODES OF ROAD
+                            nodeID = road.getRoadIDs()[0] + "." + intNodeCount;
+                        }
+                        // If a node does not exist, add it
+                        if (graph.getNode(nodeID) == null) {
+                            graph.addNode(nodeID);
+                            graph.getNode(nodeID).setAttribute("xyz", point.getX(), point.getY(), 0);
+                            graph.getNode(nodeID).setAttribute("road-id", roadID);
+                            graph.getNode(nodeID).setAttribute("road-type", road.getRoadType());
+                            graph.getNode(nodeID).setAttribute("speed-limit", roadTypes.getSpeed(road.getRoadType()));
+                            logger.trace("Road {}, Node {}. Add node {} is part of road {} which is of type {} with a speed limit of {}",
+                                    totalRoadCount,
+                                    totalNodeCount, nodeID, graph.getNode(nodeID).getAttribute("road-id"),
+                                    graph.getNode(nodeID).getAttribute("road-type"), graph.getNode(nodeID).getAttribute("speed-limit"));
+
+                            totalNodeCount++;
+                        } else {
+                            logger.trace("Node {} exists", nodeID);
+                        }
+                        intNodeCount++;
+
+                        // Connect current node to the previous node
+                        if (prevnode != null) { //  && !prevnode.equals(nodeID)
+                            logger.trace("Add edge from {} to {}", prevnode, nodeID);
+                            graph.addEdge(roadID + "." + edgeCount + ".R", nodeID, prevnode, true);
+                            logger.trace("Add edge from {} to {}", nodeID, prevnode);
+                            graph.addEdge(roadID + "." + edgeCount + ".F", prevnode, nodeID, true);
+                            edgeCount++;
+
+                        }
+
+                        prevnode = nodeID;
+                    }
+                    totalRoadCount++;
+
+                }
+                logger.debug("Graph node count: {}", graph.getNodeCount());
+                logger.debug("{} roads in file", bngRoads.getRoads().size());
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return graph;
+    }
+
     /**
      * Original method - not used anymore.
      * Read the roads.json configuration from file and populate the road grid
@@ -33,8 +104,7 @@ public class LoadRoadsGrid {
     public static void loadRoadsOld(FloodModelParameters floodModelParameters, GlobalVariables globalVariables,
                                     Properties properties, SimpleGrid roadGrid, HashMap<String,
                                     ArrayList<Point>> roadHashMap) {
-        roadTypeSingleton = RoadTypeSingleton.getInstance(properties);
-        RoadTypes roadTypes = roadTypeSingleton.getRoadTypes();
+        RoadTypes roadTypes = LoadRoadTypes.loadRoadTypes(properties);
 //         		;; manually fix up the bridge over the river.
 //         		;; XXX this should be done from a config file.
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
@@ -106,7 +176,7 @@ public class LoadRoadsGrid {
                 // only for the very first road where prevID is null
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);
-                    logger.trace("Add start node {}", prevID);
+                    logger.debug("Add road start node {} owned by road {}", prevID, bngroad.getRoadIDs()[0]);
                     // This node (prevID) belongs to this road (bngroad)
                     roadsMap.put(prevID, bngroad);
 
@@ -124,7 +194,8 @@ public class LoadRoadsGrid {
                     String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
                     if (graph.getNode(nodeID) == null) {
                         graph.addNode(nodeID);
-                        logger.trace("Add intermediate node {}", nodeID);
+                        logger.debug("Add intermediate node {} owned by {} with a speedlimit of {}",
+                                nodeID, bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());
                         // This node (nodeID) belongs to this road (bngroad)
                         roadsMap.put(nodeID, bngroad);
 
@@ -149,16 +220,14 @@ public class LoadRoadsGrid {
                 if (graph.getNode(bngroad.getRoadIDs()[2]) == null) {
                     String[] ids = bngroad.getRoadIDs();
                     graph.addNode(bngroad.getRoadIDs()[2]);
-                    logger.trace("Add end node {}", bngroad.getRoadIDs()[2]);
+                    logger.trace("Add end node {} owned by {} with a speedlimit of {}", bngroad.getRoadIDs()[2],
+                            bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());
 
                     graph.getNode(bngroad.getRoadIDs()[2]).setAttribute("xyz",
                             bngroad.getPolylineCoordinates().get(last).getX(),
                             bngroad.getPolylineCoordinates().get(last).getY(), 0);
-                    graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("road-id", ids[0]);
-                    graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("road-type", bngroad.getRoadType());
-                    int speedLimit = roadTypes.getSpeed(bngroad.getRoadType());
-                    bngroad.setRoadSpeedLimit(speedLimit);
-                    graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("speed-limit", speedLimit);
+                    setAttributes(graph, roadTypes, bngroad);
+
 
                 }
                 String edgeID = bngroad.getRoadIDs()[0] + "." + edgeInc;
@@ -185,6 +254,7 @@ public class LoadRoadsGrid {
     private static void setAttributes(Graph graph, RoadTypes roadTypes, BNGRoad bngroad) {
         graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("road-id", bngroad.getRoadIDs()[0]);
         graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("road-type", bngroad.getRoadType());
+        graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("owning-road", bngroad.getRoadIDs()[0]);
         int speedLimit = roadTypes.getSpeed(bngroad.getRoadType());
         bngroad.setRoadSpeedLimit(speedLimit);
         graph.getNode(bngroad.getRoadIDs()[1]).setAttribute("speed-limit", speedLimit);

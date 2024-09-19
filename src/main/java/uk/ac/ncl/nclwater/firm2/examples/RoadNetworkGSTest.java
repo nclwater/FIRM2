@@ -6,7 +6,6 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.ViewerListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
@@ -14,15 +13,15 @@ import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoad;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
 import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Scanner;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createPropertiesFile;
-
 
 public class RoadNetworkGSTest  implements ViewerListener {
 
@@ -33,38 +32,40 @@ public class RoadNetworkGSTest  implements ViewerListener {
     private final HashMap<String, BNGRoad> roadsMap = new HashMap<>();
     AStar aStar = new AStar(graph);
     Path shortest = null;
-    BNGRoads roads = null;
     private static final Properties properties = createPropertiesFile();
+    File file;
+    static String filename = "url('\\c:\\Users\\janne\\IdeaProjects\\FIRM2_\\stylesheet.css')";
 
     public RoadNetworkGSTest() {
         logger.debug("Run RoadNetworkGSTest");
         System.setProperty("org.graphstream.ui", "swing");
         String stylesheet = null;
-        try {
-            File file = new File("stylesheet.css");
-            stylesheet = org.apache.commons.io.FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-            logger.trace("Stylesheet {}", file.getAbsolutePath());
-            graph.setAttribute("ui.stylesheet", stylesheet);
-        } catch (IOException e) {
-            logger.error("Stylesheet not found");
-            //throw new RuntimeException(e);
-        }
-        roads = loadRoads();
-    }
-
-    public BNGRoads loadRoads() {
-        return LoadRoadsGrid.gsLoadRoads(graph, roadsMap, properties);
+        logger.trace("Stylesheet {}", filename);
+        graph.setAttribute("ui.stylesheet", filename);
+        graph = LoadRoadsGrid.loadRoads(properties);
     }
 
     private void viewNetwork(Graph graph, Properties properties, ViewerListener vl) {
-
-//        LoadRoadsGrid.viewGraph(graph, this);
         ViewGrid viewgrid = new ViewGrid();
-        viewgrid.displayGraph(graph, properties,vl);
+        String css = readCSSFile("stylesheet.css");
+        graph.setAttribute("ui.stylesheet", css);
+        viewgrid.displayGraph(graph,vl);
         logger.debug("Add a node");
-
     }
 
+
+    private String readCSSFile(String filename) {
+        Scanner scanner = null;
+        String content = null;
+        try {
+            scanner = new Scanner(Paths.get(filename), StandardCharsets.UTF_8.name());
+            content = scanner.useDelimiter("\\A").next();
+            scanner.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return content;
+    }
 
     public void viewClosed(String id) {
         logger.trace("Exiting");
@@ -89,7 +90,7 @@ public class RoadNetworkGSTest  implements ViewerListener {
             if (first != null) {
                 logger.debug("First node {} ({}) is part of road {}, with speed limit {}", first,first.getAttribute("xyz"),
                         first.getAttribute("road-id"), first.getAttribute("road-type"));
-                graph.getNode(id).setAttribute("ui.class", "marked");
+                first.setAttribute("ui.class", "marked");
             }
         } else {
             if (second == null) {

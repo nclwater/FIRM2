@@ -6,13 +6,7 @@ import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.swing.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class ViewGrid  extends JFrame implements ViewerListener {
     private static final Logger logger = LoggerFactory.getLogger(ViewGrid.class);
@@ -21,28 +15,12 @@ public class ViewGrid  extends JFrame implements ViewerListener {
     Graph graph = null;
 
 
-    public void displayGraph(Graph graph, Object s, ViewerListener vl) {
+    public void displayGraph(Graph graph, ViewerListener vl) {
             this.graph = graph;
             if (vl != null) {
                 this.viewerListener = vl;
             }
-            String stylesheet = null;
-            Path pth_styleSheet = null;
-            try {
-                pth_styleSheet = Paths.get(s.getClass().getResource("/stylesheet.css").toURI());
-            } catch (NullPointerException e) {
-                logger.debug("CSS file not found.");
-            } catch (URISyntaxException e) {
-                logger.debug("URI syntax error.");
-            }
-            if (pth_styleSheet != null) {
-                try {
-                    stylesheet = new String(Files.readAllBytes(pth_styleSheet));
-                    graph.setAttribute("ui.stylesheet", stylesheet);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+
             System.setProperty("org.graphstream.ui", "swing");
 
             Viewer viewer = graph.display();

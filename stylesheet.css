@@ -10,11 +10,12 @@ node {
 node.marked  {
     fill-color: red;
 }
+
 edge {
     fill-color: blue;
-    arrow-size: 3px, 2px;
-
+    arrow-size: 5px, 2px;
 }
+
 edge.marked {
     fill-color: red;
 }
