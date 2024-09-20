@@ -4,25 +4,32 @@
       "time": "00:01:00",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
+      "car": [{
         "agent-id": "car0001",
         "start-node": "4000000013680918",
         "end-node": "4000000012843277"
-      }
+      }]
     },
     {
       "time": "00:01:01",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
-        "agent-id": "car0002",
-        "start-node": "4000000012472821",
-        "end-node": "4000000012843295"
-      }
+      "car": [
+        {
+          "agent-id": "car0002",
+          "start-node": "4000000012472821",
+          "end-node": "4000000012843295"
+        },
+        {
+          "agent-id": "car0002a",
+          "start-node": "4000000012473580",
+          "end-node": "4000000013680918"
+        }
+      ]
     },
     {
       "time": "00:10:00",
-      "sea-level": 100,
+      "sea-level": 20,
       "defence-breach": [],
       "car": null
     },
@@ -30,41 +37,41 @@
       "time": "00:30:00",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
+      "car": [{
         "agent-id": "car0003",
         "start-node": "4000000012472821",
         "end-node": "4000000012843295"
-      }
+      }]
     },
     {
       "time": "00:31:00",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
+      "car": [{
         "agent-id": "car0004",
         "start-node": "4000000012472821",
         "end-node": "4000000012843295"
-      }
+      }]
     },
     {
       "time": "01:40:00",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
+      "car": [{
         "agent-id": "car0005",
         "start-node": "4000000012473101",
         "end-node": "4000000012473883"
-      }
+      }]
     },
     {
       "time": "02:01:00",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
+      "car": [{
         "agent-id": "car0006",
         "start-node": "4000000012473101",
         "end-node": "4000000012473883"
-      }
+      }]
     },
     {
       "time": "02:03:00",
@@ -76,11 +83,11 @@
       "time": "02:05:00",
       "sea-level": null,
       "defence-breach": null,
-      "car": {
+      "car": [{
         "agent-id": "car0007",
         "start-node": "4000000012473101",
         "end-node": "4000000012473883"
-      }
+      }]
     }
   ]
 }

@@ -21,7 +21,7 @@ public class ModelState {
     private List<String> defenceBreach;
     @SerializedName("car")
     @Expose
-    private Car car;
+    private ArrayList<Car> car;
 
     public String getTime() {
         return time;
@@ -48,12 +48,16 @@ public class ModelState {
         this.defenceBreach = defenceBreach;
     }
 
-    public Car getCar() {
-        return car;
+    public Car getCar(int index) {
+        return car.get(index);
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void addCar(Car c) {
+        car.add(c);
+    }
+
+    public ArrayList<Car> getCars() {
+        return car;
     }
 
     @Override

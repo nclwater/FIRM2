@@ -167,30 +167,32 @@ public class Firm2 extends Model{
             }
             // TODO: This should become an array of cars
             // Cars entering the model
-            if (modelState.getCar() != null) {
-                Car car = modelState.getCar();
-                car.setAgent_id(car.getAgentId());
-                // cars are red (for now)
-                car.setColour(Color.red);
-                // get the shortest path to endCoordinates
-                aStar.compute(car.getStartNode(), car.getEndNode());
-                Path shortestPath = aStar.getShortestPath();
-                car.setRouteNodes(shortestPath);
-                if (shortestPath != null) {
-                    logger.debug("shortest path: {}", shortestPath);
-                    // add the car to the cars grid
-                    // Get the xy coordinates for the normal cell grid of the starting point
-                    PointInteger xy = getXY(car);
-                    cars.addCar(car);
-                    ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
-                    logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
-                } else {
-                    logger.debug("Car {} is stranded, no route to destination", car.getAgent_id());
-                    strandedCars.addCar(car);
-                    car.setColour(Color.ORANGE);
-                    car.setStranded(true);
-                    //TODO:
-                    cars.removeCar(car);
+            if (modelState.getCars() != null) {
+                for (int c = 0; c < modelState.getCars().size(); c++) {
+                    Car car = modelState.getCar(c);
+                    car.setAgent_id(car.getAgentId());
+                    // cars are red (for now)
+                    car.setColour(Color.red);
+                    // get the shortest path to endCoordinates
+                    aStar.compute(car.getStartNode(), car.getEndNode());
+                    Path shortestPath = aStar.getShortestPath();
+                    car.setRouteNodes(shortestPath);
+                    if (shortestPath != null) {
+                        logger.debug("shortest path: {}", shortestPath);
+                        // add the car to the cars grid
+                        // Get the xy coordinates for the normal cell grid of the starting point
+                        PointInteger xy = getXY(car);
+                        cars.addCar(car);
+                        ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
+                        logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
+                    } else {
+                        logger.debug("Car {} is stranded, no route to destination", car.getAgent_id());
+                        strandedCars.addCar(car);
+                        car.setColour(Color.ORANGE);
+                        car.setStranded(true);
+                        //TODO:
+                        cars.removeCar(car);
+                    }
                 }
 
             }
