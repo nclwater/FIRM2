@@ -41,6 +41,8 @@ public class Car extends Agent {
     private boolean inPlay = true;
     // the car has "drowned"
     private boolean isDrowned = false;
+    private boolean isStranded = false;
+    private boolean isAtDestination = false;
 
     /**
      *
@@ -53,6 +55,11 @@ public class Car extends Agent {
         this.endNode = endNode;
         setColour(Color.ORANGE);
         setAgent_id(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Car- ID: " + getAgent_id() + ", drowned: " + isDrowned + ", stranded: " + isStranded;
     }
 
     /**
@@ -162,5 +169,21 @@ public class Car extends Agent {
 
     public void setDrowned(boolean drowned) {
         isDrowned = drowned;
+    }
+
+    public boolean isStranded() {
+        return isStranded;
+    }
+
+    public void setStranded(boolean stranded) {
+        isStranded = stranded;
+    }
+
+    public boolean isAtDestination() {
+        return isAtDestination;
+    }
+
+    public void setAtDestination(boolean atDestination) {
+        isAtDestination = atDestination;
     }
 }
