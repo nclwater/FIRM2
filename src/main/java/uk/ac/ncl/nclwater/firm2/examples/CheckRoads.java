@@ -1,5 +1,6 @@
 package uk.ac.ncl.nclwater.firm2.examples;
 
+import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,9 @@ public class CheckRoads {
     public static void main(String[] args) {
 //        verifyRoads();
         Graph graph = LoadRoadsGrid.loadRoads(properties);
+        AStar aStar = new AStar(graph);
+        aStar.compute("4000000012473101", "4000000012473883");
+        logger.debug("Shortest path: {}", aStar.getShortestPath().toString());
 //        logger.debug(graph.getNode("4000000012472821").toString());
     }
 

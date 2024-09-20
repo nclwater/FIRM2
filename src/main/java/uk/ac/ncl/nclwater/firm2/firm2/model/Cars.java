@@ -20,4 +20,16 @@ public class Cars {
     public void setCars(List<Car> cars) {
         this.cars = cars;
     }
+
+    public boolean addCar(Car car) {
+        return cars.add(car);
+    }
+
+    public boolean removeCar(Car car) {
+        return cars.remove(car);
+    }
+
+    public Car getCar(int index) {
+        return cars.get(index);
+    }
 }

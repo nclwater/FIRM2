@@ -38,6 +38,7 @@ public class Firm2 extends Model{
     private final Cars cars = new Cars();
     private final Cars drownedCars = new Cars();
     private final Cars destinationCars = new Cars();
+    private final Cars strandedCars = new Cars();
     private Graph graph;
 
     /**
@@ -176,15 +177,21 @@ public class Firm2 extends Model{
                 aStar.compute(car.getStartNode(), car.getEndNode());
                 Path shortestPath = aStar.getShortestPath();
                 car.setRouteNodes(shortestPath);
-                logger.debug("shortest path: {}", shortestPath.toString());
+                if (shortestPath != null) {
+                    logger.debug("shortest path: {}", shortestPath);
+                    // add the car to the cars grid
+                    // Get the xy coordinates for the normal cell grid of the starting point
+                    PointInteger xy = getXY(car);
+                    cars.addCar(car);
+                    ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
+                    logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
+                } else {
+                    logger.debug("Car {} is stranded, no route to destination", car.getAgent_id());
+                    strandedCars.addCar(car);
+                    //TODO:
+//                    cars.removeCar(car);
+                }
 
-                // add the car to the cars grid
-                // Get the xy coordinates for the normal cell grid of the starting point
-                PointInteger xy = getXY(car);
-                cars.getCars().add(car);
-                ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
-                logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
-                //drownCar(car);
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
@@ -239,10 +246,11 @@ public class Firm2 extends Model{
         // If >= to vehicle drowning level then mark car as drowned, remove from list of cars add to drowned list
         if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
             car.setDrowned(true);
-            cars.getCars().remove(car);
+            //TODO:
+            //cars.removeCar(car);
             car.setColour(new Color(73,23,12)); // change drowned car to brown
-            drownedCars.getCars().add(car);
-            logger.debug("Car {} removed", car.getAgent_id());
+            drownedCars.addCar(car);
+            logger.trace("Car {} removed", car.getAgent_id());
             logger.debug("Tick Car drowned: {}", car.getAgent_id());
             return true;
         }
@@ -255,14 +263,16 @@ public class Firm2 extends Model{
     private void moveCars() {
         //int speed; // TODO: fix this to read from road files
         for (int c = 0; c < cars.getCars().size(); c++) {
-            Car car = cars.getCars().get(c);
+            Car car = cars.getCar(c);
             // If the car hasn't drowned, move it along
             if (!drownCar(car)) {
                 Path route = car.getRouteNodes();
                 // If there is only one node left in the path the car has reached its destination
                 if (route.getNodePath().size() == 1) {
                     logger.debug("Car {} reached its destination", car.getAgent_id());
-                    cars.getCars().remove(car);
+                    //TODO:
+                    //cars.removeCar(car);
+                    destinationCars.addCar(car);
                 } else {
                     Node firstNode = route.getNodePath().get(0);
                     Node nextNode = route.getNodePath().get(1);
@@ -280,7 +290,7 @@ public class Firm2 extends Model{
                         aStar.compute(firstNode.getId(), car.getEndNode());
                         Path newShortestPath = aStar.getShortestPath();
                         car.setRouteNodes(newShortestPath);
-                        logger.debug("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
+                        logger.trace("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
                     } else {
                         // TODO: Check that Richard is happy with this implementation
                         // Calculate car's next position
