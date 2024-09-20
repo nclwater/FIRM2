@@ -10,10 +10,13 @@ public class Cars {
 
     @SerializedName("cars")
     @Expose
-    private List<Car> cars = new ArrayList<>();
+    private List<Car> cars;
+
+    public Cars() {
+        cars = new ArrayList<>(0);
+    }
 
     public ArrayList<Car> getCars() {
-
         return (ArrayList<Car>) cars;
     }
 

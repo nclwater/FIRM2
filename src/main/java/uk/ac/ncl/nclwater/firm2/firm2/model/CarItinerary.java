@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The travel plan for the car when it enters the model
@@ -12,13 +13,13 @@ public class CarItinerary {
 
     @Expose
     @SerializedName("itinerary")
-    private ArrayList<ItineraryItem> itinerary = new ArrayList<ItineraryItem>();
+    private List<ItineraryItem> itinerary;
 
-    public ArrayList<ItineraryItem> getItinerary() {
+    public List<ItineraryItem> getItinerary() {
         return itinerary;
     }
 
-    public void setItinerary(ArrayList<ItineraryItem> itinerary) {
+    public void setItinerary(List<ItineraryItem> itinerary) {
         this.itinerary = itinerary;
     }
 }

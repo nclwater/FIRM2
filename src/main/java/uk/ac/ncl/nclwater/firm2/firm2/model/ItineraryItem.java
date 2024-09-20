@@ -16,7 +16,13 @@ public class ItineraryItem {
      */
     @Expose
     @SerializedName("wait-time")
-    private int waitTime; // in seconds
+    private Integer waitTime; // in seconds
+
+    public ItineraryItem(String startNode, String endNode, Integer waitTime) {
+        this.startNode = startNode;
+        this.endNode = endNode;
+        this.waitTime = waitTime;
+    }
 
     public String getStartNode() {
         return startNode;

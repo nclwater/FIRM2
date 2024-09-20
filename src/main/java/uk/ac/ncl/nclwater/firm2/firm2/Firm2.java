@@ -165,13 +165,14 @@ public class Firm2 extends Model{
                     }
                 }
             }
-            // TODO: This should become an array of cars
             // Cars entering the model
             if (modelState.getCars() != null) {
                 for (int c = 0; c < modelState.getCars().size(); c++) {
                     Car car = modelState.getCar(c);
-                    car.setAgent_id(car.getAgentId());
+//                    car.setAgent_id(car.getAgentId());
                     // cars are red (for now)
+                    car.setStartNode(car.getCarItinerary().get(0).getStartNode());
+                    car.setEndNode(car.getCarItinerary().get(0).getEndNode());
                     car.setColour(Color.red);
                     // get the shortest path to endCoordinates
                     aStar.compute(car.getStartNode(), car.getEndNode());

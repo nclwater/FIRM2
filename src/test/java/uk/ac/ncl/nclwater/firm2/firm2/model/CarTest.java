@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CarTest {
 
-    Car car = new Car("CarABC", "4000000012472821", "4000000012843295");
+    Car car;
 
     @Test
     void getJSON() {

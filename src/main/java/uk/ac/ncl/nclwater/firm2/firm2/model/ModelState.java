@@ -19,9 +19,9 @@ public class ModelState {
     @SerializedName("defence-breach")
     @Expose
     private List<String> defenceBreach;
-    @SerializedName("car")
+    @SerializedName("cars")
     @Expose
-    private ArrayList<Car> car;
+    private ArrayList<Car> cars;
 
     public String getTime() {
         return time;
@@ -49,15 +49,15 @@ public class ModelState {
     }
 
     public Car getCar(int index) {
-        return car.get(index);
+        return cars.get(index);
     }
 
     public void addCar(Car c) {
-        car.add(c);
+        cars.add(c);
     }
 
     public ArrayList<Car> getCars() {
-        return car;
+        return cars;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ModelState {
         sb.append("  time: ").append(time).append("\n");
         sb.append("  seaLevel: ").append(seaLevel).append("\n");
         sb.append("  defenceBreach: ").append(defenceBreach).append("\n");
-        sb.append("  car: ").append(car).append("\n");
+        sb.append("  cars: ").append(cars).append("\n");
         sb.append("}\n");
 
         return sb.toString();

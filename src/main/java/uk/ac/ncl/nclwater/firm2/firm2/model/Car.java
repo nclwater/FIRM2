@@ -7,26 +7,24 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Car extends Agent {
 
     @Expose
     @SerializedName("agent-id")
-    private String agentId;
+    String agent_id;
 
     @Expose
-    @SerializedName("start-node")
+    @SerializedName("itinerary")
+    ArrayList<ItineraryItem> carItinerary = new ArrayList<>();
+
     private String startNode;
-
-    @Expose
-    @SerializedName("end-node")
     private String endNode;
-
     /**
      * An ArrayList of pre-determined positions eg. a road.
      */
     Path routeNodes;
-
     // speed limit
     private int speedLimit;
     // the target location (node) of the car
@@ -47,14 +45,14 @@ public class Car extends Agent {
     /**
      *
      * @param id
-
      */
-    public Car(String id, String startNode, String endNode) {
+    public Car(String id, ArrayList<ItineraryItem> itinerary) {
         super();
-        this.startNode = startNode;
-        this.endNode = endNode;
         setColour(Color.ORANGE);
         setAgent_id(id);
+        this.carItinerary = itinerary;
+        this.startNode = itinerary.get(0).getStartNode();
+        this.endNode = itinerary.get(0).getEndNode();
     }
 
     @Override
@@ -127,14 +125,6 @@ public class Car extends Agent {
         this.inPlay = inPlay;
     }
 
-    public String getAgentId() {
-        return agentId;
-    }
-
-    public void setAgentId(String agentId) {
-        this.agentId = agentId;
-    }
-
     public String getStartNode() {
         return startNode;
     }
@@ -185,5 +175,23 @@ public class Car extends Agent {
 
     public void setAtDestination(boolean atDestination) {
         isAtDestination = atDestination;
+    }
+
+    public ArrayList<ItineraryItem> getCarItinerary() {
+        return carItinerary;
+    }
+
+    public void setCarItinerary(ArrayList<ItineraryItem> carItinerary) {
+        this.carItinerary = carItinerary;
+    }
+
+    @Override
+    public String getAgent_id() {
+        return agent_id;
+    }
+
+    @Override
+    public void setAgent_id(String agent_id) {
+        this.agent_id = agent_id;
     }
 }
