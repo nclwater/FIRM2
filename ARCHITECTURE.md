@@ -116,3 +116,6 @@ If a car finds that the co-ordinates it is meant to travel to is occupied it
 will wait for the next tick, effectively slowing it down. Thus, the typical 
 N-S algorithm of reducing the speed should not be necessary. (Would this be a
 valid assumption? It should probably be tested.)
+
+
+### Buildings, codes
