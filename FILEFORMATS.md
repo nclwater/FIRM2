@@ -6,22 +6,29 @@
 ---
 title: Data files
 ---
-classDiagram
-    class Building {
-        +String type
-        +PointDouble ordinate
+erDiagram
+    buildings {
+        int building_id PK
+        int class_id FK
+        float x_coordinate
+        float y_coordinate
+        string nearest_node_code
     }
-    class BuildingCode{
-        +int code
-        +String description
-        +int buildingTypeCode
+    
+    classification {
+        int class_id PK
+        string description
+        int type_id FK
     }
-    class BuildingType {
-        +int typeCode
-        +String typeDescription
+        
+    building_types {
+        int type_id PK
+        string name
     }
-    Building <|-- BuildingCode
-    BuildingCode <|-- BuildingType
+    
+    buildings }o--|| classification : belongs_to
+    classification }o--|| building_types : associated_with
+    
 ```
 ### Relations between old data files
 
@@ -32,6 +39,19 @@ classDiagram
 Basically provides the `[x,y]` coordinates and the building type.  
 A building type of “0” `[number zero]` is a residential property.  The others relate to different building types from the national property database classification (see codes.txt).  
 Apart from `>=1000` which are evacuation points.  They are given different numbers in case we want to look at their performance separately.
+
+## Types of buildings
+|type_id|name|
+|---|---|
+|0|residence|
+|-2|"shop|
+|-3|"work|
+|-4|"other|
+|-5|"recreation|
+|-6|"warehouse|
+|-7|"education|
+|-8|"evacuation|
+
 
 ## Codes.txt
 This is a table listing the type of non-residential building.  The code number corresponds to the building type number.
