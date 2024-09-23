@@ -115,14 +115,14 @@ public abstract class Model implements Runnable {
         System.out.println("\033[H\033[2J");
     }
 
-    /**
-     * Increment the id value
-     *
-     * @return a new id
-     */
-    public static int getNewId() {
-        return ++ids;
-    }
+//    /**
+//     * Increment the id value
+//     *
+//     * @return a new id
+//     */
+//    public static int getNewId() {
+//        return ++ids;
+//    }
 
     /**
      * Returns the grid in its current state

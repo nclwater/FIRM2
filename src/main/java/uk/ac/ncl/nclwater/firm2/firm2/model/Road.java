@@ -8,10 +8,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Road extends Agent {
-    int speedLimit = 30;
     @Expose
     @SerializedName("road_IDs")
     String[] roadIDs = new String[3];
+
+    @Expose
+    @SerializedName("speed_limit")
+    int speedLimit = 30;
 
     @Expose
     @SerializedName("road_length")
@@ -31,7 +34,7 @@ public class Road extends Agent {
      * @param agentId A unique agent id
      * @param roadIDs The IDs of the road that make up this road (clarify)
      */
-    public Road(int agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
+    public Road(String agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
         this.agent_id = agentId;
         this.roadIDs[0] = roadIDs[0];
         this.roadIDs[1] = roadIDs[1];

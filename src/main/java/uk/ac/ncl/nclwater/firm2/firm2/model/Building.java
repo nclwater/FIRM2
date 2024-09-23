@@ -25,7 +25,7 @@ public class Building extends Agent {
      * @param id a unique id for the agent
      * @param type the type of building
      */
-    public Building(int id, int type) {
+    public Building(String id, int type) {
         setAgent_id(id);
         this.type = type;
         if (type == 0) {
@@ -42,7 +42,7 @@ public class Building extends Agent {
      * @param type the type of building
      * @param ordinate the ordinance map co-ordinates of the building
      */
-    public Building(int id, int type, PointDouble ordinate, String nearestRoad_ID) {
+    public Building(String id, int type, PointDouble ordinate, String nearestRoad_ID) {
         setAgent_id(id);
         this.type = type;
         this.ordinate = ordinate;

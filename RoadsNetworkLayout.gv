@@ -1,0 +1,43 @@
+diGraph a {
+layout=neato; overlap=prism; overlap_scaling=-3.5; 
+outputorder=nodesfirst; splines=curved; 
+
+	edge[arrowhead="open" arrowsize="0.2"; penwidth="0.2";]
+
+      node[fontname="Helvetica" fontsize="7" shape=oval margin="0.05,0.05" ];
+	
+  4000000012473589->
+  4000000012475212.0->
+  4000000012475212.1->
+  4000000012475212.2->
+  4000000012475212.3->
+  4000000012475212.4->
+  4000000012475212.5->
+  4000000012475212.6->
+  4000000012475212.7->
+  4000000012475212.8->
+  4000000012473353;
+
+  attr0 [shape=box label="xyz:299176000,378609000,0"] 
+  attr1 [shape=box label="xyz:299187300,378546896,0"] 
+  attr2 [shape=box label="xyz:299202500 378437296,0"] 
+  attr3 [shape=box label="xyz:299226116 378314543,0"] 
+  attr4 [shape=box label="xyz:299270000 378110000,0"] 
+  attr5 [shape=box label="xyz:299281112 378070887,0"] 
+  attr6 [shape=box label="xyz:299297501 377991125,0"] 
+  attr7 [shape=box label="xyz:299309884 377924111,0"] 
+  attr8 [shape=box label="xyz:299353589 377696844,0"] 
+  attr9 [shape=box label="xyz:299359781 377666979,0"] 
+  attr10 [shape=box label="xyz:299368000 377627000,0"] 
+  attr0 -> 4000000012473589;
+  attr1 -> 4000000012475212.0;
+  attr2 -> 4000000012475212.1;
+  attr3 -> 4000000012475212.2;
+  attr4 -> 4000000012475212.3;
+  attr5 -> 4000000012475212.4;
+  attr6 -> 4000000012475212.5;
+  attr7 -> 4000000012475212.6;
+  attr8 -> 4000000012475212.7;
+  attr9 -> 4000000012475212.8;
+  attr10 -> 4000000012473353
+}

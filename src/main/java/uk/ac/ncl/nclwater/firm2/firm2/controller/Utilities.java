@@ -1,5 +1,6 @@
 package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
+import org.graphstream.graph.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
@@ -140,10 +141,10 @@ public class Utilities {
      * @param cellMeters the size, in square meters of one cell
      * @return return the grid co-ordinates as a Point
      */
-    public static Point BNG2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
+    public static PointInteger BNG2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
         int y_coord = Math.round((y - y_origin) / cellMeters);
-        Point point = new Point(x_coord, y_coord);
+        PointInteger point = new PointInteger(x_coord, y_coord);
         return point;
     }
 
@@ -234,6 +235,23 @@ public class Utilities {
     }
 
     /**
+     * Given two graphstream nodes, calculate the distance between them using the xyz co-ordinates
+     * @param firstNode
+     * @param secondNode
+     * @return
+     */
+    public static double distanceBetweenNodes(Node firstNode, Node secondNode) {
+        Object[] xyzValues1 = (Object[]) firstNode.getAttribute("xyz");
+        double northing1 = (double) xyzValues1[0];
+        double easting1 = (double) xyzValues1[1];
+        Object[] xyzValues2 = (Object[]) secondNode.getAttribute("xyz");
+        double northing2 = (double) xyzValues2[0];
+        double easting2 = (double) xyzValues2[1];
+        return calculateDistance(easting1, northing1, easting2, northing2 );
+
+    }
+
+    /**
      * Convert British National Grid co-ordinates to longitude and latitude
      * @param easting - easting co-ordinate
      * @param northing - northing co-ordinate
@@ -321,13 +339,12 @@ public class Utilities {
     }
 
     /**
-     * Calculate the distance travelled in one second given a speed
-     * @param speed The speed at which the object is moving
-     * @return The distance travelled in one second
+     * Calculate the distance travelled (in meters) in one second given a speed (in miles per hour)
+     * @param speed The speed (in miles per hour) at which the object is moving
+     * @return The distance travelled in one second (in meters)
      */
     public static double distanceTravelled(double speed) {
-        return 1000.0 / 3600.0 * speed;
+        return speed * 0.44704;
     }
-
 
 }

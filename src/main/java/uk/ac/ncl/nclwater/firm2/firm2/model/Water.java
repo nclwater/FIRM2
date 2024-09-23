@@ -19,7 +19,7 @@ public class Water extends Agent {
      * @param waterLevel
      * @param isOcean
      */
-    public Water(int agent_id, float waterLevel, boolean isOcean) {
+    public Water(String agent_id, float waterLevel, boolean isOcean) {
         this.waterLevel = waterLevel;
         this.isOcean = isOcean;
         setAgent_id(agent_id);

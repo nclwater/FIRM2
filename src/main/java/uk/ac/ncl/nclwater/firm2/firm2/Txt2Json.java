@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 /**
@@ -32,7 +33,7 @@ public class Txt2Json {
     public static void Globals2Json() {
         GlobalVariables globalVariables;
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + properties.getProperty("terrain-data")));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "/original_textfile_data/" + properties.getProperty("terrain-data")));
             String[] lines = new String[6];
             for (int i = 0; i < 5; i++) {
                 lines[i] = Utilities.trimBrackets(sc.nextLine().trim()).trim().split("\t")[1];
@@ -65,7 +66,7 @@ public class Txt2Json {
     public static void BuildingsTxt2Json() {
         Buildings buildings = new Buildings();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "preprocessed-buildings.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "/original_textfile_data/" + "preprocessed-buildings.txt"));
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 // skip lines that start with ;;
@@ -80,7 +81,7 @@ public class Txt2Json {
                     int type = Integer.parseInt(xy[2]);
                     // extract the fourth token
                     String nearestRoad_ID = trimQuotes(xy[3]);
-                    Building building = new Building(Model.getNewId(), type, coords, nearestRoad_ID);
+                    Building building = new Building(Integer.toString(getNewId()), type, coords, nearestRoad_ID);
                     System.out.println(building.getOrdinate().getX() + ", " + building.getOrdinate().getY() + ", " + nearestRoad_ID);
                     buildings.add(building);
                 }
@@ -110,7 +111,7 @@ public class Txt2Json {
         Defences defences = new Defences();
         String defenceNameHolder = "";
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") +  "defences.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") +  "/original_textfile_data/" + "defences.txt"));
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 // skip all lines that start with ;;
@@ -129,7 +130,7 @@ public class Txt2Json {
                     }
                     // use a default defence height of 10m
 
-                    Defence defence = new Defence(Model.getNewId(), coords, defenceNameHolder, 10);
+                    Defence defence = new Defence(Integer.toString(getNewId()), coords, defenceNameHolder, 10);
                     //System.out.println(defence.getOrdinate().getX() + ", " + defence.getOrdinate().getY());
                     defences.add(defence);
                 }
@@ -154,11 +155,11 @@ public class Txt2Json {
      *
      * @param toBNG If true, export to BNG co-ordinates. If false, export to matrix x,y
      */
-    public static void RoadsTxt2Json(boolean toBNG) {
+    public static void  RoadsTxt2Json(boolean toBNG) {
         Roads roads = new Roads();
         BNGRoads bngRoads = new BNGRoads();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "original_textfile_data/roads.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "/original_textfile_data/roads.txt"));
             Origins origins = new Origins();
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
@@ -178,9 +179,22 @@ public class Txt2Json {
                     roadIDs[2] = topHalf.split(" ")[2].replace('"', ' ').trim();
                     String[] tokens = trimQuotes(topHalf.replace("\" \"", " ")).split(" ");
                     long roadLength = Long.parseLong(tokens[3]);
-                    String type = trimQuotes(tokens[4]);
-                    type = trimQuotes(topHalf.trim().substring(topHalf.substring(0, topHalf.trim().length() - 1).lastIndexOf('"'),
-                            topHalf.trim().lastIndexOf('"')));
+                    String roadType = trimQuotes(topHalf.trim().substring(topHalf.substring(0, topHalf.trim().length() - 1).lastIndexOf('"'),
+                            topHalf.trim().lastIndexOf('"')));;
+                    String type = switch (roadType) {
+                        case "Dual Carriageway" -> "dc";
+                        case "Single Carriageway" -> "sc";
+                        case "Traffic Island Link At Junction" -> "tilj";
+                        case "Enclosed Traffic Area Link" -> "etal";
+                        case "Slip Road" -> "sr";
+                        case "Roundabout" -> "r";
+                        case "Traffic Island Link" -> "til";
+
+                        default -> "";
+                    };
+                    if (type.isEmpty()) {
+                        logger.debug("unknown road type: " + roadType);
+                    }
                     String match = "] \\[";
                     String[] coordinates = trimBrackets(bottomHalf).split(match);
                     if (toBNG) {
@@ -211,8 +225,8 @@ public class Txt2Json {
             sc.close();
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String outfile;
-            outfile = (properties.getProperty("INPUT_DATA") + "BNG_Roads.json");
-            logger.debug("Write output file {}", properties.getProperty("INPUT_DATA")+ properties.getProperty("ROADS_DATA"));
+            outfile = (properties.getProperty("INPUT_DATA") + ((toBNG)?"BNG_Roads.json":"Roads.json"));
+            logger.debug("Write output file {}", outfile);
 
             FileWriter fileWriter = new FileWriter(outfile);
             if ((toBNG)) {
@@ -222,6 +236,7 @@ public class Txt2Json {
             }
             fileWriter.close();
         } catch (FileNotFoundException e) {
+             logger.debug("file not found");
             throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
@@ -312,12 +327,12 @@ public class Txt2Json {
      */
     public static void CodesTxt2Json() {
         try {
-            Scanner sc = new Scanner(new File("DATA/inputs/codes.txt"));
+            Scanner sc = new Scanner(new File("DATA/inputs/original_textfile_data/codes.txt"));
             BuildingTypes buildingTypes = new BuildingTypes();
             // Read first 6 lines for building-type-codes
             int lineIndex = 1;
             while (lineIndex < 7) {
-                String[] tokens = trimBrackets(sc.nextLine()).split("\t");
+                String[] tokens = trimBrackets(sc.nextLine()).split(" ");
                 BuildingType buildingType = new BuildingType(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]));
                 buildingTypes.add(buildingType);
                 lineIndex++;
@@ -333,7 +348,7 @@ public class Txt2Json {
                 String line = sc.nextLine();
                 if (!(line.isEmpty() || line.startsWith(";;"))) {
                     System.out.println(line);
-                    String[] tokens = trimBrackets(line).split("\t");
+                    String[] tokens = trimBrackets(line).split(" ");
                     BuildingCode buildingCode = new BuildingCode(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]),
                             buildingTypes.findBuildingType(trimQuotes(tokens[2])));
                     buildingCodes.add(buildingCode);

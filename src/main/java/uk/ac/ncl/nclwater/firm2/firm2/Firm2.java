@@ -7,50 +7,39 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
-import org.graphstream.ui.view.ViewerListener;
-import org.graphstream.ui.view.ViewerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.*;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
-import uk.ac.ncl.nclwater.firm2.examples.RoadNetworkGSTest;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-import uk.ac.ncl.nclwater.firm2.firm2.view.ViewGrid;
-
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
-public class Firm2 extends Model implements ViewerListener{
+public class Firm2 extends Model{
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private static FloodModelParameters floodModelParameters;
     private static GlobalVariables globalVariables;
-    private Properties properties = null;
-    private Long modelTimeStamp = 0L;
+    private final Properties properties;
+    private Long modelTimeStamp;
     private ModelState modelState = new ModelState();
     private int modelStateIndex = 0;
     private ModelStateChanges modelStateChanges;
     private Float maintainSeaLevel = null;
-    private HashMap<String, VehicleCode> vehicleCodes = new HashMap<>();
-    private HashMap<String, BNGRoad> bngRoadHashMap = new HashMap<>();
-    private Graph graph = null;
-    private Node first = null;
-    private Node second = null;
     private AStar aStar = null;
-    private Path shortest = null;
+    private final Cars cars = new Cars();
+    private final Cars drownedCars = new Cars();
+    private final Cars destinationCars = new Cars();
+    private final Cars strandedCars = new Cars();
+    private Graph graph;
+
     /**
      * Initialise the model
      */
@@ -65,48 +54,40 @@ public class Firm2 extends Model implements ViewerListener{
 
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());
-            vehicleCodes = VehicleCodeDescriptors.loadVehicleCodeDescriptors(properties);
-
 
             // Create and populate all grids
             SimpleGrid waterGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "water");
             SimpleGrid terrainGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "terrain");
-            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
-                    waterGrid);
             SimpleGrid roadsGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "roads");
+            ComplexGrid carsGrid = new ComplexGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
+                    floodModelParameters.isToroidal(), "cars");
+
             HashMap<String, ArrayList<Point>> roadHashMap = new HashMap<>();
-            // LoadRoadsGrid.loadRoadsOld(floodModelParameters, properties, roadsGrid, roadHashMap);
             graph = new SingleGraph("Road Network");
+
+            LoadWaterAndTerrainGrid.loadWaterAndTerrain(globalVariables, floodModelParameters, properties, terrainGrid,
+                    waterGrid);
+            LoadRoadsGrid.loadRoadsOld(floodModelParameters, globalVariables, properties, roadsGrid, roadHashMap);
+            graph = LoadRoadsGrid.loadRoads(properties);
+
             aStar = new AStar(graph);
-            LoadRoadsGrid.gsLoadRoads(graph, bngRoadHashMap, properties);
             grids.put("terrain", terrainGrid);
             grids.put("buildings", LoadBuildingsGrid.loadBuildings(globalVariables, floodModelParameters, properties));
             grids.put("defences", LoadDefencesGrid.loadDefences(globalVariables, floodModelParameters, properties));
             grids.put("water", waterGrid);
             grids.put("roads", roadsGrid);
+            grids.put("cars", carsGrid);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
-            // Visualise if visualisation is set to true
-            if (floodModelParameters.isVisualise()) {
-                ViewerListener viewerListener = this;
-                Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                        ViewGrid viewGrid = new ViewGrid();
-                        viewGrid.displayGraph(graph, this, viewerListener);
-                    }});
-                t1.start();
-            }
+
             if (floodModelParameters.isVisualise()) {
                 visualisation = new Visualisation(this);
             }
-            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
-
-
-
+//            Timestamp mts = new Timestamp(floodModelParameters.getTimestamp() * 1000);
             // Do an initial tick
             tick();
         } catch (FileNotFoundException e) {
@@ -128,15 +109,15 @@ public class Firm2 extends Model implements ViewerListener{
         if (modelState != null) {
             int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
             int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
-            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L));
+            int seconds = Integer.parseInt(modelState.getTime().split(":")[2]);
+            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L) + (seconds * 1000));
 
         }
-        Timestamp ts = new Timestamp(timestamp);
         Timestamp mts = new Timestamp(modelTimeStamp);
         SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
         SimpleGrid terrainGrid = (SimpleGrid) grids.get("terrain");
         SimpleGrid defenceGrid = (SimpleGrid) grids.get("defences");
-        SimpleGrid roadGrid = (SimpleGrid) grids.get("roads");
+
         SimpleGrid newWaterGrid = new SimpleGrid(waterGrid.getWidth(), waterGrid.getHeight(), waterGrid.isIs_toroidal(), waterGrid.getGridName());
         // Initialise new grid to be the same as the old grid.
         for (int row = 0; row < waterGrid.getHeight(); row++) {
@@ -148,7 +129,7 @@ public class Firm2 extends Model implements ViewerListener{
 
         // reset sea level for ocean cells on every tick
         setSeaLevel(waterGrid, maintainSeaLevel);
-        //
+        // TIMELINE
         // If there is a timestamp in the timeline for current time, execute the state change
         //
         if (timestamp == modelTimeStamp) {
@@ -172,8 +153,8 @@ public class Firm2 extends Model implements ViewerListener{
                         if (defences != null) {
                             Defence defenceCell = (Defence) defenceGrid.getCell(col, row);
                             if (defenceCell != null) {
-                                for (int i = 0; i < defences.size(); i++) {
-                                    if (defenceCell.getName().equals(defences.get(i))) {
+                                for (String defence : defences) {
+                                    if (defenceCell.getName().equals(defence)) {
                                         defenceGrid.setCell(col, row, null);
                                         break;
                                     }
@@ -184,68 +165,211 @@ public class Firm2 extends Model implements ViewerListener{
                     }
                 }
             }
-            // Get entering vehicles
-            if (modelState.getVehicles() != null) {
-                if (!modelState.getVehicles().isEmpty()) {
-                    // Place vehicles
-                    ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) modelState.getVehicles();
-                    logger.debug("{} vehicle types enter: {}", modelState.getVehicles().size(), vehicles);
-                    for (int i = 0; i < vehicles.size(); i++) {
-                        Vehicle vehicle = vehicles.get(i);
-                        String nearestRoad = "4000000012475200";
+            // Cars entering the model
+            if (modelState.getCars() != null) {
+                for (int c = 0; c < modelState.getCars().size(); c++) {
+                    Car car = modelState.getCar(c);
+//                    car.setAgent_id(car.getAgentId());
+                    // cars are red (for now)
+                    car.setStartNode(car.getCarItinerary().get(0).getStartNode());
+                    car.setEndNode(car.getCarItinerary().get(0).getEndNode());
+                    car.setColour(Color.red);
+                    // get the shortest path to endCoordinates
+                    aStar.compute(car.getStartNode(), car.getEndNode());
+                    Path shortestPath = aStar.getShortestPath();
+                    car.setRouteNodes(shortestPath);
+                    if (shortestPath != null) {
+                        logger.debug("shortest path: {}", shortestPath);
+                        // add the car to the cars grid
+                        // Get the xy coordinates for the normal cell grid of the starting point
+                        PointInteger xy = getXY(car);
+                        cars.addCar(car);
+                        ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
+                        logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
+                    } else {
+                        logger.debug("Car {} is stranded, no route to destination", car.getAgent_id());
+                        strandedCars.addCar(car);
+                        car.setColour(Color.ORANGE);
+                        car.setStranded(true);
+                        //TODO:
+                        cars.removeCar(car);
+                    }
+                }
 
-//                        logger.debug("vehicles: type: {} dist: {} sd: {} qty: {} road: {}", vehicle.getCode(), vehicle.getDist(),
-//                                vehicle.getSd(), vehicle.getQty(), nearestRoad);
-                        String carID = "V." + modelState.getTime() + "." + vehicle.getCode() + ".";
-                        for (int car = 0; car < vehicle.getQty(); car++) {
-                            Node n = graph.addNode(carID + car);
-                            if (n != null) {
-                                n.setAttribute("fill-color: red");
-                                n.setAttribute("size", "5px");
-                                float[] xy = {298978.0F, 378571.0F};
-                                n.setAttribute("xyz", xy[0], xy[1], 0);
-                                logger.debug("Add car to graph {}", n.getId());
-                               Point xy1 = Utilities.BNG2GridXY(
-                                        globalVariables.getLowerLeftX(),
-                                        globalVariables.getLowerLeftY(), xy[0], xy[1],
-                                        globalVariables.getCellSize());
-                                logger.debug("Lower left corner of map: orig_x {}, orig_y {}, cell size {}, xy_x {}, xy_y {}, x {}, y {}",
-                                        globalVariables.getLowerLeftX(),
-                                        globalVariables.getLowerLeftY(),
-                                        globalVariables.getCellSize(),
-                                        xy[0],
-                                        xy[1],
-                                        xy1.x,
-                                        xy1.y
-                                        );
-                                if (xy1.x >= 0 && xy1.x < floodModelParameters.getWidth() &&
-                                        xy1.y >= 0 && xy1.y < floodModelParameters.getHeight()) {
-                                    ((SimpleGrid)grids.get("roads")).setCell(xy1.x, xy1.y, new Car(getNewId(), null));
-                                    ((SimpleGrid)grids.get("roads")).getCell(xy1.x, xy1.y).setColour(Color.red);
+            }
+        }
+        moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
+        moveCars();
+        // read the next state change
+        modelState = modelStateChanges.getModelStates().get(modelStateIndex);
+        if (floodModelParameters.isVisualise()) {
+            visualisation.getDrawPanel().repaint();
+        }
+    }
+
+    /**
+     * Get current Grid XY co-ordinates from Car objects
+     * @param car The car whose position is to be determined
+     * @return xy position of the car on the grid
+     */
+    private PointInteger getXY(Car car) {
+        return getXY(car, 0);
+    }
+
+
+    /**
+     * Return Grid XY co-ordinates from Car object for position 'index' in the route
+     * @param car The car whose position is to be found
+     * @param index The index in the route (0 for current position)
+     * @return return Grid xy-co-ordinate
+     */
+    private PointInteger getXY(Car car, int index) {
+        // Get grid xy co-ordinates from BNG co-ordinates
+        Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(index).getAttribute("xyz");
+        double x = (double)xyz[0];
+        double y = (double)xyz[1];
+
+        PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
+                globalVariables.getLowerLeftY(),
+                (float)x, (float)y,
+                globalVariables.getCellSize());
+        // flip y horizontally
+        xy.setY(floodModelParameters.getHeight() - 1 - xy.getY());
+        return new PointInteger(xy.getX(), xy.getY());
+    }
+
+
+    /**
+     * Helper method to determine whether a car drowned. If the car drowned return true else return false.
+     * @param car Car to check drowning status of
+     */
+    private boolean drownCar(Car car) {
+        PointInteger xy = getXY(car);
+        // Get the water agent on xy co-ordinate
+        Water w = (Water)(((SimpleGrid) grids.get("water")).getCell(xy.getX(), xy.getY()));
+        // If >= to vehicle drowning level then mark car as drowned, remove from list of cars add to drowned list
+        if (w.getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+            car.setDrowned(true);
+            car.setColour(new Color(73,23,12)); // change drowned car to brown
+            drownedCars.addCar(car);
+            //TODO:
+            cars.removeCar(car);
+            logger.trace("Car {} removed", car.getAgent_id());
+            logger.debug("Tick Car drowned: {}", car.getAgent_id());
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Helper method to move vehicles along shortest path
+     */
+    private void moveCars() {
+        //int speed; // TODO: fix this to read from road files
+        for (int c = 0; c < cars.getCars().size(); c++) {
+            Car car = cars.getCar(c);
+            if (car.getRouteNodes() == null) {
+                logger.debug("Car {} entering on flooded area", car.getAgent_id());
+                car.setDrowned(true);
+                cars.removeCar(car);
+            } else {
+                // If the car hasn't drowned, move it along
+                if (!drownCar(car)) {
+                    Path route = car.getRouteNodes();
+                    // If there is only one node left in the path the car has reached its destination
+                    if (route.getNodePath().size() == 1) {
+                        logger.debug("Car {} reached its destination", car.getAgent_id());
+                        car.setAtDestination(true);
+                        car.setColour(Color.magenta);
+                        destinationCars.addCar(car);
+                        //TODO:
+                        cars.removeCar(car);
+
+                    } else {
+                        // check if current position is flooded
+                        PointInteger startXY = getXY(car, 0);
+                        if (((Water) ((SimpleGrid) grids.get("water")).getCell(startXY.getX(),
+                                startXY.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                            logger.debug("Car {} can't enter, road {} already flooded.", car.getAgent_id(), car.getRouteNodes().getNodePath().get(0).getId());
+                            cars.removeCar(car);
+                            car.setDrowned(true);
+                        } else {
+
+                            Node firstNode = route.getNodePath().get(0);
+                            Node nextNode = route.getNodePath().get(1);
+                            PointInteger cell = getXY(car, 1);
+                            // Check if the car's next position has been flooded and reroute if it is
+                            if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
+                                    cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                                logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
+                                        car.getAgent_id(),
+                                        car.getRouteNodes().getNodePath().get(0),
+                                        car.getCoveredDistance());
+
+                                graph.removeNode(nextNode);
+                                car.setCoveredDistance(car.getCoveredDistance() * -1);
+                                aStar.compute(firstNode.getId(), car.getEndNode());
+                                Path newShortestPath = aStar.getShortestPath();
+                                car.setRouteNodes(newShortestPath);
+                                if (newShortestPath == null) {
+                                    car.setStranded(true);
+                                }
+                                logger.trace("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
+
+                            } else {
+                                // TODO: Check that Richard is happy with this implementation
+                                // Calculate car's next position
+                                int speed = (firstNode.getAttribute("speed-limit") == null) ? 0 : (int) firstNode.getAttribute("speed-limit");
+
+                                logger.trace("speed: {} on road {}", firstNode.getAttribute("speed-limit"), firstNode.getId());
+                                float nextPosition = (float) (car.getCoveredDistance() + speed);
+                                // Check if there is already a car on next position
+                                AtomicBoolean spaceAllocated = new AtomicBoolean(false);
+                                cars.getCars().forEach(cr -> {
+                                    String anotherCarID = cr.getAgent_id();
+                                    String anotherCarNodeID = cr.getRouteNodes().getNodePath().get(0).getId();
+                                    double cr_coveredDistance = cr.getCoveredDistance();
+                                    if (anotherCarNodeID.equals(car.getRouteNodes().getNodePath().get(0).getId()) &&
+                                            !anotherCarID.equals(car.getAgent_id())) {
+                                        if (car.getCoveredDistance() == cr_coveredDistance) {
+                                            spaceAllocated.set(true);
+                                        }
+                                    }
+                                });
+                                // If there is another car in the car's next position, don't move, wait
+                                if (spaceAllocated.get()) {
+                                    // We are not reducing speed we just wait for the next tick.
+                                    Object[] xyz = (Object[]) car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
+                                    logger.debug("Car {} is waiting at {} from {}, {}", car.getAgent_id(),
+                                            car.getCoveredDistance(), xyz[0], xyz[1]);
                                 } else {
-                                    logger.debug("Coordinates out of bounds: {}, {}\t {}, {}", xy[0], xy[1], xy1.x, xy1.y);
+                                    // Car moves
+                                    car.setCoveredDistance(nextPosition);
 
+                                    // distance between current node and next node
+                                    double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
+                                    if (car.getCoveredDistance() >= interDist) {
+                                        PointInteger xy = getXY(car);
+                                        ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                                        logger.trace("Car {} reached {}", car.getAgent_id(), car.getRouteNodes().getNodePath().get(0));
+                                        // remove the first node since we have now reached the next node
+                                        route.getNodePath().remove(0);
+                                        // set distance
+                                        car.setCurrentDistance(car.getCoveredDistance() - interDist);
+                                        PointInteger xy2 = getXY(car);
+                                        ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
+                                    }
                                 }
                             }
                         }
                     }
+                } else {
+                    logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
                 }
             }
         }
-        moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
-        // read the next state change
-        modelState = modelStateChanges.getModelStates().get(modelStateIndex);
-        if (floodModelParameters.isVisualise()) {
-
-            visualisation.getDrawPanel().repaint();
-            ;
-
-        }
     }
 
-    private void moveVehicles() {
-        ((ComplexGrid) grids.get("vehicles")).getAgents().forEach(ComplexAgent::incrementMovementIndex);
-    }
 
     /**
      * Restore ocean to level
@@ -261,6 +385,13 @@ public class Firm2 extends Model implements ViewerListener{
         }
     }
 
+    /**
+     * Helper method to simulate water movement
+     * @param water The water grid
+     * @param terrain The terrain grid
+     * @param defence The defences grid
+     * @param newWaterGrid The new water grid after the water moved
+     */
     private void moveWater(SimpleGrid water, SimpleGrid terrain, SimpleGrid defence, SimpleGrid newWaterGrid) {
         // MOVE WATER
         for (int row = 0; row < floodModelParameters.getHeight(); row++) {
@@ -339,9 +470,9 @@ public class Firm2 extends Model implements ViewerListener{
 
         // Generate a one pixel per cell PNG image on tick
         if (floodModelParameters.isPngOnTick()) {
-            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("OUTPUT_DATA"), "water_" + Long.toString(modelTimeStamp));
-            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("OUTPUT_DATA"), "terrain_" + Long.toString(modelTimeStamp));
-            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("OUTPUT_DATA"), "defences_" + Long.toString(modelTimeStamp));
+            ((SimpleGrid) grids.get("water")).createPNG(properties.getProperty("OUTPUT_DATA"), "water_" + modelTimeStamp);
+            ((SimpleGrid) grids.get("terrain")).createPNG(properties.getProperty("OUTPUT_DATA"), "terrain_" + modelTimeStamp);
+            ((SimpleGrid) grids.get("defences")).createPNG(properties.getProperty("OUTPUT_DATA"), "defences_" + modelTimeStamp);
         }
     }
 
@@ -369,73 +500,13 @@ public class Firm2 extends Model implements ViewerListener{
         floodModelParameters.setTitle(properties.getProperty("APPLICATION_TITLE"));
         floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG_ON_TICK")));
         floodModelParameters.setRunOnStartUp(Boolean.parseBoolean(properties.getProperty("RUN_ON_STARTUP")));
+        floodModelParameters.setVehicleFloodDepth(Float.parseFloat(properties.getProperty("VEHICLE_FLOOD_DEPTH")));
         modelInit();
         Thread modelthread = new Thread(this);
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
         modelthread.start();
     }
 
-    public void viewClosed(String id) {
-        logger.trace("Exiting");
-//        loop = false;
-    }
 
-    public void buttonPushed(String id) {
-        if (first == null) {
-            if (shortest != null) {
-
-                logger.debug("aStar.getShortestPath() = {}", shortest.toString());
-                shortest.getEdgePath().forEach(p -> {
-                    p.removeAttribute("ui.class");
-                });                    } else {
-                logger.debug("Remove previous paths");
-            }
-            if (second != null) {
-                second.removeAttribute("ui.class");
-                second = null;
-            }
-            first = graph.getNode(id);
-            if (first != null) {
-                String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
-                Object[] xyz = (Object[])first.getAttribute("xyz");
-                Point xy = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
-                        globalVariables.getLowerLeftY(),
-                        ((Double)xyz[0]).floatValue(), ((Double)xyz[1]).floatValue(), globalVariables.getCellSize());
-                logger.debug("First node {} is part of road [{}], {}, [{},{}]", first, roadID,
-                        first.getAttribute("xyz"), xy.x, xy.y);
-                graph.getNode(id).setAttribute("ui.class", "marked");
-            }
-        } else {
-            if (second == null) {
-                second = graph.getNode(id);
-                if (second != null) {
-                    String roadID = bngRoadHashMap.get(id)==null?"":bngRoadHashMap.get(id).getRoadIDs()[0];
-                    logger.debug("Second node {} is part of road [{}], {}", second, roadID, second.getAttribute("xyz"));
-                    graph.getNode(id).setAttribute("ui.class", "marked");
-                    aStar.compute(first.getId(), second.getId());
-                    shortest = aStar.getShortestPath();
-                    if (shortest != null) {
-                        logger.debug("aStar.getShortestPath() = {}", shortest.toString());
-                        shortest.getEdgePath().forEach(p -> {
-                            p.setAttribute("ui.class", "marked");
-                        });                    } else {
-                        logger.debug("No path found between nodes");
-                    }
-
-                    first.removeAttribute("ui.class");
-                    first = null;
-                }
-            }
-        }
-    }
-
-    public void buttonReleased(String id) {
-    }
-
-    public void mouseOver(String id) {
-    }
-
-    public void mouseLeft(String id) {
-    }
 
 }

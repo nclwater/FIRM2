@@ -4,17 +4,18 @@ graph {
 
 node {
     fill-color: blue;
-    size: 4px;
+    size: 5px;
 }
 
 node.marked  {
     fill-color: red;
 }
+
 edge {
     fill-color: blue;
-    arrow-size: 3px, 2px;
-
+    arrow-size: 5px, 2px;
 }
+
 edge.marked {
     fill-color: red;
 }

@@ -2,13 +2,21 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BNGRoad extends Agent {
-    int speedLimit = 30;
+    private static final Logger logger = LoggerFactory.getLogger(BNGRoad.class);
+
+    /**
+     * Each road has three IDs associated with it. The first is the road id, the second is the ID of the
+     * starting position and the third is the ID of the end position of the road.
+     */
     @Expose
     @SerializedName("road_IDs")
     String[] roadIDs = new String[3];
@@ -21,9 +29,14 @@ public class BNGRoad extends Agent {
     @SerializedName("road_type")
     String roadType;
 
+    /**
+     * The nodes in the road - a list of BNG xy coordinates
+     */
     @Expose
     @SerializedName("polyline_coordinates")
     ArrayList<PointDouble> polylineCoordinates = new ArrayList<>();
+
+    int roadSpeedLimit = 0;
 
 
     /**
@@ -31,7 +44,7 @@ public class BNGRoad extends Agent {
      * @param agentId A unique agent id
      * @param roadIDs The IDs of the road that make up this road (clarify)
      */
-    public BNGRoad(int agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
+    public BNGRoad(String agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
         this.agent_id = agentId;
         this.roadIDs[0] = roadIDs[0];
         this.roadIDs[1] = roadIDs[1];
@@ -39,6 +52,12 @@ public class BNGRoad extends Agent {
         this.colour = Color.black;
     }
 
+    /**
+     * Return the three IDs associated with this road. The first ID is the ID of the road
+     * The second ID is the first node of the road
+     * The third ID is the last node of the road
+     * @return
+     */
     public String getID() {
         return roadIDs[0];
     }
@@ -57,9 +76,9 @@ public class BNGRoad extends Agent {
         sb.append("Road ID 2: ").append(roadIDs[1]).append("\n");
         sb.append("Road ID 3: ").append(roadIDs[2]).append("\n");
         sb.append("Road Length: ").append(roadLength).append("\n");
-        sb.append("Road Type: ").append(roadType).append("\nPolyline Coordinates: \n");
-        polylineCoordinates.forEach(p -> sb.append(" ").append(p.getX()).append(",").append(p.getY()).append("\n") );
-        sb.append("Colour: ").append(getColour().toString()).append("\n");
+        sb.append("Road Type: ").append(roadType).append("\n");
+        sb.append("Speed: ").append(roadSpeedLimit).append("\n");
+//        sb.append("Colour: ").append(getColour().toString()).append("\n");
         return sb.toString();
     }
 
@@ -70,15 +89,6 @@ public class BNGRoad extends Agent {
     public void setRoadIDs(String[] roadIDs) {
         this.roadIDs = roadIDs;
     }
-
-    public int getSpeedLimit() {
-        return speedLimit;
-    }
-
-    public void setSpeedLimit(int speedLimit) {
-        this.speedLimit = speedLimit;
-    }
-
 
     public long getRoadLength() {
         return roadLength;
@@ -111,8 +121,8 @@ public class BNGRoad extends Agent {
     public ArrayList<PointInteger> getPolylineCoordinatesInt() {
         ArrayList<PointInteger> points = new ArrayList<>();
         polylineCoordinates.forEach(p -> {
-            PointInteger newpoint = new PointInteger((int) (p.getX() * 1000), (int) (p.getX() * 1000));
-            points.add(newpoint);
+            PointInteger newPoint = new PointInteger((int) (p.getX() * 1000), (int) (p.getX() * 1000));
+            points.add(newPoint);
         });
         return points;
     }
@@ -123,5 +133,13 @@ public class BNGRoad extends Agent {
 
     public void addCoordinates(PointDouble coordinates) {
         polylineCoordinates.add(coordinates);
+    }
+
+    public int getRoadSpeedLimit() {
+        return roadSpeedLimit;
+    }
+
+    public void setRoadSpeedLimit(int roadSpeedLimit) {
+        this.roadSpeedLimit = roadSpeedLimit;
     }
 }

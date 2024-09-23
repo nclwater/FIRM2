@@ -10,7 +10,7 @@ public abstract class Agent {
     /**
      * A unique id for each agent that comes into existence
      */
-    public int agent_id = 0;
+    public String agent_id = "0";
 
     /**
      * The age of this agent in ticks
@@ -27,7 +27,7 @@ public abstract class Agent {
      *
      * @param agent_id
      */
-    public void setAgent_id(int agent_id) {
+    public void setAgent_id(String agent_id) {
         this.agent_id = agent_id;
     }
 
@@ -36,7 +36,7 @@ public abstract class Agent {
      *
      * @return the agent_id
      */
-    public int getAgent_id() {
+    public String getAgent_id() {
         return this.agent_id;
     }
 

@@ -16,12 +16,12 @@ public class ModelState {
     @SerializedName("sea-level")
     @Expose
     private Float seaLevel;
-    @SerializedName("vehicles")
-    @Expose
-    private ArrayList<Vehicle> vehicles;
     @SerializedName("defence-breach")
     @Expose
     private List<String> defenceBreach;
+    @SerializedName("cars")
+    @Expose
+    private ArrayList<Car> cars;
 
     public String getTime() {
         return time;
@@ -39,13 +39,6 @@ public class ModelState {
         this.seaLevel = seaLevel;
     }
 
-    public ArrayList<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(ArrayList<VehicleCode> vehicleCodes) {
-        this.vehicles = vehicles;
-    }
 
     public List<String> getDefenceBreach() {
         return defenceBreach;
@@ -55,21 +48,27 @@ public class ModelState {
         this.defenceBreach = defenceBreach;
     }
 
+    public Car getCar(int index) {
+        return cars.get(index);
+    }
+
+    public void addCar(Car c) {
+        cars.add(c);
+    }
+
+    public ArrayList<Car> getCars() {
+        return cars;
+    }
+
     @Override
     public String toString() {
         StringBuilder vsb = new StringBuilder();
-        if (vehicles != null) {
-            for (int i = 0; i < vehicles.size(); i++) {
-                Vehicle vehicle = vehicles.get(i);
-                vsb.append(vehicle.getCode()).append(vehicle.getDist()).append(vehicle.getSd()).append(vehicle.getQty());
-            }
-        }
         StringBuilder sb = new StringBuilder();
         sb.append("class ModelState {\n");
         sb.append("  time: ").append(time).append("\n");
         sb.append("  seaLevel: ").append(seaLevel).append("\n");
-        sb.append("  vehicles: ").append(vsb.toString()).append("\n");
         sb.append("  defenceBreach: ").append(defenceBreach).append("\n");
+        sb.append("  cars: ").append(cars).append("\n");
         sb.append("}\n");
 
         return sb.toString();
