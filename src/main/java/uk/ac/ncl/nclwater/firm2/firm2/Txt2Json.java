@@ -33,7 +33,7 @@ public class Txt2Json {
     public static void Globals2Json() {
         GlobalVariables globalVariables;
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + properties.getProperty("terrain-data")));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "/original_textfile_data/" + properties.getProperty("terrain-data")));
             String[] lines = new String[6];
             for (int i = 0; i < 5; i++) {
                 lines[i] = Utilities.trimBrackets(sc.nextLine().trim()).trim().split("\t")[1];
@@ -66,7 +66,7 @@ public class Txt2Json {
     public static void BuildingsTxt2Json() {
         Buildings buildings = new Buildings();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "preprocessed-buildings.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "/original_textfile_data/" + "preprocessed-buildings.txt"));
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 // skip lines that start with ;;
@@ -111,7 +111,7 @@ public class Txt2Json {
         Defences defences = new Defences();
         String defenceNameHolder = "";
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") +  "defences.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") +  "/original_textfile_data/" + "defences.txt"));
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
                 // skip all lines that start with ;;
@@ -155,11 +155,11 @@ public class Txt2Json {
      *
      * @param toBNG If true, export to BNG co-ordinates. If false, export to matrix x,y
      */
-    public static void RoadsTxt2Json(boolean toBNG) {
+    public static void  RoadsTxt2Json(boolean toBNG) {
         Roads roads = new Roads();
         BNGRoads bngRoads = new BNGRoads();
         try {
-            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "original_textfile_data/roads.txt"));
+            Scanner sc = new Scanner(new File(properties.getProperty("INPUT_DATA") + "/original_textfile_data/roads.txt"));
             Origins origins = new Origins();
             while (sc.hasNext()) {
                 String line = sc.nextLine().trim();
@@ -236,6 +236,7 @@ public class Txt2Json {
             }
             fileWriter.close();
         } catch (FileNotFoundException e) {
+             logger.debug("file not found");
             throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
@@ -326,12 +327,12 @@ public class Txt2Json {
      */
     public static void CodesTxt2Json() {
         try {
-            Scanner sc = new Scanner(new File("DATA/inputs/codes.txt"));
+            Scanner sc = new Scanner(new File("DATA/inputs/original_textfile_data/codes.txt"));
             BuildingTypes buildingTypes = new BuildingTypes();
             // Read first 6 lines for building-type-codes
             int lineIndex = 1;
             while (lineIndex < 7) {
-                String[] tokens = trimBrackets(sc.nextLine()).split("\t");
+                String[] tokens = trimBrackets(sc.nextLine()).split(" ");
                 BuildingType buildingType = new BuildingType(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]));
                 buildingTypes.add(buildingType);
                 lineIndex++;
@@ -347,7 +348,7 @@ public class Txt2Json {
                 String line = sc.nextLine();
                 if (!(line.isEmpty() || line.startsWith(";;"))) {
                     System.out.println(line);
-                    String[] tokens = trimBrackets(line).split("\t");
+                    String[] tokens = trimBrackets(line).split(" ");
                     BuildingCode buildingCode = new BuildingCode(Integer.parseInt(tokens[0]), trimQuotes(tokens[1]),
                             buildingTypes.findBuildingType(trimQuotes(tokens[2])));
                     buildingCodes.add(buildingCode);

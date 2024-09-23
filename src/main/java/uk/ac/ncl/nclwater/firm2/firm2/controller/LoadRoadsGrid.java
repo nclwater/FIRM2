@@ -61,6 +61,9 @@ public class LoadRoadsGrid {
                             graph.getNode(nodeID).setAttribute("xyz", point.getX(), point.getY(), 0);
                             graph.getNode(nodeID).setAttribute("road-id", roadID);
                             graph.getNode(nodeID).setAttribute("road-type", road.getRoadType());
+                            if (roadTypes == null) {
+                                roadTypes = new RoadTypes();
+                            }
                             graph.getNode(nodeID).setAttribute("speed-limit", roadTypes.getSpeed(road.getRoadType()));
                             logger.trace("Road {}, Node {}. Add node {} is part of road {} which is of type {} with a speed limit of {}",
                                     totalRoadCount,

@@ -24,7 +24,7 @@ public class LoadRoadTypes {
 
             });
         } catch (FileNotFoundException e) {
-            throw new RuntimeException();
+            logger.debug("File not found");
         }
         return roadTypes;
     }

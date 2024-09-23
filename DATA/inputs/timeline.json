@@ -2,6 +2,12 @@
   "model-states": [
     {
       "time": "00:01:00",
+      "sea-level": 15,
+      "defence-breach": null,
+      "cars": []
+    },
+    {
+      "time": "00:02:00",
       "sea-level": null,
       "defence-breach": null,
       "cars": [
@@ -10,12 +16,12 @@
           "itinerary": [
             {
               "start-node": "4000000012472821",
-              "end-node": "4000000012843295",
+              "end-node": "4000000013562279",
               "wait-time": 600
             },
             {
               "start-node": "4000000012843295",
-              "end-node": "4000000012472821",
+              "end-node": "4000000013562279",
               "wait-time": 20
             }
           ]
@@ -35,7 +41,7 @@
           "itinerary": [
             {
               "start-node": "4000000012473580",
-              "end-node": "4000000013680918",
+              "end-node": "4000000012863124",
               "wait-time": null
             }
           ]
