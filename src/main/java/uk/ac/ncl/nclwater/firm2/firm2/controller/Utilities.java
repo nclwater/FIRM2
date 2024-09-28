@@ -3,7 +3,6 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 import org.graphstream.graph.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
 import uk.ac.ncl.nclwater.firm2.firm2.model.SystemProperties;
 
@@ -201,13 +200,20 @@ public class Utilities {
      * @param hours the hour at which the model state change occurs
      * @param minutes the minutes at which the model state change occurs
      * @param seconds the seconds at which the mode state change occurs
-     * @return the time as a Unix timestamp
+     * @return the time as a Unix timestamp in milliseconds
      */
-    public static long timeStringToUnixTimestamp(long startDateTimeStamp, int hours,
-                                            int minutes, int seconds) {
+    public static long timeToUnixTimestamp(long startDateTimeStamp, int hours,
+                                           int minutes, int seconds) {
 
         return ((startDateTimeStamp * 1000) + (hours * 3600000L) + (minutes * 60000L)
                 + (seconds * 1000L));
+    }
+
+    public static long timeStringToUnixTimestamp(long startDateTimeStamp, String time) {
+        int hours = Integer.parseInt(time.split(":")[0]);
+        int minutes = Integer.parseInt(time.split(":")[1]);
+        int seconds = Integer.parseInt(time.split(":")[2]);
+        return timeToUnixTimestamp(startDateTimeStamp, hours, minutes, seconds);
     }
 
     /**

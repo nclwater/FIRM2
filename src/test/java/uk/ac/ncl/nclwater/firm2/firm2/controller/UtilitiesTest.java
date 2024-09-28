@@ -3,8 +3,6 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 import org.junit.jupiter.api.Test;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
 
-import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UtilitiesTest {
@@ -57,5 +55,20 @@ class UtilitiesTest {
         xy = Utilities.BNG2GridXY(x_origin, y_origin, x, y, cellMeters);
         assertEquals(31, xy.getX());
         assertEquals(67, xy.getY());
+    }
+
+    @Test
+    void timeToUnixTimestamp() {
+        long timestamp = 1704067200;
+        long unixTimestamp = Utilities.timeToUnixTimestamp(timestamp, 0, 1, 0);
+        assertEquals(1704067260000L, unixTimestamp);
+    }
+
+    @Test
+    void timeStringToUnixTimestamp() {
+        String time = "01:00:00";
+        long timestamp = 0;
+        long unixTimestamp = Utilities.timeStringToUnixTimestamp(timestamp, time);
+        assertEquals(3600000L, unixTimestamp);
     }
 }

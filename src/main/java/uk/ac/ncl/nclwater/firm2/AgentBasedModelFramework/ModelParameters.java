@@ -16,7 +16,7 @@ public class ModelParameters {
     private boolean visualise = false;
     private String title = "Agent Based Model";
     private int slowdown = 200;
-    private Long tickTimeValue = 60L; // the length of time each tick represents in seconds
+    private Long tickTimeValue = 1L; // the length of time each tick represents in seconds
     private Long timestamp = 0L;
 
     private boolean runOnStartUp;

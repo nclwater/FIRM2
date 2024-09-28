@@ -111,11 +111,12 @@ public class Firm2 extends Model{
 //            int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
 //            int seconds = Integer.parseInt(modelState.getTime().split(":")[2]);
 //            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L) + (seconds * 1000));
-            timestamp = Utilities.timeStringToUnixTimestamp(floodModelParameters.getTimestamp(),
+            timestamp = Utilities.timeToUnixTimestamp(floodModelParameters.getTimestamp(),
                     Integer.parseInt(modelState.getTime().split(":")[0]),
                     Integer.parseInt(modelState.getTime().split(":")[1]),
                     Integer.parseInt(modelState.getTime().split(":")[2])
             );
+
         }
         Timestamp mts = new Timestamp(modelTimeStamp);
         SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
