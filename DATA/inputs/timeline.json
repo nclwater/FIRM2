@@ -7,6 +7,23 @@
       "cars": []
     },
     {
+      "time":  "00:04:00",
+      "sea-level":  null,
+      "defence-breach":  null,
+      "cars":  [
+        {
+          "agent-id": "car0010",
+          "itinerary": [
+            {
+              "start-node": "4000000012525931",
+              "end-node": "4000000012843393",
+              "wait-time": 600
+            }
+          ]
+        }
+      ]
+    },
+    {
       "time": "00:02:00",
       "sea-level": null,
       "defence-breach": null,

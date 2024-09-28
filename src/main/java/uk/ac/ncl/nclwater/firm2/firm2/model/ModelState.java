@@ -2,6 +2,9 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import jdk.jshell.execution.Util;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +79,8 @@ public class ModelState implements Comparable<ModelState> {
 
     @Override
     public int compareTo(ModelState o) {
-        //o.getTime()
-        return 0;
+        long o_time = Utilities.timeStringToUnixTimestamp(0, o.getTime());
+        long t_time = Utilities.timeStringToUnixTimestamp(0, time);
+        return (Long.compare(t_time, o_time));
     }
 }

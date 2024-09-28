@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -82,6 +83,7 @@ public class Firm2 extends Model{
             grids.put("cars", carsGrid);
 
             modelStateChanges = ModelStateChanges.readTimeLine(properties);
+            Collections.sort(modelStateChanges.getModelStates());
             modelState = modelStateChanges.getModelStates().get(modelStateIndex);
 
             if (floodModelParameters.isVisualise()) {
@@ -107,15 +109,7 @@ public class Firm2 extends Model{
         modelTimeStamp += floodModelParameters.getTickTimeValue() * 1000;
         long timestamp = 0;
         if (modelState != null) {
-//            int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
-//            int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
-//            int seconds = Integer.parseInt(modelState.getTime().split(":")[2]);
-//            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L) + (seconds * 1000));
-            timestamp = Utilities.timeToUnixTimestamp(floodModelParameters.getTimestamp(),
-                    Integer.parseInt(modelState.getTime().split(":")[0]),
-                    Integer.parseInt(modelState.getTime().split(":")[1]),
-                    Integer.parseInt(modelState.getTime().split(":")[2])
-            );
+            timestamp = Utilities.timeStringToUnixTimestamp(floodModelParameters.getTimestamp(),modelState.getTime());
 
         }
         Timestamp mts = new Timestamp(modelTimeStamp);
@@ -191,7 +185,7 @@ public class Firm2 extends Model{
                         PointInteger xy = getXY(car);
                         cars.addCar(car);
                         ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
-                        logger.debug("Car {} loaded, shortest path start: {}, end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
+                        logger.debug("Car {} loaded, shortest path start: {} end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
                     } else {
                         logger.debug("Car {} is stranded, no route to destination", car.getAgent_id());
                         strandedCars.addCar(car);
