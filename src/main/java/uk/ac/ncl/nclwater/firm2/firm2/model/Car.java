@@ -21,6 +21,8 @@ public class Car extends Agent {
 
     private String startNode;
     private String endNode;
+    private int itineraryIndex = 0;
+
     /**
      * An ArrayList of pre-determined positions eg. a road.
      */
@@ -193,5 +195,13 @@ public class Car extends Agent {
     @Override
     public void setAgent_id(String agent_id) {
         this.agent_id = agent_id;
+    }
+
+    public int getItineraryIndex() {
+        return itineraryIndex;
+    }
+
+    public void setItineraryIndex(int itineraryIndex) {
+        this.itineraryIndex = itineraryIndex;
     }
 }

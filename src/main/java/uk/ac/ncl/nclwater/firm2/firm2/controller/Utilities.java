@@ -3,6 +3,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 import org.graphstream.graph.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
 import uk.ac.ncl.nclwater.firm2.firm2.model.SystemProperties;
 
@@ -192,6 +193,21 @@ public class Utilities {
     public static int normalise(float value, float min, float max, int low, int high) {
         // colour range
         return 255 - (int)(low + ( ((value - min) * high / (max - min))));
+    }
+
+    /**
+     * Converts a timestamp string in the format hh:mm:ss to a long unix timestamp
+     * @param startDateTimeStamp time stamp for zero hours of the day on which the flood model starts
+     * @param hours the hour at which the model state change occurs
+     * @param minutes the minutes at which the model state change occurs
+     * @param seconds the seconds at which the mode state change occurs
+     * @return the time as a Unix timestamp
+     */
+    public static long timeStringToUnixTimestamp(long startDateTimeStamp, int hours,
+                                            int minutes, int seconds) {
+
+        return ((startDateTimeStamp * 1000) + (hours * 3600000L) + (minutes * 60000L)
+                + (seconds * 1000L));
     }
 
     /**

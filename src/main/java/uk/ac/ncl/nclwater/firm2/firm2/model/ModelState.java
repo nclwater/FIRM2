@@ -9,7 +9,7 @@ import java.util.List;
  * This class contains the state change for a given point in time. It should contain a state change for each grid
  * of the model. If the state change for a specif grid is null then there was no change at that point in time.
  */
-public class ModelState {
+public class ModelState implements Comparable<ModelState> {
     @SerializedName("time")
     @Expose
     private String time;
@@ -72,5 +72,10 @@ public class ModelState {
         sb.append("}\n");
 
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(ModelState o) {
+        return 0;
     }
 }

@@ -107,11 +107,15 @@ public class Firm2 extends Model{
         modelTimeStamp += floodModelParameters.getTickTimeValue() * 1000;
         long timestamp = 0;
         if (modelState != null) {
-            int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
-            int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
-            int seconds = Integer.parseInt(modelState.getTime().split(":")[2]);
-            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L) + (seconds * 1000));
-
+//            int hours = Integer.parseInt(modelState.getTime().split(":")[0]);
+//            int minutes = Integer.parseInt(modelState.getTime().split(":")[1]);
+//            int seconds = Integer.parseInt(modelState.getTime().split(":")[2]);
+//            timestamp = ((floodModelParameters.getTimestamp() * 1000) + (hours * 3600000L) + (minutes * 60000L) + (seconds * 1000));
+            timestamp = Utilities.timeStringToUnixTimestamp(floodModelParameters.getTimestamp(),
+                    Integer.parseInt(modelState.getTime().split(":")[0]),
+                    Integer.parseInt(modelState.getTime().split(":")[1]),
+                    Integer.parseInt(modelState.getTime().split(":")[2])
+            );
         }
         Timestamp mts = new Timestamp(modelTimeStamp);
         SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
@@ -171,6 +175,7 @@ public class Firm2 extends Model{
                     Car car = modelState.getCar(c);
 //                    car.setAgent_id(car.getAgentId());
                     // cars are red (for now)
+                    logger.debug("Car {}, leg {} of {}", car.getAgent_id(), 0, car.getCarItinerary().size());
                     car.setStartNode(car.getCarItinerary().get(0).getStartNode());
                     car.setEndNode(car.getCarItinerary().get(0).getEndNode());
                     car.setColour(Color.red);
@@ -279,6 +284,15 @@ public class Firm2 extends Model{
                     // If there is only one node left in the path the car has reached its destination
                     if (route.getNodePath().size() == 1) {
                         logger.debug("Car {} reached its destination", car.getAgent_id());
+
+                        // Get itinerary index
+                        // Get itinerary item at index
+                        // Get itinerary item wait time
+                        // Increment car's itinerary index
+                        // Get start and end nodes for new itinerary item
+                        // Set car's new start and end nodes
+                        // Create timeline entry for current time plus wait time
+
                         car.setAtDestination(true);
                         car.setColour(Color.magenta);
                         destinationCars.addCar(car);
