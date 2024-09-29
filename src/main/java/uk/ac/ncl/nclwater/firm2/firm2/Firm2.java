@@ -170,7 +170,7 @@ public class Firm2 extends Model{
                     Car car = modelState.getCar(c);
 //                    car.setAgent_id(car.getAgentId());
                     // cars are red (for now)
-                    logger.debug("Car {}, leg {} of {}", car.getAgent_id(), 0, car.getCarItinerary().size());
+                    logger.debug("Car {}, leg {} of {}", car.getAgent_id(), 0, car.getCarItinerary().size() - 1);
                     car.setStartNode(car.getCarItinerary().get(0).getStartNode());
                     car.setEndNode(car.getCarItinerary().get(0).getEndNode());
                     car.setColour(Color.red);
@@ -201,6 +201,7 @@ public class Firm2 extends Model{
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
         moveCars();
         // read the next state change
+        // TODO modelState needs to be reset when new entries are insertedj in timeline
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
@@ -278,9 +279,9 @@ public class Firm2 extends Model{
                     Path route = car.getRouteNodes();
                     // If there is only one node left in the path the car has reached its destination
                     if (route.getNodePath().size() == 1) {
-                        logger.debug("Car {} reached its destination", car.getAgent_id());
-
-                        if (car.getCarItinerary().size() == car.getItineraryIndex() + 1) {
+                        // If car at the last leg
+                        if (car.getItineraryIndex() == car.getCarItinerary().size()) {
+                            logger.debug("Car {} reached the end of leg {}", car.getAgent_id(), car.getItineraryIndex());
                             car.setAtDestination(true);
                             car.setColour(Color.magenta);
                             destinationCars.addCar(car);
@@ -296,18 +297,20 @@ public class Firm2 extends Model{
                             int waitTime = itineraryItem.getWaitTime();
                             // Increment car's itinerary index
                             car.incItineraryIndex();
-                            // Get start and end nodes for new itinerary item
-                            itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
-                            // Set car's new start and end nodes
-                            car.setStartNode(itineraryItem.getStartNode());
-                            car.setEndNode(itineraryItem.getEndNode());
-                            // TODO
-                            // Create timeline entry for current time plus wait time
-                            ModelState modelState = new ModelState();
-                            modelState.setTime(Utilities.unixTimetoModelTime(modelTimeStamp + waitTime));
-                            modelState.addCar(car);
-                            modelStateChanges.insertModelState(modelState);
-                            Collections.sort(modelStateChanges.getModelStates());
+                            if (car.getItineraryIndex() < car.getCarItinerary().size()) {
+                                // Get start and end nodes for new itinerary item
+                                itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
+                                // Set car's new start and end nodes
+                                car.setStartNode(itineraryItem.getStartNode());
+                                car.setEndNode(itineraryItem.getEndNode());
+                                // TODO
+                                // Create timeline entry for current time plus wait time
+                                ModelState modelState = new ModelState();
+                                modelState.setTime(Utilities.unixTimetoModelTime(modelTimeStamp + waitTime));
+                                modelState.addCar(car);
+                                modelStateChanges.insertModelState(modelState);
+                                Collections.sort(modelStateChanges.getModelStates());
+                            }
                         }
                     } else {
                         // check if current position is flooded
@@ -526,8 +529,6 @@ public class Firm2 extends Model{
         floodModelParameters.setPngOnTick(Boolean.parseBoolean(properties.getProperty("PNG_ON_TICK")));
         floodModelParameters.setRunOnStartUp(Boolean.parseBoolean(properties.getProperty("RUN_ON_STARTUP")));
         floodModelParameters.setVehicleFloodDepth(Float.parseFloat(properties.getProperty("VEHICLE_FLOOD_DEPTH")));
-        logger.info("Simulation starting at {}, model time: {}", System.currentTimeMillis(),
-                floodModelParameters.getTimestamp());
         modelInit();
         Thread modelthread = new Thread(this);
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
