@@ -1,7 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.util.LinkedHashMap;
@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
  * would require the **run** methode to be implemented
  */
 public abstract class Model implements Runnable {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    private static final Logger logger = LogManager.getLogger(Model.class);
     protected ModelParameters modelParameters;
     private static int ids = 0;
     private boolean run = false;

@@ -1,11 +1,10 @@
 package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.graphstream.graph.Node;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
 import uk.ac.ncl.nclwater.firm2.firm2.model.SystemProperties;
-
 import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -21,7 +20,7 @@ public class Utilities {
 
     private static final String APPLICATION_DIRECTORY = ""; //System.getProperty("user.home");
     private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "./.firm2.properties";
-    private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
+    private static final Logger logger = LogManager.getLogger(Utilities.class);
     private static final SystemProperties systemProperties = SystemProperties.getInstance();
 
     /**
@@ -217,29 +216,25 @@ public class Utilities {
     }
 
     /**
-     * Converts a date string to a Unix timestamp
+     * Converts a Unix timestamp (in seconds) to a date string
      *
-     * @param dateString
-     * @param pattern
-     * @return
-     */
-    public static long dateStringToUnixTimestamp(String dateString, String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
-        return dateTime.toEpochSecond(ZoneOffset.UTC);
-    }
-
-    /**
-     * Converts a Unix timestamp to a date string
-     *
-     * @param timestamp
-     * @param pattern
-     * @return
+     * @param timestamp a long containing the Unix timestamp in seconds
+     * @param pattern the regular expression pattern for the date in which format it should be returned
+     * @return the date as a string formatted according to the specified pattern
      */
     public static String unixTimestampToDateString(long timestamp, String pattern) {
         LocalDateTime dateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneOffset.UTC);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return dateTime.format(formatter);
+    }
+
+    /**
+     * Converts a Unix timestamp (in seconds) to the model time, format HH:mm:ss
+     * @param timestamp a long the Unix timestamp in seconds
+     * @return a string containing the time in the format HH:mm:ss
+     */
+    public static String unixTimetoModelTime(long timestamp) {
+        return unixTimestampToDateString(timestamp, "HH:mm:ss");
     }
 
     /**

@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import org.graphstream.graph.Path;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -201,7 +200,7 @@ public class Car extends Agent {
         return itineraryIndex;
     }
 
-    public void setItineraryIndex(int itineraryIndex) {
-        this.itineraryIndex = itineraryIndex;
+    public void incItineraryIndex() {
+        this.itineraryIndex++;
     }
 }

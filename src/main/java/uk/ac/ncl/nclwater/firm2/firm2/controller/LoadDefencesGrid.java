@@ -2,12 +2,10 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Properties;
@@ -17,7 +15,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.Ordinance2Grid
 
 public class LoadDefencesGrid {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoadDefencesGrid.class);
+    private static final Logger logger = LogManager.getLogger(LoadBuildingsGrid.class);
 
     /**
      * Read the defences.json file and populate the defences grid

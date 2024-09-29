@@ -2,18 +2,17 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import uk.ac.ncl.nclwater.firm2.firm2.model.VehicleCode;
 import uk.ac.ncl.nclwater.firm2.firm2.model.VehiclesCodes;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Properties;
 
 public class VehicleCodeDescriptors {
-    private static final Logger logger = LoggerFactory.getLogger(VehicleCodeDescriptors.class);
+    private static final Logger logger = LogManager.getLogger(VehicleCodeDescriptors.class);
 
     public static HashMap<String, VehicleCode> loadVehicleCodeDescriptors(Properties properties) {
 

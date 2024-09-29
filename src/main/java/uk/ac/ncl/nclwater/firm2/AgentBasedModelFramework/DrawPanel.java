@@ -1,8 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -13,7 +12,7 @@ import java.util.LinkedHashMap;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.GridXY2BNG;
 
 public class DrawPanel extends JPanel implements MouseListener {
-    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
+    private static final Logger logger = LogManager.getLogger(DrawPanel.class);
 
     int width;
     int height;

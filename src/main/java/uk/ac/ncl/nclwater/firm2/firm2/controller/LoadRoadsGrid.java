@@ -2,15 +2,14 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
-
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,7 +21,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class LoadRoadsGrid {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoadRoadsGrid.class);
+    private static final Logger logger = LogManager.getLogger(LoadRoadsGrid.class);
 
     public static Graph loadRoads(Properties properties) {
         Graph graph = new SingleGraph("Road Networks GraphStream Test");

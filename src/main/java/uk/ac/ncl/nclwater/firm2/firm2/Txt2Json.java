@@ -2,17 +2,13 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Origins;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
@@ -23,7 +19,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
  */
 public class Txt2Json {
     private static Properties properties;
-    private static final Logger logger = LoggerFactory.getLogger(Txt2Json.class);
+    private static final Logger logger = LogManager.getLogger(Txt2Json.class);
 
 
     /**

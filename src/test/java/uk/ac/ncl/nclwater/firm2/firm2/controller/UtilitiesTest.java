@@ -22,9 +22,9 @@ class UtilitiesTest {
     void distanceTravelledTest() {
         // Test case 1: speed = 30 km/h
         double speed = 30.0;
-        double expected = 8.333333333333334; // This is the expected distance in meters
+        double expected = 13.4112; // This is the expected distance in meters
         double actual = Utilities.distanceTravelled(speed);
-        assertEquals(expected, actual, 1e-9, "Distance travelled at 30 km/h should be approximately 8.33 meters");
+        assertEquals(expected, actual, 1e-9, "Distance travelled at 30 mph should be approximately 8.33 meters");
         // Test case 2: speed = 0 km/h (edge case)
         speed = 0.0;
         expected = 0.0; // Expect no distance traveled if speed is 0
@@ -32,9 +32,9 @@ class UtilitiesTest {
         assertEquals(expected, actual, "Distance travelled at 0 km/h should be 0 meters");
         // Test case 3: speed = 120 km/h (higher speed)
         speed = 120.0;
-        expected = 33.333333333333336; // Expected distance for 120 km/h
+        expected = 53.6448; // Expected distance for 120 km/h
         actual = Utilities.distanceTravelled(speed);
-        assertEquals(expected, actual, 1e-9, "Distance travelled at 120 km/h should be approximately 33.33 meters");
+        assertEquals(expected, actual, 1e-9, "Distance travelled at 120mph should be approximately 33.33 meters");
     }
 
     //298978.0, 378571.0, 0
@@ -71,4 +71,11 @@ class UtilitiesTest {
         long unixTimestamp = Utilities.timeStringToUnixTimestamp(timestamp, time);
         assertEquals(3600000L, unixTimestamp);
     }
+
+    @Test
+    void unixTimetoModelTime() {
+        long unixTimeStamp = 3600; // in seconds
+        assertEquals("01:00:00", Utilities.unixTimetoModelTime(unixTimeStamp));
+    }
+
 }

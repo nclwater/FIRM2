@@ -2,16 +2,16 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
-import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
+import uk.ac.ncl.nclwater.firm2.firm2.controller.VehicleCodeDescriptors;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BNGRoad extends Agent {
-    private static final Logger logger = LoggerFactory.getLogger(BNGRoad.class);
+    private static final Logger logger = LogManager.getLogger(BNGRoad.class);
 
     /**
      * Each road has three IDs associated with it. The first is the road id, the second is the ID of the

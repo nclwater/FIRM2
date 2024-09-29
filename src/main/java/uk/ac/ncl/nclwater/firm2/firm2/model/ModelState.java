@@ -2,9 +2,7 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import jdk.jshell.execution.Util;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +13,16 @@ import java.util.List;
 public class ModelState implements Comparable<ModelState> {
     @SerializedName("time")
     @Expose
-    private String time;
+    private String time = null;
     @SerializedName("sea-level")
     @Expose
-    private Float seaLevel;
+    private Float seaLevel = null;
     @SerializedName("defence-breach")
     @Expose
-    private List<String> defenceBreach;
+    private List<String> defenceBreach = new ArrayList<>();
     @SerializedName("cars")
     @Expose
-    private ArrayList<Car> cars;
+    private ArrayList<Car> cars = new ArrayList<>();
 
     public String getTime() {
         return time;

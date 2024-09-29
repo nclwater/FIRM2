@@ -2,15 +2,14 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RoadTypes {
-    private static final Logger logger = LoggerFactory.getLogger(RoadTypes.class);
+    private static final Logger logger = LogManager.getLogger(RoadTypes.class);
 
     @Expose
     @SerializedName("road-types")

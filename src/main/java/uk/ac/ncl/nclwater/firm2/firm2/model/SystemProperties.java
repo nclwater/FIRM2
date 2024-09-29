@@ -2,7 +2,6 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import java.util.HashMap;
 
-
 /**
  * This is a singleton
  */

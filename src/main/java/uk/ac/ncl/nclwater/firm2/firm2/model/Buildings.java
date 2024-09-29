@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 /**
  * FIRM 2 data schema - buildings
  *
