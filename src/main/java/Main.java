@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args) {
         URI configSourceUri = new File(System.getProperty("user.dir") +
                 "/DATA/inputs/log4j2.properties").toURI();
+        System.out.println("Log4j config source URI: " + configSourceUri);
         logger.info("Logging model output to {}",configSourceUri);
         Configurator.reconfigure(configSourceUri);
 

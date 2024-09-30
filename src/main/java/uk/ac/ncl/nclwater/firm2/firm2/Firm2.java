@@ -277,17 +277,23 @@ public class Firm2 extends Model{
                 // If the car hasn't drowned, move it along
                 if (!drownCar(car)) {
                     Path route = car.getRouteNodes();
-                    // If there is only one node left in the path the car has reached its destination
+                    // If there is only one node left in the path the car has reached its destination of the current leg
                     if (route.getNodePath().size() == 1) {
+                        // Increment car's itinerary index
+                        car.incItineraryIndex();
                         // If car at the last leg
                         if (car.getItineraryIndex() == car.getCarItinerary().size()) {
-                            logger.debug("Car {} reached the end of leg {}", car.getAgent_id(), car.getItineraryIndex());
+                            int length = car.getRouteNodes().getNodePath().size();
+                            logger.debug("Car {} reached final destination at {}", car.getAgent_id(),
+                                    car.getRouteNodes().getNodePath().get(length - 1).getAttribute("road-id"));
                             car.setAtDestination(true);
                             car.setColour(Color.magenta);
                             destinationCars.addCar(car);
                             //TODO:
                             cars.removeCar(car);
                         } else {
+                            logger.debug("Car {} starting on leg {} of {}", car.getAgent_id(), car.getItineraryIndex(),
+                                    car.getCarItinerary().size());
                             // TODO:
                             // Get itinerary index
                             int it_index = car.getItineraryIndex();
@@ -295,14 +301,16 @@ public class Firm2 extends Model{
                             ItineraryItem itineraryItem = car.getCarItinerary().get(it_index);
                             // Get itinerary item wait time
                             int waitTime = itineraryItem.getWaitTime();
-                            // Increment car's itinerary index
-                            car.incItineraryIndex();
+
                             if (car.getItineraryIndex() < car.getCarItinerary().size()) {
                                 // Get start and end nodes for new itinerary item
                                 itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
                                 // Set car's new start and end nodes
                                 car.setStartNode(itineraryItem.getStartNode());
                                 car.setEndNode(itineraryItem.getEndNode());
+                                aStar.compute(car.getStartNode(), car.getEndNode());
+                                Path shortestPath = aStar.getShortestPath();
+                                car.setRouteNodes(shortestPath);
                                 // TODO
                                 // Create timeline entry for current time plus wait time
                                 ModelState modelState = new ModelState();
@@ -326,6 +334,7 @@ public class Firm2 extends Model{
                             Node nextNode = route.getNodePath().get(1);
                             PointInteger cell = getXY(car, 1);
                             // Check if the car's next position has been flooded and reroute if it is
+
                             if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
                                     cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
                                 logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",

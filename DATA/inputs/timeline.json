@@ -10,12 +10,17 @@
           "itinerary": [
             {
               "start-node": "4000000012472821",
+              "end-node": "4000000012472886",
+              "wait-time": 5
+            },
+            {
+              "start-node": "4000000012472886",
               "end-node": "4000000013562279",
-              "wait-time": 10
+              "wait-time": 5
             },
             {
               "start-node": "4000000013562279",
-              "end-node": "4000000012843295",
+              "end-node": "4000000012843366",
               "wait-time": 20
             }
           ]
@@ -23,7 +28,58 @@
       ]
     },
     {
-      "time": "00:0:11",
+      "time": "00:00:11",
+      "sea-level": null,
+      "defence-breach": [],
+      "cars": [
+        {
+          "agent-id": "car003",
+          "itinerary": [
+            {
+              "start-node": "4000000012473109",
+              "end-node": "4000000012843366",
+              "wait-time": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "time": "00:00:13",
+      "sea-level": null,
+      "defence-breach": [],
+      "cars": [
+        {
+          "agent-id": "car004",
+          "itinerary": [
+            {
+              "start-node": "4000000012473109",
+              "end-node": "4000000012843366",
+              "wait-time": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "time": "00:00:14",
+      "sea-level": null,
+      "defence-breach": [],
+      "cars": [
+        {
+          "agent-id": "car005",
+          "itinerary": [
+            {
+              "start-node": "4000000012473109",
+              "end-node": "4000000012843366",
+              "wait-time": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "time": "00:0:20",
       "sea-level": 12,
       "defence-breach": null,
       "cars": [
@@ -32,12 +88,12 @@
           "itinerary": [
             {
               "start-node": "4000000013562279",
-              "end-node": "4000000012843295",
-              "wait-time": 10
+              "end-node": "4000000012843366",
+              "wait-time":2
             },
             {
-              "start-node": "4000000013562279",
-              "end-node": "4000000012843295",
+              "start-node": "4000000012843366",
+              "end-node": "4000000013562279",
               "wait-time": 20
             }
           ]
