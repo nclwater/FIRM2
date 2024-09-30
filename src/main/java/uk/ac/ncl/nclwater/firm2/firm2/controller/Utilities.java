@@ -31,7 +31,8 @@ public class Utilities {
         File propertiesFile = new File(PROPERTIES_FILEPATH);
         try {
             if (!Files.exists(Paths.get(PROPERTIES_FILEPATH))) {
-                logger.debug("Creating properties file: " + PROPERTIES_FILEPATH);
+                System.out.println("Creating properties file: " + PROPERTIES_FILEPATH);
+                logger.debug("Creating properties file: {}", PROPERTIES_FILEPATH);
                 properties = new Properties();
                 OutputStream output = new FileOutputStream(propertiesFile);
                 systemProperties.getProperties().forEach(properties::setProperty);
@@ -39,6 +40,7 @@ public class Utilities {
                 System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
             } else {
                 properties = Utilities.loadPropertiesFile();
+                System.out.println("Read properties file: " + PROPERTIES_FILEPATH);
                 logger.debug("Read properties file: {}", PROPERTIES_FILEPATH);
                 HashMap<String, String> propertiesMap = systemProperties.getProperties();
                 propertiesMap.forEach((key, value) -> {

@@ -1,7 +1,7 @@
 {
   "model-states": [
     {
-      "time": "00:05",
+      "time": "00:00:10",
       "sea-level": null,
       "defence-breach": null,
       "vehicles": [
@@ -20,19 +20,19 @@
       ]
     },
     {
-      "time": "00:10",
+      "time": "00:00:15",
       "sea-level": 5,
       "vehicles": null,
       "defence-breach": []
     },
     {
-      "time": "00:15",
+      "time": "00:00:20",
       "sea-level": null,
       "vehicles": null,
       "defence-breach": ["a", "b"]
     },
     {
-      "time": "00:30",
+      "time": "00:30:00",
       "sea-level": null,
       "defence-breach": null,
       "vehicles": [
@@ -51,13 +51,13 @@
         ]
     },
     {
-      "time": "02:00",
+      "time": "02:00:00",
       "sea-level": 15,
       "vehicles": null,
       "defence-breach": []
     },
     {
-      "time": "02:30",
+      "time": "02:30:00",
       "sea-level": null,
       "vehicles": null,
       "defence-breach": [
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "time": "04:00",
+      "time": "04:00:00",
       "sea-level": null,
       "vehicles": null,
       "defence-breach": ["i"]

@@ -1,10 +1,14 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,6 +31,16 @@ public class RoadTypes {
         roadTypes.forEach(rt -> {
             roadTypeMap.put(rt.getRoadType(), rt.getSpeedLimit());
         });
+//        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+//        String filename = "DATA/inputs/road_types.json";
+//        FileWriter fileWriter1 = null;
+//        try {
+//            fileWriter1 = new FileWriter(filename);
+//            gson.toJson(roadTypes, fileWriter1);
+//            fileWriter1.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public ArrayList<RoadType> getRoadTypes() {
