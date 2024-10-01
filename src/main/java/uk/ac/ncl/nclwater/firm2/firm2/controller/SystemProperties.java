@@ -1,4 +1,4 @@
-package uk.ac.ncl.nclwater.firm2.firm2.model;
+package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import java.util.HashMap;
 

@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.graphstream.graph.Node;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
-import uk.ac.ncl.nclwater.firm2.firm2.model.SystemProperties;
+
 import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -32,31 +32,31 @@ public class Utilities {
         try {
             if (!Files.exists(Paths.get(PROPERTIES_FILEPATH))) {
                 System.out.println("Creating properties file: " + PROPERTIES_FILEPATH);
-                logger.debug("Creating properties file: {}", PROPERTIES_FILEPATH);
+                logger.trace("Creating properties file: {}", PROPERTIES_FILEPATH);
                 properties = new Properties();
                 OutputStream output = new FileOutputStream(propertiesFile);
                 systemProperties.getProperties().forEach(properties::setProperty);
                 properties.store(output, null);
-                System.out.println("File " + propertiesFile.getAbsolutePath() + " created");
+                logger.trace("File {} created", propertiesFile.getAbsolutePath());
             } else {
                 properties = Utilities.loadPropertiesFile();
                 System.out.println("Read properties file: " + PROPERTIES_FILEPATH);
-                logger.debug("Read properties file: {}", PROPERTIES_FILEPATH);
+                logger.trace("Read properties file: {}", PROPERTIES_FILEPATH);
                 HashMap<String, String> propertiesMap = systemProperties.getProperties();
                 propertiesMap.forEach((key, value) -> {
                     if (properties.getProperty(key) != null) {
                         logger.debug("{} key found in properties file: {}", key, properties.getProperty(key));
                         if (System.getenv(key) != null) {
-                            logger.debug("Alternative value found in environment: {}", System.getenv(key));
+                            logger.trace("Alternative value found in environment: {}", System.getenv(key));
                             properties.setProperty(key, System.getenv(key));
                         }
                     } else {
-                        logger.debug("{} key not found, check environment", key);
+                        logger.warn("{} key not found, check environment", key);
                         if (System.getenv(key) != null) {
-                            logger.debug("Alternative value found in system properties: {}", System.getenv(key));
+                            logger.trace("Alternative value found in system properties: {}", System.getenv(key));
                             properties.setProperty(key, System.getenv(key));
                         } else {
-                            logger.debug("Alternative value not found in system properties, using default {}",
+                            logger.trace("Alternative value not found in system properties, using default {}",
                                     systemProperties.getProperties().get(key));
                             properties.setProperty(key, systemProperties.getProperties().get(key));
                         }
@@ -80,7 +80,7 @@ public class Utilities {
             // load a properties file
             properties.load(input);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error("Unable to load properties file: {}", PROPERTIES_FILEPATH, ex);
         }
         return properties;
     }
@@ -93,7 +93,7 @@ public class Utilities {
      * @param y1 first y co-ordinate
      * @param x2 second x co-ordinate
      * @param y2 second y co-ordinate
-     * @return an array of points that needs to be plotted to draw a line
+     * @return an ArrayList of points that needs to be plotted to draw a line
      */
     public static ArrayList<Point> interpolate(int x1, int y1, int x2, int y2) {
         ArrayList<Point> points = new ArrayList<>();
@@ -129,8 +129,7 @@ public class Utilities {
     public static PointInteger Ordinance2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
         int y_coord = Math.round((y - y_origin) / cellMeters);
-        PointInteger point = new PointInteger(x_coord, y_coord);
-        return point;
+        return new PointInteger(x_coord, y_coord);
     }
 
     /**
@@ -145,15 +144,13 @@ public class Utilities {
     public static PointInteger BNG2GridXY(float x_origin, float y_origin, float x, float y, int cellMeters) {
         int x_coord = Math.round((x - x_origin) / cellMeters);
         int y_coord = Math.round((y - y_origin) / cellMeters);
-        PointInteger point = new PointInteger(x_coord, y_coord);
-        return point;
+        return new PointInteger(x_coord, y_coord);
     }
 
     public static Point GridXY2BNG(float x_origin, float y_origin, int x_coord, int y_coord, int cellMeters) {
         float x = x_origin + (x_coord * cellMeters);
         float y = y_origin + (y_coord * cellMeters);
-        Point point = new Point(Math.round(x), Math.round(y));
-        return point;
+        return new Point(Math.round(x), Math.round(y));
     }
 
 
@@ -189,6 +186,12 @@ public class Utilities {
 
     /**
      * Normalise a range of values to a range on the grey scale
+     * @param value the value to normalise
+     * @param min the minimum value in the range of values from which 'value' comes
+     * @param max the maximum value in the range of values from which 'value' comes
+     * @param low the lowest value in the normalised range
+     * @param high the highest value in the normalised range
+     * @return the value normalised within the range 'low' to 'high'
      */
     public static int normalise(float value, float min, float max, int low, int high) {
         // colour range
@@ -255,9 +258,9 @@ public class Utilities {
 
     /**
      * Given two graphstream nodes, calculate the distance between them using the xyz co-ordinates
-     * @param firstNode
-     * @param secondNode
-     * @return
+     * @param firstNode The node to start from
+     * @param secondNode The end node in the path
+     * @return The distance between the first and second node
      */
     public static double distanceBetweenNodes(Node firstNode, Node secondNode) {
         Object[] xyzValues1 = (Object[]) firstNode.getAttribute("xyz");

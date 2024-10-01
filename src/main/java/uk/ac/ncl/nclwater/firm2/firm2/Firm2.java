@@ -16,10 +16,7 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
@@ -40,6 +37,7 @@ public class Firm2 extends Model{
     private final Cars destinationCars = new Cars();
     private final Cars strandedCars = new Cars();
     private Graph graph;
+    Hashtable<CarPosition, ArrayList<Car>> raceConditions = new Hashtable<>();
 
     /**
      * Initialise the model
@@ -288,6 +286,7 @@ public class Firm2 extends Model{
                                     car.getRouteNodes().getNodePath().get(length - 1).getAttribute("road-id"));
                             car.setAtDestination(true);
                             car.setColour(Color.magenta);
+                            cars.removeCar(car);
                             destinationCars.addCar(car);
                             //TODO:
                             cars.removeCar(car);
@@ -376,8 +375,13 @@ public class Firm2 extends Model{
                                 if (spaceAllocated.get()) {
                                     // We are not reducing speed we just wait for the next tick.
                                     Object[] xyz = (Object[]) car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
-                                    logger.debug("Car {} is waiting at {} from {}, {}", car.getAgent_id(),
-                                            car.getCoveredDistance(), xyz[0], xyz[1]);
+                                    // Add car to raceCondition array
+                                    CarPosition key = new CarPosition(car.getCoveredDistance(),
+                                            (double)xyz[0], (double)xyz[1]);
+                                    ArrayList<Car> racers = raceConditions.get(key);
+                                    logger.debug("Car {} is waiting at {}m from {}, {} for position {}",
+                                            car.getAgent_id(),car.getCoveredDistance(), xyz[0], xyz[1],
+                                            car.getRouteNodes().getNodePath().get(1).getId());
                                 } else {
                                     // Car moves
                                     car.setCoveredDistance(nextPosition);
