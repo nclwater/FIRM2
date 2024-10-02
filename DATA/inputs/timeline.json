@@ -1,12 +1,18 @@
 {
   "model-states": [
     {
-      "time": "00:0:10",
+      "time": "00:0:08",
+      "sea-level": 10,
+      "defence-breach": null,
+      "cars": []
+    },
+    {
+      "time": "00:0:11",
       "sea-level": null,
       "defence-breach": null,
       "cars": [
         {
-          "agent-id": "car0001",
+          "agent-id": "car001",
           "itinerary": [
             {
               "start-node": "4000000012472821",
@@ -24,11 +30,23 @@
               "wait-time": 20
             }
           ]
+        },
+        {
+          "agent-id": "car002",
+          "itinerary": [
+            {
+              "start-node": "4000000012473832",
+              "end-node": "4000000012843287",
+              "wait-time": 0
+            }
+          ]
         }
       ]
     },
+
+
     {
-      "time": "00:00:11",
+      "time": "00:00:14",
       "sea-level": null,
       "defence-breach": [],
       "cars": [
@@ -45,7 +63,7 @@
       ]
     },
     {
-      "time": "00:00:12",
+      "time": "00:00:15",
       "sea-level": null,
       "defence-breach": [],
       "cars": [
@@ -62,7 +80,7 @@
       ]
     },
     {
-      "time": "00:00:13",
+      "time": "00:00:16",
       "sea-level": null,
       "defence-breach": [],
       "cars": [
@@ -80,11 +98,11 @@
     },
     {
       "time": "00:0:20",
-      "sea-level": 12,
+      "sea-level": null,
       "defence-breach": null,
       "cars": [
         {
-          "agent-id": "car0002",
+          "agent-id": "car008",
           "itinerary": [
             {
               "start-node": "4000000013562279",

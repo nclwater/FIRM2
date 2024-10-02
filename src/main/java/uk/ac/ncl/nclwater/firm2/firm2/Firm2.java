@@ -17,7 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.List;
+
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model{
@@ -177,11 +178,11 @@ public class Firm2 extends Model{
                     Path shortestPath = aStar.getShortestPath();
                     car.setRouteNodes(shortestPath);
                     if (shortestPath != null) {
-                        logger.trace("shortest path: {}", shortestPath);
-                        // add the car to the cars grid
+                        logger.trace("Car {}'s shortest path: {}", car.getAgent_id(), shortestPath);
                         // Get the xy coordinates for the normal cell grid of the starting point
                         PointInteger xy = getXY(car);
                         cars.addCar(car);
+                        // add the car to the cars grid
                         ((ComplexGrid) grids.get("cars")).addCell(xy.getX(), xy.getY(), car);
                         logger.debug("Car {} loaded, shortest path start: {} end: {}", car.getAgent_id(), car.getStartNode(), car.getEndNode());
                     } else {
@@ -267,146 +268,99 @@ public class Firm2 extends Model{
         //int speed; // TODO: fix this to read from road files
         for (int c = 0; c < cars.getCars().size(); c++) {
             Car car = cars.getCar(c);
-            if (car.getRouteNodes() == null) {
-                logger.debug("Car {} entering on flooded area", car.getAgent_id());
-                car.setDrowned(true);
-                cars.removeCar(car);
-            } else {
-                // If the car hasn't drowned, move it along
-                if (!drownCar(car)) {
-                    Path route = car.getRouteNodes();
-                    // If there is only one node left in the path the car has reached its destination of the current leg
-                    if (route.getNodePath().size() == 1) {
-                        // Increment car's itinerary index
-                        car.incItineraryIndex();
-                        // If car at the last leg
-                        if (car.getItineraryIndex() == car.getCarItinerary().size()) {
-                            int length = car.getRouteNodes().getNodePath().size();
-                            logger.debug("Car {} reached final destination at {}", car.getAgent_id(),
-                                    car.getRouteNodes().getNodePath().get(length - 1).getAttribute("road-id"));
-                            car.setAtDestination(true);
-                            car.setColour(Color.magenta);
-                            cars.removeCar(car);
-                            destinationCars.addCar(car);
-                            //TODO:
-                            cars.removeCar(car);
-                        } else {
-                            logger.debug("Car {} starting on leg {} of {}", car.getAgent_id(), car.getItineraryIndex(),
-                                    car.getCarItinerary().size());
-                            // TODO:
-                            // Get itinerary index
-                            int it_index = car.getItineraryIndex();
-                            // Get itinerary item at index
-                            ItineraryItem itineraryItem = car.getCarItinerary().get(it_index);
-                            // Get itinerary item wait time
-                            int waitTime = itineraryItem.getWaitTime();
-
-                            if (car.getItineraryIndex() < car.getCarItinerary().size()) {
-                                // Get start and end nodes for new itinerary item
-                                itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
-                                // Set car's new start and end nodes
-                                car.setStartNode(itineraryItem.getStartNode());
-                                car.setEndNode(itineraryItem.getEndNode());
-                                aStar.compute(car.getStartNode(), car.getEndNode());
-                                Path shortestPath = aStar.getShortestPath();
-                                car.setRouteNodes(shortestPath);
-                                // TODO
-                                // Create timeline entry for current time plus wait time
-                                ModelState modelState = new ModelState();
-                                modelState.setTime(Utilities.unixTimetoModelTime(modelTimeStamp + waitTime));
-                                modelState.addCar(car);
-                                modelStateChanges.insertModelState(modelState);
-                                Collections.sort(modelStateChanges.getModelStates());
-                            }
-                        }
-                    } else {
-                        // check if current position is flooded
-                        PointInteger startXY = getXY(car, 0);
-                        if (((Water) ((SimpleGrid) grids.get("water")).getCell(startXY.getX(),
-                                startXY.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
-                            logger.debug("Car {} can't enter, road {} already flooded.", car.getAgent_id(), car.getRouteNodes().getNodePath().get(0).getId());
-                            cars.removeCar(car);
-                            car.setDrowned(true);
-                        } else {
-
-                            Node firstNode = route.getNodePath().get(0);
-                            Node nextNode = route.getNodePath().get(1);
-                            PointInteger cell = getXY(car, 1);
-                            // Check if the car's next position has been flooded and reroute if it is
-
-                            if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
-                                    cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
-                                logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
-                                        car.getAgent_id(),
-                                        car.getRouteNodes().getNodePath().get(0),
-                                        car.getCoveredDistance());
-
-                                graph.removeNode(nextNode);
-                                car.setCoveredDistance(car.getCoveredDistance() * -1);
-                                aStar.compute(firstNode.getId(), car.getEndNode());
-                                Path newShortestPath = aStar.getShortestPath();
-                                car.setRouteNodes(newShortestPath);
-                                if (newShortestPath == null) {
-                                    car.setStranded(true);
-                                }
-                                logger.trace("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
-
-                            } else {
-                                // TODO: Check that Richard is happy with this implementation
-                                // Calculate car's next position
-                                int speed = (firstNode.getAttribute("speed-limit") == null) ? 0 : (int) firstNode.getAttribute("speed-limit");
-
-                                logger.trace("speed: {} on road {}", firstNode.getAttribute("speed-limit"), firstNode.getId());
-                                float nextPosition = (float) (car.getCoveredDistance() + speed);
-                                // Check if there is already a car on next position
-                                AtomicBoolean spaceAllocated = new AtomicBoolean(false);
-                                cars.getCars().forEach(cr -> {
-                                    String anotherCarID = cr.getAgent_id();
-                                    String anotherCarNodeID = cr.getRouteNodes().getNodePath().get(0).getId();
-                                    double cr_coveredDistance = cr.getCoveredDistance();
-                                    if (anotherCarNodeID.equals(car.getRouteNodes().getNodePath().get(0).getId()) &&
-                                            !anotherCarID.equals(car.getAgent_id())) {
-                                        if (car.getCoveredDistance() == cr_coveredDistance) {
-                                            spaceAllocated.set(true);
-                                        }
-                                    }
-                                });
-                                // If there is another car in the car's next position, don't move, wait
-                                if (spaceAllocated.get()) {
-                                    // We are not reducing speed we just wait for the next tick.
-                                    Object[] xyz = (Object[]) car.getRouteNodes().getNodePath().get(0).getAttribute("xyz");
-                                    // Add car to raceCondition array
-                                    CarPosition key = new CarPosition(car.getCoveredDistance(),
-                                            (double)xyz[0], (double)xyz[1]);
-                                    ArrayList<Car> racers = raceConditions.get(key);
-                                    logger.debug("Car {} is waiting at {}m from {}, {} for position {}",
-                                            car.getAgent_id(),car.getCoveredDistance(), xyz[0], xyz[1],
-                                            car.getRouteNodes().getNodePath().get(1).getId());
-                                } else {
-                                    // Car moves
-                                    car.setCoveredDistance(nextPosition);
-
-                                    // distance between current node and next node
-                                    double interDist = Utilities.distanceBetweenNodes(firstNode, nextNode);
-                                    if (car.getCoveredDistance() >= interDist) {
-                                        PointInteger xy = getXY(car);
-                                        ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
-                                        logger.trace("Car {} reached {}", car.getAgent_id(), car.getRouteNodes().getNodePath().get(0));
-                                        // remove the first node since we have now reached the next node
-                                        route.getNodePath().remove(0);
-                                        // set distance
-                                        car.setCurrentDistance(car.getCoveredDistance() - interDist);
-                                        PointInteger xy2 = getXY(car);
-                                        ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
-                                    }
-                                }
-                            }
-                        }
+            // Current route
+            List<Node> route = car.getRouteNodes().getNodePath();
+            // Distance between current node and next node
+            double interDist;
+            // Distance travelled from current node
+            double coveredDistance = car.getCoveredDistance();
+            // Get the current grid co-ordinates
+            PointInteger currentGridXY = getXY(car, 0);
+            // The car is not yet at its destination (and to double-check, there is more than one node left)
+            if (!car.isAtDestination() && car.getRouteNodes().getNodePath().size() > 1) {
+                // current node
+                Node currentNode = route.get(0);
+                // next node
+                Node nextNode = route.get(1);
+                // distance between current node and next node
+                interDist = Utilities.distanceBetweenNodes(currentNode, nextNode);
+                // current speed
+                int speed = (currentNode.getAttribute("speed-limit") == null) ? 0 : (int) currentNode.getAttribute("speed-limit");
+                // distance from current node at current speed
+                float nextPosition = (float) (car.getCoveredDistance() + speed);
+                // if the nextPosition is flooded reroute
+                PointInteger cell = getXY(car, 1);
+                if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
+                        cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
+                    logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
+                            car.getAgent_id(),
+                            car.getRouteNodes().getNodePath().get(0),
+                            car.getCoveredDistance());
+                    graph.removeNode(nextNode);
+                    // reverse from current position
+                    car.setCoveredDistance(car.getCoveredDistance() * -1);
+                    logger.trace("Calculate new shortest path for car {}, {}", car.getAgent_id(), car.getRouteNodes());
+                    aStar.compute(currentNode.getId(), car.getEndNode());
+                    Path newShortestPath = aStar.getShortestPath();
+                    car.setRouteNodes(newShortestPath);
+                    if (newShortestPath == null) {
+                        logger.trace("Car {} stranded, no shortest path available", car.getAgent_id());
+                        car.setStranded(true);
+                        cars.removeCar(car);
+                        strandedCars.addCar(car);
+                        car.setColour(Color.magenta);
                     }
+                // if the nextPosition is greater than the distance between the nodes and the next node is not the last
+                // node then the car reached the next node in the route. Remove the current first node so that the
+                // next node becomes the first node
+                } else if (nextPosition > interDist && !nextNode.getId().equals(car.getEndNode())) {
+                    logger.trace("Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
+                    // Car reached next node so remove the first node so that the next node becomes the first node
+                    PointInteger xy = getXY(car);
+                    ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                    car.getRouteNodes().getNodePath().remove(0);
+                    // set distance from the new current node
+                    car.setCurrentDistance(nextPosition - interDist);
+                    // get new Grid co-ordinates
+                    PointInteger xy2 = getXY(car);
+                    ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
+                // if the nextPosition is greater than the distance between the nodes then the car reached
+                // its destination
+                } else if (nextPosition > interDist && !nextNode.getId().equals(car.getEndNode())) {
+                    logger.trace("Car {} reached its destination at {}", car.getAgent_id(), nextNode.getId());
+                    // Destination reached
+                    car.setAtDestination(true);
+                    car.setColour(Color.magenta);
+                    cars.removeCar(car);
+                    destinationCars.addCar(car);
+                } else if (nextPosition < interDist){
+
+                    // Move car to next position
+                    car.setCoveredDistance(nextPosition);
+                    logger.trace("Car {} moves towards {} distance {} from {}",
+                            car.getAgent_id(), nextNode.getId(), car.getCoveredDistance(), currentNode.getId());
+                    // Position of the car on the grid
+                    ((ComplexGrid) grids.get("cars")).setCell(currentGridXY.getX(), currentGridXY.getY(), null);
+                    route.remove(0);
+                    PointInteger xy2 = getXY(car);
+                    ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
                 } else {
-                    logger.debug("Cars left: {} | Cars drowned {}", cars.getCars().size(), drownedCars.getCars().size());
+                    logger.trace("Nothing's happening with car {} at node {}", car.getAgent_id(), currentNode.getId());
+                    logger.trace("Car {} reached its destination at {}", car.getAgent_id(), nextNode.getId());
+                    // Destination reached
+                    car.setAtDestination(true);
+                    car.setColour(Color.magenta);
+                    cars.removeCar(car);
+                    destinationCars.addCar(car);
                 }
+
             }
+
+            //Node nextNode =  car.getRouteNodes().getNodePath().size() > 1 ? car.getRouteNodes().getNodePath().get(1) : null;
+
+
+            // If next position is clear move the car
+
         }
     }
 
