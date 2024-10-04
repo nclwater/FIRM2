@@ -328,7 +328,7 @@ public class Firm2 extends Model{
                     // node then the car reached the next node in the route. Remove the current first node so that the
                     // next node becomes the first node
                     if (nextPosition >= interDist && !nextNode.getId().equals(car.getEndNode())) {
-                        logger.trace("1:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
+                        // logger.trace("1:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
                         // Car reached next node so remove the first node so that the next node becomes the first node
                         PointInteger xy = getXY(car);
                         ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
