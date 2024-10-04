@@ -169,7 +169,7 @@ public class Firm2 extends Model{
                     Car car = modelState.getCar(c);
 //                    car.setAgent_id(car.getAgentId());
                     // cars are red (for now)
-                    logger.debug("Car {}, leg {} of {}", car.getAgent_id(), 1,
+                    logger.trace("Car {}, leg {} of {}", car.getAgent_id(), 1,
                             car.getCarItinerary().size());
                     car.setStartNode(car.getCarItinerary().get(0).getStartNode());
                     car.setEndNode(car.getCarItinerary().get(0).getEndNode());
@@ -347,7 +347,7 @@ public class Firm2 extends Model{
                         // reset start and end nodes
                         if (car.getItineraryIndex() + 1 < car.getCarItinerary().size()) {
                             car.incItineraryIndex();
-                            logger.debug("Leg {} of {} for car {}", car.getItineraryIndex() + 1,
+                            logger.trace("Leg {} of {} for car {}", car.getItineraryIndex() + 1,
                                     car.getCarItinerary().size(), car.getAgent_id());
                             itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
                             car.setStartNode(itineraryItem.getStartNode());
