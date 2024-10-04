@@ -26,7 +26,7 @@ public class LoadBuildingsGrid {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("BUILDINGS_DATA");
             Buildings buildings = gson.fromJson(new FileReader(filename), Buildings.class);
-            logger.debug("Reading: {}", filename);
+            logger.info("Reading: {}", filename);
             SimpleGrid buildingGrid = new SimpleGrid(floodModelParameters.getWidth(), floodModelParameters.getHeight(),
                     floodModelParameters.isToroidal(), "buildings");
             buildings.getBuildings().forEach(b -> {

@@ -23,6 +23,16 @@ public class LoadRoadsGrid {
 
     private static final Logger logger = LogManager.getLogger(LoadRoadsGrid.class);
 
+    /**
+     * Load road data and create a GraphStream network. Each road has three IDs, the road ID, the ID of the first
+     * node in the road and the ID of the very last node in the road. Each road is a polyline composed of a series
+     * of xy co-ordinates. A node is created for each set of co-ordinates, with the first node taking the second ID
+     * as identifier and the last node taking the third ID as identifier. Intermediate node get the road ID with
+     * an incrementing integer as a suffix eg. 1234567679.0, 1234567679.1 etc.
+     * Edges are created for the GraphStream network between the co-ordinate pairs of the polyline.
+     * @param properties The properties attribute that contains information for where the data files are stored
+     * @return A GraphStream network of the roads
+     */
     public static Graph loadRoads(Properties properties) {
         Graph graph = new SingleGraph("Road Networks GraphStream Test");
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -62,13 +72,6 @@ public class LoadRoadsGrid {
                                 roadTypes = new RoadTypes();
                             }
                             graph.getNode(nodeID).setAttribute("speed-limit", roadTypes.getSpeed(road.getRoadType()));
-//                            logger.trace("Road {}, Node {}. Add node {} is part of road {} which is of type {} with a speed limit of {}",
-//                                    totalRoadCount,
-//                                    totalNodeCount, nodeID, graph.getNode(nodeID).getAttribute("road-id"),
-//                                    graph.getNode(nodeID).getAttribute("road-type"), graph.getNode(nodeID).getAttribute("speed-limit"));
-
-                        } else {
-                            logger.trace("Node {} exists", nodeID);
                         }
                         intNodeCount++;
 
@@ -86,8 +89,8 @@ public class LoadRoadsGrid {
                     }
 
                 }
-                logger.debug("Graph node count: {}", graph.getNodeCount());
-                logger.debug("{} roads in file", bngRoads.getRoads().size());
+                logger.info("Graph node count: {}", graph.getNodeCount());
+                logger.info("{} roads in file", bngRoads.getRoads().size());
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -109,7 +112,7 @@ public class LoadRoadsGrid {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
-            logger.debug("Reading: {}", filename);
+            logger.info("Reading: {}", filename);
             BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             // for each of the roads
             roads.getRoads().forEach(r -> {
@@ -136,14 +139,13 @@ public class LoadRoadsGrid {
                             pixelPoints.get(i).getX(), pixelPoints.get(i).getY()));
                 }
                 wholeRoad.forEach(point -> {
+                    // Check that road is withing bounds
                     if (point.x >= 0 && point.x < floodModelParameters.getWidth() && point.y >= 0 && point.y < floodModelParameters.getHeight()) {
                         Road newRoad = new Road(Integer.toString(AgentIDProducer.getNewId()), r.getRoadIDs());
                         newRoad.setRoadLength(r.getRoadLength());
                         newRoad.setRoadType(r.getRoadType());
                         roadGrid.setCell(point.x, point.y, newRoad);
                         cleanedWholeRoad.add(point);
-                    } else {
-                        logger.trace("Road: {}, {} is out of bounds", point.x, point.y);
                     }
                 });
                 roadHashMap.put(r.getRoadIDs()[0],cleanedWholeRoad);
@@ -163,7 +165,7 @@ public class LoadRoadsGrid {
         try {
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
             String filen = properties.getProperty("INPUT_DATA") + properties.getProperty("ROAD_TYPES");
-            logger.debug("Read roads from {}", filename);
+            logger.info("Read roads from {}", filename);
             RoadTypes roadTypes = gson_roadTypes.fromJson(new FileReader(filen), RoadTypes.class);
             roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             for (BNGRoad bngroad : roads.getRoads()) {
@@ -173,7 +175,7 @@ public class LoadRoadsGrid {
                 // only for the very first road where prevID is null
                 if (graph.getNode(prevID) == null) {
                     graph.addNode(prevID);
-                    logger.debug("Add road start node {} owned by road {}", prevID, bngroad.getRoadIDs()[0]);
+//                    logger.debug("Add road start node {} owned by road {}", prevID, bngroad.getRoadIDs()[0]);
                     // This node (prevID) belongs to this road (bngroad)
                     roadsMap.put(prevID, bngroad);
 
@@ -191,8 +193,8 @@ public class LoadRoadsGrid {
                     String nodeID = bngroad.getRoadIDs()[0] + "." + nodeInc++;
                     if (graph.getNode(nodeID) == null) {
                         graph.addNode(nodeID);
-                        logger.debug("Add intermediate node {} owned by {} with a speedlimit of {}",
-                                nodeID, bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());
+//                        logger.debug("Add intermediate node {} owned by {} with a speedlimit of {}",
+//                                nodeID, bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());
                         // This node (nodeID) belongs to this road (bngroad)
                         roadsMap.put(nodeID, bngroad);
 
@@ -216,8 +218,8 @@ public class LoadRoadsGrid {
                 int last = bngroad.getPolylineCoordinates().size() - 1;
                 if (graph.getNode(bngroad.getRoadIDs()[2]) == null) {
                     graph.addNode(bngroad.getRoadIDs()[2]);
-                    logger.trace("Add end node {} owned by {} with a speedlimit of {}", bngroad.getRoadIDs()[2],
-                            bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());
+//                    logger.trace("Add end node {} owned by {} with a speedlimit of {}", bngroad.getRoadIDs()[2],
+//                            bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());
 
                     graph.getNode(bngroad.getRoadIDs()[2]).setAttribute("xyz",
                             bngroad.getPolylineCoordinates().get(last).getX(),
@@ -238,10 +240,10 @@ public class LoadRoadsGrid {
 
             }
         } catch (FileNotFoundException e) {
-            logger.debug("File not found.");
+            logger.error("File not found.");
             throw new RuntimeException(e);
         } catch (NoSuchElementException e) {
-            logger.debug(e.getMessage());
+            logger.error(e.getMessage());
         }
         return roads;
 

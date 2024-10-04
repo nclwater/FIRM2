@@ -364,12 +364,11 @@ public class Firm2 extends Model{
                             Collections.sort(modelStateChanges.getModelStates());
                         } else {
                             destinationReached(car, currentNode);
-                            logger.info("Car {} reached its destination at {}", car.getAgent_id(), currentNode);
                         }
                     // No obstacles move car along current path
                     } else if (nextPosition < interDist) {
                         car.setCurrentDistance(nextPosition);
-                        logger.trace("2:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
+//                        logger.trace("2:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
                         PointInteger xy = getXY(car);
                         ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
                         PointInteger xy2 = getXY(car);
@@ -386,7 +385,7 @@ public class Firm2 extends Model{
         // The car is at its destination
         car.getRouteNodes().getNodePath().remove(0);
         currentNode = car.getRouteNodes().getNodePath().get(0);
-        logger.trace("Car {} reached its destination at {}", car.getAgent_id(), currentNode.getId());
+        logger.info("Car {} reached its destination at {}", car.getAgent_id(), currentNode.getId());
         car.setAtDestination(true);
         car.setColour(new Color(255, 0, 255));
         cars.removeCar(car);

@@ -28,7 +28,8 @@ public class LoadDefencesGrid {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("DEFENCES_DATA");
             Defences defences = gson.fromJson(new FileReader(filename), Defences.class);
-            logger.debug("Reading: {}", filename);
+            logger.info("Reading: {}", filename);
+            // Check that building is in bounds before adding
             defences.getDefences().forEach(d -> {
                 PointInteger coords = Ordinance2GridXY(globalVariables.getLowerLeftX(), globalVariables.getLowerLeftY(),
                         (float) d.getOrdinate().getX(), (float) d.getOrdinate().getY(), globalVariables.getCellSize());
@@ -37,8 +38,6 @@ public class LoadDefencesGrid {
                         && coords.getY() < floodModelParameters.getHeight()) {
                     Defence defence = new Defence(Integer.toString(getNewId()), d.getOrdinate(), d.getName(), d.getHeight());
                     defenceGrid.setCell(coords.getX(), coords.getY(), defence);
-                } else {
-                    logger.trace("Building: " + coords.getX() + ", " + coords.getY() + " is out of bounds");
                 }
             });
 
@@ -47,6 +46,4 @@ public class LoadDefencesGrid {
             throw new RuntimeException(e);
         }
     }
-
-
 }

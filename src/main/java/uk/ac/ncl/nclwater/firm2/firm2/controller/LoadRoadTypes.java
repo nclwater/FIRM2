@@ -20,7 +20,7 @@ public class LoadRoadTypes {
             String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROAD_TYPES");
             roadTypes = gson_roadTypes.fromJson(new FileReader(filename), RoadTypes.class);
             roadTypes.getRoadTypes().forEach(roadType -> {
-                logger.trace("Road type: {}, speed: {}", roadType.getRoadType(), roadType.getSpeedLimit());
+                logger.info("Road type: {}, speed: {}", roadType.getRoadType(), roadType.getSpeedLimit());
 
             });
         } catch (FileNotFoundException e) {

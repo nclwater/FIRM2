@@ -33,7 +33,7 @@ public class LoadWaterAndTerrainGrid {
         // Read the file to populate the basic grid of cells
 
         String filename = (properties.getProperty("INPUT_DATA") + properties.getProperty("TERRAIN_DATA"));
-        logger.debug("Reading: {} to get water and terrain", filename);
+        logger.info("Reading: {} to get water and terrain", filename);
         TerrainLayer terrainLayer = null;
         try {
             terrainLayer = gson.fromJson(new FileReader(filename), TerrainLayer.class);

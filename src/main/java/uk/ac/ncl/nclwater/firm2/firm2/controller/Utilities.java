@@ -32,7 +32,7 @@ public class Utilities {
         try {
             if (!Files.exists(Paths.get(PROPERTIES_FILEPATH))) {
                 System.out.println("Creating properties file: " + PROPERTIES_FILEPATH);
-                logger.trace("Creating properties file: {}", PROPERTIES_FILEPATH);
+                logger.info("Creating properties file: {}", PROPERTIES_FILEPATH);
                 properties = new Properties();
                 OutputStream output = new FileOutputStream(propertiesFile);
                 systemProperties.getProperties().forEach(properties::setProperty);
@@ -41,22 +41,22 @@ public class Utilities {
             } else {
                 properties = Utilities.loadPropertiesFile();
                 System.out.println("Read properties file: " + PROPERTIES_FILEPATH);
-                logger.trace("Read properties file: {}", PROPERTIES_FILEPATH);
+                logger.info("Read properties file: {}", PROPERTIES_FILEPATH);
                 HashMap<String, String> propertiesMap = systemProperties.getProperties();
                 propertiesMap.forEach((key, value) -> {
                     if (properties.getProperty(key) != null) {
-                        logger.debug("{} key found in properties file: {}", key, properties.getProperty(key));
+                        logger.info("{} key found in properties file: {}", key, properties.getProperty(key));
                         if (System.getenv(key) != null) {
-                            logger.trace("Alternative value found in environment: {}", System.getenv(key));
+                            logger.info("Alternative value found in environment: {}", System.getenv(key));
                             properties.setProperty(key, System.getenv(key));
                         }
                     } else {
                         logger.warn("{} key not found, check environment", key);
                         if (System.getenv(key) != null) {
-                            logger.trace("Alternative value found in system properties: {}", System.getenv(key));
+                            logger.info("Alternative value found in system properties: {}", System.getenv(key));
                             properties.setProperty(key, System.getenv(key));
                         } else {
-                            logger.trace("Alternative value not found in system properties, using default {}",
+                            logger.info("Alternative value not found in system properties, using default {}",
                                     systemProperties.getProperties().get(key));
                             properties.setProperty(key, systemProperties.getProperties().get(key));
                         }
