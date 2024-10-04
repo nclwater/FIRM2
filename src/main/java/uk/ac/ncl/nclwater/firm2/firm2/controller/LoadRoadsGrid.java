@@ -32,8 +32,6 @@ public class LoadRoadsGrid {
             RoadTypes roadTypes = LoadRoadTypes.loadRoadTypes(properties);
             int intNodeCount =0;
             int edgeCount = 0;
-            int totalNodeCount =1;
-            int totalRoadCount = 1;
             if (bngRoads != null) {
                 String roadID = null;
                 for (BNGRoad road : bngRoads.getRoads()) {
@@ -69,7 +67,6 @@ public class LoadRoadsGrid {
 //                                    totalNodeCount, nodeID, graph.getNode(nodeID).getAttribute("road-id"),
 //                                    graph.getNode(nodeID).getAttribute("road-type"), graph.getNode(nodeID).getAttribute("speed-limit"));
 
-                            totalNodeCount++;
                         } else {
                             logger.trace("Node {} exists", nodeID);
                         }
@@ -87,7 +84,6 @@ public class LoadRoadsGrid {
 
                         prevnode = nodeID;
                     }
-                    totalRoadCount++;
 
                 }
                 logger.debug("Graph node count: {}", graph.getNodeCount());
@@ -106,7 +102,6 @@ public class LoadRoadsGrid {
     public static void loadRoadsOld(FloodModelParameters floodModelParameters, GlobalVariables globalVariables,
                                     Properties properties, SimpleGrid roadGrid, HashMap<String,
                                     ArrayList<Point>> roadHashMap) {
-        RoadTypes roadTypes = LoadRoadTypes.loadRoadTypes(properties);
 //         		;; manually fix up the bridge over the river.
 //         		;; XXX this should be done from a config file.
 //         		ask roads with [road-oid = "4000000012487984"] [set road-elevation 10]
@@ -220,7 +215,6 @@ public class LoadRoadsGrid {
                 // Add the last node in the road graph
                 int last = bngroad.getPolylineCoordinates().size() - 1;
                 if (graph.getNode(bngroad.getRoadIDs()[2]) == null) {
-                    String[] ids = bngroad.getRoadIDs();
                     graph.addNode(bngroad.getRoadIDs()[2]);
                     logger.trace("Add end node {} owned by {} with a speedlimit of {}", bngroad.getRoadIDs()[2],
                             bngroad.getRoadIDs()[0], bngroad.getRoadSpeedLimit());

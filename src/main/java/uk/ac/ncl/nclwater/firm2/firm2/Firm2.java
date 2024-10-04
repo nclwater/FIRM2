@@ -298,8 +298,6 @@ public class Firm2 extends Model{
                 // The car is not yet at its destination (and to double-check, there is more than one node left)
                 // If the next node is flooded, reroute
                 PointInteger cell = getXY(car, 1);
-                logger.trace("POSITION: Car status: {}, speed {}, covered distance: {}",
-                        car.getAgent_id(), speed, car.getCurrentDistance());
                 if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
                         cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
                     logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
@@ -340,13 +338,10 @@ public class Firm2 extends Model{
                         // get new Grid co-ordinates
                         PointInteger xy2 = getXY(car);
                         ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
-                        logger.trace("POSITION: more nodes left for car {} after {}", car.getAgent_id(),
-                                currentNode.getId());
                     // if the nextPosition is greater than the distance between the nodes and
                     // the next node is the last
                     // node then the car reached its destination
                     } else if (nextPosition >= interDist && nextNode.getId().equals(car.getEndNode())) {
-                        logger.trace("POSITION: {} reached last node at {} ",car.getAgent_id(), car.getEndNode());
                         // If there are more journey legs
                         // increment leg index
                         // reset start and end nodes
