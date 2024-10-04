@@ -279,7 +279,7 @@ public class Firm2 extends Model{
             // Distance between current node and next node
             double interDist;
             // Distance travelled from current node
-            double coveredDistance = car.getCoveredDistance();
+            double coveredDistance = car.getCurrentDistance();
             // Get the current grid co-ordinates
             PointInteger currentGridXY = getXY(car, 0);
             // current node
@@ -294,19 +294,21 @@ public class Firm2 extends Model{
                 // current speed
                 int speed = (currentNode.getAttribute("speed-limit") == null) ? 0 : (int) currentNode.getAttribute("speed-limit");
                 // distance from current node at current speed
-                float nextPosition = (float) (car.getCoveredDistance() + speed);
+                float nextPosition = (float) (car.getCurrentDistance() + speed);
                 // The car is not yet at its destination (and to double-check, there is more than one node left)
                 // If the next node is flooded, reroute
                 PointInteger cell = getXY(car, 1);
+                logger.trace("POSITION: Car status: {}, speed {}, covered distance: {}",
+                        car.getAgent_id(), speed, car.getCurrentDistance());
                 if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
                         cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
                     logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
                             car.getAgent_id(),
                             car.getRouteNodes().getNodePath().get(0),
-                            car.getCoveredDistance());
+                            car.getCurrentDistance());
                     graph.removeNode(nextNode);
                     // reverse from current position
-                    car.setCoveredDistance(car.getCoveredDistance() * -1);
+                    car.setCurrentDistance(car.getCurrentDistance() * -1);
                     logger.trace("Calculate new shortest path for car {}", car.getAgent_id());
                     aStar.compute(currentNode.getId(), car.getEndNode());
                     Path newShortestPath = aStar.getShortestPath();
@@ -328,7 +330,7 @@ public class Firm2 extends Model{
                     // node then the car reached the next node in the route. Remove the current first node so that the
                     // next node becomes the first node
                     if (nextPosition >= interDist && !nextNode.getId().equals(car.getEndNode())) {
-                        logger.trace("Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
+                        logger.trace("1:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
                         // Car reached next node so remove the first node so that the next node becomes the first node
                         PointInteger xy = getXY(car);
                         ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
@@ -338,12 +340,13 @@ public class Firm2 extends Model{
                         // get new Grid co-ordinates
                         PointInteger xy2 = getXY(car);
                         ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
-                        logger.trace("more nodes left after {}", currentNode.getId());
+                        logger.trace("POSITION: more nodes left for car {} after {}", car.getAgent_id(),
+                                currentNode.getId());
                     // if the nextPosition is greater than the distance between the nodes and
                     // the next node is the last
                     // node then the car reached its destination
                     } else if (nextPosition >= interDist && nextNode.getId().equals(car.getEndNode())) {
-                        logger.trace("Last node reached: " + car.getEndNode());
+                        logger.trace("POSITION: {} reached last node at {} ",car.getAgent_id(), car.getEndNode());
                         // If there are more journey legs
                         // increment leg index
                         // reset start and end nodes
@@ -369,28 +372,19 @@ public class Firm2 extends Model{
                          //   logger.error("Uncaught condition 4 for car {}", car.getAgent_id());
                         } else {
                             destinationReached(car, currentNode);
-                            logger.error("Uncaught condition 3 for car {}", car.getAgent_id());
+                            logger.error("Car {} reached its destination at {}", car.getAgent_id(), currentNode);
                         }
                     // No obstacles move car along current path
                     } else if (nextPosition < interDist) {
-                        car.setCoveredDistance(nextPosition);
-                        logger.trace("Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
+                        car.setCurrentDistance(nextPosition);
+                        logger.trace("2:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
                         PointInteger xy = getXY(car);
                         ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
-                        route.remove(0);
-                        car.setCurrentDistance(car.getCoveredDistance() - interDist);
                         PointInteger xy2 = getXY(car);
                         ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
-                    } else {
-                        logger.error("Uncaught condition 1 for car {} ", car.getAgent_id() );
                     }
                 }
-            // Destination reached ??
-            } else {
-                destinationReached(car, currentNode);
-                logger.error("Uncaught condition 2 for car {} ", car.getAgent_id() );
             }
-
         }
     }
 

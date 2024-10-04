@@ -35,7 +35,7 @@ public class Car extends Agent {
     // the distance to the next node
     private double intermediateDistance;
     // the distance travelled from first node so far
-    private double coveredDistance;
+    private double currentDistance;
     // is the car still on the model? If true, yes, if false it has exited the model
     private boolean inPlay = true;
     // the car has "drowned"
@@ -71,12 +71,8 @@ public class Car extends Agent {
         this.routeNodes = routeNodes;
     }
 
-    public double getCoveredDistance() {
-        return coveredDistance;
-    }
-
-    public void setCoveredDistance(double coveredDistance) {
-        this.coveredDistance = coveredDistance;
+    public double getCurrentDistance() {
+        return currentDistance;
     }
 
     /**
@@ -84,7 +80,7 @@ public class Car extends Agent {
      * This should be called on every tick to move the car along.
      */
     public void incCurrentDistance() {
-        coveredDistance += Utilities.distanceTravelled(speedLimit);
+        currentDistance += Utilities.distanceTravelled(speedLimit);
     }
 
     public double getIntermediateDistance() {
@@ -151,8 +147,8 @@ public class Car extends Agent {
         this.intermediateDistance = intermediateDistance;
     }
 
-    public void setCurrentDistance(double currentDistance) {
-        this.coveredDistance = currentDistance;
+    public void setCurrentDistance(double coveredDistance) {
+        this.currentDistance = coveredDistance;
     }
 
     public boolean isDrowned() {

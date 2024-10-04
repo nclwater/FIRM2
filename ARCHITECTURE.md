@@ -161,13 +161,13 @@ classDiagram
 - A car has an `itineraryIndex` which points to the leg of the itinerary that the car is currently on
 - Car has a `startNode` and an `endNode` which contains the first and last node of the current leg of the itinerary
 - routeNodes contains the shortest path between `startNode` and `endNode` (of the current leg). When node(1) is reached node(0) is removed so that node(0) is always the "current" node on which the car is
-- coveredDistance is the distance travelled from the current node (along the edge)
-- At every tick the car calculates its `coveredDistance`
+- currentDistance is the distance travelled from the current node (along the edge)
+- At every tick the car calculates its `currentDistance`
 - If `node(1)` in the route is flooded the car has to reroute
 - ***TODO: If `node(1)` is occupied by another car, the car has to wait for the next tick*** 
 - If there are no new routes available the car becomes stranded. The car is added to the `stranded` list and removed from the `cars` list
 - If the cell on which the car currently is becomes flooded, the car drowns. The car is added to the `drowned` list and removed from the `cars` list
-- when `coveredDistance` is greater than the distance between `node(0)` and `node(1)` it means that the car reached `node(1)`. At this point `node(1)` become `node(0)` and the distance by which the car overshot the old `node(1)` becomes the coveredDistance
+- when `currentDistance` is greater than the distance between `node(0)` and `node(1)` it means that the car reached `node(1)`. At this point `node(1)` become `node(0)` and the distance by which the car overshot the old `node(1)` becomes the currentDistance
 - when the car reaches an end node it has to check whether there are any more legs left in the itinerary. If there are a new item is entered in the timeline with a start time of `the current time + the wait time`
 - If the car reaches the end node and there is not another leg it has reached its `destination`. The car is added to the `destination reached` list and removed from the `cars` list
 
