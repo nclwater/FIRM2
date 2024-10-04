@@ -287,7 +287,7 @@ public class Firm2 extends Model{
             // If the car has not yet reached its destination and there are more nodes left in the route
             if (!car.isAtDestination()) {
                 // next node
-                logger.debug("Car {}, route length {}", car.getAgent_id(), car.getRouteNodes().getNodePath().size());
+//                logger.debug("Car {}, route length {}", car.getAgent_id(), car.getRouteNodes().getNodePath().size());
                 Node nextNode = route.get(1);
                 // distance between current node and next node
                 interDist = Utilities.distanceBetweenNodes(currentNode, nextNode);
