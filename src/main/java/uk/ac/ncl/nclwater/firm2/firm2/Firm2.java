@@ -367,12 +367,9 @@ public class Firm2 extends Model{
                             modelState.addCar(car);
                             modelStateChanges.insertModelState(modelState);
                             Collections.sort(modelStateChanges.getModelStates());
-                        // Car reached its destination and there are no more legs to its journey
-                        //} else if (car.getItineraryIndex() + 1 == car.getCarItinerary().size()) {
-                         //   logger.error("Uncaught condition 4 for car {}", car.getAgent_id());
                         } else {
                             destinationReached(car, currentNode);
-                            logger.error("Car {} reached its destination at {}", car.getAgent_id(), currentNode);
+                            logger.info("Car {} reached its destination at {}", car.getAgent_id(), currentNode);
                         }
                     // No obstacles move car along current path
                     } else if (nextPosition < interDist) {
