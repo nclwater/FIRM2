@@ -64,10 +64,10 @@ public class LoadRoadsGrid {
                                 roadTypes = new RoadTypes();
                             }
                             graph.getNode(nodeID).setAttribute("speed-limit", roadTypes.getSpeed(road.getRoadType()));
-                            logger.trace("Road {}, Node {}. Add node {} is part of road {} which is of type {} with a speed limit of {}",
-                                    totalRoadCount,
-                                    totalNodeCount, nodeID, graph.getNode(nodeID).getAttribute("road-id"),
-                                    graph.getNode(nodeID).getAttribute("road-type"), graph.getNode(nodeID).getAttribute("speed-limit"));
+//                            logger.trace("Road {}, Node {}. Add node {} is part of road {} which is of type {} with a speed limit of {}",
+//                                    totalRoadCount,
+//                                    totalNodeCount, nodeID, graph.getNode(nodeID).getAttribute("road-id"),
+//                                    graph.getNode(nodeID).getAttribute("road-type"), graph.getNode(nodeID).getAttribute("speed-limit"));
 
                             totalNodeCount++;
                         } else {
@@ -77,9 +77,9 @@ public class LoadRoadsGrid {
 
                         // Connect current node to the previous node
                         if (prevnode != null) { //  && !prevnode.equals(nodeID)
-                            logger.trace("Add edge from {} to {}", prevnode, nodeID);
+//                            logger.trace("Add edge from {} to {}", prevnode, nodeID);
                             graph.addEdge(roadID + "." + edgeCount + ".R", nodeID, prevnode, true);
-                            logger.trace("Add edge from {} to {}", nodeID, prevnode);
+//                            logger.trace("Add edge from {} to {}", nodeID, prevnode);
                             graph.addEdge(roadID + "." + edgeCount + ".F", prevnode, nodeID, true);
                             edgeCount++;
 

@@ -1,13 +1,13 @@
 {
   "model-states": [
     {
-      "time": "00:0:08",
-      "sea-level": 10,
+      "time": "00:00:08",
+      "sea-level": 15,
       "defence-breach": null,
       "cars": []
     },
     {
-      "time": "00:0:11",
+      "time": "00:00:11",
       "sea-level": null,
       "defence-breach": null,
       "cars": [
@@ -48,7 +48,7 @@
     {
       "time": "00:00:14",
       "sea-level": null,
-      "defence-breach": [],
+      "defence-breach": null,
       "cars": [
         {
           "agent-id": "car003",
@@ -65,7 +65,7 @@
     {
       "time": "00:00:15",
       "sea-level": null,
-      "defence-breach": [],
+      "defence-breach": null,
       "cars": [
         {
           "agent-id": "car004",
@@ -82,7 +82,7 @@
     {
       "time": "00:00:16",
       "sea-level": null,
-      "defence-breach": [],
+      "defence-breach": null,
       "cars": [
         {
           "agent-id": "car005",
@@ -93,7 +93,18 @@
               "wait-time": 0
             }
           ]
+        },
+        {
+          "agent-id": "car009",
+          "itinerary": [
+            {
+              "start-node": "4000000012843366",
+              "end-node": "4000000013562279",
+              "wait-time": 0
+            }
+          ]
         }
+
       ]
     },
     {

@@ -67,6 +67,7 @@ public class Car extends Agent {
      * @param routeNodes
      */
     public void setRouteNodes(Path routeNodes) {
+        this.routeNodes = null;
         this.routeNodes = routeNodes;
     }
 
