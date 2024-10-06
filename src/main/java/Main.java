@@ -22,12 +22,12 @@ public class Main {
      */
     public static void main(String[] args) {
         String sourceFilename = System.getProperty("user.dir") +
-                "/DATA/inputs/log4j2.properties";
+                "/DATA/inputs/logging.properties";
         if (!Files.exists(Paths.get(sourceFilename))) {
-            System.out.println("Log4J configuration file " + sourceFilename + " not found");
+            System.out.println("Logging configuration file " + sourceFilename + " not found");
         } else {
             URI configSourceUri = (new File(sourceFilename)).toURI();
-            System.out.println("Log4j config source URI: " + configSourceUri);
+            System.out.println("Logging config source URI: " + configSourceUri);
             logger.info("Logging model output to {}", configSourceUri);
             new Firm2();
         }
