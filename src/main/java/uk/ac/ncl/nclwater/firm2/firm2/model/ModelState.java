@@ -20,6 +20,7 @@ public class ModelState implements Comparable<ModelState> {
     @SerializedName("defence-breach")
     @Expose
     private List<String> defenceBreach = new ArrayList<>();
+
     @SerializedName("cars")
     @Expose
     private ArrayList<Car> cars = new ArrayList<>();
@@ -59,6 +60,10 @@ public class ModelState implements Comparable<ModelState> {
 
     public ArrayList<Car> getCars() {
         return cars;
+    }
+
+    public void setCars(ArrayList<Car> cars) {
+        this.cars = cars;
     }
 
     @Override
