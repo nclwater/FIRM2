@@ -1,0 +1,17 @@
+copy C:\Users\janne\.m2\repository\com\google\code\gson\gson\2.8.9\gson-2.8.9.jar .
+copy C:\Users\janne\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar .
+copy C:\Users\janne\.m2\repository\com\miglayout\miglayout-swing\5.2\miglayout-swing-5.2.jar .
+copy C:\Users\janne\.m2\repository\com\miglayout\miglayout-core\5.2\miglayout-core-5.2.jar .
+copy C:\Users\janne\.m2\repository\org\graphstream\gs-algo\2.0\gs-algo-2.0.jar .
+copy C:\Users\janne\.m2\repository\org\apache\commons\commons-math\2.1\commons-math-2.1.jar .
+copy C:\Users\janne\.m2\repository\org\apache\commons\commons-math3\3.4.1\commons-math3-3.4.1.jar .
+copy C:\Users\janne\.m2\repository\org\danilopianini\graphstream-gs-algo\2.0.0\graphstream-gs-algo-2.0.0.jar .
+copy C:\Users\janne\.m2\repository\org\danilopianini\graphstream-gs-core\2.0.0\graphstream-gs-core-2.0.0.jar .
+copy C:\Users\janne\.m2\repository\org\graphstream\pherd\1.0\pherd-1.0.jar .
+copy C:\Users\janne\.m2\repository\org\graphstream\mbox2\1.0\mbox2-1.0.jar .
+copy C:\Users\janne\.m2\repository\commons-io\commons-io\2.16.1\commons-io-2.16.1.jar .
+copy C:\Users\janne\.m2\repository\org\danilopianini\graphstream-gs-ui-swing\2.0.0\graphstream-gs-ui-swing-2.0.0.jar .
+copy C:\Users\janne\.m2\repository\org\xerial\sqlite-jdbc\3.46.1.0\sqlite-jdbc-3.46.1.0.jar .
+copy C:\Users\janne\.m2\repository\org\apache\logging\log4j\log4j-api\2.24.0\log4j-api-2.24.0.jar .
+copy C:\Users\janne\.m2\repository\org\apache\logging\log4j\log4j-core\2.24.0\log4j-core-2.24.0.jar .
+copy C:\Users\janne\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar .

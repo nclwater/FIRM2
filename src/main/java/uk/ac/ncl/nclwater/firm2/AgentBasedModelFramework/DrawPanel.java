@@ -1,18 +1,17 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.logging.Logger;
 
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.GridXY2BNG;
 
 public class DrawPanel extends JPanel implements MouseListener {
-    private static final Logger logger = LogManager.getLogger(DrawPanel.class);
+    private static final Logger logger = Logger.getLogger(DrawPanel.class.getName());
 
     int width;
     int height;

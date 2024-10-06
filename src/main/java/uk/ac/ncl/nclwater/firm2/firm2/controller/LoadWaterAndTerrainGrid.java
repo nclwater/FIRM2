@@ -2,8 +2,8 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
@@ -18,7 +18,7 @@ import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getH
  */
 public class LoadWaterAndTerrainGrid {
 
-    private static final Logger logger = LogManager.getLogger(LoadWaterAndTerrainGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoadWaterAndTerrainGrid.class);
 
     /**
      * Read the file containing the terrain elevations. If a tile is marked as null it is ocean and the terrain agent

@@ -1,7 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.io.*;
@@ -16,7 +16,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.trimBrackets;
 public class DataBase {
 
     private static Properties properties;
-    private static final Logger logger = LogManager.getLogger(DataBase.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataBase.class);
     private static String url = "jdbc:sqlite:DATA/database.db";
     private static String sql_INSERT = null;
 

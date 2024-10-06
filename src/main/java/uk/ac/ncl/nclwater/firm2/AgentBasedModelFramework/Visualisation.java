@@ -1,9 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
 import net.miginfocom.swing.MigLayout;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import uk.ac.ncl.nclwater.firm2.examples.RoadNetworkGSTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,7 +16,7 @@ import java.util.LinkedHashMap;
  * If visualisation is set to true, the visualisation is set to true.
  */
 public class Visualisation extends JFrame implements ActionListener {
-    private static final Logger logger = LogManager.getLogger(Visualisation.class);
+    private static final Logger logger = LoggerFactory.getLogger(Visualisation.class);
    DrawPanel drawPanel;
    JPanel buttonPanel = new JPanel();
    JButton start = new JButton("Start");

@@ -1,9 +1,9 @@
 package uk.ac.ncl.nclwater.firm2.examples;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Model;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createPropertiesFile;
 
 public class CheckRoads {
-    private static final Logger logger = LogManager.getLogger(CheckRoads.class);
+    private static final Logger logger = LoggerFactory.getLogger(CheckRoads.class);
     private static final HashMap<String, BNGRoad> roadsMap = new HashMap<>();
     private static final Properties properties = createPropertiesFile();
 

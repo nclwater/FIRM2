@@ -2,16 +2,15 @@ package uk.ac.ncl.nclwater.firm2.firm2.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.Agent;
-import uk.ac.ncl.nclwater.firm2.firm2.controller.VehicleCodeDescriptors;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BNGRoad extends Agent {
-    private static final Logger logger = LogManager.getLogger(BNGRoad.class);
+    private static final Logger logger = LoggerFactory.getLogger(BNGRoad.class);
 
     /**
      * Each road has three IDs associated with it. The first is the road id, the second is the ID of the
@@ -44,7 +43,7 @@ public class BNGRoad extends Agent {
      * @param agentId A unique agent id
      * @param roadIDs The IDs of the road that make up this road (clarify)
      */
-    public BNGRoad(String agentId, @org.jetbrains.annotations.NotNull String[] roadIDs) {
+    public BNGRoad(String agentId, String[] roadIDs) {
         this.agent_id = agentId;
         this.roadIDs[0] = roadIDs[0];
         this.roadIDs[1] = roadIDs[1];

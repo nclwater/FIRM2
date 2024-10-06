@@ -2,8 +2,8 @@ package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.io.FileNotFoundException;
@@ -15,7 +15,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.Ordinance2Grid
 
 public class LoadBuildingsGrid {
 
-    private static final Logger logger = LogManager.getLogger(LoadBuildingsGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoadBuildingsGrid.class);
 
     /**
      * Read the building.json file and populate the buildings grid

@@ -1,7 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.util.LinkedHashMap;
@@ -11,9 +11,8 @@ import java.util.LinkedHashMap;
  * would require the **run** methode to be implemented
  */
 public abstract class Model implements Runnable {
-    private static final Logger logger = LogManager.getLogger(Model.class);
+    private static final Logger logger = LoggerFactory.getLogger(Model.class);
     protected ModelParameters modelParameters;
-    private static int ids = 0;
     private boolean run = false;
     protected Visualisation visualisation;
     protected LinkedHashMap<String, Grid> grids = new LinkedHashMap<>();
@@ -60,6 +59,9 @@ public abstract class Model implements Runnable {
                 running = false;
                 run = false;
                 logger.debug("Stop run tick:" + total_ticks);
+                if (modelParameters.getTicks() == total_ticks && !modelParameters.isVisualise()) {
+                    System.exit(0);
+                }
             }
             try {
                 Thread.sleep(1);
@@ -114,15 +116,6 @@ public abstract class Model implements Runnable {
         }
         System.out.println("\033[H\033[2J");
     }
-
-//    /**
-//     * Increment the id value
-//     *
-//     * @return a new id
-//     */
-//    public static int getNewId() {
-//        return ++ids;
-//    }
 
     /**
      * Returns the grid in its current state

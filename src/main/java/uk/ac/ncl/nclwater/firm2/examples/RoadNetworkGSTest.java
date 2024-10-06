@@ -1,13 +1,13 @@
 package uk.ac.ncl.nclwater.firm2.examples;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.ViewerListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.LoadRoadsGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
 import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoad;
@@ -24,7 +24,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.createProperti
 
 public class RoadNetworkGSTest  implements ViewerListener {
 
-    private static final Logger logger = LogManager.getLogger(RoadNetworkGSTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(RoadNetworkGSTest.class);
     private static Graph graph = new SingleGraph("Road Networks GraphStream Test");
     private Node first = null;
     private Node second = null;

@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Properties;
 
 public class ModelStateChanges {
 
-    private static final Logger logger = LogManager.getLogger(ModelStateChanges.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModelStateChanges.class);
 
     @SerializedName("model-states")
     @Expose

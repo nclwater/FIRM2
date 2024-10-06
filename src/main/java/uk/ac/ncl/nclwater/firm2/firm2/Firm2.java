@@ -2,9 +2,10 @@ package uk.ac.ncl.nclwater.firm2.firm2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.graphstream.algorithm.AStar;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
@@ -18,12 +19,11 @@ import java.io.FileReader;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.List;
-
 import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.*;
 
 public class Firm2 extends Model{
 
-    private static final Logger logger = LogManager.getLogger(Firm2.class);
+    private static final Logger logger = LoggerFactory.getLogger(Firm2.class);
     private static FloodModelParameters floodModelParameters;
     private static GlobalVariables globalVariables;
     private final Properties properties;
@@ -102,8 +102,10 @@ public class Firm2 extends Model{
      */
     @Override
     public void tick() {
+
         // FYI https://www.unixtimestamp.com/
         // increment time: time = model start time + tick time value
+
         if (maintainSeaLevel == null) maintainSeaLevel = floodModelParameters.getOceanDepth();
         modelTimeStamp += floodModelParameters.getTickTimeValue() * 1000;
         long timestamp = 0;
@@ -201,7 +203,7 @@ public class Firm2 extends Model{
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
         moveCars();
         // read the next state change
-        // TODO modelState needs to be reset when new entries are insertedj in timeline
+        // TODO modelState needs to be reset when new entries are inserted in timeline
         modelState = modelStateChanges.getModelStates().get(modelStateIndex);
         if (floodModelParameters.isVisualise()) {
             visualisation.getDrawPanel().repaint();
@@ -217,7 +219,6 @@ public class Firm2 extends Model{
         return getXY(car, 0);
     }
 
-
     /**
      * Return Grid XY co-ordinates from Car object for position 'index' in the route
      * @param car The car whose position is to be found
@@ -229,7 +230,6 @@ public class Firm2 extends Model{
         Object[] xyz = (Object[])car.getRouteNodes().getNodePath().get(index).getAttribute("xyz");
         double x = (double)xyz[0];
         double y = (double)xyz[1];
-
         PointInteger xy  = Utilities.BNG2GridXY(globalVariables.getLowerLeftX(),
                 globalVariables.getLowerLeftY(),
                 (float)x, (float)y,
@@ -295,7 +295,7 @@ public class Firm2 extends Model{
                 int speed = (currentNode.getAttribute("speed-limit") == null) ? 0 : (int) currentNode.getAttribute("speed-limit");
                 // distance from current node at current speed
                 float nextPosition = (float) (car.getCurrentDistance() + speed);
-                // The car is not yet at its destination (and to double-check, there is more than one node left)
+                edgeState(car, currentNode, nextNode);
                 // If the next node is flooded, reroute
                 PointInteger cell = getXY(car, 1);
                 if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
@@ -338,6 +338,7 @@ public class Firm2 extends Model{
                         // get new Grid co-ordinates
                         PointInteger xy2 = getXY(car);
                         ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
+                        edgeState(car, currentNode, nextNode);
                     // if the nextPosition is greater than the distance between the nodes and
                     // the next node is the last
                     // node then the car reached its destination
@@ -367,6 +368,8 @@ public class Firm2 extends Model{
                         }
                     // No obstacles move car along current path
                     } else if (nextPosition < interDist) {
+                        // all clear - move
+
                         car.setCurrentDistance(nextPosition);
 //                        logger.trace("2:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
                         PointInteger xy = getXY(car);
@@ -377,6 +380,16 @@ public class Firm2 extends Model{
                 }
             }
         }
+    }
+
+    private void edgeState(Car car, Node currentNode, Node nextNode) {
+        // can the edge carry more cars
+        Edge currentEdge = currentNode.getEdgeToward(nextNode);
+        int carCount = (int)currentEdge.getAttribute("car-count");
+        currentEdge.setAttribute("car-count" + carCount++);
+        logger.debug("car {} on edge {} number {}  of car-capacity {}", car.getAgent_id(),
+                currentEdge, carCount,
+                currentEdge.getAttribute("car-capacity"));
     }
 
     private void destinationReached(Car car, Node currentNode) {
@@ -528,7 +541,5 @@ public class Firm2 extends Model{
         setRun(floodModelParameters.isRunOnStartUp()); // don't start running on program startup
         modelthread.start();
     }
-
-
 
 }

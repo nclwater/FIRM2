@@ -1,17 +1,17 @@
 package uk.ac.ncl.nclwater.firm2.firm2.view;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.RoadTypes;
 
 import javax.swing.*;
 
 public class ViewGrid  extends JFrame implements ViewerListener {
-    private static final Logger logger = LogManager.getLogger(ViewGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(ViewGrid.class);
     static boolean loop = true;
     ViewerListener viewerListener;
     Graph graph = null;

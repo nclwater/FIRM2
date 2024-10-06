@@ -1,10 +1,9 @@
 package uk.ac.ncl.nclwater.firm2.firm2.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.graphstream.graph.Node;
 import uk.ac.ncl.nclwater.firm2.firm2.model.PointInteger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -20,7 +19,7 @@ public class Utilities {
 
     private static final String APPLICATION_DIRECTORY = ""; //System.getProperty("user.home");
     private static final String PROPERTIES_FILEPATH = APPLICATION_DIRECTORY + "./.firm2.properties";
-    private static final Logger logger = LogManager.getLogger(Utilities.class);
+    private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
     private static final SystemProperties systemProperties = SystemProperties.getInstance();
 
     /**
@@ -147,6 +146,15 @@ public class Utilities {
         return new PointInteger(x_coord, y_coord);
     }
 
+    /**
+     * Convert Grid xy co-ordinates to BNG co-ordinages
+     * @param x_origin the x origin of the map
+     * @param y_origin the y origin of the map
+     * @param x_coord the x co-ordinate of the grid
+     * @param y_coord the y co-ordinate of the grid
+     * @param cellMeters the size of one cell in meters
+     * @return Return the BNG co-ordinates
+     */
     public static Point GridXY2BNG(float x_origin, float y_origin, int x_coord, int y_coord, int cellMeters) {
         float x = x_origin + (x_coord * cellMeters);
         float y = y_origin + (y_coord * cellMeters);

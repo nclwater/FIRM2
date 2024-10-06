@@ -1,16 +1,20 @@
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import uk.ac.ncl.nclwater.firm2.firm2.Firm2;
 import uk.ac.ncl.nclwater.firm2.firm2.model.FloodModelParameters;
-import org.apache.logging.log4j.core.config.Configurator;
-
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
-    private static final Logger logger = LogManager.getLogger(Main.class);
+    static {
+        // must set before the Logger
+        // loads logging.properties from the classpath
+        System.setProperty("java.util.logging.config.file", "C:\\Users\\janne\\IdeaProjects\\F2_\\DATA\\inputs\\logging.properties");
+
+    }
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static FloodModelParameters floodModelParameters;
 
     /**
@@ -25,7 +29,6 @@ public class Main {
             URI configSourceUri = (new File(sourceFilename)).toURI();
             System.out.println("Log4j config source URI: " + configSourceUri);
             logger.info("Logging model output to {}", configSourceUri);
-            Configurator.reconfigure(configSourceUri);
             new Firm2();
         }
     }

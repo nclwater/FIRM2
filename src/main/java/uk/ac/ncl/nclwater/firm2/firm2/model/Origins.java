@@ -1,7 +1,7 @@
 package uk.ac.ncl.nclwater.firm2.firm2.model;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +18,7 @@ import static uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities.trimBrackets;
  * format data files.
  */
 public class Origins {
-    private static final Logger logger = LogManager.getLogger(Origins.class);
+    private static final Logger logger = LoggerFactory.getLogger(Origins.class);
     private int modelWidth;
     private int modelHeight;
     private float x_origin;
