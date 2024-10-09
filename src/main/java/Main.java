@@ -11,7 +11,9 @@ public class Main {
     static {
         // must set before the Logger
         // loads logging.properties from the classpath
-        System.setProperty("java.util.logging.config.file", "C:\\Users\\janne\\IdeaProjects\\F2_\\DATA\\inputs\\logging.properties");
+        String sourceFilename = System.getProperty("user.dir") +
+                "/DATA/inputs/logging.properties";
+        System.setProperty("java.util.logging.config.file", sourceFilename);
 
     }
     private static final Logger logger = LoggerFactory.getLogger(Main.class);

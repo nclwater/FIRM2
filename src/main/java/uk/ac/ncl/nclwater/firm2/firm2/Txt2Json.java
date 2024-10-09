@@ -244,7 +244,7 @@ public class Txt2Json {
      */
     public static void distances() {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String filename = properties.getProperty("INPUT_DATA") + "sample_roads.json";
+        String filename = properties.getProperty("INPUT_DATA") + "BNG_roads.json";
         try {
             BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             HashMap<String, BNGRoad> hsh_roads = BNGlistToMap(roads.getRoads());

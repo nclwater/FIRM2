@@ -1,7 +1,6 @@
-package uk.ac.ncl.nclwater.firm2.firm2.view;
-
 import org.jfree.ui.RefineryUtilities;
 import org.slf4j.LoggerFactory;
+import uk.ac.ncl.nclwater.firm2.firm2.view.TimeLineMainPanel;
 
 import javax.swing.*;
 import java.io.File;

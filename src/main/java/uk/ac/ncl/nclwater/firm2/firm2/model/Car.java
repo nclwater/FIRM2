@@ -18,6 +18,7 @@ public class Car extends Agent {
     @SerializedName("itinerary")
     ArrayList<ItineraryItem> carItinerary = new ArrayList<>();
 
+    private String previousNode;
     private String startNode;
     private String endNode;
     private int itineraryIndex = 0;
@@ -199,5 +200,13 @@ public class Car extends Agent {
 
     public void incItineraryIndex() {
         this.itineraryIndex++;
+    }
+
+    public String getPreviousNode() {
+        return previousNode;
+    }
+
+    public void setPreviousNode(String previousNode) {
+        this.previousNode = previousNode;
     }
 }

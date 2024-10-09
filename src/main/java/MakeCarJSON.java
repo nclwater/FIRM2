@@ -1,5 +1,3 @@
-package uk.ac.ncl.nclwater.firm2;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import uk.ac.ncl.nclwater.firm2.firm2.model.Car;

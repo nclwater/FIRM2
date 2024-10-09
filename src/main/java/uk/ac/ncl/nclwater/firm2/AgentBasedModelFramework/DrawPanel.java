@@ -58,12 +58,13 @@ public class DrawPanel extends JPanel implements MouseListener {
                         int finalCol = col;
                         int finalRow = row;
                         if (agents != null) {
-                            agents.forEach(agent -> {
+                            for (Agent agent : agents) {
+//                            agents.forEach(agent -> {
                                 g.setColor(agent.getColour());
                                 g.fillRect(finalCol * cell_size, finalRow * cell_size,
                                         cell_size, cell_size);
                                 g.setColor(Color.WHITE);
-                            });
+                            };
                         }
                     }
                 }

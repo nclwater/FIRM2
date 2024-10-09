@@ -1,5 +1,3 @@
-package uk.ac.ncl.nclwater.firm2.firm2;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.controller.Utilities;
@@ -100,8 +98,8 @@ public class DataBase {
 
 
     public static void main(String[] args) {
-        InsertBuildings();
-//        InsertClassification();
+//        InsertBuildings();
+        InsertClassification();
     }
 
 }

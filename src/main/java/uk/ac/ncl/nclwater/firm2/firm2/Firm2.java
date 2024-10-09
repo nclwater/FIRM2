@@ -295,7 +295,6 @@ public class Firm2 extends Model{
                 int speed = (currentNode.getAttribute("speed-limit") == null) ? 0 : (int) currentNode.getAttribute("speed-limit");
                 // distance from current node at current speed
                 float nextPosition = (float) (car.getCurrentDistance() + speed);
-                edgeState(car, currentNode, nextNode);
                 // If the next node is flooded, reroute
                 PointInteger cell = getXY(car, 1);
                 if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
@@ -331,14 +330,22 @@ public class Firm2 extends Model{
                         // logger.trace("1:Car {} reached next node ({})", car.getAgent_id(), nextNode.getId());
                         // Car reached next node so remove the first node so that the next node becomes the first node
                         PointInteger xy = getXY(car);
+                        // remove from current grid position
                         ((ComplexGrid) grids.get("cars")).setCell(xy.getX(), xy.getY(), null);
+                        // decrement previous edge car count
+                        if (car.getPreviousNode() != null) {
+                            removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
+                        }
+                        // first node become previous node
+                        car.setPreviousNode(car.getRouteNodes().getNodePath().get(0).getId());
+                        // remove from array so next node is now node 0
                         car.getRouteNodes().getNodePath().remove(0);
                         // set distance from the new current node
                         car.setCurrentDistance(nextPosition - interDist);
                         // get new Grid co-ordinates
                         PointInteger xy2 = getXY(car);
                         ((ComplexGrid) grids.get("cars")).addCell(xy2.getX(), xy2.getY(), car);
-                        edgeState(car, currentNode, nextNode);
+                        addCarToEdge(car, currentNode, nextNode);
                     // if the nextPosition is greater than the distance between the nodes and
                     // the next node is the last
                     // node then the car reached its destination
@@ -347,6 +354,9 @@ public class Firm2 extends Model{
                         // increment leg index
                         // reset start and end nodes
                         if (car.getItineraryIndex() + 1 < car.getCarItinerary().size()) {
+                            // remove the car from the edge
+                            removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
+                            // Move onto the next leg (we'll check later whether there is one
                             car.incItineraryIndex();
                             logger.trace("Leg {} of {} for car {}", car.getItineraryIndex() + 1,
                                     car.getCarItinerary().size(), car.getAgent_id());
@@ -382,14 +392,26 @@ public class Firm2 extends Model{
         }
     }
 
-    private void edgeState(Car car, Node currentNode, Node nextNode) {
+    private void addCarToEdge(Car car, Node currentNode, Node nextNode) {
         // can the edge carry more cars
         Edge currentEdge = currentNode.getEdgeToward(nextNode);
         int carCount = (int)currentEdge.getAttribute("car-count");
-        currentEdge.setAttribute("car-count" + carCount++);
+        currentEdge.setAttribute("car-count", ++carCount);
         logger.debug("car {} on edge {} number {}  of car-capacity {}", car.getAgent_id(),
                 currentEdge, carCount,
                 currentEdge.getAttribute("car-capacity"));
+    }
+
+    private void removeCarFromEdge(Car car, Node currentNode, Node nextNode) {
+        // can the edge carry more cars
+        Edge currentEdge = currentNode.getEdgeToward(nextNode);
+        if (currentEdge != null) {
+            int carCount = (int) currentEdge.getAttribute("car-count");
+            currentEdge.setAttribute("car-count", --carCount);
+            logger.debug("car {} on edge {} number {}  of car-capacity {}", car.getAgent_id(),
+                    currentEdge, carCount,
+                    currentEdge.getAttribute("car-capacity"));
+        }
     }
 
     private void destinationReached(Car car, Node currentNode) {
