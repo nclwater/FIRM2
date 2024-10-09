@@ -85,15 +85,16 @@ public class LoadRoadsGrid {
                             graph.addEdge(edgeID + ".R", nodeID, prevnode, true);
                             graph.getEdge(edgeID + ".R").setAttribute("car-count",
                                     0);
+                            int capacity = ((int) Math.floor(edgeLength / roadSpeed * 3) < 1?1:(int) Math.floor(edgeLength / roadSpeed * 3));
                             graph.getEdge(edgeID + ".R").setAttribute("car-capacity",
-                                    (int) Math.floor(edgeLength / roadSpeed * 3)); // because of two second distance between cars
+                                    capacity); // because of two second distance between cars
                             graph.getEdge(edgeID + ".R").setAttribute("edge-speed",
                                     roadSpeed);
                             // Forward edge
                             graph.addEdge(edgeID + ".F", prevnode, nodeID, true);
                             graph.getEdge(edgeID + ".F").setAttribute("car-count", 0);
                             graph.getEdge(edgeID + ".F").setAttribute("car-capacity",
-                                    (int) Math.floor(edgeLength / roadSpeed * 3)); // because of two second distance between cars
+                                    capacity); // because of two second distance between cars
                             graph.getEdge(edgeID + ".F").setAttribute("edge-speed",
                                     roadSpeed);
                             edgeCount++;
