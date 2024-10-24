@@ -356,8 +356,8 @@ public class Firm2 extends Model{
                         // car to wait where it is as it the next edge is at its capacity
                         } else {
                             Edge currentEdge = currentNode.getEdgeToward(nextNode);
-                            logger.info("car {} waiting {} number {}  of car-capacity {}", car.getAgent_id(),
-                                    currentEdge, carCount + 1, carCapacity);
+                            logger.info("car {} waiting for {} with car-capacity of {}", car.getAgent_id(),
+                                    currentEdge, carCount, carCapacity);
                         }
                     // if the nextPosition is greater than the distance between the nodes and
                     // the next node is the last
@@ -439,19 +439,18 @@ public class Firm2 extends Model{
         Edge currentEdge = currentNode.getEdgeToward(nextNode);
         int carCount = (int)currentEdge.getAttribute("car-count");
         currentEdge.setAttribute("car-count", ++carCount);
-        logger.debug("car {} on edge {} number {}  of car-capacity {}", car.getAgent_id(),
+        logger.info("car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
                 currentEdge, carCount,
                 currentEdge.getAttribute("car-capacity"));
     }
 
     private void removeCarFromEdge(Car car, Node currentNode, Node nextNode) {
-        // can the edge carry more cars
         Edge currentEdge = currentNode.getEdgeToward(nextNode);
         if (currentEdge != null) {
             int carCount = (int) currentEdge.getAttribute("car-count");
             currentEdge.setAttribute("car-count", --carCount);
-            logger.debug("car {} on edge {} number {}  of car-capacity {}", car.getAgent_id(),
-                    currentEdge, carCount,
+            logger.info("car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
+                    currentEdge, carCount + 1,
                     currentEdge.getAttribute("car-capacity"));
         }
     }

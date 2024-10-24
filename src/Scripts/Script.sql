@@ -13,5 +13,5 @@ create table classification (
 
 select b.class_id, c.description from buildings b
 left join classification c on b.class_id=c.code
-where class_id=625
+where class_id=0
 

@@ -1,0 +1,2038 @@
+{
+  "model-states": [
+    {
+      "time": "00:00:01",
+      "sea-level": 0.0,
+      "defence-breach": [],
+      "cars": [
+        {
+          "agent-id": "car001",
+          "itinerary": [
+            {
+              "start-node": "4000000012843669",
+              "end-node": "4000000012473705",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473705",
+              "end-node": "4000000012844054",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012844054",
+              "end-node": "4000000012544329",
+              "wait-time": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "time": "00:00:20",
+      "sea-level": 0.0,
+      "defence-breach": [],
+      "cars": [
+        {
+          "agent-id": "car001",
+          "itinerary": [
+            {
+              "start-node": "4000000013609890",
+              "end-node": "4000000012844111",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844111",
+              "end-node": "4000000012862236",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862236",
+              "end-node": "4000000012862345",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car002",
+          "itinerary": [
+            {
+              "start-node": "4000000012862298",
+              "end-node": "4000000012862405",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862405",
+              "end-node": "4000000012843678",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843678",
+              "end-node": "4000000012862454",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car004",
+          "itinerary": [
+            {
+              "start-node": "4000000012473064",
+              "end-node": "4000000012843869",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843869",
+              "end-node": "4000000012862615",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862615",
+              "end-node": "4000000012862516",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car007",
+          "itinerary": [
+            {
+              "start-node": "4000000012862259",
+              "end-node": "4000000012862500",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862500",
+              "end-node": "4000000012843360",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843360",
+              "end-node": "4000000012473516",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car011",
+          "itinerary": [
+            {
+              "start-node": "4000000012862312",
+              "end-node": "4000000012473236",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473236",
+              "end-node": "4000000012473582",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473582",
+              "end-node": "4000000012862386",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car016",
+          "itinerary": [
+            {
+              "start-node": "4000000012862626",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012862552",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862552",
+              "end-node": "4000000012473587",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car022",
+          "itinerary": [
+            {
+              "start-node": "4000000012473736",
+              "end-node": "4000000012862497",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862497",
+              "end-node": "4000000013609908",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013609908",
+              "end-node": "4000000012862286",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car029",
+          "itinerary": [
+            {
+              "start-node": "4000000012862310",
+              "end-node": "4000000012528746",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012528746",
+              "end-node": "4000000012843300",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843300",
+              "end-node": "4000000012473849",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car037",
+          "itinerary": [
+            {
+              "start-node": "4000000012862454",
+              "end-node": "4000000012843494",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843494",
+              "end-node": "4000000012862246",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862246",
+              "end-node": "4000000012862269",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car046",
+          "itinerary": [
+            {
+              "start-node": "4000000012843397",
+              "end-node": "4000000012844111",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844111",
+              "end-node": "4000000012843679",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843679",
+              "end-node": "4000000012473662",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car056",
+          "itinerary": [
+            {
+              "start-node": "4000000012525976",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012843300",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843300",
+              "end-node": "4000000012473478",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car067",
+          "itinerary": [
+            {
+              "start-node": "4000000013609890",
+              "end-node": "4000000012843759",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843759",
+              "end-node": "4000000012862386",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862386",
+              "end-node": "4000000013562280",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car079",
+          "itinerary": [
+            {
+              "start-node": "4000000012536907",
+              "end-node": "4000000012862500",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862500",
+              "end-node": "4000000012863015",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012863015",
+              "end-node": "4000000012863129",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car092",
+          "itinerary": [
+            {
+              "start-node": "4000000012473670",
+              "end-node": "4000000012473247",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473247",
+              "end-node": "4000000012843679",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843679",
+              "end-node": "4000000012863038",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car106",
+          "itinerary": [
+            {
+              "start-node": "4000000012844165",
+              "end-node": "4000000012844039",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844039",
+              "end-node": "4000000012473181",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473181",
+              "end-node": "4000000012473516",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car121",
+          "itinerary": [
+            {
+              "start-node": "4000000012473849",
+              "end-node": "4000000012844033",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844033",
+              "end-node": "4000000012862386",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862386",
+              "end-node": "4000000012473527",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car137",
+          "itinerary": [
+            {
+              "start-node": "4000000013427167",
+              "end-node": "4000000012844039",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844039",
+              "end-node": "4000000012471940",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012471940",
+              "end-node": "4000000013609876",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car154",
+          "itinerary": [
+            {
+              "start-node": "4000000012473916",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012473180",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473180",
+              "end-node": "4000000012862407",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car172",
+          "itinerary": [
+            {
+              "start-node": "4000000012528722",
+              "end-node": "4000000012843869",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843869",
+              "end-node": "4000000012843300",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843300",
+              "end-node": "4000000013609876",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car191",
+          "itinerary": [
+            {
+              "start-node": "4000000013609876",
+              "end-node": "4000000012528746",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012528746",
+              "end-node": "4000000012473582",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473582",
+              "end-node": "4000000012473670",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car211",
+          "itinerary": [
+            {
+              "start-node": "4000000012473528",
+              "end-node": "4000000012473706",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473706",
+              "end-node": "4000000012843800",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843800",
+              "end-node": "4000000012863150",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car232",
+          "itinerary": [
+            {
+              "start-node": "4000000012473477",
+              "end-node": "4000000012844033",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844033",
+              "end-node": "4000000012862432",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862432",
+              "end-node": "4000000012473477",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car254",
+          "itinerary": [
+            {
+              "start-node": "4000000013609882",
+              "end-node": "4000000012471943",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012471943",
+              "end-node": "4000000013609905",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013609905",
+              "end-node": "4000000012862407",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car277",
+          "itinerary": [
+            {
+              "start-node": "4000000013609876",
+              "end-node": "4000000012473235",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473235",
+              "end-node": "4000000012844049",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012844049",
+              "end-node": "4000000013609876",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car301",
+          "itinerary": [
+            {
+              "start-node": "4000000012843667",
+              "end-node": "4000000012473239",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473239",
+              "end-node": "4000000012473722",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473722",
+              "end-node": "4000000012862345",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car326",
+          "itinerary": [
+            {
+              "start-node": "4000000013609905",
+              "end-node": "4000000012862497",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862497",
+              "end-node": "4000000012862235",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862235",
+              "end-node": "4000000012862979",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car352",
+          "itinerary": [
+            {
+              "start-node": "4000000013609890",
+              "end-node": "4000000012473407",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473407",
+              "end-node": "4000000013609904",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013609904",
+              "end-node": "4000000012862504",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car379",
+          "itinerary": [
+            {
+              "start-node": "4000000012862505",
+              "end-node": "4000000012862465",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862465",
+              "end-node": "4000000012473392",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473392",
+              "end-node": "4000000012473479",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car407",
+          "itinerary": [
+            {
+              "start-node": "4000000012862303",
+              "end-node": "4000000012473705",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473705",
+              "end-node": "4000000012862239",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862239",
+              "end-node": "4000000012473524",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car436",
+          "itinerary": [
+            {
+              "start-node": "4000000013609917",
+              "end-node": "4000000012843759",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843759",
+              "end-node": "4000000012525992",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012525992",
+              "end-node": "4000000012843250",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car466",
+          "itinerary": [
+            {
+              "start-node": "4000000012544329",
+              "end-node": "4000000012862497",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862497",
+              "end-node": "4000000012843616",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843616",
+              "end-node": "4000000012473524",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car497",
+          "itinerary": [
+            {
+              "start-node": "4000000012863037",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012843901",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843901",
+              "end-node": "4000000012473516",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car529",
+          "itinerary": [
+            {
+              "start-node": "4000000013609890",
+              "end-node": "4000000012862371",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862371",
+              "end-node": "4000000012862682",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862682",
+              "end-node": "4000000013609916",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car562",
+          "itinerary": [
+            {
+              "start-node": "4000000012863128",
+              "end-node": "4000000012528753",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012528753",
+              "end-node": "4000000012843994",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843994",
+              "end-node": "4000000012862516",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car596",
+          "itinerary": [
+            {
+              "start-node": "4000000012862454",
+              "end-node": "4000000012473236",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473236",
+              "end-node": "4000000012843298",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843298",
+              "end-node": "4000000012862406",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car631",
+          "itinerary": [
+            {
+              "start-node": "4000000012536907",
+              "end-node": "4000000012843810",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843810",
+              "end-node": "4000000012843708",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843708",
+              "end-node": "4000000012528722",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car667",
+          "itinerary": [
+            {
+              "start-node": "4000000012473667",
+              "end-node": "4000000012843801",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843801",
+              "end-node": "4000000013646415",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013646415",
+              "end-node": "4000000012473497",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car704",
+          "itinerary": [
+            {
+              "start-node": "4000000012544329",
+              "end-node": "4000000012862500",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862500",
+              "end-node": "4000000013680917",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013680917",
+              "end-node": "4000000012473574",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car742",
+          "itinerary": [
+            {
+              "start-node": "4000000012862530",
+              "end-node": "4000000012862497",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862497",
+              "end-node": "4000000012862245",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862245",
+              "end-node": "4000000012862516",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car781",
+          "itinerary": [
+            {
+              "start-node": "4000000012473478",
+              "end-node": "4000000012843319",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843319",
+              "end-node": "4000000012862333",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862333",
+              "end-node": "4000000012863150",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car821",
+          "itinerary": [
+            {
+              "start-node": "4000000012471955",
+              "end-node": "4000000013562317",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013562317",
+              "end-node": "4000000012862350",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862350",
+              "end-node": "4000000012862403",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car862",
+          "itinerary": [
+            {
+              "start-node": "4000000012863150",
+              "end-node": "4000000012473235",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473235",
+              "end-node": "4000000012862400",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862400",
+              "end-node": "4000000013609890",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car904",
+          "itinerary": [
+            {
+              "start-node": "4000000012844165",
+              "end-node": "4000000012862497",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862497",
+              "end-node": "4000000012862505",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862505",
+              "end-node": "4000000012863150",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car947",
+          "itinerary": [
+            {
+              "start-node": "4000000012473222",
+              "end-node": "4000000012843801",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843801",
+              "end-node": "4000000012844008",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012844008",
+              "end-node": "4000000012862344",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car991",
+          "itinerary": [
+            {
+              "start-node": "4000000012862316",
+              "end-node": "4000000012843738",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843738",
+              "end-node": "4000000012862402",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862402",
+              "end-node": "4000000012473473",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1036",
+          "itinerary": [
+            {
+              "start-node": "4000000012862319",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012473722",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473722",
+              "end-node": "4000000012473543",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1082",
+          "itinerary": [
+            {
+              "start-node": "4000000012863129",
+              "end-node": "4000000012843295",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843295",
+              "end-node": "4000000012473573",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473573",
+              "end-node": "4000000012862626",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1129",
+          "itinerary": [
+            {
+              "start-node": "4000000012473479",
+              "end-node": "4000000012843494",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843494",
+              "end-node": "4000000012843605",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843605",
+              "end-node": "4000000012862454",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1177",
+          "itinerary": [
+            {
+              "start-node": "4000000012473478",
+              "end-node": "4000000012862659",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862659",
+              "end-node": "4000000012843799",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843799",
+              "end-node": "4000000012862515",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1226",
+          "itinerary": [
+            {
+              "start-node": "4000000012862262",
+              "end-node": "4000000012473236",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473236",
+              "end-node": "4000000012473592",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473592",
+              "end-node": "4000000012862312",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1276",
+          "itinerary": [
+            {
+              "start-node": "4000000012473662",
+              "end-node": "4000000012473236",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473236",
+              "end-node": "4000000012473711",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473711",
+              "end-node": "4000000013609917",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1327",
+          "itinerary": [
+            {
+              "start-node": "4000000013609901",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012844049",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012844049",
+              "end-node": "4000000012536907",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1379",
+          "itinerary": [
+            {
+              "start-node": "4000000012843669",
+              "end-node": "4000000012844111",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844111",
+              "end-node": "4000000012862379",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862379",
+              "end-node": "4000000012862258",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1432",
+          "itinerary": [
+            {
+              "start-node": "4000000012862454",
+              "end-node": "4000000012843494",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843494",
+              "end-node": "4000000012473116",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473116",
+              "end-node": "4000000012473477",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1486",
+          "itinerary": [
+            {
+              "start-node": "4000000012473537",
+              "end-node": "4000000012843319",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843319",
+              "end-node": "4000000012862455",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862455",
+              "end-node": "4000000012862626",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1541",
+          "itinerary": [
+            {
+              "start-node": "4000000012473574",
+              "end-node": "4000000012843759",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843759",
+              "end-node": "4000000012862400",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862400",
+              "end-node": "4000000012471955",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1597",
+          "itinerary": [
+            {
+              "start-node": "4000000012843397",
+              "end-node": "4000000012844111",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844111",
+              "end-node": "4000000012862383",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862383",
+              "end-node": "4000000012862580",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1654",
+          "itinerary": [
+            {
+              "start-node": "4000000012862269",
+              "end-node": "4000000012862564",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862564",
+              "end-node": "4000000012471980",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012471980",
+              "end-node": "4000000012862453",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1712",
+          "itinerary": [
+            {
+              "start-node": "4000000012473479",
+              "end-node": "4000000012862615",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862615",
+              "end-node": "4000000012843694",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843694",
+              "end-node": "4000000012473479",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1771",
+          "itinerary": [
+            {
+              "start-node": "4000000012473393",
+              "end-node": "4000000012862585",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862585",
+              "end-node": "4000000012862442",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862442",
+              "end-node": "4000000012862302",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1831",
+          "itinerary": [
+            {
+              "start-node": "4000000012473909",
+              "end-node": "4000000012843738",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843738",
+              "end-node": "4000000012862383",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862383",
+              "end-node": "4000000012473195",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1892",
+          "itinerary": [
+            {
+              "start-node": "4000000013609876",
+              "end-node": "4000000012862500",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862500",
+              "end-node": "4000000012862237",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862237",
+              "end-node": "4000000013609901",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car1954",
+          "itinerary": [
+            {
+              "start-node": "4000000012862580",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012473187",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473187",
+              "end-node": "4000000012843617",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2017",
+          "itinerary": [
+            {
+              "start-node": "4000000012536903",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012473582",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473582",
+              "end-node": "4000000012843337",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2081",
+          "itinerary": [
+            {
+              "start-node": "4000000012473662",
+              "end-node": "4000000012862371",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862371",
+              "end-node": "4000000012843408",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843408",
+              "end-node": "4000000013562292",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2146",
+          "itinerary": [
+            {
+              "start-node": "4000000012863150",
+              "end-node": "4000000012528753",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012528753",
+              "end-node": "4000000012862407",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862407",
+              "end-node": "4000000012862316",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2212",
+          "itinerary": [
+            {
+              "start-node": "4000000012862344",
+              "end-node": "4000000012862615",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862615",
+              "end-node": "4000000012862455",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862455",
+              "end-node": "4000000012862298",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2279",
+          "itinerary": [
+            {
+              "start-node": "4000000013609890",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000013609893",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013609893",
+              "end-node": "4000000012862494",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2347",
+          "itinerary": [
+            {
+              "start-node": "4000000012473495",
+              "end-node": "4000000012473705",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473705",
+              "end-node": "4000000012862429",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862429",
+              "end-node": "4000000012863128",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2416",
+          "itinerary": [
+            {
+              "start-node": "4000000012862262",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012843801",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843801",
+              "end-node": "4000000012862345",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2486",
+          "itinerary": [
+            {
+              "start-node": "4000000012862319",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012862350",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862350",
+              "end-node": "4000000012862282",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2557",
+          "itinerary": [
+            {
+              "start-node": "4000000012473476",
+              "end-node": "4000000012843810",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843810",
+              "end-node": "4000000012844049",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012844049",
+              "end-node": "4000000012843617",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2629",
+          "itinerary": [
+            {
+              "start-node": "4000000012471955",
+              "end-node": "4000000012473705",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473705",
+              "end-node": "4000000012473746",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473746",
+              "end-node": "4000000012862384",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2702",
+          "itinerary": [
+            {
+              "start-node": "4000000012526025",
+              "end-node": "4000000012862405",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862405",
+              "end-node": "4000000013646414",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013646414",
+              "end-node": "4000000012863128",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2776",
+          "itinerary": [
+            {
+              "start-node": "4000000012862298",
+              "end-node": "4000000012473294",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473294",
+              "end-node": "4000000012862687",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862687",
+              "end-node": "4000000012473574",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2851",
+          "itinerary": [
+            {
+              "start-node": "4000000012862408",
+              "end-node": "4000000012843801",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843801",
+              "end-node": "4000000012843800",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843800",
+              "end-node": "4000000012843617",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car2927",
+          "itinerary": [
+            {
+              "start-node": "4000000012862494",
+              "end-node": "4000000012843738",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843738",
+              "end-node": "4000000012863126",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012863126",
+              "end-node": "4000000012862269",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3004",
+          "itinerary": [
+            {
+              "start-node": "4000000012473736",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012473585",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473585",
+              "end-node": "4000000012473404",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3082",
+          "itinerary": [
+            {
+              "start-node": "4000000012473476",
+              "end-node": "4000000012862659",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862659",
+              "end-node": "4000000012862454",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862454",
+              "end-node": "4000000012473667",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3161",
+          "itinerary": [
+            {
+              "start-node": "4000000012473704",
+              "end-node": "4000000012862615",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862615",
+              "end-node": "4000000012843694",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843694",
+              "end-node": "4000000012473478",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3241",
+          "itinerary": [
+            {
+              "start-node": "4000000013609881",
+              "end-node": "4000000012844111",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844111",
+              "end-node": "4000000012472968",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012472968",
+              "end-node": "4000000012843250",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3322",
+          "itinerary": [
+            {
+              "start-node": "4000000012862344",
+              "end-node": "4000000012862391",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862391",
+              "end-node": "4000000012843298",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843298",
+              "end-node": "4000000012862626",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3404",
+          "itinerary": [
+            {
+              "start-node": "4000000012843250",
+              "end-node": "4000000012843801",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843801",
+              "end-node": "4000000012862455",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862455",
+              "end-node": "4000000012863012",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3487",
+          "itinerary": [
+            {
+              "start-node": "4000000012862454",
+              "end-node": "4000000013646436",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000013646436",
+              "end-node": "4000000012471984",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012471984",
+              "end-node": "4000000012862506",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3571",
+          "itinerary": [
+            {
+              "start-node": "4000000012862505",
+              "end-node": "4000000012528746",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012528746",
+              "end-node": "4000000012843298",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843298",
+              "end-node": "4000000012862319",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3656",
+          "itinerary": [
+            {
+              "start-node": "4000000012473919",
+              "end-node": "4000000012843295",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843295",
+              "end-node": "4000000013680919",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000013680919",
+              "end-node": "4000000012862235",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3742",
+          "itinerary": [
+            {
+              "start-node": "4000000012862407",
+              "end-node": "4000000012473706",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473706",
+              "end-node": "4000000012473900",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473900",
+              "end-node": "4000000012862347",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3829",
+          "itinerary": [
+            {
+              "start-node": "4000000012862393",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012862391",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862391",
+              "end-node": "4000000012843389",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car3917",
+          "itinerary": [
+            {
+              "start-node": "4000000012862257",
+              "end-node": "4000000012843295",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843295",
+              "end-node": "4000000012843679",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843679",
+              "end-node": "4000000012862312",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4006",
+          "itinerary": [
+            {
+              "start-node": "4000000012473524",
+              "end-node": "4000000012473407",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473407",
+              "end-node": "4000000012471918",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012471918",
+              "end-node": "4000000012862504",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4096",
+          "itinerary": [
+            {
+              "start-node": "4000000012862344",
+              "end-node": "4000000012843810",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843810",
+              "end-node": "4000000012473573",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473573",
+              "end-node": "4000000012473539",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4187",
+          "itinerary": [
+            {
+              "start-node": "4000000012862505",
+              "end-node": "4000000012473238",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473238",
+              "end-node": "4000000012862474",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862474",
+              "end-node": "4000000012862302",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4279",
+          "itinerary": [
+            {
+              "start-node": "4000000012862504",
+              "end-node": "4000000012473247",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012473247",
+              "end-node": "4000000012843298",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843298",
+              "end-node": "4000000012862317",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4372",
+          "itinerary": [
+            {
+              "start-node": "4000000012862345",
+              "end-node": "4000000012862430",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862430",
+              "end-node": "4000000012862290",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862290",
+              "end-node": "4000000013427167",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4466",
+          "itinerary": [
+            {
+              "start-node": "4000000012473476",
+              "end-node": "4000000012862500",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862500",
+              "end-node": "4000000012473244",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473244",
+              "end-node": "4000000012862311",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4561",
+          "itinerary": [
+            {
+              "start-node": "4000000012473195",
+              "end-node": "4000000012844039",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012844039",
+              "end-node": "4000000012862481",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012862481",
+              "end-node": "4000000012473479",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4657",
+          "itinerary": [
+            {
+              "start-node": "4000000012862504",
+              "end-node": "4000000012471943",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012471943",
+              "end-node": "4000000012844092",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012844092",
+              "end-node": "4000000012473478",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4754",
+          "itinerary": [
+            {
+              "start-node": "4000000012473527",
+              "end-node": "4000000012843869",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843869",
+              "end-node": "4000000012472961",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012472961",
+              "end-node": "4000000012862345",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4852",
+          "itinerary": [
+            {
+              "start-node": "4000000012472924",
+              "end-node": "4000000012843759",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012843759",
+              "end-node": "4000000012843897",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012843897",
+              "end-node": "4000000012473473",
+              "wait-time": 0
+            }
+          ]
+        },
+        {
+          "agent-id": "car4951",
+          "itinerary": [
+            {
+              "start-node": "4000000012862319",
+              "end-node": "4000000012862564",
+              "wait-time": 600
+            },
+            {
+              "start-node": "4000000012862564",
+              "end-node": "4000000012473244",
+              "wait-time": 28800
+            },
+            {
+              "start-node": "4000000012473244",
+              "end-node": "4000000012473516",
+              "wait-time": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

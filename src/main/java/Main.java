@@ -24,12 +24,12 @@ public class Main {
      */
     public static void main(String[] args) {
         String sourceFilename = System.getProperty("user.dir") +
-                "/DATA/inputs/logging.properties";
+                "/data/inputs/logging.properties";
         if (!Files.exists(Paths.get(sourceFilename))) {
             System.out.println("Logging configuration file " + sourceFilename + " not found");
+            System.exit(1);
         } else {
             URI configSourceUri = (new File(sourceFilename)).toURI();
-            System.out.println("Logging config source URI: " + configSourceUri);
             logger.info("Logging model output to {}", configSourceUri);
             new Firm2();
         }

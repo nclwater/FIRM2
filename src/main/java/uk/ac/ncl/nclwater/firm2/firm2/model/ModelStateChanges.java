@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,7 +19,7 @@ public class ModelStateChanges {
 
     @SerializedName("model-states")
     @Expose
-    private List<ModelState> modelStates;
+    private List<ModelState> modelStates = new ArrayList<ModelState>();
 
     public List<ModelState> getModelStates() {
         return modelStates;
