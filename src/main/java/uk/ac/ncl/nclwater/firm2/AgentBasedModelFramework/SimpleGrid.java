@@ -1,5 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,6 +11,7 @@ import java.io.IOException;
 
 public class SimpleGrid implements Grid {
 
+    private static final Logger logger = LoggerFactory.getLogger(SimpleGrid.class);
 
     Agent[][] grid;
 
@@ -160,7 +164,12 @@ public class SimpleGrid implements Grid {
     }
 
     public Agent getCell(int x, int y) {
-        return grid[x][y];
+        if (x >= width || x < 0 || y >= height || y < 0) {
+            logger.error("Error: Out of bounds for {} {}. x={} y={}", width, height, x, y);
+            return grid[0][0];
+        } else {
+            return grid[x][y];
+        }
     }
 
     public int countAgents(Class<?> t) {

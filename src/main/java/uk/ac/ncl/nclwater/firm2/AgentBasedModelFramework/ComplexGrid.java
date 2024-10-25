@@ -1,5 +1,8 @@
 package uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 public class ComplexGrid implements Grid {
 
     ArrayList<ArrayList<ArrayList<Agent>>> grid;
+    private static final Logger logger = LoggerFactory.getLogger(ComplexGrid.class);
 
     /**
      * If the model is toroidal (i.e. wraps around) set this to true
@@ -103,9 +107,15 @@ public class ComplexGrid implements Grid {
     }
 
     public void addCell(int x, int y, Agent agents) {
-        if (grid.get(y).get(x) == null)
-            grid.get(y).set(x, new ArrayList<Agent>());
-        grid.get(y).get(x).add(agents);
+
+        if (x > width || x < 0 || y > height || y < 0) {
+            logger.error("Error: Out of bounds for {} {}. x={} y={}", width, height, x, y);
+        } else {
+            if (grid.get(y).get(x) == null) {
+                grid.get(y).set(x, new ArrayList<Agent>());
+            }
+            grid.get(y).get(x).add(agents);
+        }
     }
 
     public ArrayList<Agent> getCells(int x, int y) {

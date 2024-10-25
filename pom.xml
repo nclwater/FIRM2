@@ -50,7 +50,7 @@
                             <mainClass>uk.ac.ncl.nclwater.firm2</mainClass>
                         </manifest>
                     </archive>
-                    <finalName>FIRM2</finalName>
+                    <finalName>firm2</finalName>
                 </configuration>
             </plugin>
             <plugin>
