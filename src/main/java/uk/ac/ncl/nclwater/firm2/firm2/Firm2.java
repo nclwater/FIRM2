@@ -383,32 +383,40 @@ public class Firm2 extends Model{
                             // If there are more journey legs
                             // increment leg index
                             // reset start and end nodes
-                            if (car.getItineraryIndex() + 1 < car.getCarItinerary().size()) {
-                                // remove the car from the edge
-                                removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
-                                // Increment itinerary item index (we'll check later whether there is another leg
-                                car.incItineraryIndex();
-                                logger.trace("Leg {} of {} for car {}", car.getItineraryIndex() + 1,
-                                        car.getCarItinerary().size(), car.getAgent_id());
-                                itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
-                                // update the start and end nodes
-                                car.setStartNode(itineraryItem.getStartNode());
-                                car.setEndNode(itineraryItem.getEndNode());
-                                // find the shortest path between these two nodes
-                                aStar.compute(itineraryItem.getStartNode(), itineraryItem.getEndNode());
-                                Path shortestPath = aStar.getShortestPath();
-                                car.setRouteNodes(shortestPath);
-                                logger.trace("New shortest path: {}", shortestPath);
-                                // Create and insert timeline entry for current time plus wait time
-                                ModelState modelState = new ModelState();
-                                modelState.setTime(Utilities.unixTimetoModelTime(modelTimeStamp + waitTime));
-                                modelState.addCar(car);
-                                modelStateChanges.insertModelState(modelState);
-                                Collections.sort(modelStateChanges.getModelStates());
+                            if (graph.getNode(currentNode.getId()) != null && graph.getNode(nextNode.getId()) != null) {
+                                if (car.getItineraryIndex() + 1 < car.getCarItinerary().size()) {
+                                    // remove the car from the edge
+                                    removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
+                                    // Increment itinerary item index (we'll check later whether there is another leg
+                                    car.incItineraryIndex();
+                                    logger.trace("Leg {} of {} for car {}", car.getItineraryIndex() + 1,
+                                            car.getCarItinerary().size(), car.getAgent_id());
+                                    itineraryItem = car.getCarItinerary().get(car.getItineraryIndex());
+                                    // update the start and end nodes
+                                    car.setStartNode(itineraryItem.getStartNode());
+                                    car.setEndNode(itineraryItem.getEndNode());
+                                    // find the shortest path between these two nodes
+                                    aStar.compute(itineraryItem.getStartNode(), itineraryItem.getEndNode());
+                                    Path shortestPath = aStar.getShortestPath();
+                                    car.setRouteNodes(shortestPath);
+                                    logger.trace("New shortest path: {}", shortestPath);
+                                    // Create and insert timeline entry for current time plus wait time
+                                    ModelState modelState = new ModelState();
+                                    modelState.setTime(Utilities.unixTimetoModelTime(modelTimeStamp + waitTime));
+                                    modelState.addCar(car);
+                                    modelStateChanges.insertModelState(modelState);
+                                    Collections.sort(modelStateChanges.getModelStates());
+                                } else {
+                                    // remove the car from the edge
+                                    removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
+                                    destinationReached(car, currentNode);
+                                }
                             } else {
-                                // remove the car from the edge
-                                removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
-                                destinationReached(car, currentNode);
+                                strandedCars.addCar(car);
+                                car.setStranded(true);
+                                cars.removeCar(car);
+                                logger.info("car {} stranded,parts of the road between {} and {} disappeared",
+                                        car.getAgent_id(), currentNode, nextNode);
                             }
                             // No obstacles move car along current path
                         } else if (nextPosition < interDist) {
@@ -429,6 +437,7 @@ public class Firm2 extends Model{
                                 }
                             } else {
                                 strandedCars.addCar(car);
+                                car.setStranded(true);
                                 cars.removeCar(car);
                                 logger.info("car {} stranded,parts of the road between {} and {} disappeared",
                                         car.getAgent_id(), currentNode, nextNode);
