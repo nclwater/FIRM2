@@ -2,6 +2,8 @@
 A reimplementation of the agent based flood incident management (https://github.com/nclwater/FIRM)
 model in Java.
 
+[toc]
+
 ## About
 
 This project is a reimplementation of https://github.com/nclwater/FIRM
@@ -48,6 +50,14 @@ There is a Makefile with commands for building, running, saving and stopping the
 
 The program does not need installation as such. It is packaged as a .jar file which can be copied to
 a directory and executed from there. The program needs configuration for where to find data files.
+
+### IMPORTANT:
+For both running locally and within a docker, the two configurations files, 
+`.firm.properties` and `logger.properties` have to be in the user directory. 
+That is the same directory from which the program is being run.
+
+Edit these two files with the appropriate values before running or 
+dockerizing the application.
 
 ### Running Locally
 

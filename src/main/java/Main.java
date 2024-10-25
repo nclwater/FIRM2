@@ -12,7 +12,7 @@ public class Main {
         // must set before the Logger
         // loads logging.properties from the classpath
         String sourceFilename = System.getProperty("user.dir") +
-                "/DATA/inputs/logging.properties";
+                "/logging.properties";
         System.setProperty("java.util.logging.config.file", sourceFilename);
 
     }
@@ -24,7 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         String sourceFilename = System.getProperty("user.dir") +
-                "/data/inputs/logging.properties";
+                "/logging.properties";
         if (!Files.exists(Paths.get(sourceFilename))) {
             System.out.println("Logging configuration file " + sourceFilename + " not found");
             System.exit(1);

@@ -114,6 +114,7 @@ public class Firm2 extends Model{
 
         }
         Timestamp mts = new Timestamp(modelTimeStamp);
+        logger.trace("Time stamp: {}", mts);
         SimpleGrid waterGrid = (SimpleGrid) grids.get("water");
         SimpleGrid terrainGrid = (SimpleGrid) grids.get("terrain");
         SimpleGrid defenceGrid = (SimpleGrid) grids.get("defences");
@@ -490,7 +491,7 @@ public class Firm2 extends Model{
         Edge currentEdge = currentNode.getEdgeToward(nextNode);
         int carCount = (int)currentEdge.getAttribute("car-count");
         currentEdge.setAttribute("car-count", ++carCount);
-        logger.info("car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
+        logger.info("Add car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
                 currentEdge, carCount,
                 currentEdge.getAttribute("car-capacity"));
     }
@@ -500,7 +501,7 @@ public class Firm2 extends Model{
         if (currentEdge != null) {
             int carCount = (int) currentEdge.getAttribute("car-count");
             currentEdge.setAttribute("car-count", --carCount);
-            logger.info("car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
+            logger.info("Remove car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
                     currentEdge, carCount + 1,
                     currentEdge.getAttribute("car-capacity"));
         }

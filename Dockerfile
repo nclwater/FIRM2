@@ -12,6 +12,9 @@ RUN apt-get install -y openjdk-17-jre wget
 
 WORKDIR /workdir/target
 COPY ./target/FIRM2.jar .
+COPY ./.firm2.properties .
+COPY ./logging.properties .
+
 WORKDIR /workdir
 RUN mkdir -p /data/inputs /data/outputs
 
