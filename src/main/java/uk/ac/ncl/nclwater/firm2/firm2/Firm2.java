@@ -300,7 +300,10 @@ public class Firm2 extends Model{
                     float nextPosition = (float) (car.getCurrentDistance() + speed);
                     // If the next node is flooded, reroute
                     PointInteger cell = getXY(car, 1);
-                    if (!(graph.getNode(currentNode.getId()) == null) && !(graph.getNode(car.getEndNode()) == null)) {
+                    if (!(graph.getNode(currentNode.getId()) == null) &&
+                            !(graph.getNode(car.getEndNode()) == null) &&
+                            !(currentNode.getId() == null) &&
+                            !(car.getEndNode() == null)) {
                         if (((Water) ((SimpleGrid) grids.get("water")).getCell(cell.getX(),
                                 cell.getY())).getWaterLevel() >= floodModelParameters.getVehicleFloodDepth()) {
                             logger.debug("Ouch the road is flooded, car {} reroute from {} distance {}",
