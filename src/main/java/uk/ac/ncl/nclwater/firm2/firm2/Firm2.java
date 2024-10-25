@@ -383,7 +383,7 @@ public class Firm2 extends Model{
                             // If there are more journey legs
                             // increment leg index
                             // reset start and end nodes
-                            if (graph.getNode(currentNode.getId()) != null && graph.getNode(nextNode.getId()) != null) {
+                            if (graph.getNode(itineraryItem.getStartNode()) != null && graph.getNode(itineraryItem.getEndNode()) != null) {
                                 if (car.getItineraryIndex() + 1 < car.getCarItinerary().size()) {
                                     // remove the car from the edge
                                     removeCarFromEdge(car, graph.getNode(car.getPreviousNode()), currentNode);
