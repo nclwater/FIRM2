@@ -34,7 +34,9 @@ public class TimeLineGenerator extends JFrame {
     }
 
     public static void main(String[] args) {
-        String sourceFilename = "/data/inputs/timelinelogger.properties";
+        String sourceFilename = System.getProperty("user.dir") +
+                "/timelinelogger.properties";
+//        String sourceFilename = "/data/inputs/timelinelogger.properties";
         if (!Files.exists(Paths.get(sourceFilename))) {
             System.out.println("Logging configuration file " + sourceFilename + " not found");
         } else {
