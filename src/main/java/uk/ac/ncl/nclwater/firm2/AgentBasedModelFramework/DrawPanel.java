@@ -110,7 +110,8 @@ public class DrawPanel extends JPanel implements MouseListener {
             if (grid instanceof ComplexGrid complexGrid) {
                 if (complexGrid.getCells(cell_x, cell_y) != null) {
                     ArrayList<Agent> agents = complexGrid.getCells(cell_x, cell_y);
-                    agents.forEach(agent -> sb.append(agent.getAgent_id()).append("\n"));
+                    agents.forEach(agent -> sb.append(agent.toString()).append("\n"));
+//                    agents.forEach(agent -> sb.append(agent.getAgent_id()).append("\n"));
                 }
             }
         });

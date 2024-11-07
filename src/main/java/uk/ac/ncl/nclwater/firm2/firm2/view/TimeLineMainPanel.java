@@ -37,6 +37,10 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     MigLayout migLayout3 = new MigLayout("", "[]rel[]", "[]10[]");
     MigLayout migLayout4 = new MigLayout("", "[]rel[]rel[]", "[]10[]");
 
+    JPanel pnl_topButtons = new JPanel(new MigLayout("", "[]rel[]rel[]", "[]10[]"));
+    JButton btn_clearAll = new JButton("Clear All");
+    JButton btn_clearEntry = new JButton("Clear Entry");
+
     String timeEntry = "00:00:00";
     String seaLevel = "0";
     JTextField tf_timeEntry = new JTextField(timeEntry);
@@ -50,7 +54,6 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     JPanel pnl_defenceBreaches = new JPanel(migLayout2);
 
     int numberOfCars = 0;
-    String carId = "";
     int itineraryLegs = 0;
     JTextField tf_numberOfCars = new JTextField(String.valueOf(numberOfCars),4);
     JTextField tf_carId = new JTextField(10);
@@ -62,6 +65,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     ArrayList<JTextField> tf_waitTime = new ArrayList<>();
     JButton btn_itineraryLegs = new JButton("Add itinerary Legs");
     JPanel pnl_itineraryLegs = new JPanel(migLayout4);
+    JPanel pnl_buttons = new JPanel(new MigLayout("", "[]rel[]rel[]", "[]10[]"));
     JButton btn_save = new JButton("Write timeline item to file.");
     JButton btn_addTimeLineEntry = new JButton("Add time line entry");
 
@@ -69,6 +73,11 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
 
     public TimeLineMainPanel() {
         setLayout(migLayout);
+        pnl_topButtons.add(btn_clearAll);
+        pnl_topButtons.add(btn_clearEntry);
+        btn_clearAll.addActionListener(this);
+        btn_clearEntry.addActionListener(this);
+
         pnl_top.add(new JLabel("Time Entry :"), "");
         pnl_top.add(tf_timeEntry, "wrap");
         pnl_top.add(new JLabel("Sea Level :"), "");
@@ -96,20 +105,30 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         pnl_defenceBreaches.setBorder(lineBorder);
         pnl_cars.setBorder(lineBorder);
 
+        add(pnl_topButtons, "span 10, growx, pushx, wrap");
         add(pnl_top, "span 10, growx, pushx, wrap");
         add(pnl_defenceBreaches, "span 10, growx, pushx, wrap");
         add(pnl_cars, "span 10, growx, pushx, wrap");
+        add(pnl_buttons, "span 10, growx, pushx, wrap");
         add(pnl_itineraryLegs, "span 10, growx, pushx, wrap");
-        pnl_itineraryLegs.add(btn_addTimeLineEntry).setEnabled(false);
-        pnl_itineraryLegs.add(btn_save, "wrap");
+        pnl_buttons.add(btn_addTimeLineEntry).setEnabled(false);
+        pnl_buttons.add(btn_save, "wrap");
         btn_save.setEnabled(false);
     }
 
+    static boolean b = false;
     @Override
     public void actionPerformed(ActionEvent e) {
         logger.info(e.getActionCommand());
         switch (e.getActionCommand()) {
+            case "Clear All":
+                break;
+            case "Clear Entry":
+                break;
             case "Defence Breaches":
+                tf_defenceBreach.clear();
+                pnl_defenceBreaches.removeAll();
+                repaint();
                 for (int i = 0; i < Integer.parseInt(tf_defenceBreaches.getText()); i++) {
                     tf_defenceBreach.add(i, new JTextField("", 3));
                     pnl_defenceBreaches.add(tf_defenceBreach.get(i), "");
@@ -139,6 +158,9 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 revalidate();
                 break;
             case "addTimeLineEntry":
+                int carId = Integer.parseInt(tf_carId.getText());
+                pnl_itineraryLegs.removeAll();
+                revalidate();
                 String startNode = "";
                 String endNode = "";
                 ModelState modelState = new ModelState();
@@ -152,17 +174,13 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 int numberOfCars = Integer.parseInt(tf_numberOfCars.getText());
                 if (numberOfCars > 0) {
                     Cars cars = new Cars();
-                    int carId = Integer.parseInt(tf_carId.getText());
-                    DecimalFormat df = new DecimalFormat("000");
+                    DecimalFormat df = new DecimalFormat("#####00000");
                     for (int car = 0; car < numberOfCars; car++) {
-                        carId += car;
+                        carId = car + 1;
                         String formatted = df.format(carId); // Formats as three digits with leading zeros
                         ArrayList<ItineraryItem> itItems = new ArrayList<>();
                         for (int i = 0; i < Integer.parseInt(tf_itineraryLegs.getText()); i++) {
-//                            ItineraryItem itineraryItem = new ItineraryItem(tf_items.get(i * 3).getText(),
-//                            tf_items.get(i * 3 + 1).getText(), Integer.parseInt(tf_items.get(i * 3 + 2).getText()));
                             int waitTime;
-
                             waitTime = (tf_waitTime.isEmpty()) ? 0 : Integer.parseInt(tf_waitTime.get(i).getText());
                             int startNodeType = types.get(cb_startBuildingType.get(i).getSelectedItem().toString());
                             int endNodeType = types.get(cb_endBuildingType.get(i).getSelectedItem().toString());
@@ -173,7 +191,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                                 startNode = endNode;
                                 endNode = getBuilding(endNodeType);
                             }
-                            logger.info("start node: {} {}, end node: {} {}", startNodeType, startNode,
+                            logger.info("car {} start node: {} {}, end node: {} {}", "car" + formatted, startNodeType, startNode,
                                     endNodeType, endNode);
                             ItineraryItem itineraryItem = new ItineraryItem(startNode, endNode, waitTime);
                             itItems.add(itineraryItem);
@@ -183,8 +201,11 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                     }
                     modelState.setCars(cars.getCars());
                 }
-                logger.trace("Insert state change");
+                logger.info("Insert state change");
                 modelStateChanges.insertModelState(modelState);
+                carId++;
+                tf_carId.setText(String.valueOf(carId));
+                revalidate();
                 break;
             case "save":
                 logger.trace("Disable buttons");

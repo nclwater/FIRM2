@@ -181,7 +181,7 @@ public class Firm2 extends Model{
                     aStar.compute(car.getStartNode(), car.getEndNode());
                     Path shortestPath = aStar.getShortestPath();
                     car.setRouteNodes(shortestPath);
-                    if (shortestPath != null) {
+                    if (shortestPath != null && !shortestPath.getNodePath().isEmpty()) {
                         logger.trace("Car {}'s shortest path: {}", car.getAgent_id(), shortestPath);
                         // Get the xy coordinates for the normal cell grid of the starting point
                         PointInteger xy = getXY(car);
@@ -195,11 +195,9 @@ public class Firm2 extends Model{
                         car.setStranded(true);
                         car.setColour(Color.ORANGE);
                         car.setStranded(true);
-                        //TODO:
                         cars.removeCar(car);
                     }
                 }
-
             }
         }
         moveWater(waterGrid, terrainGrid, defenceGrid, newWaterGrid);
@@ -255,7 +253,7 @@ public class Firm2 extends Model{
             car.setDrowned(true);
             car.setColour(new Color(73,23,12)); // change drowned car to brown
             drownedCars.addCar(car);
-            //TODO:
+            car.setDrowned(true);
             cars.removeCar(car);
             logger.trace("Car {} removed", car.getAgent_id());
             logger.debug("Tick Car drowned: {}", car.getAgent_id());
@@ -328,9 +326,9 @@ public class Firm2 extends Model{
                             // change colour - magenta
                             if (newShortestPath == null) {
                                 logger.trace("Car {} stranded, no shortest path available", car.getAgent_id());
+                                strandedCars.addCar(car);
                                 car.setStranded(true);
                                 cars.removeCar(car);
-                                strandedCars.addCar(car);
                                 car.setColour(new Color(0, 255, 255));
                             }
                             // If nextPosition is not flooded move ahead
@@ -340,9 +338,11 @@ public class Firm2 extends Model{
                             // in the route. Remove the current first node so that the next node becomes the first node
                             // If however the next edge already has the maximum number of cars on it, then wait for the
                             // next tick
-                            if (nextPosition >= interDist && !nextNode.getId().equals(car.getEndNode())) {
+                            if (nextPosition >= interDist && !nextNode.getId().equals(car.getEndNode())
+                                && car.getPreviousNode() != null) {
                                 // get the number of cars that can be on the edge at any one time
-                                if (graph.getNode(currentNode.getId()) != null && graph.getNode(nextNode.getId()) != null) {
+                                if (graph.getNode(currentNode.getId()) != null
+                                        && graph.getNode(nextNode.getId()) != null) {
                                     int carCapacity = getEdgeCapacity(currentNode, nextNode);
                                     // get the number of cars currently on the edge
                                     int carCount = getEdgeCount(currentNode, nextNode);
@@ -486,9 +486,15 @@ public class Firm2 extends Model{
         return (Integer)fromNode.getEdgeToward(toNode).getAttribute("car-count");
     }
 
-    private void addCarToEdge(Car car, Node currentNode, Node nextNode) {
+    /**
+     * Add a car to the edge between the two nodes specified
+     * @param car
+     * @param startNode
+     * @param endNode
+     */
+    private void addCarToEdge(Car car, Node startNode, Node endNode) {
         // can the edge carry more cars
-        Edge currentEdge = currentNode.getEdgeToward(nextNode);
+        Edge currentEdge = startNode.getEdgeToward(endNode);
         int carCount = (int)currentEdge.getAttribute("car-count");
         currentEdge.setAttribute("car-count", ++carCount);
         logger.info("Add car {} on edge {}, {} cars on edge with car-capacity {}", car.getAgent_id(),
@@ -496,8 +502,15 @@ public class Firm2 extends Model{
                 currentEdge.getAttribute("car-capacity"));
     }
 
-    private void removeCarFromEdge(Car car, Node currentNode, Node nextNode) {
-        Edge currentEdge = currentNode.getEdgeToward(nextNode);
+    /**
+     * Remove a car on the between the two given nodes
+     * @param car
+     * @param startNode
+     * @param endNode
+     */
+    private void removeCarFromEdge(Car car, Node startNode, Node endNode) {
+        logger.info("Current node {}", startNode);
+        Edge currentEdge = startNode.getEdgeToward(endNode);
         if (currentEdge != null) {
             int carCount = (int) currentEdge.getAttribute("car-count");
             currentEdge.setAttribute("car-count", --carCount);
@@ -516,8 +529,9 @@ public class Firm2 extends Model{
         logger.info("Car {} reached its destination at {}", car.getAgent_id(), currentNode.getId());
         car.setAtDestination(true);
         car.setColour(new Color(255, 0, 255));
-        cars.removeCar(car);
         destinationCars.addCar(car);
+        car.setAtDestination(true);
+        cars.removeCar(car);
     }
 
     /**

@@ -59,7 +59,8 @@ public class Car extends Agent {
 
     @Override
     public String toString() {
-        return "Car- ID: " + getAgent_id() + ", drowned: " + isDrowned + ", stranded: " + isStranded;
+        return "Car- ID: " + getAgent_id() + "\n\tdrowned: " + isDrowned + "\n\tstranded: " + isStranded +
+                "\n\treached destination: " + isAtDestination;
     }
 
     /**
