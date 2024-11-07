@@ -42,7 +42,7 @@ stop:
 	$(DOCKER) stop $(image_name)
 
 runGUI: compile
-	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.firm2.Firm2
+	$(JAVA) -cp $(mvn_target_dir)/FIRM2.jar Main
 
 DAFNITest: compile
 	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.DAFNITest.DAFNITest
