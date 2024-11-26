@@ -49,3 +49,7 @@ DAFNITest: compile
 
 Conway: compile
 	$(JAVA) -cp $(mvn_target_dir)/$(image_name).jar uk.ac.ncl.nclwater.firm2.examples.conway.Conway
+
+inter:
+	$(DOCKER) run -it --entrypoint /bin/bash nclwater/firm2:0.001
+

@@ -58,7 +58,7 @@ public abstract class Model implements Runnable {
             if (modelParameters.getTicks() > 0 && modelParameters.getTicks() == total_ticks) {
                 running = false;
                 run = false;
-                logger.debug("Stop run tick:" + total_ticks);
+                logger.debug("Model run completed: " + total_ticks);
                 if (modelParameters.getTicks() == total_ticks && !modelParameters.isVisualise()) {
                     System.exit(0);
                 }
