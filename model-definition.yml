@@ -32,7 +32,7 @@ spec:
         title: Visualisation
         description: Visualisation on or off
         type: boolean
-        default: true
+        default: false
         required: false
       - name: CELL_SIZE
         title: Cell size
@@ -59,13 +59,13 @@ spec:
         title: Input data path
         description: The input data path
         type: string
-        default: "/data/inputs"
+        default: "/data/inputs/"
         required: false
       - name: OUTPUT_DATA
         title: Output data path
         description: The output data path
         type: string
-        default: "/data/outputs"
+        default: "/data/outputs/"
         required: false
       - name: TERRAIN_DATA
         title: Terrain data filename
@@ -77,7 +77,7 @@ spec:
         title: Road data filename
         description: Name of the JSON filename containing road data
         type: string
-        default: "roads.json"
+        default: "BNG_roads.json"
         required: false
       - name: BUILDINGS_DATA
         title: Building data filename
@@ -142,7 +142,7 @@ spec:
         description: Geographic properties of the location at which the simulation takes place
         path: inputs
         default:
-          - abda4af3-e677-4fe0-b606-353437a5af8f
+          - 67861bde-b188-4fc4-b0a1-364480ca5dff
         required: true
   outputs:
     datasets:

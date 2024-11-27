@@ -15,6 +15,8 @@ fi
 export app_data_root
 export app_data_inputs=$app_data_root"/inputs"
 export app_data_outputs=$app_data_root"/outputs"
+mkdir -p $app_data_inputs
+mkdir -p $app_data_outputs
 
 echo "Reading from "$app_data_inputs
 echo "Writing to "$app_data_outputs
