@@ -243,7 +243,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     }
 
     private static Hashtable<String, Integer> getBuildingTypes() {
-        String url = "jdbc:sqlite:/data/inputs/database.db";
+        String url = "jdbc:sqlite:data/inputs/database.db";
 
         try (var conn = DriverManager.getConnection(url)) {
             String sql =  "select * from buildingtypes";
