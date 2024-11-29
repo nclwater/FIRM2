@@ -16,6 +16,7 @@ import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.List;
@@ -48,9 +49,9 @@ public class Firm2 extends Model{
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
             // Read global variable (eventually to be read from environment vars for DAFNI)
-            globalVariables = gson.fromJson(new FileReader(
-                            properties.getProperty("INPUT_DATA") + properties.getProperty("MODEL_PARAMETERS")),
-                    GlobalVariables.class);
+            // FQN used here because Path is redefined by the graphstream package
+            java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("MODEL_PARAMETERS"));
+            globalVariables = gson.fromJson(new FileReader(path.toString()), GlobalVariables.class);
 
             floodModelParameters.setWidth(globalVariables.getColumns());
             floodModelParameters.setHeight(globalVariables.getRows());

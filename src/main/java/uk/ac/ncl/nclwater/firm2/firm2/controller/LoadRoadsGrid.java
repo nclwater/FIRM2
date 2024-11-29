@@ -9,10 +9,11 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
-import uk.ac.ncl.nclwater.firm2.firm2.model.BNGRoads;
+
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -35,7 +36,9 @@ public class LoadRoadsGrid {
     public static Graph loadRoads(Properties properties) {
         Graph graph = new SingleGraph("Road Networks GraphStream Test");
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
+        // FQN used here because Path is redefined by the graphstream package
+        java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("ROADS_DATA"));
+        String filename = path.toString();
         try {
             BNGRoads bngRoads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             RoadTypes roadTypes = LoadRoadTypes.loadRoadTypes(properties);
@@ -125,7 +128,9 @@ public class LoadRoadsGrid {
 //
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROADS_DATA");
+            // FQN used here because Path is redefined by the graphstream package
+            java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("ROADS_DATA"));
+            String filename = path.toString();
             logger.info("Reading: {}", filename);
             BNGRoads roads = gson.fromJson(new FileReader(filename), BNGRoads.class);
             // for each of the roads

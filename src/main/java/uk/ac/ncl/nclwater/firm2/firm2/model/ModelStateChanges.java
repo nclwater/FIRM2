@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -40,7 +41,9 @@ public class ModelStateChanges {
         ModelStateChanges modelStateChanges;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("TIMELINE");
+            // FQN used here because Path is redefined by the graphstream package
+            java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("TIMELINE"));
+            String filename = path.toString();
             modelStateChanges = gson.fromJson(new FileReader(filename), ModelStateChanges.class);
             logger.debug("Reading: {}", filename);
             String json = gson.toJson(modelStateChanges, ModelStateChanges.class);

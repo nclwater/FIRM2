@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ncl.nclwater.firm2.firm2.model.RoadTypes;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class LoadRoadTypes {
@@ -17,7 +18,9 @@ public class LoadRoadTypes {
         RoadTypes roadTypes = null;
         try {
             Gson gson_roadTypes = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("ROAD_TYPES");
+            // FQN used here because Path is redefined by the graphstream package
+            java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("ROAD_TYPES"));
+            String filename = path.toString();
             roadTypes = gson_roadTypes.fromJson(new FileReader(filename), RoadTypes.class);
             roadTypes.getRoadTypes().forEach(roadType -> {
                 logger.info("Road type: {}, speed: {}", roadType.getRoadType(), roadType.getSpeedLimit());
