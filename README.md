@@ -53,7 +53,7 @@ a directory and executed from there. The program needs configuration for where t
 
 ### IMPORTANT:
 For both running locally and within a docker, the two configurations files, 
-`.firm.properties` and `logger.properties` have to be in the user directory. 
+`.firm2.properties` and `logger.properties` have to be in the user directory. 
 That is the same directory from which the program is being run.
 
 Edit these two files with the appropriate values before running or 
@@ -88,8 +88,33 @@ The application is intended for dockerisation to run on **DAFNI**. However, it d
 3. upload the image to **DAFNI**
 
 ## Usage
+The model can be configured with a number of parameters. Local builds read the file `.firm2.properties`, which DAFNI models read parameters from a parameter set defined in `model-definition.yml`. The configurable parameters are:
 
-Any links to production environment, video demos and screenshots.
+| Parameter Name | Display Name | Type | Description |
+| --- | --- | --- | --- |
+| TOROIDAL | Toroidal wrap | `boolean` | Defines the map boundary conditions. If `True`, connects the upper map edge to the lower map edge, and the left map edge to the right map edge. |
+| TICKS | Ticks | `integer` | The number of simulation steps (ticks) to run. If this is zero, the simulation will run forever. |
+| VISUALISE | Visualisation | `boolean` | Specifies whether the simulation should be run through the visualisation display. Not available on DAFNI. |
+| CELL_SIZE | Cell size in metres | `integer` | The size of the simulation cell size. Smaller cell sizes result in a higher resolution map but take longer to simulate. |
+| CHANCE | Chance | `float` | TBC |
+| APPLICATION_TITLE | Application title | `string` | The name of the application to display in windows or logs. |
+| INPUT_DATA | Input data | `string` | Full path to the simulation input data in the FIRM2 model. |
+| OUTPUT_DATA | Output data | `string` | Full path to the simulation output data in the FIRM2 model. |
+| TERRAIN_DATA | Terrain data filename | `string` | Name of the JSON file containing FIRM2 terrain data. On DAFNI this will be in a dataset referenced by the model. |
+| ROADS_DATA | Road data filename | `string` | Name of the JSON file containing FIRM2 road data. On DAFNI this will be in a dataset referenced by the model. |
+| ROAD_TYPES | Road types filename | `string` | Name of the JSON file containing FIRM2 road types data. On DAFNI this will be in a dataset referenced by the model. |
+| BUILDINGS_DATA | Building data filename | `string` | Name of the JSON file containing FIRM2 building data. On DAFNI this will be in a dataset referenced by the model. |
+| DEFENCES_DATA | Sea defences data filename | `string` | Name of the JSON file containing FIRM2 defences data. On DAFNI this will be in a dataset referenced by the model. |
+| MODEL_PARAMETERS | Global parameters data filename | `string` | Name of the JSON file containing FIRM2 global parameters data. On DAFNI this will be in a dataset referenced by the model. |
+| VEHICLES_DATA | Vehicle data filename | `string` | Name of the JSON file containing FIRM2 vehicle data. On DAFNI this will be in a dataset referenced by the model. |
+| TIMELINE | Timeline data filename | `string` | Name of the JSON file containing a FIRM2 events timeline. On DAFNI this will be in a dataset referenced by the model. |
+| VEHICLE_FLOOD_DEPTH | Vehicle flood threshold in metres | `number` | The depth of water at which inundated vehicles will be immobilised. |
+| SLOWDONW | Slowdown | `float` | TBC |
+| TIME_STAMP | Time stamp | `integer` | TBC |
+| TICK_TIME_VALUE | Tick time value | `integer` | Duration of a simulation tick (step) time in seconds. |
+| OCEAN_DEPTH | Ocean depth in metres | `integer` | Depth of the ocean in metres. |
+| RUN_ON_STARTUP | Run on startup | `boolean` | Indicate whether the simulation should launch immediately on run, or whether user intervention is required. Not available on DAFNI. |
+
 
 ## Roadmap
 

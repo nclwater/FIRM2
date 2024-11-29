@@ -23,22 +23,16 @@ spec:
         required: false
       - name: TICKS
         title: Ticks
-        description: TODO Need description here
+        description: The number of timesteps to run
         type: integer
-        default: 0
-        min: 0
-        required: false
-      - name: VISUALISE
-        title: Visualisation
-        description: Visualisation on or off
-        type: boolean
-        default: false
+        default: 86400
+        min: 1
         required: false
       - name: CELL_SIZE
         title: Cell size
         description: Map cell size in metres
         type: integer
-        default: 5
+        default: 3
         min: 1
         required: false
       - name: CHANCE
@@ -79,6 +73,12 @@ spec:
         type: string
         default: "BNG_roads.json"
         required: false
+      - name: ROAD_TYPES
+        title: Road types filename
+        description: Name of the JSON filename containing road types
+        type: string
+        default: "road_types.json"
+        required: false
       - name: BUILDINGS_DATA
         title: Building data filename
         description: Name of the JSON filename containing building data
@@ -103,6 +103,18 @@ spec:
         type: string
         default: "vehicles.json"
         required: false
+      - name: TIMELINE
+        title: Timeline data filename
+        description: Name of the JSON filename containing the simulation filename
+        type: string
+        default: "timeline.json"
+        required: false
+      - name: VEHICLE_FLOOD_DEPTH
+        title: Vehicle flood depth in metres
+        description: Depth of water at which inundated vehicles will be immobilised
+        type: number
+        default: 0.025
+        required: false
       - name: SLOWDOWN
         title: Slowdown
         description: TODO Need description here
@@ -114,28 +126,22 @@ spec:
         title: Time stamp
         description: TODO Need description here
         type: integer
-        default: 1719874800
+        default: 1704067200
         min: 0
         required: false
       - name: TICK_TIME_VALUE
         title: Tick time value
         description: Simulation interval in seconds
         type: integer
-        default: 60
+        default: 1
         min: 1
         required: false
       - name: OCEAN_DEPTH
-        title: Ocean depth
+        title: Ocean depth in metres
         description: Depth of the ocean in metres
         type: integer
         default: 4
         min: 0
-        required: false
-      - name: RUN_ON_STARTUP
-        title: Run on startup
-        description: TODO Need description here
-        type: boolean
-        default: true
         required: false
     dataslots:
       - name: Location Properties
