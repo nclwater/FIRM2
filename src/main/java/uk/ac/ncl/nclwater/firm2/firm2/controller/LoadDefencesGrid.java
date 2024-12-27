@@ -8,6 +8,7 @@ import uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.SimpleGrid;
 import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.AgentIDProducer.getNewId;
@@ -26,7 +27,9 @@ public class LoadDefencesGrid {
                 floodModelParameters.isToroidal(), "defences");
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            String filename = properties.getProperty("INPUT_DATA") + properties.getProperty("DEFENCES_DATA");
+            // FQN used here because Path is redefined by the graphstream package
+            java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("DEFENCES_DATA"));
+            String filename = path.toString();
             Defences defences = gson.fromJson(new FileReader(filename), Defences.class);
             logger.info("Reading: {}", filename);
             // Check that building is in bounds before adding

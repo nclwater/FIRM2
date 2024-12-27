@@ -10,6 +10,7 @@ import uk.ac.ncl.nclwater.firm2.firm2.model.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.util.Properties;
 import static uk.ac.ncl.nclwater.firm2.AgentBasedModelFramework.utils.Utils.getHeightmapGradient;
 
@@ -32,7 +33,9 @@ public class LoadWaterAndTerrainGrid {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         // Read the file to populate the basic grid of cells
 
-        String filename = (properties.getProperty("INPUT_DATA") + properties.getProperty("TERRAIN_DATA"));
+        // FQN used here because Path is redefined by the graphstream package
+        java.nio.file.Path path = Paths.get(properties.getProperty("INPUT_DATA"), properties.getProperty("TERRAIN_DATA"));
+        String filename = (path.toString());
         logger.info("Reading: {} to get water and terrain", filename);
         TerrainLayer terrainLayer = null;
         try {
