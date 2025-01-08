@@ -41,10 +41,8 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     JButton btn_clearAll = new JButton("Clear All");
     JButton btn_clearEntry = new JButton("Clear Entry");
 
-    String timeEntry = "00:00:00";
-    String seaLevel = "0";
-    JTextField tf_timeEntry = new JTextField(timeEntry);
-    JTextField tf_seaLevel = new JTextField(seaLevel,3);
+    JTextField tf_timeEntry = new JTextField("00:00:00");
+    JTextField tf_seaLevel = new JTextField("0", 3);
     JPanel pnl_top = new JPanel(migLayout1);
 
     ArrayList<JTextField> tf_defenceBreach = new ArrayList<>();
@@ -53,9 +51,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     JButton btn_defenceBreaches = new JButton("Defence Breaches");
     JPanel pnl_defenceBreaches = new JPanel(migLayout2);
 
-    int numberOfCars = 0;
-    int itineraryLegs = 0;
-    JTextField tf_numberOfCars = new JTextField(String.valueOf(numberOfCars),4);
+    JTextField tf_numberOfCars = new JTextField(String.valueOf(0), 4);
     JTextField tf_carId = new JTextField(10);
     JTextField tf_itineraryLegs = new JTextField(3);
     JPanel pnl_cars = new JPanel(migLayout3);
@@ -100,10 +96,18 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         btn_addTimeLineEntry.setActionCommand("addTimeLineEntry");
         btn_addTimeLineEntry.addActionListener(this);
 
-        Border lineBorder = BorderFactory.createLineBorder(Color.black);
+        Border lineBorder = BorderFactory.createTitledBorder("Clear");
+        pnl_topButtons.setBorder(lineBorder);
+        lineBorder = BorderFactory.createTitledBorder("Time, Sea level, Defences");
         pnl_top.setBorder(lineBorder);
+        lineBorder = BorderFactory.createTitledBorder("Defence IDs");
         pnl_defenceBreaches.setBorder(lineBorder);
+        lineBorder = BorderFactory.createTitledBorder("Time, Sea level, Defences");
         pnl_cars.setBorder(lineBorder);
+        lineBorder = BorderFactory.createTitledBorder("Cars and itineraries");
+        pnl_itineraryLegs.setBorder(lineBorder);
+        lineBorder = BorderFactory.createTitledBorder("Append and save");
+        pnl_buttons.setBorder(lineBorder);
 
         add(pnl_topButtons, "span 10, growx, pushx, wrap");
         add(pnl_top, "span 10, growx, pushx, wrap");
@@ -111,19 +115,34 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         add(pnl_cars, "span 10, growx, pushx, wrap");
         add(pnl_buttons, "span 10, growx, pushx, wrap");
         add(pnl_itineraryLegs, "span 10, growx, pushx, wrap");
-        pnl_buttons.add(btn_addTimeLineEntry).setEnabled(false);
+        pnl_buttons.add(btn_addTimeLineEntry).setEnabled(true);
         pnl_buttons.add(btn_save, "wrap");
         btn_save.setEnabled(false);
     }
 
+    private void clear() {
+        tf_timeEntry.setText("00:00:00");
+        tf_seaLevel.setText("0");
+        tf_defenceBreaches.setText("0");
+        tf_numberOfCars.setText("0");
+        tf_carId.setText("");
+        tf_itineraryLegs.setText("");
+        pnl_itineraryLegs.removeAll();
+        revalidate();
+
+    }
+
     static boolean b = false;
+
     @Override
     public void actionPerformed(ActionEvent e) {
         logger.info(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Clear All":
+                clear();
                 break;
             case "Clear Entry":
+                clear();
                 break;
             case "Defence Breaches":
                 tf_defenceBreach.clear();
@@ -158,7 +177,6 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 revalidate();
                 break;
             case "addTimeLineEntry":
-                int carId = Integer.parseInt(tf_carId.getText());
                 pnl_itineraryLegs.removeAll();
                 revalidate();
                 String startNode = "";
@@ -173,6 +191,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 modelState.setDefenceBreach(defenceBreaches);
                 int numberOfCars = Integer.parseInt(tf_numberOfCars.getText());
                 if (numberOfCars > 0) {
+                    int carId = Integer.parseInt(tf_carId.getText());
                     Cars cars = new Cars();
                     DecimalFormat df = new DecimalFormat("#####00000");
                     for (int car = 0; car < numberOfCars; car++) {
@@ -199,18 +218,19 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                         Car newCar = new Car("car" + formatted, itItems);
                         cars.addCar(newCar);
                     }
+                    carId++;
+                    tf_carId.setText(String.valueOf(carId));
                     modelState.setCars(cars.getCars());
                 }
                 logger.info("Insert state change");
                 modelStateChanges.insertModelState(modelState);
-                carId++;
-                tf_carId.setText(String.valueOf(carId));
                 revalidate();
+                btn_save.setEnabled(true);
                 break;
             case "save":
                 logger.trace("Disable buttons");
                 btn_save.setEnabled(false);
-                btn_addTimeLineEntry.setEnabled(false);
+                //btn_addTimeLineEntry.setEnabled(false);
                 writeToFile(modelStateChanges);
                 break;
         }
@@ -226,7 +246,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         int returnValue = jfc.showSaveDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             String filename = jfc.getSelectedFile().getPath();
-            filename = (filename.endsWith(".json") || filename.endsWith(".JSON"))?filename:filename+".json";
+            filename = (filename.endsWith(".json") || filename.endsWith(".JSON")) ? filename : filename + ".json";
 
             try {
                 Writer writer = new FileWriter(filename);
@@ -246,9 +266,9 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         String url = "jdbc:sqlite:data/inputs/database.db";
 
         try (var conn = DriverManager.getConnection(url)) {
-            String sql =  "select * from buildingtypes";
-            Statement stmt  = conn.createStatement();
-            ResultSet rs    = stmt.executeQuery(sql);
+            String sql = "select * from buildingtypes";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 types.put(rs.getString("description"), rs.getInt("building_type"));
             }
@@ -264,17 +284,17 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         ArrayList<String> roadID = new ArrayList<>();
         int randomNumber = 0;
         try (var conn = DriverManager.getConnection(url)) {
-            String sql =  "select nearest_node_code\n" +
+            String sql = "select nearest_node_code\n" +
                     "from buildings b\n" +
                     "inner join classification c on b.class_id=c.class_id\n" +
                     "inner JOIN buildingtypes b2 on b2.building_type = c.building_type \n" +
                     "where b2.building_type = " + type;
-            Statement stmt  = conn.createStatement();
-            ResultSet rs    = stmt.executeQuery(sql);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 roadID.add(rs.getString("nearest_node_code"));
             }
-            randomNumber = (int)(Math.random() * roadID.size());
+            randomNumber = (int) (Math.random() * roadID.size());
         } catch (
                 SQLException e) {
             logger.error(e.getMessage());
