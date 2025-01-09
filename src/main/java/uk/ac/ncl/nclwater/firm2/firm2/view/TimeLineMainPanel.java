@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 
 public class TimeLineMainPanel extends JPanel implements ActionListener {
@@ -58,6 +59,9 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     JPanel pnl_buttons = new JPanel(new MigLayout("", "[]rel[]rel[]", "[]10[]"));
     JButton btn_save = new JButton("Write timeline item to file.");
     JButton btn_addTimeLineEntry = new JButton("Add time line entry");
+    JTextArea ta_timeLine = new JTextArea();
+
+    JScrollPane sp_timeLine = new JScrollPane(ta_timeLine);
 
     ModelStateChanges modelStateChanges = new ModelStateChanges();
 
@@ -104,7 +108,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         pnl_buttons.setBorder(lineBorder);
 
         JPanel leftPanel = new JPanel(new MigLayout("", "[]", "[]10[]"));
-        JPanel rightPanel = new JPanel(new MigLayout("", "[]", "[]10[]"));
+        JPanel rightPanel = new JPanel(new BorderLayout());
         leftPanel.add(pnl_topButtons, "span 10, growx, pushx, wrap");
         leftPanel.add(pnl_top, "span 10, growx, pushx, wrap");
         leftPanel.add(pnl_defenceBreaches, "span 10, growx, pushx, wrap");
@@ -118,6 +122,9 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         add(rightPanel, "grow");
         lineBorder = BorderFactory.createTitledBorder("Timeline:");
         rightPanel.setBorder(lineBorder);
+        rightPanel.add(sp_timeLine);
+        Dimension dim = rightPanel.getPreferredSize();
+        ta_timeLine.setPreferredSize(dim);
     }
 
     private void clear() {
@@ -183,7 +190,8 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 String endNode = "";
                 ModelState modelState = new ModelState();
                 modelState.setTime(tf_timeEntry.getText());
-                modelState.setSeaLevel(Float.parseFloat(tf_seaLevel.getText()));
+                if (!tf_seaLevel.getText().isEmpty())
+                    modelState.setSeaLevel(Float.parseFloat(tf_seaLevel.getText()));
                 defenceBreaches.clear();
                 for (int i = 0; i < Integer.parseInt(tf_defenceBreaches.getText()); i++) {
                     defenceBreaches.add(tf_defenceBreach.get(i).getText());
@@ -224,6 +232,8 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 }
                 logger.info("Insert state change");
                 modelStateChanges.insertModelState(modelState);
+                Collections.sort(modelStateChanges.getModelStates());
+                updateTextPanel(modelStateChanges);
                 revalidate();
                 btn_save.setEnabled(true);
                 break;
@@ -234,6 +244,17 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
                 writeToFile(modelStateChanges);
                 break;
         }
+    }
+
+    private void updateTextPanel(ModelStateChanges modelStateChanges) {
+        ta_timeLine.setText("");
+        modelStateChanges.getModelStates().forEach(modelState -> {
+            ta_timeLine.append(modelState.getTime() + "\t");
+            if (modelState.getSeaLevel() != null) {
+                ta_timeLine.append(modelState.getSeaLevel() + "m");
+            }
+            ta_timeLine.append("\n");
+        });
     }
 
     private void writeToFile(ModelStateChanges modelStateChanges) {
