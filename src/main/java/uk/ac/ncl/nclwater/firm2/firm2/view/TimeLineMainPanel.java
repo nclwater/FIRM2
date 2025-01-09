@@ -31,36 +31,30 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     static Logger logger = LoggerFactory.getLogger(TimeLineMainPanel.class);
     static Hashtable<String, Integer> types = new Hashtable<>();
 
-    MigLayout migLayout = new MigLayout("", "[]rel[]rel[]", "[]10[]");
-    MigLayout migLayout1 = new MigLayout("", "[]rel[]", "[]10[]");
-    MigLayout migLayout2 = new MigLayout("", "[]rel[]", "[]10[]");
-    MigLayout migLayout3 = new MigLayout("", "[]rel[]", "[]10[]");
-    MigLayout migLayout4 = new MigLayout("", "[]rel[]rel[]", "[]10[]");
-
     JPanel pnl_topButtons = new JPanel(new MigLayout("", "[]rel[]rel[]", "[]10[]"));
     JButton btn_clearAll = new JButton("Clear All");
     JButton btn_clearEntry = new JButton("Clear Entry");
 
     JTextField tf_timeEntry = new JTextField("00:00:00");
     JTextField tf_seaLevel = new JTextField("0", 3);
-    JPanel pnl_top = new JPanel(migLayout1);
+    JPanel pnl_top = new JPanel(new MigLayout("", "[]rel[]", "[]10[]"));
 
     ArrayList<JTextField> tf_defenceBreach = new ArrayList<>();
     ArrayList<String> defenceBreaches = new ArrayList<>();
     JTextField tf_defenceBreaches = new JTextField("0", 3);
     JButton btn_defenceBreaches = new JButton("Defence Breaches");
-    JPanel pnl_defenceBreaches = new JPanel(migLayout2);
+    JPanel pnl_defenceBreaches = new JPanel( new MigLayout("", "[]rel[]", "[]10[]"));
 
     JTextField tf_numberOfCars = new JTextField(String.valueOf(0), 4);
     JTextField tf_carId = new JTextField(10);
     JTextField tf_itineraryLegs = new JTextField(3);
-    JPanel pnl_cars = new JPanel(migLayout3);
+    JPanel pnl_cars = new JPanel( new MigLayout("", "[]rel[]", "[]10[]"));
 
     ArrayList<JComboBox> cb_startBuildingType = new ArrayList<>();
     ArrayList<JComboBox> cb_endBuildingType = new ArrayList<>();
     ArrayList<JTextField> tf_waitTime = new ArrayList<>();
     JButton btn_itineraryLegs = new JButton("Add itinerary Legs");
-    JPanel pnl_itineraryLegs = new JPanel(migLayout4);
+    JPanel pnl_itineraryLegs = new JPanel( new MigLayout("", "[]rel[]", "[]10[]"));
     JPanel pnl_buttons = new JPanel(new MigLayout("", "[]rel[]rel[]", "[]10[]"));
     JButton btn_save = new JButton("Write timeline item to file.");
     JButton btn_addTimeLineEntry = new JButton("Add time line entry");
@@ -68,7 +62,7 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
     ModelStateChanges modelStateChanges = new ModelStateChanges();
 
     public TimeLineMainPanel() {
-        setLayout(migLayout);
+        setLayout(new MigLayout("fill", "[50%][50%]", "[]"));
         pnl_topButtons.add(btn_clearAll);
         pnl_topButtons.add(btn_clearEntry);
         btn_clearAll.addActionListener(this);
@@ -109,15 +103,21 @@ public class TimeLineMainPanel extends JPanel implements ActionListener {
         lineBorder = BorderFactory.createTitledBorder("Append and save");
         pnl_buttons.setBorder(lineBorder);
 
-        add(pnl_topButtons, "span 10, growx, pushx, wrap");
-        add(pnl_top, "span 10, growx, pushx, wrap");
-        add(pnl_defenceBreaches, "span 10, growx, pushx, wrap");
-        add(pnl_cars, "span 10, growx, pushx, wrap");
-        add(pnl_buttons, "span 10, growx, pushx, wrap");
-        add(pnl_itineraryLegs, "span 10, growx, pushx, wrap");
+        JPanel leftPanel = new JPanel(new MigLayout("", "[]", "[]10[]"));
+        JPanel rightPanel = new JPanel(new MigLayout("", "[]", "[]10[]"));
+        leftPanel.add(pnl_topButtons, "span 10, growx, pushx, wrap");
+        leftPanel.add(pnl_top, "span 10, growx, pushx, wrap");
+        leftPanel.add(pnl_defenceBreaches, "span 10, growx, pushx, wrap");
+        leftPanel.add(pnl_cars, "span 10, growx, pushx, wrap");
+        leftPanel.add(pnl_buttons, "span 10, growx, pushx, wrap");
+        leftPanel.add(pnl_itineraryLegs, "span 10, growx, pushx, wrap");
         pnl_buttons.add(btn_addTimeLineEntry).setEnabled(true);
         pnl_buttons.add(btn_save, "wrap");
         btn_save.setEnabled(false);
+        add(leftPanel, "grow");
+        add(rightPanel, "grow");
+        lineBorder = BorderFactory.createTitledBorder("Timeline:");
+        rightPanel.setBorder(lineBorder);
     }
 
     private void clear() {
