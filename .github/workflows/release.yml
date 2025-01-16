@@ -38,7 +38,7 @@ jobs:
           echo ${{ env.RELEASE_VERSION }}
 
       - name: Upload to DAFNI
-        uses: dafnifacility/dafni-model-uploader@v1.11
+        uses: dafnifacility/dafni-model-uploader@main
         with:
           definition-path: './model-definition.yml'
           image-path: './firm2.tar.gz'
