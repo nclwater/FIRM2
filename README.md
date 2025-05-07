@@ -15,16 +15,16 @@ DAFNI resources:
 - [FIRM example workflow](https://facility.secure.dafni.rl.ac.uk/workflows/details?id=d06bf825-f83f-4781-8627-0fecea09d597)
 
 Contacts:
-- Project:
-- RSE:
+- Project: Richard Dawson (PI) <[richard.dawson@newcastle.ac.uk](mailto:richard.dawson%40newcastle.ac.uk)>
+- RSE: Jannetta Steyn <[jannetta.steyn@newcastle.ac.uk](mailto:jannetta.steyn%40newcastle.ac.uk)>
 
 ### Project Team
 #### School of Engineering
-- Richard Dawson
-- Olivia Butters
+- Richard Dawson <[richard.dawson@newcastle.ac.uk](mailto:richard.dawson%40newcastle.ac.uk)>
+- Olivia Butters <[olivia.butters@newcastle.ac.uk](mailto:olivia.butters@newcastle.ac.uk)>
 #### Research software Engineering
 - Jannetta Steyn <[jannetta.steyn@newcastle.ac.uk](mailto:jannetta.steyn%40newcastle.ac.uk)>
-- Robin Wardle <[robin.wardle@newcastle.ac.uk]([robin.wardle%40newcastle.ac.uk])
+- Robin Wardle <[robin.wardle@newcastle.ac.uk]([mailto:robin.wardle%40newcastle.ac.uk])
 
 ## Built With
 [Java JDK 17](https://www.oracle.com/uk/java/technologies/downloads/)  
@@ -41,8 +41,7 @@ Contacts:
 For running on DAFNi you will need a [DAFNI account[(https://www.dafni.ac.uk/dafnilogin/).
 
 ### Installation
-
-**Building the docker image**  
+#### Building the docker image
 There is a Makefile with commands for building, running, saving and stopping the container:
 
 - `make build`: The build command compiles the code using maven and creates a jar file. It then builds a docker image called `nclwater/firm2:x.xxx`. Where x.xxx is the version. There is a `run.sh` file which will be copied into the image and will be executed when the container runs.
@@ -50,42 +49,36 @@ There is a Makefile with commands for building, running, saving and stopping the
 - `make save`: The save command will save the container to a tar file and then gzip it. A file called firm2.tar.gz should be created that can be uploaded to **DAFNI**.
 - `make stop`: The stop command will stop a docker container with the name `FIRM2`.
 
-The program does not need installation as such. It is packaged as a .jar file which can be copied to
-a directory and executed from there. The program needs configuration for where to find data files.
+The program does not need installation as such. It is packaged as a .jar file which can be copied to a directory and executed from there. The program needs configuration for where to find data files.
 
-### IMPORTANT:
-For both running locally and within a docker, the two configurations files, 
-`.firm2.properties` and `logger.properties` have to be in the user directory. 
-That is the same directory from which the program is being run.
-
-Edit these two files with the appropriate values before running or 
-dockerizing the application.
+**IMPORTANT:**
+For both running locally and within a docker, the two configurations files, `.firm2.properties` and `logger.properties` have to be in the user directory. That is the same directory from which the program is being run. Edit these two files with the appropriate values before running or dockerizing the application.
 
 ### Running Locally
+Important: the following VM option must be added to the command line:
+```
+--add-opens java.desktop/java.awt=ALL-UNNAMED --add-opens java.desktop/java.awt.color=ALL-UNNAMED
+```
 
-Important: the following VM option have to be added to the command line:
-`--add-opens java.desktop/java.awt=ALL-UNNAMED --add-opens java.desktop/java.awt.color=ALL-UNNAMED`
-
-The program is packaged in a `.jar` file and can be run either from the command line or by double-clicking on the `.jar` file in a file system GUI, as long as the JRE is installed on the system. If a JRE is required, find the download and installation instructions online.
+The program is packaged in a `.jar` file and can be run either from the command line or by double-clicking on the `.jar` file in a file system GUI, as long as the JRE is installed on the system. If a JRE is required, the download and installation instructions can be found [on Oracle's website](https://www.oracle.com/uk/java/technologies/downloads/)  .
 
 On Linux, assuming a suitable runtime environment is installed, one can run the program from the command line using the `run.sh` script. For testing the program `DAFNITest` is executed which creates a file in `/data/inputs` and another in `/data/outputs`. To run the actual Firm2 model line 2, in the `run.sh` file should be uncommented and line 3 should be commented.  
 
 To run the model inside a docker container, use `make run` as explained above.
-### Running Tests
 
+### Running Tests
 How to run tests on your local system.
 
 ## Deployment
-
 ### Local
-The application is intended for dockerisation to run on **DAFNI**. However, it can be run locally using a JRE of the correct version.
+The application is intended for dockerisation to run on DAFNI. However, it can be run locally using a JRE of the correct version.
 
 ### Production
-`FIRM2.jar` is a java executable that is packaged in a docker container for upload into **DAFNI**. Any updates to the main branch of the repository should  (eventually) lead to a **GitHub** action being executed that will:
+`FIRM2.jar` is a java executable that is packaged in a docker container for upload into DAFNI. The creation in the GitHub repository of a new release will execute a GitHub Action that will:
 
-1. use **Maven** to compile and create the `FIRM2.jar` file
+1. use Maven to compile and create the `FIRM2.jar` file
 2. create, save and zip a docker image
-3. upload the image to **DAFNI**
+3. upload the image along with the DAFNI model definition file to DAFNI using the [DAFNI model uploader](https://github.com/dafnifacility/dafni-model-uploader)
 
 ## Usage
 The model can be configured with a number of parameters. Local builds read the file `.firm2.properties`, which DAFNI models read parameters from a parameter set defined in `model-definition.yml`. The configurable parameters are:
@@ -133,22 +126,11 @@ An exception to the branch-pull request workflow is minor changes to `README.md`
 
 Further reading on [branches](https://nvie.com/posts/a-successful-git-branching-model/), and [versioning](https://semver.org/).
 
-
-
 ## License
 
 ## Citation
-
-Please cite the associated papers for this work if you use this code:
-
-```
-@article{xxx2023paper,
-  title={Title},
-  author={Author},
-  journal={arXiv},
-  year={2023}
-}
-```
+Please cite the associated papers for this work if you use this model.
+- Dawson, R.J., Peppe, R. & Wang, M. An agent-based model for risk-based flood incident management. Nat Hazards 59, 167–189 (2011). https://doi.org/10.1007/s11069-011-9745-4
 
 ## Acknowledgements
 This work was funded under the UKRI / STFC "Building a Secure and Resilient World" strategic theme, project reference [ST/Y003799/1](https://gtr.ukri.org/projects?ref=ST%2FY003799%2F1).
