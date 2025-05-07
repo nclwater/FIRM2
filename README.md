@@ -1,42 +1,44 @@
-# FIRM2
-A reimplementation of the agent based flood incident management (https://github.com/nclwater/FIRM)
-model in Java.
-
-[toc]
+# Flood Infrastructure Resilience Model v2 (FIRM2)
+A reimplementation of the agent-based flood incident management (https://github.com/nclwater/FIRM) model in Java for DAFNI (https://www.dafni.ac.uk/).
 
 ## About
+The FIRM2 project re-implements the NetLogo-based [FIRM](https://github.com/nclwater/FIRM) agent-based flood simulation model in Java, and embeds it in a Docker image for running on [DAFNI](https://www.dafni.ac.uk/).
 
-This project is a reimplementation of https://github.com/nclwater/FIRM
-in Java in preparation of running the model insde a docker on the DAFNI
-environment
+The project is funded by the UKRI ["Building a secure and Resilient World strategic theme](https://www.ukri.org/who-we-are/our-vision-and-strategy/ukri-strategic-themes/building-a-secure-and-resilient-world/). Links:
+- [DAFNI BSRW projects](https://www.dafni.ac.uk/bsrw-projects/)
+- [DAFNI FIRM 2](https://www.dafni.ac.uk/firm-coe/)
+- [FIRM insights](https://www.dafni.ac.uk/insights/firm-flood-resilience-simulation-model-on-dafni/)
+
+DAFNI resources:
+- [Towyn example data set](https://facility.secure.dafni.rl.ac.uk/data/details?dataset_id=cd7519cf-b244-4c81-9cd4-999518b76853&version_id=67861bde-b188-4fc4-b0a1-364480ca5dff&metadata_id=ec4bf3d4-8504-4649-a8ae-0825cf83e04f)
+- [FIRM model](https://facility.secure.dafni.rl.ac.uk/models/details?version_id=27d95afa-f655-46db-8b18-4d0c4aa7aff0)
+- [FIRM example workflow](https://facility.secure.dafni.rl.ac.uk/workflows/details?id=d06bf825-f83f-4781-8627-0fecea09d597)
+
+Contacts:
+- Project:
+- RSE:
 
 ### Project Team
-**PI:** Richard Dawson  
-**RSEs:**
-
-- Jannetta Steyn (jannetta.steyn@newcastle.ac.uk)
-- Robin Wardle (robin.wardle@newcastle.ac.uk)
-
-### RSE Contact
-- Jannetta Steyn (jannetta.steyn@newcastle.ac.uk)
-- Robin Wardle (robin.wardle@newcastle.ac.uk)
-
+#### School of Engineering
+- Richard Dawson
+- Olivia Butters
+#### Research software Engineering
+- Jannetta Steyn <[jannetta.steyn@newcastle.ac.uk](mailto:jannetta.steyn%40newcastle.ac.uk)>
+- Robin Wardle <[robin.wardle@newcastle.ac.uk]([robin.wardle%40newcastle.ac.uk])
 
 ## Built With
-
 [Java JDK 17](https://www.oracle.com/uk/java/technologies/downloads/)  
 [Apache Maven](https://maven.apache.org/)  
 [Docker](https://www.docker.com/)  
 [Unix `make`](https://man7.org/linux/man-pages/man1/make.1.html)
 
-
 ## Getting Started
-
 ### Prerequisites
-
 - Any platform with a Java Runtime Engine (JRE) suitable to run JDK 17 compiled Java code.
 - An up-to-date installation of [Docker](https://www.docker.com/).
 - [Apache Maven](https://maven.apache.org/) for building the Docker image. Apache Maven installation instructions can be found at https://maven.apache.org/install.html
+
+For running on DAFNi you will need a [DAFNI account[(https://www.dafni.ac.uk/dafnilogin/).
 
 ### Installation
 
@@ -76,11 +78,9 @@ How to run tests on your local system.
 ## Deployment
 
 ### Local
-
-The application is intended for dockerisation to run on **DAFNI**. However, it doesn't have to be. 
+The application is intended for dockerisation to run on **DAFNI**. However, it can be run locally using a JRE of the correct version.
 
 ### Production
-
 `FIRM2.jar` is a java executable that is packaged in a docker container for upload into **DAFNI**. Any updates to the main branch of the repository should  (eventually) lead to a **GitHub** action being executed that will:
 
 1. use **Maven** to compile and create the `FIRM2.jar` file
@@ -117,22 +117,21 @@ The model can be configured with a number of parameters. Local builds read the f
 
 
 ## Roadmap
-
 - [x] Select development environment
 - [x] Develop basic agent modelling framework
 - [x] Create docker environment for model to run on **DAFNI**
-- [ ] Implement FIRM model
+- [x] Implement FIRM model
 
 ## Contributing
+The main branch should be considered stable and a representation of production code. The main branch is protected and requires a reviewer. Please complete the submission form with details of the pull request including linked Issues (see below) and tests that have been performed.
 
-### Main Branch
-Protected and can only be pushed to via pull requests. Should be considered stable and a representation of production code.
+Contributions should be linked to an Issue in the repository [issues list](https://github.com/NewcastleRSE/FIRM2/issues).
 
-### Dev Branch
-Should be considered fragile, code should compile and run but features may be prone to errors.
+This repository does not use a "dev branch". Contributions must be produced in *feature branches* and you should follow the "branch early and often" maxim. Branches should generally contain a small enough contribution to the project that a branch's lifespan is measured in days, rather than weeks or longer. Branches should be named after the feature being added, preferably with the contributor's initials and ideally containing the Issue ID that is being addressed.
 
-### Feature Branches
-A branch per feature being worked on.
+An exception to the branch-pull request workflow is minor changes to `README.md` files and other documentation to correct spelling and formatting errors and suchlike - these changes can be performed in the GitHub editor.
+
+Further reading on [branches](https://nvie.com/posts/a-successful-git-branching-model/), and [versioning](https://semver.org/).
 
 
 
@@ -151,6 +150,5 @@ Please cite the associated papers for this work if you use this code:
 }
 ```
 
-
 ## Acknowledgements
-
+This work was funded under the UKRI / STFC "Building a Secure and Resilient World" strategic theme, project reference [ST/Y003799/1](https://gtr.ukri.org/projects?ref=ST%2FY003799%2F1).
