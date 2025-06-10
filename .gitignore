@@ -1,13 +1,19 @@
-*.log
+# Editors etc
 .DS_Store
 .idea/
-production/
+.vscode/
+
+# Produced file types
+*.log
 *.tar
 *.gz
-artifact/
 *.jar
-docs/
 *.class
+
+# Produced file directories
+artifact/
+docs/
+production/
 data/
 target/
 out/

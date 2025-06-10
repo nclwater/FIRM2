@@ -126,6 +126,9 @@ An exception to the branch-pull request workflow is minor changes to `README.md`
 Further reading on [branches](https://nvie.com/posts/a-successful-git-branching-model/), and [versioning](https://semver.org/).
 
 ## License
+Towyn dataset on DAFNI is CC BY-NC-SA.
+
+This code is licenced under the terms of the GNU Affero General Public License as published by the Free Software Foundation. See `LICENCE.txt` and `COPYING.md` for further details.
 
 ## Citation
 Please cite the associated papers for this work if you use this model.
