@@ -12,7 +12,7 @@ metadata:
     flood incident. 
   contact_point_name: Richard Dawson
   contact_point_email: richard.dawson@newcastle.ac.uk
-  source_code: https://github.com/NewcastleRSE/FIRM2
+  source_code: https://github.com/nclwater/FIRM2
   licence: https://www.gnu.org/licenses/#AGPL
   rights: Please cite https://doi.org/10.1007/s11069-011-9745-4.
   subject: Environment
