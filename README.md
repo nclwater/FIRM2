@@ -24,7 +24,7 @@ Contacts:
 - Olivia Butters <[olivia.butters@newcastle.ac.uk](mailto:olivia.butters@newcastle.ac.uk)>
 #### Research Software Engineering
 - Jannetta Steyn <[jannetta.steyn@newcastle.ac.uk](mailto:jannetta.steyn%40newcastle.ac.uk)>
-- Robin Wardle <[robin.wardle@newcastle.ac.uk]([mailto:robin.wardle%40newcastle.ac.uk])>
+- Robin Wardle <[robin.wardle@newcastle.ac.uk](mailto:robin.wardle%40newcastle.ac.uk)>
 
 ## Built With
 [Java JDK 17](https://www.oracle.com/uk/java/technologies/downloads/)  
